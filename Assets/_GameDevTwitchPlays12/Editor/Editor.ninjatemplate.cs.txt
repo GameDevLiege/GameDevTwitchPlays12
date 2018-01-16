@@ -1,0 +1,38 @@
+using UnityEditor;
+using UnityEngine;
+
+[CustomEditor(typeof(#CLASSNAME#))]
+public class #CLASSNAME#Editor : Editor
+{
+    #region Public Members
+
+    #endregion
+
+    #region Public void
+
+    #endregion
+
+    #region System
+
+    public override void OnInspectorGUI()
+    {
+        #CLASSNAME# myTarget = (#CLASSNAME#) base.target;
+
+        // Can be drawn before or after
+        DrawDefaultInspector();
+    }
+
+    #endregion
+
+    #region Class Methods
+
+    #endregion
+
+    #region Tools Debug and Utility
+
+    #endregion
+
+    #region Private and Protected Members
+
+    #endregion
+}
