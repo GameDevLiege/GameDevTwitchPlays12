@@ -27,6 +27,7 @@ namespace DidzNeil.ChatAPI
         private static Queue<Message> _lastMessages = new Queue<Message>();
         #endregion
 
+        public static bool IgnoreMockUp;
         public delegate void MessageReceived(Message message);
         private static MessageReceived m_onMessageReceived;
 
@@ -48,8 +49,13 @@ namespace DidzNeil.ChatAPI
 
         }
 
+        public static void NotifyNewMessageToListeners(Message messageReceived)
+        {
+            if(messageReceived.GetPlatform() == Platform.Mockup && IgnoreMockUp)
+            {
+                return;
+            }
 
-        public static void NotifyNewMessageToListeners(Message messageReceived) {
             if (m_onMessageReceived != null)
                 m_onMessageReceived(messageReceived);
 
