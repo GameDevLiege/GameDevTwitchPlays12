@@ -11,6 +11,12 @@ public class PlayerCharacter : MonoBehaviour
     {
         m_playerChar = this.gameObject;
     }
+    public PhysicsManager MyManager
+    {
+        get { return m_manager; }
+        set { m_manager = value; }
+    }
+
 
     public Color FactionColor
     {
@@ -38,22 +44,6 @@ public class PlayerCharacter : MonoBehaviour
     //TESING ONLY
     public void Update()
     {
-        if(Input.GetButtonDown("Fire1"))
-        {
-            Move("UP");
-        }/*
-        if (Input.GetButtonDown("Fire2"))
-        {
-            Move("DOWN");
-        }
-        if (Input.GetButtonDown("Fire1"))
-        {
-            Move("LEFT");
-        }*/
-        if (Input.GetButtonDown("Fire2"))
-        {
-            Move("RIGHT");
-        }
     }
     //-------------
 
