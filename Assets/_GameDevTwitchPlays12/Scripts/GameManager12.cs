@@ -55,10 +55,9 @@ public class GameManager12 : MonoBehaviour
 
     public IGameEngine GameEngine = new FakeGameEngine();
 
-    public List<IPlayer> Players = new List<IPlayer>();
+    public ICommandManager m_commandManager;
 
-    public ICommandManager m_commandManager = new FakeCommandManager();
-    public Queue<ICommand> m_commandQueue = new Queue<ICommand>();
+    private Queue<ICommand> m_commandQueue = new Queue<ICommand>();
 
     #endregion
 
@@ -67,6 +66,11 @@ public class GameManager12 : MonoBehaviour
     #endregion
 
     #region System
+
+    protected void Awake()
+    {
+        m_commandManager = GetComponent<CommandManager>();
+    }
 
     protected void Start()
     {
@@ -88,7 +92,9 @@ public class GameManager12 : MonoBehaviour
             message.GetTimestamp()
         );
 
-        m_commandQueue.Enqueue(command);
+        // [TODO] Cleanup
+        if(command != null && command != CommandManager.INVALIDCOMMAND)
+            m_commandQueue.Enqueue(command);
     }
 
     private IEnumerator MainGameLoop()
@@ -97,34 +103,12 @@ public class GameManager12 : MonoBehaviour
         {
             ICommand command = m_commandQueue.Dequeue();
 
+            Debug.Log(command.response);
+
             GameEngine.Do(command);
         }
 
         yield return new WaitForEndOfFrame();
-    }
-
-    private IEnumerator WaitingForPlayers()
-    {
-        RetrievePlayers();
-
-        while (Players.Count == 0)
-        {
-            Debug.Log("Waiting for players…");
-
-            yield return new WaitForSeconds(2);
-
-            RetrievePlayers();
-        }
-    }
-
-    private void RetrievePlayers()
-    {
-        Players.Add(new FakePlayer());
-    }
-
-    private void Update()
-    {
-        
     }
 
     #endregion

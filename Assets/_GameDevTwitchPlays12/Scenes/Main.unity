@@ -152,6 +152,31 @@ Prefab:
       propertyPath: m_RootOrder
       value: 3
       objectReference: {fileID: 0}
+    - target: {fileID: 114336635717513684, guid: 6cf10a03be600d5449615f6d12dcb00c,
+        type: 2}
+      propertyPath: m_randomMessages.Array.data[0]
+      value: /up
+      objectReference: {fileID: 0}
+    - target: {fileID: 114336635717513684, guid: 6cf10a03be600d5449615f6d12dcb00c,
+        type: 2}
+      propertyPath: m_randomMessages.Array.data[1]
+      value: /down
+      objectReference: {fileID: 0}
+    - target: {fileID: 114336635717513684, guid: 6cf10a03be600d5449615f6d12dcb00c,
+        type: 2}
+      propertyPath: m_randomMessages.Array.data[2]
+      value: /left
+      objectReference: {fileID: 0}
+    - target: {fileID: 114336635717513684, guid: 6cf10a03be600d5449615f6d12dcb00c,
+        type: 2}
+      propertyPath: m_randomMessages.Array.data[3]
+      value: /right
+      objectReference: {fileID: 0}
+    - target: {fileID: 114336635717513684, guid: 6cf10a03be600d5449615f6d12dcb00c,
+        type: 2}
+      propertyPath: m_randomMessages.Array.data[4]
+      value: /dig
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 6cf10a03be600d5449615f6d12dcb00c, type: 2}
   m_IsPrefabParent: 0
@@ -310,6 +335,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1971605306}
   - component: {fileID: 1971605305}
+  - component: {fileID: 1971605307}
   m_Layer: 0
   m_Name: MAIN
   m_TagString: Untagged
@@ -341,3 +367,20 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1971605307
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1971605304}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 06f860b12491902469881a7a4082cfb5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_transform: {fileID: 1971605306}
+  firstCommmandCharacter: 47
+  validCommand:
+  - dig
+  - up
+  - down
