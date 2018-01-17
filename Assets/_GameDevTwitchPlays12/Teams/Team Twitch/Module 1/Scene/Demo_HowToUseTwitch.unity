@@ -495,7 +495,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 11438868, guid: 03ad41995af104d2bb93427f1d9155f5, type: 2}
       propertyPath: debugPrintAll
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 11488992, guid: 03ad41995af104d2bb93427f1d9155f5, type: 2}
