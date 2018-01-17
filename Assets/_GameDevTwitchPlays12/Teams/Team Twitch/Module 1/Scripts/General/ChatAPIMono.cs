@@ -17,6 +17,7 @@ public class ChatAPIMono : MonoBehaviour
     private void Start()
     {
         ChatAPI.AddListener(RedirectMessage);
+        //ChatAPI.IgnoreMockUp
     }
 
     private void RedirectMessage(Message message)
