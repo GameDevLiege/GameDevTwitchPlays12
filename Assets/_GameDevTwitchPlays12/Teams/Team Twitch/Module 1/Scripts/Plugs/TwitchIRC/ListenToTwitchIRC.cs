@@ -41,7 +41,6 @@ public class ListenToTwitchIRC : MonoBehaviour {
         ChatAPI.NotifyNewMessageToListeners(msg);
 		
 	}
-
     private long GetTime()
     {
         return Message.GetCurrentTimeUTC();
