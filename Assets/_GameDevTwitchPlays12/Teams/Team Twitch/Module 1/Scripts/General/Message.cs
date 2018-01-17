@@ -79,10 +79,15 @@ namespace DidzNeil.ChatAPI
             DateTime unixStart = new DateTime(1970, 1, 1, 0, 0, 0, 0, System.DateTimeKind.Utc);
           return  (DateTime.Now.ToUniversalTime() - unixStart).Ticks;
         }
+
+
+
+
     }
 
     public enum Platform : int
     {
+        Game=-2,
         Unknown = -1,
 
         Mockup = 0,
