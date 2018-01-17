@@ -1,8 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using GameManager;
 
-public class CommandManager : DualBehaviour
+public class CommandManager : DualBehaviour, ICommandManager
 {
     #region Public Var
 
@@ -19,7 +20,7 @@ public class CommandManager : DualBehaviour
 
     #region Public Func
 
-    public Command Parse(string _username, int _plateform, string _message, long _time)
+    public ICommand Parse(string _username, int _plateform, string _message, long _time)
     {
         string userID = _plateform + " " + _username;
         
@@ -84,7 +85,7 @@ public class CommandManager : DualBehaviour
     #endregion
 }
 
-public class Command
+public class Command:ICommand
 {
     public string response;
 
