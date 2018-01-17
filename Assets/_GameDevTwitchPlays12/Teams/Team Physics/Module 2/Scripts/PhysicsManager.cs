@@ -6,12 +6,11 @@ public class PhysicsManager  : MonoBehaviour
 {
 
     #region Public Members
-    public GameObject TEMP_REMOVE_ME_player;
 
     public List<GameObject> m_listPlayer = new List<GameObject>();
 
-    public int m_incomePerTerritory;
-    public float m_timeBetweenPayDay;
+    public int m_incomePerTerritory = 1;
+    public float m_timeBetweenPayDay = 1;
     public int m_nbrXTerritories =33;
     public int m_nbrYTerritories =33;
     public GameObject m_TerritoryPrefab;
@@ -60,64 +59,81 @@ public class PhysicsManager  : MonoBehaviour
         FactionRED.FactionColor = Color.red;
         FactionBLUE = gameObject.AddComponent<Faction>();
         FactionBLUE.FactionColor = Color.blue;
-        if (ListOfPlayerNames.Count>8)//if 4 factions
+        if (ListOfPlayerNames.Count > 8)
         {
             FactionGREEN = gameObject.AddComponent<Faction>();
             FactionGREEN.FactionColor = Color.green;
             FactionYELLOW = gameObject.AddComponent<Faction>();
             FactionYELLOW.FactionColor = Color.yellow;
-            int PlayerNum = 0;
-            for(int i=0; PlayerNum<m_listPlayer.Count-1; i++)
-            {
-                if(i==0)
-                {
-                    m_listPlayer[PlayerNum].GetComponent<PlayerCharacter>().FactionColor = Color.red;
-                    m_listPlayer[PlayerNum].transform.position = new Vector3(0f,0f,0f);
-                }
-                else if (i == 1)
-                {
-                    m_listPlayer[PlayerNum].GetComponent<PlayerCharacter>().FactionColor = Color.blue;
-                    m_listPlayer[PlayerNum].transform.position = new Vector3(m_nbrXTerritories-1, m_nbrYTerritories-1, 0f);
-                }
-                else if (i == 2)
-                {
-                    m_listPlayer[PlayerNum].GetComponent<PlayerCharacter>().FactionColor = Color.green;
-                    m_listPlayer[PlayerNum].transform.position = new Vector3(m_nbrXTerritories-1, 0f, 0f);
-                }
-                else if (i == 3)
-                {
-                    m_listPlayer[PlayerNum].GetComponent<PlayerCharacter>().FactionColor = Color.yellow;
-                    m_listPlayer[PlayerNum].transform.position = new Vector3(0f, m_nbrYTerritories - 1, 0f);
-                }
-                i++;
-                if(i>3)
-                {
-                    i = 0;
-                }
-                PlayerNum++;
-            }
         }
-        else//if 2 factions
+            
+        int PlayerNum = 0;
+        for(int i=0; PlayerNum<m_listPlayer.Count-1; PlayerNum++)
         {
-            int PlayerNum = 0;
-            for (int i = 0; PlayerNum < m_listPlayer.Count - 1; i++)
+            if(i==0)
             {
-                if (i == 0)
-                {
-                    m_listPlayer[PlayerNum].GetComponent<PlayerCharacter>().FactionColor = Color.red;
-                }
-                else if (i == 1)
-                {
-                    m_listPlayer[PlayerNum].GetComponent<PlayerCharacter>().FactionColor = Color.blue;
-                }
-                i++;
-                if (i > 1)
+                m_listPlayer[PlayerNum].GetComponent<PlayerCharacter>().FactionColor = Color.red;
+                m_listPlayer[PlayerNum].transform.position = new Vector3(0f,0f,0f);
+                m_listPlayer[PlayerNum].GetComponent<PlayerCharacter>().MyManager = gameObject.GetComponent<PhysicsManager>();
+                m_listPlayer[PlayerNum].GetComponent<PlayerCharacter>().CurrentTerritory = m_AxeY[0][0].gameObject;
+            }
+            else if (i == 1)
+            {
+                m_listPlayer[PlayerNum].GetComponent<PlayerCharacter>().FactionColor = Color.blue;
+                m_listPlayer[PlayerNum].transform.position = new Vector3(m_nbrXTerritories-1, m_nbrYTerritories-1, 0f);
+                m_listPlayer[PlayerNum].GetComponent<PlayerCharacter>().MyManager = gameObject.GetComponent<PhysicsManager>();
+                m_listPlayer[PlayerNum].GetComponent<PlayerCharacter>().CurrentTerritory = m_AxeY[m_nbrXTerritories - 1][m_nbrYTerritories - 1].gameObject;
+            }
+            else if (i == 2)
+            {
+                m_listPlayer[PlayerNum].GetComponent<PlayerCharacter>().FactionColor = Color.green;
+                m_listPlayer[PlayerNum].transform.position = new Vector3(m_nbrXTerritories-1, 0f, 0f);
+                m_listPlayer[PlayerNum].GetComponent<PlayerCharacter>().MyManager = gameObject.GetComponent<PhysicsManager>();
+                m_listPlayer[PlayerNum].GetComponent<PlayerCharacter>().CurrentTerritory = m_AxeY[m_nbrXTerritories - 1][0].gameObject;
+            }
+            else if (i == 3)
+            {
+                m_listPlayer[PlayerNum].GetComponent<PlayerCharacter>().FactionColor = Color.yellow;
+                m_listPlayer[PlayerNum].transform.position = new Vector3(0f, m_nbrYTerritories - 1, 0f);
+                m_listPlayer[PlayerNum].GetComponent<PlayerCharacter>().MyManager = gameObject.GetComponent<PhysicsManager>();
+                m_listPlayer[PlayerNum].GetComponent<PlayerCharacter>().CurrentTerritory = m_AxeY[0][m_nbrYTerritories - 1].gameObject;
+            }
+            i++;
+            if (ListOfPlayerNames.Count > 8 )
+            {
+                if(i > 3)
                 {
                     i = 0;
                 }
-                PlayerNum++;
+            }
+            else if(i>1)
+            {
+                i = 0;
             }
         }
+    }
+    IEnumerator TimerPayDay()
+    {
+        m_timerFinished = false;
+        yield return new WaitForSeconds(m_timeBetweenPayDay);
+        FactionRED.GoldReserves += FactionRED.NbrTerritories * m_incomePerTerritory;
+        FactionBLUE.GoldReserves += FactionRED.NbrTerritories * m_incomePerTerritory;
+        FactionGREEN.GoldReserves += FactionRED.NbrTerritories * m_incomePerTerritory;
+        FactionYELLOW.GoldReserves += FactionRED.NbrTerritories * m_incomePerTerritory;
+        m_timerFinished = true;
+    }
+
+    public void GameStart()
+    {
+        InitializeBoard();
+
+        List<string> DebugList = new List<string>();
+        for (int i = 0; i < 20; i++)
+        {
+            DebugList.Add("hoho" + i);
+        }
+
+        AssignFactionToPlayers(DebugList);
     }
 
     public void GetCommandFromPlayer(string PName, string Command)              //JEROME HERE ! Give me a player names and the command he sends ;-)       
@@ -135,16 +151,41 @@ public class PhysicsManager  : MonoBehaviour
     {
 		
 	}
+
     void Awake () 
     {
-        InitializeBoard();
-        TEMP_REMOVE_ME_player.GetComponent<PlayerCharacter>().CurrentTerritory = m_AxeY[0][0].gameObject;
+        GameStart();
     }
 	
 	void Update () 
     {
-		
-	}
+
+        if (Input.GetButtonDown("Fire1"))
+        {
+            m_listPlayer[0].GetComponent<PlayerCharacter>().Move("UP");
+
+        }/*
+        if (Input.GetButtonDown("Fire2"))
+        {
+            Move("DOWN");
+        }
+        if (Input.GetButtonDown("Fire1"))
+        {
+            Move("LEFT");
+        }*/
+        if (Input.GetButtonDown("Fire2"))
+        {
+            m_listPlayer[0].GetComponent<PlayerCharacter>().Move("RIGHT");
+        }
+        if(m_gameHasStarted)
+        {
+            if (m_timerFinished)
+            {
+                StartCoroutine("TimerPayDay");
+            }
+        }
+        
+    }
 
     #endregion
 
@@ -175,24 +216,40 @@ public class PhysicsManager  : MonoBehaviour
     {
         //LeftBottom
         m_AxeY[1][1].gameObject.GetComponent<Territory>().IsHQ = true;
+        m_AxeY[1][1].gameObject.GetComponent<Territory>().CurrentColor = Color.red;
         m_AxeY[1][2].gameObject.GetComponent<Territory>().IsHQ = true;
+        m_AxeY[1][1].gameObject.GetComponent<Territory>().CurrentColor = Color.red;
         m_AxeY[2][1].gameObject.GetComponent<Territory>().IsHQ = true;
+        m_AxeY[1][1].gameObject.GetComponent<Territory>().CurrentColor = Color.red;
         m_AxeY[2][2].gameObject.GetComponent<Territory>().IsHQ = true;
+        m_AxeY[1][1].gameObject.GetComponent<Territory>().CurrentColor = Color.red;
         //RightBottom
         m_AxeY[1][m_nbrXTerritories - 1].gameObject.GetComponent<Territory>().IsHQ = true;
+        m_AxeY[1][1].gameObject.GetComponent<Territory>().CurrentColor = Color.yellow;
         m_AxeY[1][m_nbrXTerritories - 2].gameObject.GetComponent<Territory>().IsHQ = true;
+        m_AxeY[1][1].gameObject.GetComponent<Territory>().CurrentColor = Color.yellow;
         m_AxeY[2][m_nbrXTerritories - 1].gameObject.GetComponent<Territory>().IsHQ = true;
+        m_AxeY[1][1].gameObject.GetComponent<Territory>().CurrentColor = Color.yellow;
         m_AxeY[2][m_nbrXTerritories - 2].gameObject.GetComponent<Territory>().IsHQ = true;
+        m_AxeY[1][1].gameObject.GetComponent<Territory>().CurrentColor = Color.yellow;
         //LeftTop
         m_AxeY[m_nbrYTerritories - 1][1].gameObject.GetComponent<Territory>().IsHQ = true;
+        m_AxeY[1][1].gameObject.GetComponent<Territory>().CurrentColor = Color.green;
         m_AxeY[m_nbrYTerritories - 1][2].gameObject.GetComponent<Territory>().IsHQ = true;
+        m_AxeY[1][1].gameObject.GetComponent<Territory>().CurrentColor = Color.green;
         m_AxeY[m_nbrYTerritories - 2][1].gameObject.GetComponent<Territory>().IsHQ = true;
+        m_AxeY[1][1].gameObject.GetComponent<Territory>().CurrentColor = Color.green;
         m_AxeY[m_nbrYTerritories - 2][2].gameObject.GetComponent<Territory>().IsHQ = true;
+        m_AxeY[1][1].gameObject.GetComponent<Territory>().CurrentColor = Color.green;
         //RightTop
         m_AxeY[m_nbrYTerritories - 1][m_nbrXTerritories - 1].gameObject.GetComponent<Territory>().IsHQ = true;
+        m_AxeY[1][1].gameObject.GetComponent<Territory>().CurrentColor = Color.blue;
         m_AxeY[m_nbrYTerritories - 1][m_nbrXTerritories - 2].gameObject.GetComponent<Territory>().IsHQ = true;
+        m_AxeY[1][1].gameObject.GetComponent<Territory>().CurrentColor = Color.blue;
         m_AxeY[m_nbrYTerritories - 2][m_nbrXTerritories - 1].gameObject.GetComponent<Territory>().IsHQ = true;
+        m_AxeY[1][1].gameObject.GetComponent<Territory>().CurrentColor = Color.blue;
         m_AxeY[m_nbrYTerritories - 2][m_nbrXTerritories - 2].gameObject.GetComponent<Territory>().IsHQ = true;
+        m_AxeY[1][1].gameObject.GetComponent<Territory>().CurrentColor = Color.blue;
 
     }
     private void PlaceCenterZone()
@@ -223,7 +280,8 @@ public class PhysicsManager  : MonoBehaviour
     private Faction m_factionGreen;
     private Faction m_factionYellow;
 
-
+    private bool m_timerFinished=true;
+    private bool m_gameHasStarted;
     #endregion
 
 }
