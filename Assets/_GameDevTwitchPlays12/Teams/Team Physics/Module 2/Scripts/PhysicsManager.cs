@@ -120,6 +120,17 @@ public class PhysicsManager  : MonoBehaviour
         }
     }
 
+    public void GetCommandFromPlayer(string PName, string Command)              //JEROME HERE ! Give me a player names and the command he sends ;-)       
+    {
+        foreach(GameObject PlayerChar in m_listPlayer)
+        {
+            if(PlayerChar.GetComponent<PlayerCharacter>().PlayerName==PName)
+            {
+                PlayerChar.GetComponent<PlayerCharacter>().Move(Command);
+            }
+        }
+    }
+
     void Start () 
     {
 		
