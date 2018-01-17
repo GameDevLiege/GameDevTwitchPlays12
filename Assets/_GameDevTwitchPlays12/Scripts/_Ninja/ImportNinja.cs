@@ -46,7 +46,7 @@ public class ImportNinjaInitializer
 {
     static ImportNinjaInitializer()
     {
-        Debug.Log("Your Personal Ninja");
+        //Debug.Log("Your Personal Ninja");
 
         if (ImportNinja.data != null)
             return;
