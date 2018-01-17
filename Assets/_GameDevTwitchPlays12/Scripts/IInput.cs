@@ -3,5 +3,5 @@ using DidzNeil.ChatAPI;
 
 public interface IInput
 {
-    List<IMessage> GetInput();
+    void SendFeedback(ICommand command);
 }

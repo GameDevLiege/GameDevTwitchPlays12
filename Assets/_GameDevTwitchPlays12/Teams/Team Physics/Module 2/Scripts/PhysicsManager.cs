@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PhysicsManager  : MonoBehaviour
+public class PhysicsManager  : MonoBehaviour, IGameEngine
 {
 
     #region Public Members
@@ -128,12 +128,12 @@ public class PhysicsManager  : MonoBehaviour
         InitializeBoard();
 
         List<string> DebugList = new List<string>();
-        for (int i = 0; i < 20; i++)
-        {
-            DebugList.Add("hoho" + i);
-        }
+        //for (int i = 0; i < 20; i++)
+        //{
+        //    DebugList.Add("hoho" + i);
+        //}
 
-        AssignFactionToPlayers(DebugList);
+        //AssignFactionToPlayers(DebugList);
     }
 
     public void GetCommandFromPlayer(string PName, string Command)              //JEROME HERE ! Give me a player names and the command he sends ;-)       
