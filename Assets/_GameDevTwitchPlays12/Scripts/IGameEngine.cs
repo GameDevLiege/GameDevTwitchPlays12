@@ -2,5 +2,7 @@
 
 public interface IGameEngine
 {
-    void SendInputs(List<ICommand> list);
+    void Do(List<ICommand> _commands);
+    void GenerateMap();
+    void Do(ICommand command);
 }

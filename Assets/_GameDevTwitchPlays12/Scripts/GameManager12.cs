@@ -3,32 +3,62 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+using GameManager;
+using DidzNeil.ChatAPI;
+
 public class FakePlayer : IPlayer
 {
-    public string username
-    {
-        get { return _username; }
-        set { _username = value; }
-    }
+    public string Username;
+    public ITeam Team;
 
-    public ITeam team
+    public override string ToString()
     {
-        get { throw new System.NotImplementedException(); }
-        set { throw new System.NotImplementedException(); }
+        return String.Format("Player<{0}>", Username);
     }
-
-    private string _username;
 }
+
+public class FakeInput : IInput
+{
+    public List<IMessage> GetInput()
+    {
+        throw new NotImplementedException();
+    }
+}
+
+public class FakeGameEngine : IGameEngine
+{
+    public void Do(ICommand command)
+    {
+        throw new NotImplementedException();
+    }
+
+    public void Do(List<ICommand> _commands)
+    {
+        throw new NotImplementedException();
+    }
+
+    public void GenerateMap() { }
+}
+
+public class FakeCommandManager : ICommandManager
+{
+    public ICommand Parse(string _username, string _message, long _timestamp)
+    {
+        throw new NotImplementedException();
+    }
+}
+
 
 public class GameManager12 : MonoBehaviour
 {
     #region Public Members
 
-
-    public IInput Input;
-    public IGameEngine GameEngine;
+    public IGameEngine GameEngine = new FakeGameEngine();
 
     public List<IPlayer> Players = new List<IPlayer>();
+
+    public ICommandManager m_commandManager = new FakeCommandManager();
+    public Queue<ICommand> m_commandQueue = new Queue<ICommand>();
 
     #endregion
 
@@ -38,25 +68,38 @@ public class GameManager12 : MonoBehaviour
 
     #region System
 
-    protected IEnumerator Start()
+    protected void Start()
     {
-        GenerateMap();
+        GameEngine.GenerateMap();
 
-        yield return WaitingForPlayers();
+        ChatAPI.AddListener(HandleMessage);
+
+        HandleMessage("");
 
         StartCoroutine(MainGameLoop());
     }
 
-    private IEnumerator MainGameLoop()
+    private void HandleMessage(Message message)
     {
-        GameEngine.SendInputs(Input.GetInputs());
+        ICommand command = m_commandManager.Parse(
+            message.GetUserName(),
+            message.GetMessage(),
+            message.GetTimestamp()
+        );
 
-        yield return new WaitForEndOfFrame();
+        m_commandQueue.Enqueue(command);
     }
 
-    private void GenerateMap()
+    private IEnumerator MainGameLoop()
     {
-        // throw new NotImplementedException();
+        while (m_commandQueue.Count != 0)
+        {
+            ICommand command = m_commandQueue.Dequeue();
+
+            GameEngine.Do(command);
+        }
+
+        yield return new WaitForEndOfFrame();
     }
 
     private IEnumerator WaitingForPlayers()
@@ -97,3 +140,4 @@ public class GameManager12 : MonoBehaviour
 
     #endregion
 }
+
