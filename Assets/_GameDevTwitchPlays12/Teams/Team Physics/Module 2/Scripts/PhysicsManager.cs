@@ -58,6 +58,7 @@ public class PhysicsManager  : MonoBehaviour, IGameEngine
         foreach (string Pname in ListOfPlayerNames)
         {
             GameObject NewPlayerChar = Instantiate(m_playerCharPrefab, new Vector3(0f, 0f, 0f), Quaternion.identity);
+            NewPlayerChar.name = Pname;
             NewPlayerChar.GetComponent<PlayerCharacter>().PlayerName = Pname;
             m_listPlayer.Add(NewPlayerChar);
         }
@@ -75,7 +76,7 @@ public class PhysicsManager  : MonoBehaviour, IGameEngine
         }
             
         int PlayerNum = 0;
-        for(int i=0; PlayerNum<m_listPlayer.Count-1; PlayerNum++)
+        for(int i=0; PlayerNum<m_listPlayer.Count; PlayerNum++)
         {
             if(i==0)
             {
