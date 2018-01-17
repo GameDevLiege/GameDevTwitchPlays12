@@ -15,10 +15,12 @@ namespace DidzNeil.ChatAPI
             AddListener(ChatAPI.ListenToMessageSended);
         }
 
+        public static int MaxMessageArchived=30;
+
         private static void ListenToMessageSended(Message message)
         {
             _lastMessages.Enqueue(message);
-            if (_lastMessages.Count >= 100)
+            if (_lastMessages.Count >= MaxMessageArchived)
                 _lastMessages.Dequeue();
         }
 
@@ -36,7 +38,8 @@ namespace DidzNeil.ChatAPI
 
         public static IEnumerable<Message> GetLastMessages(int nombreDeMessages)
         {
-            return _lastMessages.Take(nombreDeMessages).ToArray();
+            return _lastMessages.OrderByDescending(p=>p.GetTimestamp()).Take(nombreDeMessages).ToArray();
+            //grâce à la bibli Linq
         }
 
         public static void RemoveListener(MessageReceived messageReceived)
