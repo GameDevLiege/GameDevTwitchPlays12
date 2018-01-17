@@ -29,6 +29,8 @@ namespace DidzNeil.ChatAPI
 
         public delegate void MessageReceived(Message message);
         private static MessageReceived m_onMessageReceived;
+       // public delegate void MessageSended(Message message);
+       // private static MessageSended m_onMessageSended;
 
         public static void AddListener(MessageReceived messageReceived)
         {
