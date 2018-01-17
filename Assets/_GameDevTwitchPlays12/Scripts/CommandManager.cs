@@ -7,11 +7,6 @@ public class CommandManager : DualBehaviour, ICommandManager
 {
     #region Public Var
 
-    public string username;
-    public int platform;
-    public string message;
-    public long time;
-
     public char firstCommmandCharacter;
 
     public static Command INVALIDCOMMAND = new Command("Votre commande est invalide");
@@ -24,11 +19,11 @@ public class CommandManager : DualBehaviour, ICommandManager
     {
         string userID = _plateform + " " + _username;
         
-        if (!IsACommand(message))
+        if (!IsACommand(_message))
         {
             return null;
         }
-        if (!CommandIsValid(message))
+        if (!CommandIsValid(_message))
         {
             return INVALIDCOMMAND;
         }
@@ -62,7 +57,6 @@ public class CommandManager : DualBehaviour, ICommandManager
             if (message.Equals(validCommand[i]))
             {
                 isValid = true;
-                currentCommandID = i;
                 break;
             }
         }
@@ -73,13 +67,14 @@ public class CommandManager : DualBehaviour, ICommandManager
 
     #region Private Var
 
+    [SerializeField]
     private List<string> validCommand = new List<string>
     {
         "command1",
         "command2",
         "command3",
     };
-    private int currentCommandID;
+
     private Dictionary<string, long> userDataBase = new Dictionary<string, long>();
 
     #endregion
