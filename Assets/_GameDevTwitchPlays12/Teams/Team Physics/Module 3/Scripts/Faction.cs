@@ -23,6 +23,11 @@ public class Faction : MonoBehaviour
         get { return m_hasMiddle; }
         set { m_hasMiddle = value; }
     }
+    public int GoldReserves
+    {
+        get { return m_goldReserves; }
+        set { m_goldReserves = value; }
+    }
 
 
     void StartCountDown()
@@ -39,5 +44,6 @@ public class Faction : MonoBehaviour
     }
     private int m_nbrTerritories;
     private Color m_factionColor;
+    private int m_goldReserves;
     private bool m_hasMiddle = false;
 }
