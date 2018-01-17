@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657844, g: 0.49641222, b: 0.57481694, a: 1}
 --- !u!157 &3
 LightmapSettings:
   m_ObjectHideFlags: 0
@@ -352,7 +352,7 @@ GameObject:
   - component: {fileID: 1971605307}
   - component: {fileID: 1971605308}
   m_Layer: 0
-  m_Name: MAIN
+  m_Name: PManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -421,6 +421,6 @@ MonoBehaviour:
   m_nbrYTerritories: 33
   m_TerritoryPrefab: {fileID: 1169916712200586, guid: f2b27a5225002394f99c8ba8fe3b42d9,
     type: 2}
-  m_playerCharPrefab: {fileID: 1811233539323332, guid: 98e5eced79b4cdb4087bb765812005c1,
+  m_playerCharPrefab: {fileID: 1811233539323332, guid: 3c2c785e17b5a9847916df26e2ebb409,
     type: 2}
   m_nbrFactions: 0

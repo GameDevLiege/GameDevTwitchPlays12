@@ -48,7 +48,14 @@ public class PhysicsManager  : MonoBehaviour, IGameEngine
     #region System
     public void AssignFactionToPlayers(List<string> ListOfPlayerNames)         //JEROME HERE ! Give me a list of player names, or ID in string format, thx buddy ;-)
     {
-        foreach(string Pname in ListOfPlayerNames)
+        if (m_isInitialized)
+        {
+            return;
+        }
+        m_isInitialized = true;
+
+
+        foreach (string Pname in ListOfPlayerNames)
         {
             GameObject NewPlayerChar = Instantiate(m_playerCharPrefab, new Vector3(0f, 0f, 0f), Quaternion.identity);
             NewPlayerChar.GetComponent<PlayerCharacter>().PlayerName = Pname;
@@ -218,20 +225,20 @@ public class PhysicsManager  : MonoBehaviour, IGameEngine
         m_AxeY[1][1].gameObject.GetComponent<Territory>().IsHQ = true;
         m_AxeY[1][1].gameObject.GetComponent<Territory>().CurrentColor = Color.red;
         m_AxeY[1][2].gameObject.GetComponent<Territory>().IsHQ = true;
-        m_AxeY[1][1].gameObject.GetComponent<Territory>().CurrentColor = Color.red;
+        m_AxeY[1][2].gameObject.GetComponent<Territory>().CurrentColor = Color.red;
         m_AxeY[2][1].gameObject.GetComponent<Territory>().IsHQ = true;
-        m_AxeY[1][1].gameObject.GetComponent<Territory>().CurrentColor = Color.red;
+        m_AxeY[2][1].gameObject.GetComponent<Territory>().CurrentColor = Color.red;
         m_AxeY[2][2].gameObject.GetComponent<Territory>().IsHQ = true;
-        m_AxeY[1][1].gameObject.GetComponent<Territory>().CurrentColor = Color.red;
+        m_AxeY[2][2].gameObject.GetComponent<Territory>().CurrentColor = Color.red;
         //RightBottom
         m_AxeY[1][m_nbrXTerritories - 1].gameObject.GetComponent<Territory>().IsHQ = true;
-        m_AxeY[1][1].gameObject.GetComponent<Territory>().CurrentColor = Color.yellow;
+        m_AxeY[1][m_nbrXTerritories - 1].gameObject.GetComponent<Territory>().CurrentColor = Color.yellow;
         m_AxeY[1][m_nbrXTerritories - 2].gameObject.GetComponent<Territory>().IsHQ = true;
-        m_AxeY[1][1].gameObject.GetComponent<Territory>().CurrentColor = Color.yellow;
+        m_AxeY[1][m_nbrXTerritories - 2].gameObject.GetComponent<Territory>().CurrentColor = Color.yellow;
         m_AxeY[2][m_nbrXTerritories - 1].gameObject.GetComponent<Territory>().IsHQ = true;
-        m_AxeY[1][1].gameObject.GetComponent<Territory>().CurrentColor = Color.yellow;
+        m_AxeY[1][m_nbrXTerritories - 1].gameObject.GetComponent<Territory>().CurrentColor = Color.yellow;
         m_AxeY[2][m_nbrXTerritories - 2].gameObject.GetComponent<Territory>().IsHQ = true;
-        m_AxeY[1][1].gameObject.GetComponent<Territory>().CurrentColor = Color.yellow;
+        m_AxeY[1][m_nbrXTerritories - 2].gameObject.GetComponent<Territory>().CurrentColor = Color.yellow;
         //LeftTop
         m_AxeY[m_nbrYTerritories - 1][1].gameObject.GetComponent<Territory>().IsHQ = true;
         m_AxeY[1][1].gameObject.GetComponent<Territory>().CurrentColor = Color.green;
@@ -282,6 +289,7 @@ public class PhysicsManager  : MonoBehaviour, IGameEngine
 
     private bool m_timerFinished=true;
     private bool m_gameHasStarted;
+    private bool m_isInitialized;
     #endregion
 
 }
