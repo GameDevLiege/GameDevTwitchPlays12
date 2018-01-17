@@ -51,9 +51,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b4e893638ed646140a25e4b36b08b0be, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  TEMP_REMOVE_ME_player: {fileID: 0}
+  m_listPlayer: []
   m_incomePerTerritory: 0
   m_timeBetweenPayDay: 0
   m_nbrXTerritories: 33
   m_nbrYTerritories: 33
   m_TerritoryPrefab: {fileID: 1169916712200586, guid: f2b27a5225002394f99c8ba8fe3b42d9,
     type: 2}
+  m_playerCharPrefab: {fileID: 1811233539323332, guid: 460c35786e0dbf1439bc2d38a3058e1a,
+    type: 2}
+  m_nbrFactions: 0
