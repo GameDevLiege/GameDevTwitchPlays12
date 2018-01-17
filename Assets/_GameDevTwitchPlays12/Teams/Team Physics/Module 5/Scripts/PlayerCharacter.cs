@@ -28,6 +28,11 @@ public class PlayerCharacter : MonoBehaviour
         get { return m_currentTerritory; }
         set { m_currentTerritory = value; }
     }
+    public string PlayerName
+    {
+        get { return m_playerName; }
+        set { m_playerName = value; }
+    }
 
 
     //TESING ONLY
@@ -112,4 +117,5 @@ public class PlayerCharacter : MonoBehaviour
     private GameObject m_currentTerritory;
     private Color m_PcColor = Color.red;//initialisation que pour test
     private Color m_FactionColor = Color.red;//initialisation que pour test
+    private string m_playerName;
 }

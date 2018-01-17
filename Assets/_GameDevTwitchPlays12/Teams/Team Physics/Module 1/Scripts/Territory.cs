@@ -122,7 +122,7 @@ public class Territory  : MonoBehaviour
     private bool m_hasSpecial;
     private bool m_isCenter;
     private bool m_isHQ;
-    private Color m_currentColor = Color.white;
+    public Color m_currentColor = Color.white;
     private List<PlayerCharacter> m_listPlayerCharOnTerritory = new List<PlayerCharacter>();
     #endregion
 

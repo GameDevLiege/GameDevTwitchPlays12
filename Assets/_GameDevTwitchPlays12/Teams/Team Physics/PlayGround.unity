@@ -157,6 +157,12 @@ Prefab:
       propertyPath: TEMP_REMOVE_ME_player
       value: 
       objectReference: {fileID: 1267357205}
+    - target: {fileID: 114559195856619162, guid: 20e597b1ffac9b54b96e35f4e12d94d5,
+        type: 2}
+      propertyPath: m_playerCharPrefab
+      value: 
+      objectReference: {fileID: 1811233539323332, guid: 460c35786e0dbf1439bc2d38a3058e1a,
+        type: 2}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 20e597b1ffac9b54b96e35f4e12d94d5, type: 2}
   m_IsPrefabParent: 0
@@ -235,7 +241,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 195841959}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1, z: -10}
+  m_LocalPosition: {x: 16.7, y: 16.4, z: -32.2}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -291,6 +297,21 @@ Prefab:
       propertyPath: m_manager
       value: 
       objectReference: {fileID: 829676117}
+    - target: {fileID: 65551445986427834, guid: 460c35786e0dbf1439bc2d38a3058e1a,
+        type: 2}
+      propertyPath: m_Size.x
+      value: 0.9
+      objectReference: {fileID: 0}
+    - target: {fileID: 65551445986427834, guid: 460c35786e0dbf1439bc2d38a3058e1a,
+        type: 2}
+      propertyPath: m_Size.y
+      value: 0.9
+      objectReference: {fileID: 0}
+    - target: {fileID: 65551445986427834, guid: 460c35786e0dbf1439bc2d38a3058e1a,
+        type: 2}
+      propertyPath: m_Size.z
+      value: 0.9
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 460c35786e0dbf1439bc2d38a3058e1a, type: 2}
   m_IsPrefabParent: 0
@@ -299,6 +320,21 @@ GameObject:
   m_PrefabParentObject: {fileID: 1811233539323332, guid: 460c35786e0dbf1439bc2d38a3058e1a,
     type: 2}
   m_PrefabInternal: {fileID: 1240485156}
+--- !u!54 &1267357211
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1267357205}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 0
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!1 &1421466071
 GameObject:
   m_ObjectHideFlags: 0
