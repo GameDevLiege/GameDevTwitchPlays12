@@ -69,11 +69,15 @@ public class TwitchIRC : MonoBehaviour
     {
         while (!stopThreads)
         {
+
             if (!networkStream.DataAvailable)
                 continue;
 
+
+            //Debug.Log("[DEBUG:TwitchIRC] ?? ???");
+
             buffer = input.ReadLine();
-            if(debugPrintAll)
+            if (debugPrintAll)
             Debug.Log("> " + buffer);
 
             //was message?
@@ -81,6 +85,7 @@ public class TwitchIRC : MonoBehaviour
             {
                 lock (recievedMsgs)
                 {
+
                     recievedMsgs.Add(buffer);
                 }
             }
@@ -91,11 +96,14 @@ public class TwitchIRC : MonoBehaviour
                 SendCommand(buffer.Replace("PING", "PONG"));
             }
 
+
             //After server sends 001 command, we can join a channel
             if (buffer.Split(' ')[1] == "001")
             {
                 SendCommand("JOIN #" + nickName.ToLower());
-				Connected(); hasBeenConnected = true;
+                if(Connected !=null)
+                   Connected();
+                hasBeenConnected = true;
             }
         }
     }
@@ -112,8 +120,9 @@ public class TwitchIRC : MonoBehaviour
                     // https://github.com/justintv/Twitch-API/blob/master/IRC.md#command--message-limit
                     if (stopWatch.ElapsedMilliseconds > 1750)
                     {
+                        string topeek = commandQueue.Peek();
                         //send msg.
-                        output.WriteLine(commandQueue.Peek());
+                        output.WriteLine(topeek);
                         output.Flush();
                         //remove msg from queue.
                         commandQueue.Dequeue();
