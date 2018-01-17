@@ -1,24 +1,24 @@
 fileFormatVersion: 2
-guid: 4312a143f8b58da4ba0e7e8378a35be4
-timeCreated: 1516184829
+guid: bdd1b2cbe1569e549b40c1fd6dd71b9c
+timeCreated: 1516188221
 licenseType: Free
 ModelImporter:
   serializedVersion: 22
   fileIDToRecycleName:
-    100000: //RootNode
-    400000: //RootNode
-    2100000: Material_003
-    2100002: Material_003__Texture_Grass_png
-    2100004: None__Texture_Grass_png
-    2100006: None__Texture_GetZone_png
-    2100008: None__Texture_GetZone_Jaune_png
-    2100010: None__Texture_GetZone_Vert_png
-    2300000: //RootNode
-    3300000: //RootNode
-    4300000: Cube
-    7400000: Default Take
-    9500000: //RootNode
-  externalObjects: {}
+    100000: Cube_Cube.001_None
+    100002: //RootNode
+    400000: Cube_Cube.001_None
+    400002: //RootNode
+    2100000: None
+    2300000: Cube_Cube.001_None
+    3300000: Cube_Cube.001_None
+    4300000: Cube_Cube.001_None
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: None
+    second: {fileID: 2100000, guid: 858a511a20973c0499f1cd0929ae7e40, type: 2}
   materials:
     importMaterials: 1
     materialName: 0
@@ -92,7 +92,7 @@ ModelImporter:
     hasExtraRoot: 0
     skeletonHasParents: 1
   lastHumanDescriptionAvatarSource: {instanceID: 0}
-  animationType: 2
+  animationType: 0
   humanoidOversampling: 1
   additionalBone: 0
   userData: 

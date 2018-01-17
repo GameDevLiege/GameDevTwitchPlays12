@@ -1,22 +1,18 @@
 fileFormatVersion: 2
-guid: 4312a143f8b58da4ba0e7e8378a35be4
-timeCreated: 1516184829
+guid: e68d24569e8603d479d59225d2d819ee
+timeCreated: 1516193685
 licenseType: Free
 ModelImporter:
   serializedVersion: 22
   fileIDToRecycleName:
     100000: //RootNode
+    100002: MontyMole_MontyMole
     400000: //RootNode
-    2100000: Material_003
-    2100002: Material_003__Texture_Grass_png
-    2100004: None__Texture_Grass_png
-    2100006: None__Texture_GetZone_png
-    2100008: None__Texture_GetZone_Jaune_png
-    2100010: None__Texture_GetZone_Vert_png
-    2300000: //RootNode
-    3300000: //RootNode
-    4300000: Cube
-    7400000: Default Take
+    400002: MontyMole_MontyMole
+    2100000: Material__172
+    2300000: MontyMole_MontyMole
+    3300000: MontyMole_MontyMole
+    4300000: MontyMole_MontyMole
     9500000: //RootNode
   externalObjects: {}
   materials:
@@ -30,14 +26,15 @@ ModelImporter:
     resampleCurves: 1
     optimizeGameObjects: 0
     motionNodeName: 
-    rigImportErrors: 
+    rigImportErrors: "Invalid Avatar Rig Configuration. Missing or invalid transform:\n\tRequired
+      human bone 'Hips' not found\n"
     rigImportWarnings: 
     animationImportErrors: 
     animationImportWarnings: 
     animationRetargetingWarnings: 
     animationDoRetargetingWarnings: 0
     importAnimatedCustomProperties: 0
-    animationCompression: 1
+    animationCompression: 3
     animationRotationError: 0.5
     animationPositionError: 0.5
     animationScaleError: 0.5
