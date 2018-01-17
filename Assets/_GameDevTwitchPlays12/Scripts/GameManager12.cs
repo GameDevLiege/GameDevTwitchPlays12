@@ -42,9 +42,9 @@ public class FakeGameEngine : IGameEngine
 
 public class FakeCommandManager : ICommandManager
 {
-    public ICommand Parse(string _username, string _message, long _timestamp)
+    public ICommand Parse(string _username, int _platform, string _message, long _timestamp)
     {
-        throw new NotImplementedException();
+        return null;
     }
 }
 
@@ -74,7 +74,7 @@ public class GameManager12 : MonoBehaviour
 
         ChatAPI.AddListener(HandleMessage);
 
-        HandleMessage("");
+        // HandleMessage("");
 
         StartCoroutine(MainGameLoop());
     }
@@ -83,6 +83,7 @@ public class GameManager12 : MonoBehaviour
     {
         ICommand command = m_commandManager.Parse(
             message.GetUserName(),
+            (int)message.GetPlatform(),
             message.GetMessage(),
             message.GetTimestamp()
         );
