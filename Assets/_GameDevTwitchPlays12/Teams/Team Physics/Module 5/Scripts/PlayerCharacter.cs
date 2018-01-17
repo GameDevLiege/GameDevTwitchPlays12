@@ -12,9 +12,26 @@ public class PlayerCharacter : MonoBehaviour
         m_playerChar = this.gameObject;
     }
 
+    public Color FactionColor
+    {
+        get { return m_FactionColor; }
+        set { m_FactionColor = value; }
+    }
+    public Color PcColor
+    {
+        get { return m_PcColor; }
+        set { m_PcColor = value; }
+    }
+
+    public GameObject CurrentTerritory
+    {
+        get { return m_currentTerritory; }
+        set { m_currentTerritory = value; }
+    }
+
 
     //TESING ONLY
-    private void Update()
+    public void Update()
     {
         if(Input.GetButtonDown("Fire1"))
         {
@@ -34,18 +51,6 @@ public class PlayerCharacter : MonoBehaviour
         }
     }
     //-------------
-
-
-
-    public GameObject CurrentTerritory
-    {
-        get { return m_currentTerritory; }
-        set { m_currentTerritory = value; }
-    }
-    public void SetCurrentTerritory(GameObject objTerritory)
-    {
-        m_currentTerritory = objTerritory;
-    }
 
     public void Dig()
     {
@@ -105,4 +110,6 @@ public class PlayerCharacter : MonoBehaviour
     
     private GameObject m_playerChar;
     private GameObject m_currentTerritory;
+    private Color m_PcColor = Color.red;//initialisation que pour test
+    private Color m_FactionColor = Color.red;//initialisation que pour test
 }

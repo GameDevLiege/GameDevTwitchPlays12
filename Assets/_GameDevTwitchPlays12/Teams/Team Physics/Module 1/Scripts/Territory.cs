@@ -7,9 +7,6 @@ public class Territory  : MonoBehaviour
 
     #region Public Members
     
-    
-    //List<Player> m_listPlayerOnTerritory;
-    
 
     #endregion
 
@@ -48,9 +45,71 @@ public class Territory  : MonoBehaviour
     #endregion
 
     #region Private Void
-    private void OnTriggerEnter(Collider other)
+    private void OnTriggerEnter(Collider col)
+    {
+        PlayerCharacter pc = col.GetComponent<PlayerCharacter>();
+        m_listPlayerCharOnTerritory.Add(pc);
+        if(m_listPlayerCharOnTerritory.Count>1)
+        {
+            Battle(pc);
+        }
+        else
+        {
+            if (m_currentColor != pc.FactionColor)
+            {
+                ColorChange(pc);
+            }
+        }
+    }
+    private void OnTriggerExit(Collider col)
+    {
+        m_listPlayerCharOnTerritory.Remove(col.GetComponent<PlayerCharacter>());
+    }
+
+    private void ColorChange(PlayerCharacter pc)
     {
         
+        if (m_currentColor != Color.white)//donc si ça appartient a un autre joueur, on leur vole donc -1 en nombre territoires pour eux
+        {
+            if (m_currentColor == Color.red)
+            {
+                GameObject.Find("PManager").GetComponent<PhysicsManager>().FactionRED.NbrTerritories--;
+            }
+            else if (m_currentColor == Color.blue)
+            {
+                GameObject.Find("PManager").GetComponent<PhysicsManager>().FactionBLUE.NbrTerritories--;
+            }
+            else if (m_currentColor == Color.green)
+            {
+                GameObject.Find("PManager").GetComponent<PhysicsManager>().FactionGREEN.NbrTerritories--;
+            }
+            else if (m_currentColor == Color.yellow)
+            {
+                GameObject.Find("PManager").GetComponent<PhysicsManager>().FactionYELLOW.NbrTerritories--;
+            }
+        }
+        m_currentColor = pc.FactionColor;
+        if (m_currentColor == Color.red)
+        {
+            GameObject.Find("PManager").GetComponent<PhysicsManager>().FactionRED.NbrTerritories++;
+        }
+        else if (m_currentColor == Color.blue)
+        {
+            GameObject.Find("PManager").GetComponent<PhysicsManager>().FactionBLUE.NbrTerritories++;
+        }
+        else if (m_currentColor == Color.green)
+        {
+            GameObject.Find("PManager").GetComponent<PhysicsManager>().FactionGREEN.NbrTerritories++;
+        }
+        else if (m_currentColor == Color.yellow)
+        {
+            GameObject.Find("PManager").GetComponent<PhysicsManager>().FactionYELLOW.NbrTerritories++;
+        }
+    }
+
+    private void Battle(PlayerCharacter pc)
+    {
+
     }
     #endregion
 
@@ -63,7 +122,8 @@ public class Territory  : MonoBehaviour
     private bool m_hasSpecial;
     private bool m_isCenter;
     private bool m_isHQ;
-    private Color m_currentColor;
+    private Color m_currentColor = Color.white;
+    private List<PlayerCharacter> m_listPlayerCharOnTerritory = new List<PlayerCharacter>();
     #endregion
 
 }

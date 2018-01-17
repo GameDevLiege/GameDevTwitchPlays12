@@ -8,6 +8,7 @@ public class PhysicsManager  : MonoBehaviour
     #region Public Members
     public GameObject TEMP_REMOVE_ME_player;
 
+
     public int m_incomePerTerritory;
     public float m_timeBetweenPayDay;
     public int m_nbrXTerritories =33;
@@ -18,6 +19,27 @@ public class PhysicsManager  : MonoBehaviour
 
 
     #region Public Void
+
+    public Faction FactionRED
+    {
+        get { return m_factionRed; }
+        set { m_factionRed = value; }
+    }
+    public Faction FactionBLUE
+    {
+        get { return m_factionBlue; }
+        set { m_factionBlue = value; }
+    }
+    public Faction FactionGREEN
+    {
+        get { return m_factionGreen; }
+        set { m_factionGreen = value; }
+    }
+    public Faction FactionYELLOW
+    {
+        get { return m_factionYellow; }
+        set { m_factionYellow = value; }
+    }
 
     #endregion
 
@@ -30,8 +52,14 @@ public class PhysicsManager  : MonoBehaviour
 	}
     void Awake () 
     {
+        Faction m_FactionRed = new Faction();
+        Faction m_FactionBlue = new Faction();//vas varier selon nombre de joueurs...
+        Faction m_FactionGreen = new Faction();
+        Faction m_FactionYellow = new Faction();
+
+
         InitializeBoard();
-        TEMP_REMOVE_ME_player.GetComponent<PlayerCharacter>().SetCurrentTerritory(m_AxeY[0][0].gameObject);
+        TEMP_REMOVE_ME_player.GetComponent<PlayerCharacter>().CurrentTerritory = m_AxeY[0][0].gameObject;
     }
 	
 	void Update () 
@@ -110,6 +138,11 @@ public class PhysicsManager  : MonoBehaviour
     #region Private And Protected Members
     private List<GameObject> m_AxeX = new List<GameObject>();
     private List<List<GameObject>> m_AxeY = new List<List<GameObject>>();
+
+    private Faction m_factionRed;
+    private Faction m_factionBlue;
+    private Faction m_factionGreen;
+    private Faction m_factionYellow;
     #endregion
 
 }
