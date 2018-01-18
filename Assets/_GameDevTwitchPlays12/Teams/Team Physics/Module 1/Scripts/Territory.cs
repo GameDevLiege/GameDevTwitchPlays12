@@ -38,6 +38,11 @@ public class Territory  : MonoBehaviour
         set { m_manager = value; }
     }
 
+    public List<PlayerCharacter> GetListOfPlayerOnThisTerritory()
+    {
+        return m_listPlayerCharOnTerritory;
+    }
+
     public int GetPlayerNumOnTerritory()
     {
     return m_listPlayerCharOnTerritory.Count;
