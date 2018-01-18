@@ -48,7 +48,7 @@ public class PlayerCharacter : MonoBehaviour
     {
         if (CurrentTerritory.GetComponent<Territory>().HasSpecial)
         {
-
+            CurrentTerritory.GetComponent<Special>().GetItemOrEffect();
         }
         else
         {
