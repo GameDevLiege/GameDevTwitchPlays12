@@ -29,40 +29,6 @@ public class Special  : MonoBehaviour
     {
         m_typeSpecial = special;
     }
-    public void GetItemOrEffect(PlayerCharacter PlayerChar)
-    {
-        switch(m_typeSpecial)
-        {
-            case e_specialType.COINCHEST:
-                PlayerChar.Gold += m_amouthaddedGoldFromChest; 
-                //some message sent by GameManager?
-                break;
-            case e_specialType.GLASSES:
-
-                //some message sent by GameManager?
-                break;
-            case e_specialType.GRENADES:
-
-                //some message sent by GameManager?
-                break;
-            case e_specialType.PARCHEMENT:
-
-                //some message sent by GameManager?
-                break;
-            case e_specialType.PEBBLE:
-
-                //some message sent by GameManager?
-                break;
-            case e_specialType.SHOVEL:
-                //PlayerChar.
-                //some message sent by GameManager?
-                break;
-            case e_specialType.STRAIN:
-
-                //some message sent by GameManager?
-                break;
-        }
-    }
     #endregion
 
 

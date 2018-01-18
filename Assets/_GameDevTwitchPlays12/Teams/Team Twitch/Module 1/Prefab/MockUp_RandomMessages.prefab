@@ -21,7 +21,7 @@ GameObject:
   - component: {fileID: 4751184125268976}
   - component: {fileID: 114336635717513684}
   m_Layer: 0
-  m_Name: Mockup_RandomMessages
+  m_Name: MockUp_RandomMessages
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

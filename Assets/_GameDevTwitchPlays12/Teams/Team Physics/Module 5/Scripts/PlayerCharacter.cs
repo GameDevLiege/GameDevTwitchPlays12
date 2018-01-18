@@ -76,16 +76,6 @@ public class PlayerCharacter : MonoBehaviour
     #endregion
 
     #region  class methods
-    public void Dig()
-    {
-        if (CurrentTerritory.GetComponent<Territory>().HasSpecial)
-        {
-            CurrentTerritory.GetComponent<Special>().GetItemOrEffect(this);
-        }
-        else
-        {
-        }
-    }
     public void DoBattle(PlayerCharacter Enemy)
     {
         int temp= this.PlayerCharLVL;
@@ -114,7 +104,6 @@ public class PlayerCharacter : MonoBehaviour
         {
             float tempx = m_currentTerritory.gameObject.transform.position.x;
             float tempy = m_currentTerritory.gameObject.transform.position.y + 1;
-            Debug.Log("y=" + (int)tempy + "x=" + (int)tempx);
             TerritoryToTest = GameObject.Find("y=" + (int)tempy + "x=" + (int)tempx).GetComponent<Territory>();
             if(TerritoryToTest.GetPlayerNumOnTerritory()>0)
             {
@@ -136,7 +125,6 @@ public class PlayerCharacter : MonoBehaviour
         {
             float tempx = m_currentTerritory.gameObject.transform.position.x;
             float tempy = m_currentTerritory.gameObject.transform.position.y - 1;
-            Debug.Log("y=" + (int)tempy + "x=" + (int)tempx);
             TerritoryToTest = GameObject.Find("y=" + (int)tempy + "x=" + (int)tempx).GetComponent<Territory>();
             if (TerritoryToTest.GetPlayerNumOnTerritory() > 0)
             {
@@ -158,7 +146,6 @@ public class PlayerCharacter : MonoBehaviour
         {
             float tempx = m_currentTerritory.gameObject.transform.position.x - 1;
             float tempy = m_currentTerritory.gameObject.transform.position.y;
-            Debug.Log("y=" + (int)tempy + "x=" + (int)tempx);
             TerritoryToTest = GameObject.Find("y=" + (int)tempy + "x=" + (int)tempx).GetComponent<Territory>();
             if (TerritoryToTest.GetPlayerNumOnTerritory() > 0)
             {
@@ -180,7 +167,6 @@ public class PlayerCharacter : MonoBehaviour
         {
             float tempx = m_currentTerritory.gameObject.transform.position.x + 1;
             float tempy = m_currentTerritory.gameObject.transform.position.y;
-            Debug.Log("y=" + (int)tempy + "x=" + (int)tempx);
             TerritoryToTest = GameObject.Find("y=" + (int)tempy + "x=" + (int)tempx).GetComponent<Territory>();
             if (TerritoryToTest.GetPlayerNumOnTerritory() > 0)
             {
@@ -251,7 +237,15 @@ public class PlayerCharacter : MonoBehaviour
                 }
                 break;
             case "DIG":
-                Dig();
+                if (CurrentTerritory.GetComponent<Territory>().HasSpecial)
+                {
+                    Special special = m_currentTerritory.GetComponent<Special>();
+                    SpecialAPI.NotifyNewSpecial(special);
+                }
+                else
+                {
+                    //message nothing to dig?
+                }
                 break;
         }
     }

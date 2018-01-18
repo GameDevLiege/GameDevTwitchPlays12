@@ -235,6 +235,14 @@ public class PhysicsManager  : MonoBehaviour, IGameEngine
             m_AxeY.Add(m_AxeX);
         }
     }
+    public void ColorHq()
+    {/*
+        Color col = gameObject.GetComponent<MeshRenderer>().material.color;
+        col = pc.Faction.FactionColor;
+        col.a = 100f;
+        gameObject.GetComponent<MeshRenderer>().material.color = col;*/
+    }
+
     private void PlaceFactionHQ()
     {
         //LeftBottom
