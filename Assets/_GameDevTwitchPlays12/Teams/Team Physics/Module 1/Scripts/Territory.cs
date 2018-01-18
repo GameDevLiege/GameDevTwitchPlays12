@@ -89,6 +89,7 @@ public class Territory  : MonoBehaviour
             }
         }
         m_currentColor = pc.FactionColor;
+        gameObject.GetComponent<MeshRenderer>().material.color = pc.FactionColor;
         if (m_currentColor == Color.red)
         {
             GameObject.Find("PManager").GetComponent<PhysicsManager>().FactionRED.NbrTerritories++;
@@ -122,7 +123,7 @@ public class Territory  : MonoBehaviour
     private bool m_hasSpecial;
     private bool m_isCenter;
     private bool m_isHQ;
-    public Color m_currentColor = Color.white;
+    private Color m_currentColor = Color.white;
     private List<PlayerCharacter> m_listPlayerCharOnTerritory = new List<PlayerCharacter>();
     #endregion
 
