@@ -178,7 +178,7 @@ public class PlayerCharacter : MonoBehaviour
                     float tempx = m_currentTerritory.gameObject.transform.position.x;
                     float tempy = m_currentTerritory.gameObject.transform.position.y + 1;
                     m_currentTerritory = GameObject.Find("y=" + (int)tempy + "x=" + (int)tempx);
-                    TestForNearbyEnnemies();
+                    // TestForNearbyEnnemies();
                 }
                 break;
             case "DOWN":
@@ -189,7 +189,7 @@ public class PlayerCharacter : MonoBehaviour
                     float tempx = m_currentTerritory.gameObject.transform.position.x;
                     float tempy = m_currentTerritory.gameObject.transform.position.y - 1;
                     m_currentTerritory = GameObject.Find("y=" + (int)tempy + "x=" + (int)tempx);
-                    TestForNearbyEnnemies();
+                    // TestForNearbyEnnemies();
                 }
                 break;
             case "LEFT":
@@ -200,7 +200,7 @@ public class PlayerCharacter : MonoBehaviour
                     float tempx = m_currentTerritory.gameObject.transform.position.x - 1;
                     float tempy = m_currentTerritory.gameObject.transform.position.y;
                     m_currentTerritory = GameObject.Find("y=" + (int)tempy + "x=" + (int)tempx);
-                    TestForNearbyEnnemies();
+                    // TestForNearbyEnnemies();
                 }
                 break;
             case "RIGHT":
@@ -211,7 +211,7 @@ public class PlayerCharacter : MonoBehaviour
                     float tempx = m_currentTerritory.gameObject.transform.position.x + 1;
                     float tempy = m_currentTerritory.gameObject.transform.position.y;
                     m_currentTerritory = GameObject.Find("y=" + (int)tempy + "x=" + (int)tempx);
-                    TestForNearbyEnnemies();
+                    // TestForNearbyEnnemies();
                 }
                 break;
             case "DIG":

@@ -499,7 +499,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_transform: {fileID: 1971605306}
   cd: 0
-  maxPlayer: 0
+  maxPlayer: 20
   firstCommmandCharacter: 33
   firstStateCharacter: 63
   validCommand:
@@ -531,7 +531,7 @@ MonoBehaviour:
   m_timeBetweenPayDay: 0
   m_nbrXTerritories: 33
   m_nbrYTerritories: 33
-  m_TerritoryPrefab: {fileID: 1169916712200586, guid: f2b27a5225002394f99c8ba8fe3b42d9,
+  m_territoryPrefab: {fileID: 1169916712200586, guid: ff085274a9c470a43a0cefbeea22b5ff,
     type: 2}
   m_playerCharPrefab: {fileID: 1811233539323332, guid: 4600f506b34ecb244879681be93a5c47,
     type: 2}
