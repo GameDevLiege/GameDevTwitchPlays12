@@ -7,7 +7,7 @@ public class PhysicsManager  : MonoBehaviour, IGameEngine
 
     #region Public Members
     public List<GameObject> m_listPlayer = new List<GameObject>();
-
+    public int m_sizeOfDiceSpecial = 5;
     public int m_incomePerTerritory = 1;
     public float m_timeBetweenPayDay = 1;
     public int m_nbrXTerritories =33;
@@ -69,56 +69,44 @@ public class PhysicsManager  : MonoBehaviour, IGameEngine
         int PlayerNum = 0;
         for(int i=0; PlayerNum< ListOfPlayerNames.Count; PlayerNum++)
         {
-            GameObject NewPlayerGameObject = Instantiate(m_playerCharPrefab, new Vector3(0f, 0f, 0f), Quaternion.identity);
-            NewPlayerGameObject.name = ListOfPlayerNames[i];
+            GameObject NewPlayerGameObject = Instantiate(m_playerCharPrefab, new Vector3(0f, 0f, 0f), Quaternion.identity, transform);
+            NewPlayerGameObject.name = ListOfPlayerNames[PlayerNum];
+            NewPlayerGameObject.GetComponentInChildren<TextMesh>().text = "" + PlayerNum;
 
             PlayerCharacter NewPlayerScript = NewPlayerGameObject.GetComponent<PlayerCharacter>();
-            NewPlayerScript.NumPlayer = i;
-            NewPlayerScript.PlayerName = ListOfPlayerNames[i];
+            NewPlayerScript.NumPlayer = PlayerNum;
+            NewPlayerScript.PlayerName = ListOfPlayerNames[PlayerNum];
             
-
             if (i==0)
             {
-                //NewPlayerScript.FactionColor = Color.red;
                 NewPlayerScript.Faction = FactionRED;
                 FactionRED.AddPlayer(NewPlayerScript);
-
-                //NewPlayerScript.PcColor = Color.red;
+                
                 NewPlayerGameObject.transform.position = new Vector3(0f,0f,0f);
-                NewPlayerScript.MyManager = gameObject.GetComponent<PhysicsManager>();
                 NewPlayerScript.CurrentTerritory = m_AxeY[0][0].gameObject;
             }
             else if (i == 1)
             {
-                //NewPlayerScript.FactionColor = Color.blue;
                 NewPlayerScript.Faction = FactionBLUE;
                 FactionBLUE.AddPlayer(NewPlayerScript);
-
-                //NewPlayerScript.PcColor = Color.blue;
+                
                 NewPlayerGameObject.transform.position = new Vector3(m_nbrXTerritories-1, m_nbrYTerritories-1, 0f);
-                NewPlayerScript.MyManager = gameObject.GetComponent<PhysicsManager>();
                 NewPlayerScript.CurrentTerritory = m_AxeY[m_nbrXTerritories - 1][m_nbrYTerritories - 1].gameObject;
             }
             else if (i == 2)
             {
-               // NewPlayerScript.FactionColor = Color.green;
                 NewPlayerScript.Faction = FactionGREEN;
                 FactionGREEN.AddPlayer(NewPlayerScript);
-
-                //NewPlayerScript.PcColor = Color.green;
+                
                 NewPlayerGameObject.transform.position = new Vector3(m_nbrXTerritories-1, 0f, 0f);
-                NewPlayerScript.MyManager = gameObject.GetComponent<PhysicsManager>();
                 NewPlayerScript.CurrentTerritory = m_AxeY[m_nbrXTerritories - 1][0].gameObject;
             }
             else if (i == 3)
             {
-                //NewPlayerScript.FactionColor = Color.yellow;
                 NewPlayerScript.Faction = FactionYELLOW;
                 FactionYELLOW.AddPlayer(NewPlayerScript);
-
-                //NewPlayerScript.PcColor = Color.yellow;
+                
                 NewPlayerGameObject.transform.position = new Vector3(0f, m_nbrYTerritories - 1, 0f);
-                NewPlayerScript.MyManager = gameObject.GetComponent<PhysicsManager>();
                 NewPlayerScript.CurrentTerritory = m_AxeY[0][m_nbrYTerritories - 1].gameObject;
             }
             i++;
@@ -133,6 +121,7 @@ public class PhysicsManager  : MonoBehaviour, IGameEngine
             {
                 i = 0;
             }
+            NewPlayerScript.MyManager = this;
             m_listPlayer.Add(NewPlayerGameObject);
         }
     }
@@ -142,9 +131,9 @@ public class PhysicsManager  : MonoBehaviour, IGameEngine
         m_timerFinished = false;
         yield return new WaitForSeconds(m_timeBetweenPayDay);
         FactionRED.GoldReserves += FactionRED.NbrTerritories * m_incomePerTerritory;
-        FactionBLUE.GoldReserves += FactionRED.NbrTerritories * m_incomePerTerritory;
-        FactionGREEN.GoldReserves += FactionRED.NbrTerritories * m_incomePerTerritory;
-        FactionYELLOW.GoldReserves += FactionRED.NbrTerritories * m_incomePerTerritory;
+        FactionBLUE.GoldReserves += FactionBLUE.NbrTerritories * m_incomePerTerritory;
+        FactionGREEN.GoldReserves += FactionGREEN.NbrTerritories * m_incomePerTerritory;
+        FactionYELLOW.GoldReserves += FactionYELLOW.NbrTerritories * m_incomePerTerritory;
         m_timerFinished = true;
         FactionRED.DispatchMoney();
         FactionBLUE.DispatchMoney();
@@ -158,7 +147,7 @@ public class PhysicsManager  : MonoBehaviour, IGameEngine
     {
         InitializeBoard();
 
-        List<string> DebugList = new List<string>();
+        //List<string> DebugList = new List<string>();
         //for (int i = 0; i < 20; i++)
         //{
         //    DebugList.Add("hoho" + i);
@@ -227,6 +216,7 @@ public class PhysicsManager  : MonoBehaviour, IGameEngine
         InstanciateTerritories();
         PlaceCenterZone();
         PlaceFactionHQ();
+        PlaceSpecials();
     }
     private void InstanciateTerritories()
     {
@@ -236,9 +226,10 @@ public class PhysicsManager  : MonoBehaviour, IGameEngine
             for (int x = 0; x < m_nbrXTerritories; x++)
             {
                 Vector3 positionOfCell = new Vector3(x * 1f, y * 1f, 0);
-                GameObject Ter = Instantiate(m_TerritoryPrefab, positionOfCell, Quaternion.identity);
+                GameObject Ter = Instantiate(m_TerritoryPrefab, positionOfCell, Quaternion.identity, transform);
                 Ter.transform.position = positionOfCell;
                 Ter.name = "y=" + positionOfCell.y + "x=" + positionOfCell.x;
+                Ter.GetComponent<Territory>().Manager = this;
                 m_AxeX.Add(Ter);
             }
             m_AxeY.Add(m_AxeX);
@@ -296,6 +287,50 @@ public class PhysicsManager  : MonoBehaviour, IGameEngine
             }
         }
     }
+    private void PlaceSpecials()
+    {
+        int A = Random.Range(1, 10);//decides which central territory gets the glasses
+        int cptCenter=1;
+        for (int y = 0; y < m_nbrYTerritories; y++)
+        {
+            for (int x = 0; x < m_nbrXTerritories; x++)
+            {
+                if(!m_AxeY[y][x].GetComponent<Territory>().IsHQ)//no special in HQs
+                {
+                    if (m_AxeY[y][x].GetComponent<Territory>().IsCenter)//only key in center
+                    {
+                        if (cptCenter==A)
+                        {
+                            m_AxeY[y][x].GetComponent<Territory>().HasSpecial = true;
+                            m_AxeY[y][x].AddComponent<Special>();
+                            m_AxeY[y][x].GetComponent<Special>().ChooseTypeOfSpecial(Special.e_specialType.GLASSES);
+                        }
+                        cptCenter++;
+                    }
+                    else
+                    {
+                        int B = Random.Range(1, m_sizeOfDiceSpecial+1); //random range takes argument 1 inclusive argument 2 exclusive
+                        if(B==1)//1 chance out of sizeofdice...
+                        {
+                            m_AxeY[y][x].GetComponent<Territory>().HasSpecial = true;
+                            m_AxeY[y][x].AddComponent<Special>();
+                            B= Random.Range(1, 7);//random range takes argument 1 inclusive argument 2 exclusive
+                            switch (B)
+                            {
+                                case 1: m_AxeY[y][x].GetComponent<Special>().ChooseTypeOfSpecial(Special.e_specialType.COINBOX); break;
+                                case 2: m_AxeY[y][x].GetComponent<Special>().ChooseTypeOfSpecial(Special.e_specialType.PARCHEMENT); break;
+                                case 3: m_AxeY[y][x].GetComponent<Special>().ChooseTypeOfSpecial(Special.e_specialType.GRENADES); break;
+                                case 4: m_AxeY[y][x].GetComponent<Special>().ChooseTypeOfSpecial(Special.e_specialType.PEBBLE); break;
+                                case 5: m_AxeY[y][x].GetComponent<Special>().ChooseTypeOfSpecial(Special.e_specialType.SHOVEL); break;
+                                case 6: m_AxeY[y][x].GetComponent<Special>().ChooseTypeOfSpecial(Special.e_specialType.STRAIN); break;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
     #endregion
 
     #region Tools Debug And Utility

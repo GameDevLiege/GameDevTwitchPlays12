@@ -9,7 +9,7 @@ public class CommandManager : DualBehaviour, ICommandManager
 
     public long cd;
 
-    public char firstCommmandCharacter;
+    public char firstCommmandCharacter = '!';
 
     public static Command INVALIDCOMMAND = new Command("Votre commande est invalide", true);
 
@@ -25,11 +25,19 @@ public class CommandManager : DualBehaviour, ICommandManager
         {
             return null;
         }
+        _message.ToUpper();
         if (!CommandIsValid(_message))
         {
             return INVALIDCOMMAND;
         }
-        if (!Cooldown(_time, userID))
+        if (_message.Contains("JOIN"))
+        {
+            if (!userDataBase.ContainsKey(userID))
+            {
+                userDataBase.Add(userID, 0);
+            }  
+        }
+        if ((!Cooldown(_time, userID)) && (!_message.Contains("JOIN")))
         {
             return new Command("Le cooldown entre 2 commandes n'est pas terminé", true);
         }
@@ -96,9 +104,12 @@ public class CommandManager : DualBehaviour, ICommandManager
     [SerializeField]
     private List<string> validCommand = new List<string>
     {
-        "command1",
-        "command2",
-        "command3",
+        "UP"    ,
+        "DOWN"  ,
+        "LEFT"  ,
+        "RIGHT" ,
+        "DIG"   ,
+        "JOIN"  ,
     };
 
     private Dictionary<string, long> _userDataBase = new Dictionary<string, long>();
@@ -137,4 +148,3 @@ public class Command:ICommand
 
     }
 }
-

@@ -10,14 +10,6 @@ public class PlayerCharacter : MonoBehaviour
     public bool hasGlasses = false;
     
     #region properties
-    /*
-    private Color m_PcColor;
-    public Color PcColor
-    {
-        get { return m_PcColor; }
-        set { m_PcColor = value; }
-    }
-    */
     public PhysicsManager m_manager;
     public PhysicsManager MyManager
     {
@@ -31,12 +23,10 @@ public class PlayerCharacter : MonoBehaviour
         get { return m_numPlayer; }
         set { m_numPlayer = value; }
     }
-
-    //private Color m_FactionColor;
+    
     public Color FactionColor
     {
         get { return m_faction.FactionColor; }
-        //set { m_FactionColor = value; }
     }
 
     private Faction m_faction;
@@ -81,7 +71,13 @@ public class PlayerCharacter : MonoBehaviour
     #region  class methods
     public void Dig()
     {
+        if (CurrentTerritory.GetComponent<Territory>().HasSpecial)
+        {
 
+        }
+        else
+        {
+        }
     }
 
     public void Move(string TypeOfMove)
@@ -94,10 +90,10 @@ public class PlayerCharacter : MonoBehaviour
                 y = m_currentTerritory.transform.position.y + 1;//la case au dessus
                 if (!(y > m_manager.m_nbrYTerritories - 1))
                 {
-                    m_playerChar.transform.Translate(0f, 1f, 0f);
                     float tempx = m_currentTerritory.gameObject.transform.position.x;
                     float tempy = m_currentTerritory.gameObject.transform.position.y + 1;
                     m_currentTerritory = GameObject.Find("y=" + (int)tempy + "x=" + (int)tempx);
+                    m_playerChar.transform.Translate(0f, 1f, 0f);
                 }
                 break;
             case "DOWN":
