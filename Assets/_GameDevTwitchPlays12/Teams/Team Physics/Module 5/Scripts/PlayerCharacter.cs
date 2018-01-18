@@ -5,6 +5,7 @@ using UnityEngine;
 public class PlayerCharacter : MonoBehaviour
 {
     private GameObject m_playerChar;
+    private bool m_hasJustLostBattle;
 
     private int m_playerCharLVL=1;
     public int PlayerCharLVL
@@ -93,10 +94,13 @@ public class PlayerCharacter : MonoBehaviour
         if(this.PlayerCharLVL<1)
         {
             this.PlayerCharLVL = 1;
+            this.gameObject.transform.position = this.Faction.RespawnPosition;
+            m_hasJustLostBattle = true;
         }
         if (Enemy.PlayerCharLVL < 1)
         {
             Enemy.PlayerCharLVL = 1;
+            Enemy.gameObject.transform.position = this.Faction.RespawnPosition;
         }
     }
 
@@ -105,63 +109,95 @@ public class PlayerCharacter : MonoBehaviour
         float y;
         float x;
         Territory TerritoryToTest;
-        y = m_currentTerritory.transform.position.y + 1;//test la case au dessus
+        y = m_currentTerritory.transform.position.y + 1;
         if (!(y > m_manager.m_nbrYTerritories - 1))
         {
             float tempx = m_currentTerritory.gameObject.transform.position.x;
             float tempy = m_currentTerritory.gameObject.transform.position.y + 1;
+            Debug.Log("y=" + (int)tempy + "x=" + (int)tempx);
             TerritoryToTest = GameObject.Find("y=" + (int)tempy + "x=" + (int)tempx).GetComponent<Territory>();
             if(TerritoryToTest.GetPlayerNumOnTerritory()>0)
             {
-                foreach(PlayerCharacter Enemy in TerritoryToTest.GetListOfPlayerOnThisTerritory())
+                foreach(PlayerCharacter OtherMole in TerritoryToTest.GetListOfPlayerOnThisTerritory())
                 {
-                    DoBattle(Enemy);
+
+                    if(!m_hasJustLostBattle)
+                    {
+                        if(this.Faction!=OtherMole.Faction)
+                        {
+                            DoBattle(OtherMole);
+                        }
+                    }
                 }
             }
         }
-        y = m_currentTerritory.transform.position.y - 1;//test la case au dessus
+        y = m_currentTerritory.transform.position.y - 1;
         if (!(y < 0))
         {
             float tempx = m_currentTerritory.gameObject.transform.position.x;
             float tempy = m_currentTerritory.gameObject.transform.position.y - 1;
+            Debug.Log("y=" + (int)tempy + "x=" + (int)tempx);
             TerritoryToTest = GameObject.Find("y=" + (int)tempy + "x=" + (int)tempx).GetComponent<Territory>();
             if (TerritoryToTest.GetPlayerNumOnTerritory() > 0)
             {
-                foreach (PlayerCharacter Enemy in TerritoryToTest.GetListOfPlayerOnThisTerritory())
+                foreach (PlayerCharacter OtherMole in TerritoryToTest.GetListOfPlayerOnThisTerritory())
                 {
-                    DoBattle(Enemy);
+                    if (!m_hasJustLostBattle)
+                    {
+                        if (this.Faction != OtherMole.Faction)
+                        {
+                            DoBattle(OtherMole);
+                        }
+                    }
+                        
                 }
             }
         }
-        x = m_currentTerritory.transform.position.x - 1;//test la case au dessus
+        x = m_currentTerritory.transform.position.x - 1;
         if (!(x < 0))
         {
-            float tempx = m_currentTerritory.gameObject.transform.position.x;
-            float tempy = m_currentTerritory.gameObject.transform.position.y - 1;
+            float tempx = m_currentTerritory.gameObject.transform.position.x - 1;
+            float tempy = m_currentTerritory.gameObject.transform.position.y;
+            Debug.Log("y=" + (int)tempy + "x=" + (int)tempx);
             TerritoryToTest = GameObject.Find("y=" + (int)tempy + "x=" + (int)tempx).GetComponent<Territory>();
             if (TerritoryToTest.GetPlayerNumOnTerritory() > 0)
             {
-                foreach (PlayerCharacter Enemy in TerritoryToTest.GetListOfPlayerOnThisTerritory())
+                foreach (PlayerCharacter OtherMole in TerritoryToTest.GetListOfPlayerOnThisTerritory())
                 {
-                    DoBattle(Enemy);
+                    if (!m_hasJustLostBattle)
+                    {
+                        if (this.Faction != OtherMole.Faction)
+                        {
+                            DoBattle(OtherMole);
+                        }
+                    }
+                        
                 }
             }
         }
-        x = m_currentTerritory.transform.position.x + 1;//test la case au dessus
+        x = m_currentTerritory.transform.position.x + 1;
         if (!(x > m_manager.m_nbrXTerritories - 1))
         {
-            float tempx = m_currentTerritory.gameObject.transform.position.x;
-            float tempy = m_currentTerritory.gameObject.transform.position.y + 1;
+            float tempx = m_currentTerritory.gameObject.transform.position.x + 1;
+            float tempy = m_currentTerritory.gameObject.transform.position.y;
+            Debug.Log("y=" + (int)tempy + "x=" + (int)tempx);
             TerritoryToTest = GameObject.Find("y=" + (int)tempy + "x=" + (int)tempx).GetComponent<Territory>();
             if (TerritoryToTest.GetPlayerNumOnTerritory() > 0)
             {
-                foreach (PlayerCharacter Enemy in TerritoryToTest.GetListOfPlayerOnThisTerritory())
+                foreach (PlayerCharacter OtherMole in TerritoryToTest.GetListOfPlayerOnThisTerritory())
                 {
-                    DoBattle(Enemy);
+                    if (!m_hasJustLostBattle)
+                    {
+                        if (this.Faction != OtherMole.Faction)
+                        {
+                            DoBattle(OtherMole);
+                        }
+                    }
+                        
                 }
             }
         }
-
+        m_hasJustLostBattle = false;
     }
 
     public void Move(string TypeOfMove)
@@ -171,7 +207,7 @@ public class PlayerCharacter : MonoBehaviour
         switch (TypeOfMove)
         {
             case "UP":
-                y = m_currentTerritory.transform.position.y + 1;//la case au dessus
+                y = m_currentTerritory.transform.position.y + 1;
                 if (!(y > m_manager.m_nbrYTerritories - 1))
                 {
                     m_playerChar.transform.Translate(0f, 1f, 0f);
@@ -182,7 +218,7 @@ public class PlayerCharacter : MonoBehaviour
                 }
                 break;
             case "DOWN":
-                y = m_currentTerritory.transform.position.y - 1;//la case au dessus
+                y = m_currentTerritory.transform.position.y - 1;
                 if (!(y < 0))
                 {
                     m_playerChar.transform.Translate(0f, -1f, 0f);
@@ -193,7 +229,7 @@ public class PlayerCharacter : MonoBehaviour
                 }
                 break;
             case "LEFT":
-                x = m_currentTerritory.transform.position.x - 1;//la case au dessus
+                x = m_currentTerritory.transform.position.x - 1;
                 if (!(x < 0))
                 {
                     m_playerChar.transform.Translate(-1f, 0f, 0f);
@@ -204,7 +240,7 @@ public class PlayerCharacter : MonoBehaviour
                 }
                 break;
             case "RIGHT":
-                x = m_currentTerritory.transform.position.x + 1;//la case au dessus
+                x = m_currentTerritory.transform.position.x + 1;
                 if (!(x > m_manager.m_nbrXTerritories - 1))
                 {
                     m_playerChar.transform.Translate(1f, 0f, 0f);

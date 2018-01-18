@@ -55,16 +55,19 @@ public class PhysicsManager  : MonoBehaviour, IGameEngine
         
         FactionRED = gameObject.AddComponent<Faction>();
         FactionRED.FactionColor = Color.red;
-        //FactionRED.
+        FactionRED.RespawnPosition = new Vector3(0f, 0f, 0f);
         FactionBLUE = gameObject.AddComponent<Faction>();
         FactionBLUE.FactionColor = Color.blue;
+        FactionBLUE.RespawnPosition = new Vector3(m_nbrXTerritories - 1, m_nbrYTerritories - 1, 0f);
 
         if (ListOfPlayerNames.Count > 8)
         {
             FactionGREEN = gameObject.AddComponent<Faction>();
             FactionGREEN.FactionColor = Color.green;
+            FactionGREEN.RespawnPosition = new Vector3(m_nbrXTerritories - 1, 0f, 0f);
             FactionYELLOW = gameObject.AddComponent<Faction>();
             FactionYELLOW.FactionColor = Color.yellow;
+            FactionYELLOW.RespawnPosition = new Vector3(0f, m_nbrYTerritories - 1, 0f);
         }
             
         int PlayerNum = 0;
@@ -83,7 +86,7 @@ public class PhysicsManager  : MonoBehaviour, IGameEngine
                 NewPlayerScript.Faction = FactionRED;
                 FactionRED.AddPlayer(NewPlayerScript);
                 
-                NewPlayerGameObject.transform.position = new Vector3(0f,0f,0f);
+                NewPlayerGameObject.transform.position = FactionRED.RespawnPosition;
                 NewPlayerScript.CurrentTerritory = m_AxeY[0][0].gameObject;
             }
             else if (i == 1)
@@ -91,7 +94,7 @@ public class PhysicsManager  : MonoBehaviour, IGameEngine
                 NewPlayerScript.Faction = FactionBLUE;
                 FactionBLUE.AddPlayer(NewPlayerScript);
                 
-                NewPlayerGameObject.transform.position = new Vector3(m_nbrXTerritories-1, m_nbrYTerritories-1, 0f);
+                NewPlayerGameObject.transform.position = FactionBLUE.RespawnPosition;
                 NewPlayerScript.CurrentTerritory = m_AxeY[m_nbrXTerritories - 1][m_nbrYTerritories - 1].gameObject;
             }
             else if (i == 2)
@@ -99,7 +102,7 @@ public class PhysicsManager  : MonoBehaviour, IGameEngine
                 NewPlayerScript.Faction = FactionGREEN;
                 FactionGREEN.AddPlayer(NewPlayerScript);
                 
-                NewPlayerGameObject.transform.position = new Vector3(m_nbrXTerritories-1, 0f, 0f);
+                NewPlayerGameObject.transform.position = FactionGREEN.RespawnPosition;
                 NewPlayerScript.CurrentTerritory = m_AxeY[m_nbrXTerritories - 1][0].gameObject;
             }
             else if (i == 3)
@@ -107,7 +110,7 @@ public class PhysicsManager  : MonoBehaviour, IGameEngine
                 NewPlayerScript.Faction = FactionYELLOW;
                 FactionYELLOW.AddPlayer(NewPlayerScript);
                 
-                NewPlayerGameObject.transform.position = new Vector3(0f, m_nbrYTerritories - 1, 0f);
+                NewPlayerGameObject.transform.position = FactionYELLOW.RespawnPosition;
                 NewPlayerScript.CurrentTerritory = m_AxeY[0][m_nbrYTerritories - 1].gameObject;
             }
             i++;
