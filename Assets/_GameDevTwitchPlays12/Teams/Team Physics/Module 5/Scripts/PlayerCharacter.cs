@@ -47,7 +47,14 @@ public class PlayerCharacter : MonoBehaviour
 
     public void Dig()
     {
-        
+        if (CurrentTerritory.GetComponent<Territory>().HasSpecial)
+        {
+
+        }
+        else
+        {
+            //message nothing to dig?
+        }
     }
     public void Move(string TypeOfMove)
     {
@@ -59,9 +66,9 @@ public class PlayerCharacter : MonoBehaviour
                 y = m_currentTerritory.transform.position.y+1;//la case au dessus
                 if (!(y > m_manager.m_nbrYTerritories - 1))
                 {
-                    m_playerChar.transform.Translate(0f, 1f, 0f);
                     float tempx = m_currentTerritory.gameObject.transform.position.x;
-                    float tempy = m_currentTerritory.gameObject.transform.position.y+1;
+                    float tempy = m_currentTerritory.gameObject.transform.position.y + 1;
+                    m_playerChar.transform.Translate(0f, 1f, 0f);
                     m_currentTerritory = GameObject.Find("y="+ (int)tempy+"x="+(int)tempx);
                 }
                 break;
