@@ -1,10 +1,9 @@
 fileFormatVersion: 2
-guid: 41f615363eaa10c439718a980c95f128
-timeCreated: 1516271822
+guid: 525484e000a028e4687ecc0eb58aa14e
+timeCreated: 1516273065
 licenseType: Free
 TextureImporter:
-  fileIDToRecycleName:
-    21300000: Shovel_0
+  fileIDToRecycleName: {}
   externalObjects: {}
   serializedVersion: 4
   mipmaps:
@@ -41,7 +40,7 @@ TextureImporter:
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 2
+  spriteMode: 1
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
@@ -79,21 +78,7 @@ TextureImporter:
     androidETC2FallbackOverride: 0
   spriteSheet:
     serializedVersion: 2
-    sprites:
-    - serializedVersion: 2
-      name: Shovel_0
-      rect:
-        serializedVersion: 2
-        x: 0
-        y: 258
-        width: 64
-        height: 58
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
+    sprites: []
     outline: []
     physicsShape: []
   spritePackingTag: 
