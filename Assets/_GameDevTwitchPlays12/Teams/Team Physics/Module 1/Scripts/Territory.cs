@@ -38,6 +38,12 @@ public class Territory  : MonoBehaviour
         set { m_manager = value; }
     }
 
+    public int GetPlayerNumOnTerritory()
+    {
+    return m_listPlayerCharOnTerritory.Count;
+    }
+
+
     #endregion
 
 
@@ -57,7 +63,7 @@ public class Territory  : MonoBehaviour
         m_listPlayerCharOnTerritory.Add(pc);
         if(m_listPlayerCharOnTerritory.Count>1)
         {
-            Battle(pc);
+            Battle();
         }
         else
         {
@@ -114,7 +120,7 @@ public class Territory  : MonoBehaviour
         }
     }
 
-    private void Battle(PlayerCharacter pc)
+    private void Battle()
     {
 
     }

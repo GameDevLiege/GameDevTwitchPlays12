@@ -47,7 +47,14 @@ public class PlayerCharacter : MonoBehaviour
 
     public void Dig()
     {
-        
+        if (CurrentTerritory.GetComponent<Territory>().HasSpecial)
+        {
+
+        }
+        else
+        {
+            //message nothing to dig?
+        }
     }
     public void Move(string TypeOfMove)
     {
