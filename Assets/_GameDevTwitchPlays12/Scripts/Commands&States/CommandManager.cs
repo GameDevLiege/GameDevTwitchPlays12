@@ -32,7 +32,7 @@ public class CommandManager : DualBehaviour, ICommandManager
         {
             return INVALIDCOMMAND;
         }
-        if (_message.Contains("JOIN"))
+        if (_message.Equals(firstCommmandCharacter + "JOIN"))
         {
             if (!userDataBase.ContainsKey(userID))
             {
@@ -51,7 +51,7 @@ public class CommandManager : DualBehaviour, ICommandManager
                 return new Command("Vous avez déja rejoins la partie", true);
             }
         }
-        if ((!Cooldown(_time, userID)) && (!_message.Contains("JOIN")))
+        if ((!Cooldown(_time, userID)) && (!_message.Equals(firstCommmandCharacter + "JOIN")))
         {
             // TODO: Add unique command identifier (for matching) IN ADDITION to its personalised message
             // TODO: SWITCH TO ENGLISH!
