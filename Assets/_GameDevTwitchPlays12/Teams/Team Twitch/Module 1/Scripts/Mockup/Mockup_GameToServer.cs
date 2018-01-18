@@ -23,30 +23,38 @@ namespace DidzNeil.ChatAPI
             string userMessage = receivedMessage.GetMessage();
             //time 16:30:20
             if (userMessage.StartsWith("time")) {
-
-                Debug.Log("Time ");
-
-
+                
                 userMessage =  userMessage.Substring(4);
                 string[] tokens = userMessage.Split(':');
-                if (tokens.Length > 2) {
-                    int hh;
-                    int mm;
-                    int ss;
 
+                int hh = 0;
+                int mm = 0;
+                int ss = 0;
+                bool timeParsed = false;
+                if (tokens.Length > 1)
+                {
+                  
                     try {
                         hh = int.Parse(tokens[0]);
                         mm = int.Parse(tokens[1]);
+                        timeParsed = true;
+                    }
+                    catch (Exception) { return; }
+                }
+                 if (tokens.Length > 2)
+                {
+                    try {
                         ss = int.Parse(tokens[2]);
-
+                        timeParsed = true;
                     }
                     catch (Exception) { return; }
 
-                    Debug.Log("Time 2 ");
+                }
+
+                 if(timeParsed)
                     SendLagTimeToUser(receivedMessage.GetUserName(), receivedMessage.GetPlatform(), hh, mm, ss);
 
 
-                }
             }
         }
 
