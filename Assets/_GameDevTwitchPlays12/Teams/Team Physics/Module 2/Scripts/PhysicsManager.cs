@@ -75,37 +75,37 @@ public class PhysicsManager  : MonoBehaviour, IGameEngine
             PlayerCharacter PCOfNewPlayer = NewPlayerChar.GetComponent<PlayerCharacter>();
             PCOfNewPlayer.NumPlayer = i;
             PCOfNewPlayer.PlayerName = ListOfPlayerNames[i];
-            
+            NewPlayerChar.GetComponentInChildren<TextMesh>().text = "" + i;
 
             if (i==0)
             {
+                NewPlayerChar.transform.position = new Vector3(0f, 0f, 0f);
                 PCOfNewPlayer.FactionColor = Color.red;
                 PCOfNewPlayer.PcColor = Color.red;
-                NewPlayerChar.transform.position = new Vector3(0f,0f,0f);
                 PCOfNewPlayer.MyManager = gameObject.GetComponent<PhysicsManager>();
                 PCOfNewPlayer.CurrentTerritory = m_AxeY[0][0].gameObject;
             }
             else if (i == 1)
             {
+                NewPlayerChar.transform.position = new Vector3(m_nbrXTerritories - 1, m_nbrYTerritories - 1, 0f);
                 PCOfNewPlayer.FactionColor = Color.blue;
                 PCOfNewPlayer.PcColor = Color.blue;
-                NewPlayerChar.transform.position = new Vector3(m_nbrXTerritories-1, m_nbrYTerritories-1, 0f);
                 PCOfNewPlayer.MyManager = gameObject.GetComponent<PhysicsManager>();
                 PCOfNewPlayer.CurrentTerritory = m_AxeY[m_nbrXTerritories - 1][m_nbrYTerritories - 1].gameObject;
             }
             else if (i == 2)
             {
+                NewPlayerChar.transform.position = new Vector3(m_nbrXTerritories - 1, 0f, 0f);
                 PCOfNewPlayer.FactionColor = Color.green;
                 PCOfNewPlayer.PcColor = Color.green;
-                NewPlayerChar.transform.position = new Vector3(m_nbrXTerritories-1, 0f, 0f);
                 PCOfNewPlayer.MyManager = gameObject.GetComponent<PhysicsManager>();
                 PCOfNewPlayer.CurrentTerritory = m_AxeY[m_nbrXTerritories - 1][0].gameObject;
             }
             else if (i == 3)
             {
+                NewPlayerChar.transform.position = new Vector3(0f, m_nbrYTerritories - 1, 0f);
                 PCOfNewPlayer.FactionColor = Color.yellow;
                 PCOfNewPlayer.PcColor = Color.yellow;
-                NewPlayerChar.transform.position = new Vector3(0f, m_nbrYTerritories - 1, 0f);
                 PCOfNewPlayer.MyManager = gameObject.GetComponent<PhysicsManager>();
                 PCOfNewPlayer.CurrentTerritory = m_AxeY[0][m_nbrYTerritories - 1].gameObject;
             }
@@ -219,6 +219,7 @@ public class PhysicsManager  : MonoBehaviour, IGameEngine
                 GameObject Ter = Instantiate(m_TerritoryPrefab, positionOfCell, Quaternion.identity);
                 Ter.transform.position = positionOfCell;
                 Ter.name = "y=" + positionOfCell.y + "x=" + positionOfCell.x;
+                Ter.GetComponent<Territory>().Manager = this;
                 m_AxeX.Add(Ter);
             }
             m_AxeY.Add(m_AxeX);
