@@ -76,8 +76,8 @@ public class PhysicsManager  : MonoBehaviour, IGameEngine
             GameObject NewPlayerGameObject = Instantiate(m_playerCharPrefab, new Vector3(0f, 0f, 0f), Quaternion.identity, transform);
             NewPlayerGameObject.name = ListOfPlayerNames[PlayerNum];
             NewPlayerGameObject.GetComponentInChildren<TextMesh>().text = "" + PlayerNum;
-            PCOfNewPlayer.MyManager = this;
             PlayerCharacter NewPlayerScript = NewPlayerGameObject.GetComponent<PlayerCharacter>();
+            NewPlayerScript.MyManager = this;
             NewPlayerScript.NumPlayer = PlayerNum;
             NewPlayerScript.PlayerName = ListOfPlayerNames[PlayerNum];
 
