@@ -70,17 +70,17 @@ namespace DidzNeil.ChatAPI
         }
         public static DateTime CreateFromTimestamp (long timestamp)
         {
-            DateTime timeStart = new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc);
-            long time = (long)(timestamp * TimeSpan.TicksPerSecond);
-            return new DateTime(timeStart.Ticks + time, System.DateTimeKind.Utc);
-
+            // Unix timestamp is seconds past epoch
+            System.DateTime dtDateTime = new DateTime(1970, 1, 1, 0, 0, 0, 0, System.DateTimeKind.Utc);
+            dtDateTime = dtDateTime.AddSeconds(timestamp).ToLocalTime();
+            return dtDateTime;
         }
 
         public static long GetCurrentTimeUTC()
         {
 
             DateTime unixStart = new DateTime(1970, 1, 1, 0, 0, 0, 0, System.DateTimeKind.Utc);
-          return  (DateTime.Now.ToUniversalTime() - unixStart).Ticks;
+          return (long) (DateTime.Now.ToUniversalTime() - unixStart).TotalSeconds;
         }
         
 

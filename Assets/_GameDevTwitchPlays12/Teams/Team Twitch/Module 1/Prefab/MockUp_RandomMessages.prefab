@@ -21,7 +21,7 @@ GameObject:
   - component: {fileID: 4751184125268976}
   - component: {fileID: 114336635717513684}
   m_Layer: 0
-  m_Name: MockUp_RandomMessages
+  m_Name: Mockup_RandomMessages
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -51,7 +51,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 36fd9ff33c87a534f91cc585fc8d84ed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isRandom: 1
   _minTimeSending: 0.1
   _maxTimeSending: 1
   m_usernames:
