@@ -27,7 +27,30 @@ public class Special  : MonoBehaviour
     }
     public void GetItemOrEffect()
     {
+        switch(m_typeSpecial)
+        {
+            case e_specialType.COINBOX:
 
+                break;
+            case e_specialType.GLASSES:
+
+                break;
+            case e_specialType.GRENADES:
+
+                break;
+            case e_specialType.PARCHEMENT:
+
+                break;
+            case e_specialType.PEBBLE:
+
+                break;
+            case e_specialType.SHOVEL:
+
+                break;
+            case e_specialType.STRAIN:
+
+                break;
+        }
     }
     #endregion
 
