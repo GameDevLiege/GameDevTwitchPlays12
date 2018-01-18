@@ -32,6 +32,12 @@ public class Territory  : MonoBehaviour
         get { return m_currentColor; }
         set { m_currentColor = value; }
     }
+    public PhysicsManager Manager
+    {
+        get { return m_manager; }
+        set { m_manager = value; }
+    }
+
     #endregion
 
 
@@ -73,38 +79,38 @@ public class Territory  : MonoBehaviour
         {
             if (m_currentColor == Color.red)
             {
-                GameObject.Find("PManager").GetComponent<PhysicsManager>().FactionRED.NbrTerritories--;
+                m_manager.FactionRED.NbrTerritories--;
             }
             else if (m_currentColor == Color.blue)
             {
-                GameObject.Find("PManager").GetComponent<PhysicsManager>().FactionBLUE.NbrTerritories--;
+                m_manager.FactionBLUE.NbrTerritories--;
             }
             else if (m_currentColor == Color.green)
             {
-                GameObject.Find("PManager").GetComponent<PhysicsManager>().FactionGREEN.NbrTerritories--;
+                m_manager.FactionGREEN.NbrTerritories--;
             }
             else if (m_currentColor == Color.yellow)
             {
-                GameObject.Find("PManager").GetComponent<PhysicsManager>().FactionYELLOW.NbrTerritories--;
+                m_manager.FactionYELLOW.NbrTerritories--;
             }
         }
         m_currentColor = pc.FactionColor;
         gameObject.GetComponent<MeshRenderer>().material.color = pc.FactionColor;
         if (m_currentColor == Color.red)
         {
-            GameObject.Find("PManager").GetComponent<PhysicsManager>().FactionRED.NbrTerritories++;
+            m_manager.FactionRED.NbrTerritories++;
         }
         else if (m_currentColor == Color.blue)
         {
-            GameObject.Find("PManager").GetComponent<PhysicsManager>().FactionBLUE.NbrTerritories++;
+            m_manager.FactionBLUE.NbrTerritories++;
         }
         else if (m_currentColor == Color.green)
         {
-            GameObject.Find("PManager").GetComponent<PhysicsManager>().FactionGREEN.NbrTerritories++;
+            m_manager.FactionGREEN.NbrTerritories++;
         }
         else if (m_currentColor == Color.yellow)
         {
-            GameObject.Find("PManager").GetComponent<PhysicsManager>().FactionYELLOW.NbrTerritories++;
+            m_manager.FactionYELLOW.NbrTerritories++;
         }
     }
 
@@ -125,6 +131,7 @@ public class Territory  : MonoBehaviour
     private bool m_isHQ;
     private Color m_currentColor = Color.white;
     private List<PlayerCharacter> m_listPlayerCharOnTerritory = new List<PlayerCharacter>();
+    private PhysicsManager m_manager;
     #endregion
 
 }
