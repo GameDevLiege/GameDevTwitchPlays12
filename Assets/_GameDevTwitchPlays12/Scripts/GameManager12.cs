@@ -95,7 +95,12 @@ public class GameManager12 : MonoBehaviour
             return;
 
         if (command.feedbackUser)
-            m_input.SendFeedback(command);
+        {
+            Message msg = new Message("Game Admin", command.response, Message.GetCurrentTimeUTC(), Platform.Game);
+
+            //ChatAPI.SendMessageToEveryUsers(msg);
+            ChatAPI.SendMessageToUser(message.GetUserName(), message.GetPlatform(), msg);
+        }
         else
         {
             if (command.response == "!START")

@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657844, g: 0.49641222, b: 0.57481694, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
 --- !u!157 &3
 LightmapSettings:
   m_ObjectHideFlags: 0
@@ -437,9 +437,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_transform: {fileID: 1971605306}
   cd: 0
-  maxPlayer: 0
   firstCommmandCharacter: 47
-  firstStateCharacter: 63
   validCommand:
   - dig
   - up
@@ -447,10 +445,6 @@ MonoBehaviour:
   - left
   - right
   - start
-  validState:
-  - NORMAL
-  - STUN
-  - SPRAIN
 --- !u!114 &1971605308
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -463,13 +457,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_listPlayer: []
-  m_sizeOfDiceSpecial: 5
   m_incomePerTerritory: 0
   m_timeBetweenPayDay: 0
   m_nbrXTerritories: 33
   m_nbrYTerritories: 33
-  m_territoryPrefab: {fileID: 1169916712200586, guid: f2b27a5225002394f99c8ba8fe3b42d9,
+  m_TerritoryPrefab: {fileID: 1169916712200586, guid: f2b27a5225002394f99c8ba8fe3b42d9,
     type: 2}
-  m_playerCharPrefab: {fileID: 1811233539323332, guid: 460c35786e0dbf1439bc2d38a3058e1a,
+  m_playerCharPrefab: {fileID: 1811233539323332, guid: 3c2c785e17b5a9847916df26e2ebb409,
     type: 2}
   m_nbrFactions: 0

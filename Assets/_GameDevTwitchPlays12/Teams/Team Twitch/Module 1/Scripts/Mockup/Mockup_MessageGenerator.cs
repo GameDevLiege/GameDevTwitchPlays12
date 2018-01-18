@@ -5,9 +5,9 @@ using UnityEngine;
 
 namespace DidzNeil.ChatAPI { 
 
-    public class Mockup_MessageGenerator : MonoBehaviour {
+    public class Mockup_MessageGenerator : MonoBehaviour
+    {
 
-        public bool isRandom;
         public float _minTimeSending=0.1f;
         public float _maxTimeSending=1f;
 
@@ -16,7 +16,7 @@ namespace DidzNeil.ChatAPI {
        
         IEnumerator Start () {
 
-            while (isRandom)
+            while (true)
             {
                 SendRandomMessage();
                 yield return new WaitForSeconds(UnityEngine.Random.Range(_minTimeSending, _maxTimeSending));

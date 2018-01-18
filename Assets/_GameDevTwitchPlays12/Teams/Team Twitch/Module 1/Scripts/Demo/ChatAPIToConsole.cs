@@ -6,18 +6,33 @@ using System;
 
 public class ChatAPIToConsole : MonoBehaviour {
 
-	// Use this for initialization
-	void Start () {
-        ChatAPI.AddListener(DisplayMessageWhenReceived);
-	}
+    public bool trackReceivedMessage;
+    public bool trackSendingMessageToUser;
+    public bool trackSendingMessageToAll;
+
+    // Use this for initialization
+    void Awake ()
+    {
+        if(trackReceivedMessage)
+            ChatAPI.AddListener(DisplayMessageWhenReceived);
+        if (trackSendingMessageToUser)
+            ChatAPI.AddGameToServerListener(DisplayMessageWhenSend);
+        if (trackSendingMessageToAll)
+            ChatAPI.AddGameToServerListener(DisplayMessageWhenSendToAll);
+    }
+
+    private void DisplayMessageWhenSend(string user, Platform platform, Message msg)
+    {
+        Debug.Log("Send, to" + user + ": "+ msg.GetMessage());
+    }
+    private void DisplayMessageWhenSendToAll(Message message)
+    {
+        Debug.Log("Send, to all: "+ message.GetMessage());
+    }
 
     private void DisplayMessageWhenReceived(Message message)
     {
-        Debug.Log(message.GetUserName()+": "+ message.GetMessage());
+        Debug.Log("Received: "+message.GetUserName()+": "+ message.GetMessage());
     }
-
-    // Update is called once per frame
-    void Update () {
-		
-	}
+    
 }
