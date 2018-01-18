@@ -154,8 +154,8 @@ public class TwitchIRC : MonoBehaviour
     void Start()
     {
     	DontDestroyOnLoad(gameObject);
-    	if(oauth.Length > 0 && nickName.Length > 0)
-    		StartIRC();
+    	//if(oauth.Length > 0 && nickName.Length > 0)
+    	//	StartIRC();
     }
 
     void OnEnable()

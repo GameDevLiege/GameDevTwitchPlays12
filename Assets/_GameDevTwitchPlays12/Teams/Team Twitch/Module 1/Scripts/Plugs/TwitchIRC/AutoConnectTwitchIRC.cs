@@ -13,6 +13,7 @@ public class AutoConnectTwitchIRC : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 
+        Debug.Log("Hey mon ami", this.gameObject);
         PlayerPrefs.SetString("user", _userName);
         PlayerPrefs.SetString("oauth", _oAuth);
         PlayerPrefs.Save();

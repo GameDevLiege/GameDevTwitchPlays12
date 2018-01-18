@@ -8,8 +8,8 @@ namespace DidzNeil.ChatAPI
 {
     public class Mockup_GameToServer : MonoBehaviour
     {
-        public string m_userToSendMessage;
-        public string m_message;
+        
+        public float _sendTimeEvery = 30;
 
         private void Start()
         {
@@ -23,8 +23,7 @@ namespace DidzNeil.ChatAPI
             string userMessage = receivedMessage.GetMessage();
             //time 16:30:20
             if (userMessage.StartsWith("time")) {
-
-                Debug.Log("Time ");
+                
 
 
                 userMessage =  userMessage.Substring(4);
@@ -41,8 +40,7 @@ namespace DidzNeil.ChatAPI
 
                     }
                     catch (Exception) { return; }
-
-                    Debug.Log("Time 2 ");
+                    
                     SendLagTimeToUser(receivedMessage.GetUserName(), receivedMessage.GetPlatform(), hh, mm, ss);
 
 
@@ -74,11 +72,11 @@ namespace DidzNeil.ChatAPI
             while (true)
             {
                 DateTime now = Message.CreateFromTimestamp();
-                Message msg = new Message("Game Admin", "Time: " + now.ToString("hh:mm:ss"), Message.GetCurrentTimeUTC(), Platform.Game);
+                Message msg = new Message("Game Admin", "Server time: " + now.ToString("hh:mm:ss"), Message.GetCurrentTimeUTC(), Platform.Game);
 
                 ChatAPI.SendMessageToEveryUsers(msg);
 
-                yield return new WaitForSeconds(5f);
+                yield return new WaitForSeconds(_sendTimeEvery);
             }
         }
 
