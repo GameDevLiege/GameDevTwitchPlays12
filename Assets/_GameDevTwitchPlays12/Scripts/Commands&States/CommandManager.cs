@@ -27,7 +27,7 @@ public class CommandManager : DualBehaviour, ICommandManager
         {
             return null;
         }
-        _message.ToUpper();
+        _message = _message.ToUpper();
         if ((!CommandIsValid(_message)) && (!StateIsValid(_message)))
         {
             return INVALIDCOMMAND;
@@ -39,6 +39,7 @@ public class CommandManager : DualBehaviour, ICommandManager
                 if (userDataBase.Count < maxPlayer)
                 {
                     userDataBase.Add(userID, 0);
+                    return new Command(_message, false);
                 }
                 else
                 {
@@ -52,11 +53,14 @@ public class CommandManager : DualBehaviour, ICommandManager
         }
         if ((!Cooldown(_time, userID)) && (!_message.Contains("JOIN")))
         {
+            // TODO: Add unique command identifier (for matching) IN ADDITION to its personalised message
+            // TODO: SWITCH TO ENGLISH!
+            // TODO: Change (shorten) message? eg: Please wait longer before posting again
             return new Command("Le cooldown entre 2 commandes n'est pas terminé", true);
         }
         if (!userDataBase.ContainsKey(userID))
         {
-            return new Command("Veuillez d'abord rejoindre la partie a l'aide de la commande !JOIN", true);
+            return new Command("Veuillez d'abord rejoindre la partie a l'aide de la commande " + firstCommmandCharacter + "JOIN", true);
         }
         userDataBase[userID] = _time;
         return new Command(_message, false);
@@ -111,7 +115,7 @@ public class CommandManager : DualBehaviour, ICommandManager
     private bool StateIsValid(string message)
     {
         bool isValid = false;
-        for (int i = 0; i < validCommand.Count; i++)
+        for (int i = 0; i < validState.Count; i++)
         {
             if (message.Equals(firstStateCharacter + validState[i]))
             {

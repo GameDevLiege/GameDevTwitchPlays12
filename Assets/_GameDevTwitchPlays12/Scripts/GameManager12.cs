@@ -98,7 +98,7 @@ public class GameManager12 : MonoBehaviour
             m_input.SendFeedback(command);
         else
         {
-            if (command.response == "/start")
+            if (command.response == "!START")
             {
                 List<string> playerList = new List<string>(m_commandManager.userDataBase.Keys);
                 m_gameEngine.AssignFactionToPlayers(playerList);
