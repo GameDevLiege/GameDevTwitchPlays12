@@ -201,3 +201,56 @@ public class Command:ICommand
 
     }
 }
+
+public class PlayerCTRL
+{
+    private string _userID;
+
+    public string userID
+    {
+        get { return _userID; }
+        set { _userID = value; }
+    }
+
+    private long _time;
+
+    public long time
+    {
+        get { return _time; }
+        set { _time = value; }
+    }
+
+    private List<State> _states;
+
+    public List<State> states
+    {
+        get { return _states; }
+        set { _states = value; }
+    }
+}
+
+public class State
+{
+    private string _name;
+
+    public string name
+    {
+        get { return _name; }
+        set { _name = value; }
+    }
+
+    private long _time;
+
+    public long time
+    {
+        get { return _time; }
+        set { _time = value; }
+    }
+
+    public State (string stateName, long stateTime)
+    {
+        name = stateName;
+        time = stateTime;
+    }
+}
+
