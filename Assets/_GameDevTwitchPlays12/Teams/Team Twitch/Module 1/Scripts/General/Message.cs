@@ -64,8 +64,11 @@ namespace DidzNeil.ChatAPI
         {
             return m_userName;
         }
+        public static DateTime CreateFromTimestamp() {
 
-        private DateTime CreateFromTimestamp (long timestamp)
+            return CreateFromTimestamp(GetCurrentTimeUTC());
+        }
+        public static DateTime CreateFromTimestamp (long timestamp)
         {
             DateTime timeStart = new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc);
             long time = (long)(timestamp * TimeSpan.TicksPerSecond);
@@ -79,7 +82,7 @@ namespace DidzNeil.ChatAPI
             DateTime unixStart = new DateTime(1970, 1, 1, 0, 0, 0, 0, System.DateTimeKind.Utc);
           return  (DateTime.Now.ToUniversalTime() - unixStart).Ticks;
         }
-
+        
 
 
 
