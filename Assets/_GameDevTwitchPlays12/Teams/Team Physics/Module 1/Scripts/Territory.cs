@@ -107,6 +107,9 @@ public class Territory  : MonoBehaviour
         }
         m_currentColor = pc.Faction.FactionColor;
         gameObject.GetComponent<MeshRenderer>().material.color = pc.Faction.FactionColor;
+        Color col = gameObject.GetComponent<MeshRenderer>().material.color;
+        col.a = 100f;
+        gameObject.GetComponent<MeshRenderer>().material.color = col;
         if (m_currentColor == Color.red)
         {
             m_manager.FactionRED.NbrTerritories++;

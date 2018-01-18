@@ -185,7 +185,7 @@ public class PhysicsManager  : MonoBehaviour, IGameEngine
 	
 	void Update () 
     {
-        /*
+        
         if (Input.GetButtonDown("Fire1"))
         {
             m_listPlayer[0].GetComponent<PlayerCharacter>().Move("UP");
@@ -193,16 +193,8 @@ public class PhysicsManager  : MonoBehaviour, IGameEngine
         }
         if (Input.GetButtonDown("Fire2"))
         {
-            Move("DOWN");
-        }
-        if (Input.GetButtonDown("Fire1"))
-        {
-            Move("LEFT");
-        }
-        if (Input.GetButtonDown("Fire2"))
-        {
             m_listPlayer[0].GetComponent<PlayerCharacter>().Move("RIGHT");
-        }*/
+        }
 
 
 
