@@ -16,6 +16,11 @@ public class PlayerCharacter : MonoBehaviour
         get { return m_manager; }
         set { m_manager = value; }
     }
+    public int NumPlayer
+    {
+        get { return m_numPlayer; }
+        set { m_numPlayer = value; }
+    }
 
 
     public Color FactionColor
@@ -39,13 +44,6 @@ public class PlayerCharacter : MonoBehaviour
         get { return m_playerName; }
         set { m_playerName = value; }
     }
-
-
-    //TESING ONLY
-    public void Update()
-    {
-    }
-    //-------------
 
     public void Dig()
     {
@@ -105,7 +103,8 @@ public class PlayerCharacter : MonoBehaviour
     
     private GameObject m_playerChar;
     private GameObject m_currentTerritory;
-    private Color m_PcColor = Color.red;//initialisation que pour test
-    private Color m_FactionColor = Color.red;//initialisation que pour test
+    private Color m_PcColor;
+    private Color m_FactionColor;
     private string m_playerName;
+    private int m_numPlayer;
 }
