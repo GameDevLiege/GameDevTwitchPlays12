@@ -21,13 +21,7 @@ public class PlayerCharacter : MonoBehaviour
         get { return m_numPlayer; }
         set { m_numPlayer = value; }
     }
-
-
-    public Color FactionColor
-    {
-        get { return m_FactionColor; }
-        set { m_FactionColor = value; }
-    }
+    
     public Color PcColor
     {
         get { return m_PcColor; }
@@ -44,10 +38,22 @@ public class PlayerCharacter : MonoBehaviour
         get { return m_playerName; }
         set { m_playerName = value; }
     }
+    public Faction Faction
+    {
+        get { return m_faction; }
+        set { m_faction = value; }
+    }
 
     public void Dig()
     {
-        
+        if (CurrentTerritory.GetComponent<Territory>().HasSpecial)
+        {
+
+        }
+        else
+        {
+            //message nothing to dig?
+        }
     }
     public void Move(string TypeOfMove)
     {
@@ -59,9 +65,9 @@ public class PlayerCharacter : MonoBehaviour
                 y = m_currentTerritory.transform.position.y+1;//la case au dessus
                 if (!(y > m_manager.m_nbrYTerritories - 1))
                 {
-                    m_playerChar.transform.Translate(0f, 1f, 0f);
                     float tempx = m_currentTerritory.gameObject.transform.position.x;
-                    float tempy = m_currentTerritory.gameObject.transform.position.y+1;
+                    float tempy = m_currentTerritory.gameObject.transform.position.y + 1;
+                    m_playerChar.transform.Translate(0f, 1f, 0f);
                     m_currentTerritory = GameObject.Find("y="+ (int)tempy+"x="+(int)tempx);
                 }
                 break;
@@ -104,7 +110,7 @@ public class PlayerCharacter : MonoBehaviour
     private GameObject m_playerChar;
     private GameObject m_currentTerritory;
     private Color m_PcColor;
-    private Color m_FactionColor;
+    private Faction m_faction;
     private string m_playerName;
     private int m_numPlayer;
 }
