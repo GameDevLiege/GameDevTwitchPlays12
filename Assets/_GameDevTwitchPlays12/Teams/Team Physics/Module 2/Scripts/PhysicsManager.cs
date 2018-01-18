@@ -70,7 +70,7 @@ public class PhysicsManager  : MonoBehaviour, IGameEngine
         int PlayerNum = 0;
         for(int i=0; PlayerNum< ListOfPlayerNames.Count; PlayerNum++)
         {
-            GameObject NewPlayerChar = Instantiate(m_playerCharPrefab, new Vector3(0f, 0f, 0f), Quaternion.identity);
+            GameObject NewPlayerChar = Instantiate(m_playerCharPrefab, new Vector3(0f, 0f, 0f), Quaternion.identity, transform);
             NewPlayerChar.name = ListOfPlayerNames[i];
             PlayerCharacter PCOfNewPlayer = NewPlayerChar.GetComponent<PlayerCharacter>();
             PCOfNewPlayer.NumPlayer = i;
@@ -216,7 +216,7 @@ public class PhysicsManager  : MonoBehaviour, IGameEngine
             for (int x = 0; x < m_nbrXTerritories; x++)
             {
                 Vector3 positionOfCell = new Vector3(x * 1f, y * 1f, 0);
-                GameObject Ter = Instantiate(m_TerritoryPrefab, positionOfCell, Quaternion.identity);
+                GameObject Ter = Instantiate(m_TerritoryPrefab, positionOfCell, Quaternion.identity, transform);
                 Ter.transform.position = positionOfCell;
                 Ter.name = "y=" + positionOfCell.y + "x=" + positionOfCell.x;
                 Ter.GetComponent<Territory>().Manager = this;
