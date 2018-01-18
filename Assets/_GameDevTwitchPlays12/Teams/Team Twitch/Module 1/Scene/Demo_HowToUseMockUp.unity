@@ -284,6 +284,11 @@ Prefab:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 114838126679582852, guid: 92f09238231f5cf478f906bad139f6ac,
+        type: 2}
+      propertyPath: _messageToSend.Array.size
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4705345560037016, guid: 92f09238231f5cf478f906bad139f6ac, type: 2}
       propertyPath: m_LocalPosition.x
       value: 520.5
@@ -316,6 +321,7 @@ Prefab:
       propertyPath: m_RootOrder
       value: 6
       objectReference: {fileID: 0}
+<<<<<<< HEAD:Assets/_GameDevTwitchPlays12/Teams/Team Twitch/Module 1/Scene/Demo_HowToUseMockUp.unity
     - target: {fileID: 114838126679582852, guid: 92f09238231f5cf478f906bad139f6ac,
         type: 2}
       propertyPath: m_Enabled
@@ -323,6 +329,44 @@ Prefab:
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 114838126679582852, guid: 92f09238231f5cf478f906bad139f6ac, type: 2}
+=======
+    - target: {fileID: 114500913433832508, guid: 92f09238231f5cf478f906bad139f6ac,
+        type: 2}
+      propertyPath: m_userToSendMessage
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 114500913433832508, guid: 92f09238231f5cf478f906bad139f6ac,
+        type: 2}
+      propertyPath: m_message
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 114838126679582852, guid: 92f09238231f5cf478f906bad139f6ac,
+        type: 2}
+      propertyPath: _messageToSend.Array.data[1]._message
+      value: time 11:26
+      objectReference: {fileID: 0}
+    - target: {fileID: 114838126679582852, guid: 92f09238231f5cf478f906bad139f6ac,
+        type: 2}
+      propertyPath: _minTimeSending
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 114838126679582852, guid: 92f09238231f5cf478f906bad139f6ac,
+        type: 2}
+      propertyPath: _maxTimeSending
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 114838126679582852, guid: 92f09238231f5cf478f906bad139f6ac,
+        type: 2}
+      propertyPath: _messageToSend.Array.data[0]._message
+      value: time 11:26
+      objectReference: {fileID: 0}
+    - target: {fileID: 114838126679582852, guid: 92f09238231f5cf478f906bad139f6ac,
+        type: 2}
+      propertyPath: _messageToSend.Array.data[1]._userName
+      value: didztm
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+>>>>>>> master:Assets/_GameDevTwitchPlays12/Teams/Team Twitch/Module 1/Scene/Demo_HowToUseMockUp2.unity
   m_ParentPrefab: {fileID: 100100000, guid: 92f09238231f5cf478f906bad139f6ac, type: 2}
   m_IsPrefabParent: 0
 --- !u!1 &647105243
