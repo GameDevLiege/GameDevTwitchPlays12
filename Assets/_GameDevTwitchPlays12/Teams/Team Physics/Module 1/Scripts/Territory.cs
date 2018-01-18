@@ -67,7 +67,7 @@ public class Territory  : MonoBehaviour
         }
         else
         {
-            if (m_currentColor != pc.FactionColor)
+            if (m_currentColor != pc.Faction.FactionColor)
             {
                 ColorChange(pc);
             }
@@ -100,7 +100,7 @@ public class Territory  : MonoBehaviour
                 m_manager.FactionYELLOW.NbrTerritories--;
             }
         }
-        m_currentColor = pc.FactionColor;
+        m_currentColor = pc.Faction.FactionColor;
         gameObject.GetComponent<MeshRenderer>().material.color = pc.FactionColor;
         if (m_currentColor == Color.red)
         {
