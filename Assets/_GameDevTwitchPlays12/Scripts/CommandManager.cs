@@ -7,14 +7,11 @@ public class CommandManager : DualBehaviour, ICommandManager
 {
     #region Public Var
 
-    public string username;
-    public int platform;
-    public string message;
-    public long time;
+    public long cd;
 
     public char firstCommmandCharacter;
 
-    public static Command INVALIDCOMMAND = new Command("Votre commande est invalide");
+    public static Command INVALIDCOMMAND = new Command("Votre commande est invalide", true);
 
     #endregion
 
@@ -24,16 +21,20 @@ public class CommandManager : DualBehaviour, ICommandManager
     {
         string userID = _plateform + " " + _username;
         
-        if (!IsACommand(message))
+        if (!IsACommand(_message))
         {
             return null;
         }
-        if (!CommandIsValid(message))
+        if (!CommandIsValid(_message))
         {
             return INVALIDCOMMAND;
         }
+        if (!Cooldown(_time, userID))
+        {
+            return new Command("Le cooldown entre 2 commandes n'est pas terminé", true);
+        }
         userDataBase[userID] = _time;
-        return new Command(_message);
+        return new Command(_message, false);
     }
 
     #endregion
@@ -59,39 +60,81 @@ public class CommandManager : DualBehaviour, ICommandManager
         bool isValid = false;
         for (int i = 0; i < validCommand.Count; i++)
         {
-            if (message.Equals(validCommand[i]))
+            if (message.Equals(firstCommmandCharacter + validCommand[i]))
             {
                 isValid = true;
-                currentCommandID = i;
                 break;
             }
         }
         return isValid;
     }
 
+    private bool Cooldown(long time, string name)
+    {
+        long oldTime;
+        if (userDataBase.ContainsKey(name))
+        {
+            oldTime = userDataBase[name];
+        }
+        else
+        {
+            oldTime = 0;   
+        }
+        long value = time - oldTime; 
+
+        if (value < cd)
+        {
+            return false;
+        }
+        return true;
+    }
+
     #endregion
 
     #region Private Var
 
+    [SerializeField]
     private List<string> validCommand = new List<string>
     {
         "command1",
         "command2",
         "command3",
     };
-    private int currentCommandID;
-    private Dictionary<string, long> userDataBase = new Dictionary<string, long>();
+
+    private Dictionary<string, long> _userDataBase = new Dictionary<string, long>();
+
+    public Dictionary<string, long> userDataBase
+    {
+        get { return _userDataBase; }
+        set { _userDataBase = value; }
+    }
 
     #endregion
 }
 
 public class Command:ICommand
 {
-    public string response;
+    private bool _feedbackUser;
 
-    public Command(string message)
+    public bool feedbackUser
     {
+        get { return _feedbackUser; }
+        set { _feedbackUser = value; }
+    }
+
+    private string _response;
+
+    public string response
+    {
+        get { return _response; }
+        set { _response = value; }
+    }
+
+    public Command(string message, bool feedback)
+    {
+        feedbackUser = feedback;
         response = message;
+
     }
 }
 

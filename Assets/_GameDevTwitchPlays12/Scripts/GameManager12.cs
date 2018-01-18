@@ -19,46 +19,47 @@ public class FakePlayer : IPlayer
 
 public class FakeInput : IInput
 {
-    public List<IMessage> GetInput()
+    public void SendFeedback(ICommand command)
     {
-        throw new NotImplementedException();
+        Debug.LogWarning("Command Feedback: " + command.response);
     }
 }
 
-public class FakeGameEngine : IGameEngine
-{
-    public void Do(ICommand command)
-    {
-        throw new NotImplementedException();
-    }
+//public class FakeGameEngine : IGameEngine
+//{
+//    public void Do(ICommand command)
+//    {
+//        throw new NotImplementedException();
+//    }
 
-    public void Do(List<ICommand> _commands)
-    {
-        throw new NotImplementedException();
-    }
+//    public void Do(List<ICommand> _commands)
+//    {
+//        throw new NotImplementedException();
+//    }
 
-    public void GenerateMap() { }
-}
+//    public void GenerateMap() { }
+//}
 
-public class FakeCommandManager : ICommandManager
-{
-    public ICommand Parse(string _username, int _platform, string _message, long _timestamp)
-    {
-        return null;
-    }
-}
+//public class FakeCommandManager : ICommandManager
+//{
+//    public ICommand Parse(string _username, int _platform, string _message, long _timestamp)
+//    {
+//        return null;
+//    }
+//}
 
 
 public class GameManager12 : MonoBehaviour
 {
     #region Public Members
 
-    public IGameEngine GameEngine = new FakeGameEngine();
+    public IGameEngine m_gameEngine;
 
-    public List<IPlayer> Players = new List<IPlayer>();
+    public IInput m_input = new FakeInput();
 
-    public ICommandManager m_commandManager = new FakeCommandManager();
-    public Queue<ICommand> m_commandQueue = new Queue<ICommand>();
+    public ICommandManager m_commandManager;
+
+    private Queue<ICommand> m_commandQueue = new Queue<ICommand>();
 
     #endregion
 
@@ -68,15 +69,17 @@ public class GameManager12 : MonoBehaviour
 
     #region System
 
+    protected void Awake()
+    {
+        m_commandManager = GetComponent<CommandManager>();
+        m_gameEngine = GetComponent<PhysicsManager>();
+    }
+
     protected void Start()
     {
-        GameEngine.GenerateMap();
+        // m_gameEngine.GenerateMap();
 
         ChatAPI.AddListener(HandleMessage);
-
-        // HandleMessage("");
-
-        StartCoroutine(MainGameLoop());
     }
 
     private void HandleMessage(Message message)
@@ -88,43 +91,29 @@ public class GameManager12 : MonoBehaviour
             message.GetTimestamp()
         );
 
-        m_commandQueue.Enqueue(command);
-    }
+        if (command == null)
+            return;
 
-    private IEnumerator MainGameLoop()
-    {
-        while (m_commandQueue.Count != 0)
+        if (command.feedbackUser)
+            m_input.SendFeedback(command);
+        else
         {
-            ICommand command = m_commandQueue.Dequeue();
+            if (command.response == "/start")
+            {
+                List<string> playerList = new List<string>(m_commandManager.userDataBase.Keys);
+                m_gameEngine.AssignFactionToPlayers(playerList);
+            }
 
-            GameEngine.Do(command);
+            string userId = (int)message.GetPlatform() + " " + message.GetUserName();
+            string formattedCommand = command.response.Substring(1).ToUpper();
+
+            m_gameEngine.GetCommandFromPlayer(userId, formattedCommand);
         }
-
-        yield return new WaitForEndOfFrame();
-    }
-
-    private IEnumerator WaitingForPlayers()
-    {
-        RetrievePlayers();
-
-        while (Players.Count == 0)
-        {
-            Debug.Log("Waiting for players…");
-
-            yield return new WaitForSeconds(2);
-
-            RetrievePlayers();
-        }
-    }
-
-    private void RetrievePlayers()
-    {
-        Players.Add(new FakePlayer());
     }
 
     private void Update()
     {
-        
+
     }
 
     #endregion

@@ -2,7 +2,6 @@
 
 public interface IGameEngine
 {
-    void Do(List<ICommand> _commands);
-    void GenerateMap();
-    void Do(ICommand command);
+    void AssignFactionToPlayers(List<string> ListOfPlayerNames);
+    void GetCommandFromPlayer(string PName, string Command);
 }

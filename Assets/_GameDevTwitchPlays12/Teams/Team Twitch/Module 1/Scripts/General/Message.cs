@@ -59,6 +59,7 @@ namespace DidzNeil.ChatAPI
             return m_timestamp;
         }
 
+
         public string GetUserName()
         {
             return m_userName;
@@ -70,6 +71,13 @@ namespace DidzNeil.ChatAPI
             long time = (long)(timestamp * TimeSpan.TicksPerSecond);
             return new DateTime(timeStart.Ticks + time, System.DateTimeKind.Utc);
 
+        }
+
+        public static long GetCurrentTimeUTC()
+        {
+
+            DateTime unixStart = new DateTime(1970, 1, 1, 0, 0, 0, 0, System.DateTimeKind.Utc);
+          return  (DateTime.Now.ToUniversalTime() - unixStart).Ticks;
         }
     }
 
