@@ -11,7 +11,7 @@ public class TwitchIRC : MonoBehaviour
     public string oauth;
 	[Tooltip("Twitch Account Username")]
     public string nickName;
-    private string server = "irc.twitch.tv";
+    private string server = "irc.chat.twitch.tv";
     private int port = 6667;
 
     //event(buffer).

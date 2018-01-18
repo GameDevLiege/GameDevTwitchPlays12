@@ -538,8 +538,47 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6bd4cdcd45db79446b031f710f99d4c8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _userName: didztm
-  _oAuth: oauth:oabqlbpvx8qddmqv9nqexylu551z9h
+  _userName: jamscenter
+  _oAuth: oauth:ois8p6c60eajllgqk3b3fjs51bmq4x
+--- !u!114 &1389166536
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1389166532}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5ba4ba3ecae8eb4ab7d82af3504b565, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  botMessage: {fileID: 1389166539}
+--- !u!114 &1389166538
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1389166532}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d8fdedd262060bd4abee88e873677e00, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _twitchIRC: {fileID: 1389166531}
+  _timeBetweenMessage: 2
+  _coolDown: 0
+--- !u!114 &1389166539
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1389166532}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b7a0ba3d5f9ecf84ebf99d3f2e0b985f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _twitchIRC: {fileID: 1389166531}
+  _antiSpamFilter: {fileID: 1389166538}
 --- !u!1 &1494297612
 GameObject:
   m_ObjectHideFlags: 0
@@ -598,12 +637,12 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1494297612}
-  m_LocalRotation: {x: 0.40821794, y: -0.23456973, z: 0.109381676, w: 0.87542605}
-  m_LocalPosition: {x: 0.8109503, y: 3.4212365, z: 2.1260316}
+  m_LocalRotation: {x: 0.40821797, y: -0.23456973, z: 0.10938168, w: 0.87542605}
+  m_LocalPosition: {x: -495.26675, y: -297.28137, z: 2.1260316}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_Father: {fileID: 1389166533}
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1558204305
 GameObject:

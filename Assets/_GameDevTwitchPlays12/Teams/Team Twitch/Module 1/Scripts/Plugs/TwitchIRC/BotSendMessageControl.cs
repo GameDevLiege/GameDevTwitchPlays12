@@ -118,6 +118,14 @@ public class BotSendMessageControl :MonoBehaviour {
 
     public void Whisper(string userid, string messageToSend, MessagePriority priority = MessagePriority.Direct) {
 
+        Debug.Log("send-----> /w "+ userid + " "+messageToSend);
         SendMessageToIRC("/w "+ userid + " "+messageToSend, priority);
     }
+    public void ToTheAttentionOf(string userid, string messageToSend, MessagePriority priority = MessagePriority.Direct)
+    {
+
+        Debug.Log("send-----> /w " + userid + " " + messageToSend);
+        SendMessageToIRC("@" + userid + " " + messageToSend, priority);
+    }
+
 }

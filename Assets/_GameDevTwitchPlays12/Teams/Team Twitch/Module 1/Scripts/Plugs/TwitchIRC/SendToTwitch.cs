@@ -5,55 +5,47 @@ using DidzNeil.ChatAPI;
 using System;
 
 public class SendToTwitch : MonoBehaviour {
+    [SerializeField]
+    private BotSendMessageControl botMessage;
 
-
-
-    // Use this for initialization
-    IEnumerator Start()
+    void Start()
     {
+    
         ChatAPI.AddGameToServerListener(SendMessage);
         ChatAPI.AddGameToServerListener(SendMessageToAll);
-
-
-        yield return new WaitForSeconds(1);
-
-        ChatAPI.SendMessageToUser("jamscenter", Platform.Twitch, new Message("GameMaster", "bonjour toi", Message.GetCurrentTimeUTC(), Platform.Game));
-        ChatAPI.SendMessageToEveryUsers(new Message("GameMaster", "bonjour tous",Message.GetCurrentTimeUTC(),Platform.Game));
-
-
-    }
-    /*Quid
-     * 
-     * Dans quoi on va gérer les commmandes admin ? La classe message n'est pas assez complète pour ça.
-     * Manque le channel dans la classe Message... Comment on l'implémente?
-     * 
-     */
-    private void SendMessage(string user, Platform platform, Message msg)
-    {
-
-
-
-
-
-    }
-    private void SendMessageToAll(Message msg)
-    {
-
-
-
-
-
-    }
-    private string TransformToTwitchMessage(string usr, string msg, string channel)
-    {
-        string messageTwitch= ":" + usr  +"!" + usr  +"@" + usr + ".tmi.twitch.tv PRIVMSG #" + channel + " :" + msg;
-
-        return messageTwitch;
+        StartCoroutine(Test());
     }
     // Update is called once per frame
-    void Update () {
-		
-	}
+    void Update()
+    {
 
+    }
+    // Use this for initialization
+    IEnumerator Test()
+    {
+        while (true) { 
+
+        yield return new WaitForSeconds(5);
+
+        ChatAPI.SendMessageToUser("drnd93", Platform.Twitch, new Message("GameMaster", "Bonjour toi", Message.GetCurrentTimeUTC(), Platform.Game));
+        ChatAPI.SendMessageToEveryUsers(new Message("GameMaster", "T:"+ Message.GetCurrentTimeUTC(), Message.GetCurrentTimeUTC(),Platform.Game));
+        }
+
+    }
+    
+    private void SendMessage(string user, Platform platform, Message message)
+    {
+        botMessage.ToTheAttentionOf(user, message.GetMessage());
+        botMessage.Whisper(user, message.GetMessage());
+
+
+    }
+
+    private void SendMessageToAll(Message message)
+    {
+        
+        botMessage.SendMessageToIRC(message.GetMessage());
+    }
+  
     
 }
