@@ -21,13 +21,7 @@ public class PlayerCharacter : MonoBehaviour
         get { return m_numPlayer; }
         set { m_numPlayer = value; }
     }
-
-
-    public Color FactionColor
-    {
-        get { return m_FactionColor; }
-        set { m_FactionColor = value; }
-    }
+    
     public Color PcColor
     {
         get { return m_PcColor; }
@@ -43,6 +37,11 @@ public class PlayerCharacter : MonoBehaviour
     {
         get { return m_playerName; }
         set { m_playerName = value; }
+    }
+    public Faction Faction
+    {
+        get { return m_faction; }
+        set { m_faction = value; }
     }
 
     public void Dig()
@@ -111,7 +110,7 @@ public class PlayerCharacter : MonoBehaviour
     private GameObject m_playerChar;
     private GameObject m_currentTerritory;
     private Color m_PcColor;
-    private Color m_FactionColor;
+    private Faction m_faction;
     private string m_playerName;
     private int m_numPlayer;
 }
