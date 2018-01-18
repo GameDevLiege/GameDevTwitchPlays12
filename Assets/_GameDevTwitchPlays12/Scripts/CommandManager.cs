@@ -101,7 +101,13 @@ public class CommandManager : DualBehaviour, ICommandManager
         "command3",
     };
 
-    private Dictionary<string, long> userDataBase = new Dictionary<string, long>();
+    private Dictionary<string, long> _userDataBase = new Dictionary<string, long>();
+
+    public Dictionary<string, long> userDataBase
+    {
+        get { return _userDataBase; }
+        set { _userDataBase = value; }
+    }
 
     #endregion
 }

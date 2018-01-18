@@ -7,16 +7,17 @@ namespace DidzNeil.ChatAPI {
 
     public class Mockup_MessageGenerator : MonoBehaviour {
 
+        public bool isRandom;
+        public float _minTimeSending=0.1f;
+        public float _maxTimeSending=1f;
 
         public List<string> m_usernames;
         public List<string> m_randomMessages;
-
-        public float _minTimeSending=0.1f;
-        public float _maxTimeSending=1f;
-  
+       
         IEnumerator Start () {
 
-            while (true) {
+            while (isRandom)
+            {
                 SendRandomMessage();
                 yield return new WaitForSeconds(UnityEngine.Random.Range(_minTimeSending, _maxTimeSending));
             }
