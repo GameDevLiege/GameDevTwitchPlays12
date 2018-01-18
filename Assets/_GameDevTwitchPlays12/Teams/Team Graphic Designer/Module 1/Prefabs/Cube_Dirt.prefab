@@ -19,6 +19,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4529670331112600}
+  - component: {fileID: 114980790815329690}
   m_Layer: 0
   m_Name: Cube_Dirt
   m_TagString: Untagged
@@ -111,3 +112,14 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1740226613215988}
   m_Mesh: {fileID: 4300000, guid: c25ce30128633a14b9acb9779728a940, type: 3}
+--- !u!114 &114980790815329690
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1551836352641352}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: adc71ab4f8953aa4982c6ddd50052acc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
