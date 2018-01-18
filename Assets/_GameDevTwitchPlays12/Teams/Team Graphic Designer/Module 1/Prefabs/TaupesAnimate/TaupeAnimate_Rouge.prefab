@@ -171,6 +171,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4110757776276956}
   - component: {fileID: 95286612877147878}
+  - component: {fileID: 65155982642799564}
   m_Layer: 0
   m_Name: TaupeAnimate_Rouge
   m_TagString: Untagged
@@ -462,6 +463,18 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1682369019006854}
   m_Mesh: {fileID: 4300000, guid: 8261a62c1b20934459aeb963afdd9a00, type: 3}
+--- !u!65 &65155982642799564
+BoxCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1679459330350256}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.9, y: 0.9, z: 0.9}
+  m_Center: {x: 0, y: 0.5, z: 0}
 --- !u!95 &95286612877147878
 Animator:
   serializedVersion: 3
