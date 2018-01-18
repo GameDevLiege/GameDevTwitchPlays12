@@ -4,65 +4,100 @@ using UnityEngine;
 
 public class PlayerCharacter : MonoBehaviour
 {
-    public PhysicsManager m_manager;
+    private GameObject m_playerChar;
+
     public int troupe;
     public bool hasGlasses = false;
-    private void Awake()
+    
+    #region properties
+    /*
+    private Color m_PcColor;
+    public Color PcColor
     {
-        m_playerChar = this.gameObject;
+        get { return m_PcColor; }
+        set { m_PcColor = value; }
     }
+    */
+    public PhysicsManager m_manager;
     public PhysicsManager MyManager
     {
         get { return m_manager; }
         set { m_manager = value; }
     }
+
+    private int m_numPlayer;
     public int NumPlayer
     {
         get { return m_numPlayer; }
         set { m_numPlayer = value; }
     }
 
-
+    //private Color m_FactionColor;
     public Color FactionColor
     {
-        get { return m_FactionColor; }
-        set { m_FactionColor = value; }
-    }
-    public Color PcColor
-    {
-        get { return m_PcColor; }
-        set { m_PcColor = value; }
+        get { return m_faction.FactionColor; }
+        //set { m_FactionColor = value; }
     }
 
+    private Faction m_faction;
+    public Faction Faction
+    {
+        get { return m_faction; }
+        set { m_faction = value; }
+    }
+
+    private GameObject m_currentTerritory;
     public GameObject CurrentTerritory
     {
         get { return m_currentTerritory; }
-        set { m_currentTerritory = value; }
+        set {
+            m_currentTerritory = value;
+        }
     }
+
+    private string m_playerName;
     public string PlayerName
     {
         get { return m_playerName; }
         set { m_playerName = value; }
     }
 
+    private int m_goldmoney;
+    public int Gold
+    {
+        get { return m_goldmoney; }
+        set { m_goldmoney = value; }
+    }
+    #endregion
+
+    #region system
+    private void Awake()
+    {
+        m_goldmoney = 0;
+        m_playerChar = this.gameObject;
+    }
+    #endregion
+
+    #region  class methods
     public void Dig()
     {
-        
+
     }
+
     public void Move(string TypeOfMove)
     {
         float y;
         float x;
-        switch(TypeOfMove)
+        switch (TypeOfMove)
         {
             case "UP":
-                y = m_currentTerritory.transform.position.y+1;//la case au dessus
+                y = m_currentTerritory.transform.position.y + 1;//la case au dessus
                 if (!(y > m_manager.m_nbrYTerritories - 1))
                 {
                     m_playerChar.transform.Translate(0f, 1f, 0f);
                     float tempx = m_currentTerritory.gameObject.transform.position.x;
-                    float tempy = m_currentTerritory.gameObject.transform.position.y+1;
-                    m_currentTerritory = GameObject.Find("y="+ (int)tempy+"x="+(int)tempx);
+                    float tempy = m_currentTerritory.gameObject.transform.position.y + 1;
+                    m_currentTerritory = GameObject.Find("y=" + (int)tempy + "x=" + (int)tempx);
                 }
                 break;
             case "DOWN":
@@ -100,11 +135,5 @@ public class PlayerCharacter : MonoBehaviour
                 break;
         }
     }
-    
-    private GameObject m_playerChar;
-    private GameObject m_currentTerritory;
-    private Color m_PcColor;
-    private Color m_FactionColor;
-    private string m_playerName;
-    private int m_numPlayer;
+    #endregion
 }

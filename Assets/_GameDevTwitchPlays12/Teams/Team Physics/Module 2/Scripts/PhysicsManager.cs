@@ -6,7 +6,6 @@ public class PhysicsManager  : MonoBehaviour, IGameEngine
 {
 
     #region Public Members
-
     public List<GameObject> m_listPlayer = new List<GameObject>();
 
     public int m_incomePerTerritory = 1;
@@ -45,7 +44,6 @@ public class PhysicsManager  : MonoBehaviour, IGameEngine
     #endregion
 
 
-    #region System
     public void AssignFactionToPlayers(List<string> ListOfPlayerNames)         //JEROME HERE ! Give me a list of player names, or ID in string format, thx buddy ;-)
     {
         if (m_isInitialized)
@@ -59,6 +57,7 @@ public class PhysicsManager  : MonoBehaviour, IGameEngine
         FactionRED.FactionColor = Color.red;
         FactionBLUE = gameObject.AddComponent<Faction>();
         FactionBLUE.FactionColor = Color.blue;
+
         if (ListOfPlayerNames.Count > 8)
         {
             FactionGREEN = gameObject.AddComponent<Faction>();
@@ -70,44 +69,57 @@ public class PhysicsManager  : MonoBehaviour, IGameEngine
         int PlayerNum = 0;
         for(int i=0; PlayerNum< ListOfPlayerNames.Count; PlayerNum++)
         {
-            GameObject NewPlayerChar = Instantiate(m_playerCharPrefab, new Vector3(0f, 0f, 0f), Quaternion.identity);
-            NewPlayerChar.name = ListOfPlayerNames[i];
-            PlayerCharacter PCOfNewPlayer = NewPlayerChar.GetComponent<PlayerCharacter>();
-            PCOfNewPlayer.NumPlayer = i;
-            PCOfNewPlayer.PlayerName = ListOfPlayerNames[i];
+            GameObject NewPlayerGameObject = Instantiate(m_playerCharPrefab, new Vector3(0f, 0f, 0f), Quaternion.identity);
+            NewPlayerGameObject.name = ListOfPlayerNames[i];
+
+            PlayerCharacter NewPlayerScript = NewPlayerGameObject.GetComponent<PlayerCharacter>();
+            NewPlayerScript.NumPlayer = i;
+            NewPlayerScript.PlayerName = ListOfPlayerNames[i];
             
 
             if (i==0)
             {
-                PCOfNewPlayer.FactionColor = Color.red;
-                PCOfNewPlayer.PcColor = Color.red;
-                NewPlayerChar.transform.position = new Vector3(0f,0f,0f);
-                PCOfNewPlayer.MyManager = gameObject.GetComponent<PhysicsManager>();
-                PCOfNewPlayer.CurrentTerritory = m_AxeY[0][0].gameObject;
+                //NewPlayerScript.FactionColor = Color.red;
+                NewPlayerScript.Faction = FactionRED;
+                FactionRED.AddPlayer(NewPlayerScript);
+
+                //NewPlayerScript.PcColor = Color.red;
+                NewPlayerGameObject.transform.position = new Vector3(0f,0f,0f);
+                NewPlayerScript.MyManager = gameObject.GetComponent<PhysicsManager>();
+                NewPlayerScript.CurrentTerritory = m_AxeY[0][0].gameObject;
             }
             else if (i == 1)
             {
-                PCOfNewPlayer.FactionColor = Color.blue;
-                PCOfNewPlayer.PcColor = Color.blue;
-                NewPlayerChar.transform.position = new Vector3(m_nbrXTerritories-1, m_nbrYTerritories-1, 0f);
-                PCOfNewPlayer.MyManager = gameObject.GetComponent<PhysicsManager>();
-                PCOfNewPlayer.CurrentTerritory = m_AxeY[m_nbrXTerritories - 1][m_nbrYTerritories - 1].gameObject;
+                //NewPlayerScript.FactionColor = Color.blue;
+                NewPlayerScript.Faction = FactionBLUE;
+                FactionBLUE.AddPlayer(NewPlayerScript);
+
+                //NewPlayerScript.PcColor = Color.blue;
+                NewPlayerGameObject.transform.position = new Vector3(m_nbrXTerritories-1, m_nbrYTerritories-1, 0f);
+                NewPlayerScript.MyManager = gameObject.GetComponent<PhysicsManager>();
+                NewPlayerScript.CurrentTerritory = m_AxeY[m_nbrXTerritories - 1][m_nbrYTerritories - 1].gameObject;
             }
             else if (i == 2)
             {
-                PCOfNewPlayer.FactionColor = Color.green;
-                PCOfNewPlayer.PcColor = Color.green;
-                NewPlayerChar.transform.position = new Vector3(m_nbrXTerritories-1, 0f, 0f);
-                PCOfNewPlayer.MyManager = gameObject.GetComponent<PhysicsManager>();
-                PCOfNewPlayer.CurrentTerritory = m_AxeY[m_nbrXTerritories - 1][0].gameObject;
+               // NewPlayerScript.FactionColor = Color.green;
+                NewPlayerScript.Faction = FactionGREEN;
+                FactionGREEN.AddPlayer(NewPlayerScript);
+
+                //NewPlayerScript.PcColor = Color.green;
+                NewPlayerGameObject.transform.position = new Vector3(m_nbrXTerritories-1, 0f, 0f);
+                NewPlayerScript.MyManager = gameObject.GetComponent<PhysicsManager>();
+                NewPlayerScript.CurrentTerritory = m_AxeY[m_nbrXTerritories - 1][0].gameObject;
             }
             else if (i == 3)
             {
-                PCOfNewPlayer.FactionColor = Color.yellow;
-                PCOfNewPlayer.PcColor = Color.yellow;
-                NewPlayerChar.transform.position = new Vector3(0f, m_nbrYTerritories - 1, 0f);
-                PCOfNewPlayer.MyManager = gameObject.GetComponent<PhysicsManager>();
-                PCOfNewPlayer.CurrentTerritory = m_AxeY[0][m_nbrYTerritories - 1].gameObject;
+                //NewPlayerScript.FactionColor = Color.yellow;
+                NewPlayerScript.Faction = FactionYELLOW;
+                FactionYELLOW.AddPlayer(NewPlayerScript);
+
+                //NewPlayerScript.PcColor = Color.yellow;
+                NewPlayerGameObject.transform.position = new Vector3(0f, m_nbrYTerritories - 1, 0f);
+                NewPlayerScript.MyManager = gameObject.GetComponent<PhysicsManager>();
+                NewPlayerScript.CurrentTerritory = m_AxeY[0][m_nbrYTerritories - 1].gameObject;
             }
             i++;
             if (ListOfPlayerNames.Count > 8 )
@@ -121,9 +133,10 @@ public class PhysicsManager  : MonoBehaviour, IGameEngine
             {
                 i = 0;
             }
-            m_listPlayer.Add(NewPlayerChar);
+            m_listPlayer.Add(NewPlayerGameObject);
         }
     }
+
     IEnumerator TimerPayDay()
     {
         m_timerFinished = false;
@@ -133,8 +146,14 @@ public class PhysicsManager  : MonoBehaviour, IGameEngine
         FactionGREEN.GoldReserves += FactionRED.NbrTerritories * m_incomePerTerritory;
         FactionYELLOW.GoldReserves += FactionRED.NbrTerritories * m_incomePerTerritory;
         m_timerFinished = true;
-    }
+        FactionRED.DispatchMoney();
+        FactionBLUE.DispatchMoney();
+        FactionGREEN.DispatchMoney();
+        FactionYELLOW.DispatchMoney();
 
+           
+    }
+ 
     public void GameStart()
     {
         InitializeBoard();
@@ -159,6 +178,7 @@ public class PhysicsManager  : MonoBehaviour, IGameEngine
         }
     }
 
+    #region System
     void Start () 
     {
 		
