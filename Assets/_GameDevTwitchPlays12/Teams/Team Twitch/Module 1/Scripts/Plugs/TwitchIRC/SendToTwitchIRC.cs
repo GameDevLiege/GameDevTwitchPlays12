@@ -5,6 +5,7 @@ using DidzNeil.ChatAPI;
 using System;
 
 public class SendToTwitchIRC : MonoBehaviour {
+    public bool debug=false; 
     [SerializeField]
     private BotSendMessageControl botMessage;
 
@@ -13,7 +14,10 @@ public class SendToTwitchIRC : MonoBehaviour {
     
         ChatAPI.AddGameToServerListener(SendMessage);
         ChatAPI.AddGameToServerListener(SendMessageToAll);
-        StartCoroutine(Test());
+        if (debug)
+        {
+            StartCoroutine(Test());
+        }
     }
     // Update is called once per frame
     void Update()
