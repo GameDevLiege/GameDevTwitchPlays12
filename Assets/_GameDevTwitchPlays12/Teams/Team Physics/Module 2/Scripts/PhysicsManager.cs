@@ -74,7 +74,7 @@ public class PhysicsManager  : MonoBehaviour, IGameEngine
             NewPlayerChar.name = ListOfPlayerNames[i];
             PlayerCharacter PCOfNewPlayer = NewPlayerChar.GetComponent<PlayerCharacter>();
             PCOfNewPlayer.NumPlayer = PlayerNum;
-            PCOfNewPlayer.PlayerName = ListOfPlayerNames[i];
+            PCOfNewPlayer.PlayerName = ListOfPlayerNames[PlayerNum];
             PCOfNewPlayer.MyManager = this;
             NewPlayerChar.GetComponentInChildren<TextMesh>().text = "" + i;
 
@@ -278,7 +278,7 @@ public class PhysicsManager  : MonoBehaviour, IGameEngine
     }
     private void PlaceSpecials()
     {
-        int A = Random.Range(1, 9);//decides which central territory gets the glasses
+        int A = Random.Range(1, 10);//decides which central territory gets the glasses
         int cptCenter=1;
         for (int y = 0; y < m_nbrYTerritories; y++)
         {
@@ -298,12 +298,12 @@ public class PhysicsManager  : MonoBehaviour, IGameEngine
                     }
                     else
                     {
-                        int B = Random.Range(1, m_sizeOfDiceSpecial);
-                        if(B==m_sizeOfDiceSpecial)//1 chance out of sizeofdice...
+                        int B = Random.Range(1, m_sizeOfDiceSpecial+1); //random range takes argument 1 inclusive argument 2 exclusive
+                        if(B==1)//1 chance out of sizeofdice...
                         {
                             m_AxeY[y][x].GetComponent<Territory>().HasSpecial = true;
                             m_AxeY[y][x].AddComponent<Special>();
-                            B= Random.Range(1, 6);
+                            B= Random.Range(1, 7);//random range takes argument 1 inclusive argument 2 exclusive
                             switch (B)
                             {
                                 case 1: m_AxeY[y][x].GetComponent<Special>().ChooseTypeOfSpecial(Special.e_specialType.COINBOX); break;
