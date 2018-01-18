@@ -1,14 +1,10 @@
-﻿using DidzNeil.ChatAPI;
+﻿/*using DidzNeil.ChatAPI;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Mockup_SequenceMessages : MonoBehaviour
-{
-
-    public float _minTimeSending = 0.1f;
-    public float _maxTimeSending = 1f;
+public class Mockup_SequenceMessagesNeilTest : MonoBehaviour {
 
     public  List<MessageToSend> _messageToSend;
 
@@ -16,32 +12,21 @@ public class Mockup_SequenceMessages : MonoBehaviour
     public int _messageIndex;
 
     [System.Serializable]
-    public class MessageToSend {
-
+    public class MessageToSend
+    {
         public string _userName;
         public string _message;
     }
-    
 
-    IEnumerator Start()
+    private void OnValidate()
     {
-
-        while (true)
-        {
-            SendNextMessage();
-            yield return new WaitForSeconds(UnityEngine.Random.Range(_minTimeSending, _maxTimeSending));
-        }
+        MyInputMessage();
     }
 
-    private void SendNextMessage()
+    public void MyInputMessage()
     {
-        if (_messageToSend.Count == 0)
-            throw new System.Exception("List must not be null, you damn morron");
-
         MessageToSend toSend = _messageToSend[_messageIndex];
         _messageIndex++;
-        if (_messageIndex >= _messageToSend.Count)
-            _messageIndex = 0;
 
         Message msg = new Message(
             toSend._userName, toSend._message
@@ -58,4 +43,6 @@ public class Mockup_SequenceMessages : MonoBehaviour
         return (dateTime.ToUniversalTime() - unixStart).Ticks;
 
     }
-}
+
+
+}*/
