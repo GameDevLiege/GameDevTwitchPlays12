@@ -8,8 +8,10 @@ public class CommandManager : DualBehaviour, ICommandManager
     #region Public Var
 
     public long cd;
+    public int maxPlayer;
 
-    public char firstCommmandCharacter = '!';
+    public char firstCommmandCharacter  = '!';
+    public char firstStateCharacter     = '?';
 
     public static Command INVALIDCOMMAND = new Command("Votre commande est invalide", true);
 
@@ -21,12 +23,12 @@ public class CommandManager : DualBehaviour, ICommandManager
     {
         string userID = _plateform + " " + _username;
         
-        if (!IsACommand(_message))
+        if ((!IsACommand(_message)) && (!IsAState(_message)))
         {
             return null;
         }
         _message.ToUpper();
-        if (!CommandIsValid(_message))
+        if ((!CommandIsValid(_message)) && (!StateIsValid(_message)))
         {
             return INVALIDCOMMAND;
         }
@@ -34,12 +36,27 @@ public class CommandManager : DualBehaviour, ICommandManager
         {
             if (!userDataBase.ContainsKey(userID))
             {
-                userDataBase.Add(userID, 0);
-            }  
+                if (userDataBase.Count < maxPlayer)
+                {
+                    userDataBase.Add(userID, 0);
+                }
+                else
+                {
+                    return new Command("Le nombre maximum de joueur est atteint", true);
+                }
+            }
+            else
+            {
+                return new Command("Vous avez déja rejoins la partie", true);
+            }
         }
         if ((!Cooldown(_time, userID)) && (!_message.Contains("JOIN")))
         {
             return new Command("Le cooldown entre 2 commandes n'est pas terminé", true);
+        }
+        if (!userDataBase.ContainsKey(userID))
+        {
+            return new Command("Veuillez d'abord rejoindre la partie a l'aide de la commande !JOIN", true);
         }
         userDataBase[userID] = _time;
         return new Command(_message, false);
@@ -63,12 +80,40 @@ public class CommandManager : DualBehaviour, ICommandManager
         return isValid;
     }
 
+    private bool IsAState(string message)
+    {
+        bool isValid;
+        if (message[0] == firstStateCharacter)
+        {
+            isValid = true;
+        }
+        else
+        {
+            isValid = false;
+        }
+        return isValid;
+    }
+
     private bool CommandIsValid(string message)
     {
         bool isValid = false;
         for (int i = 0; i < validCommand.Count; i++)
         {
             if (message.Equals(firstCommmandCharacter + validCommand[i]))
+            {
+                isValid = true;
+                break;
+            }
+        }
+        return isValid;
+    }
+
+    private bool StateIsValid(string message)
+    {
+        bool isValid = false;
+        for (int i = 0; i < validCommand.Count; i++)
+        {
+            if (message.Equals(firstStateCharacter + validState[i]))
             {
                 isValid = true;
                 break;
@@ -110,6 +155,14 @@ public class CommandManager : DualBehaviour, ICommandManager
         "RIGHT" ,
         "DIG"   ,
         "JOIN"  ,
+    };
+
+    [SerializeField]
+    private List<string> validState = new List<string>
+    {
+        "NORMAL"    ,
+        "STUN"      ,
+        "SPRAIN"    ,
     };
 
     private Dictionary<string, long> _userDataBase = new Dictionary<string, long>();
