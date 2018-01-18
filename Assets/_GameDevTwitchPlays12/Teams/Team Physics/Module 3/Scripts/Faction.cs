@@ -43,7 +43,7 @@ public class Faction : MonoBehaviour
     {
 
     }
-    private void Start()
+    private void Awake()
     {
         m_listPlayerChar = new List<PlayerCharacter>();
     }
