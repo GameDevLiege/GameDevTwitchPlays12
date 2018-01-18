@@ -68,55 +68,55 @@ public class PhysicsManager  : MonoBehaviour, IGameEngine
         }
             
         int PlayerNum = 0;
-        for(int i=0; PlayerNum< ListOfPlayerNames.Count; PlayerNum++)
+        for(int faction = 0; PlayerNum< ListOfPlayerNames.Count; PlayerNum++)
         {
             GameObject NewPlayerChar = Instantiate(m_playerCharPrefab, new Vector3(0f, 0f, 0f), Quaternion.identity, transform);
-            NewPlayerChar.name = ListOfPlayerNames[i];
+            NewPlayerChar.name = ListOfPlayerNames[PlayerNum];
             PlayerCharacter PCOfNewPlayer = NewPlayerChar.GetComponent<PlayerCharacter>();
             PCOfNewPlayer.NumPlayer = PlayerNum;
-            PCOfNewPlayer.PlayerName = ListOfPlayerNames[i];
+            PCOfNewPlayer.PlayerName = ListOfPlayerNames[PlayerNum];
             PCOfNewPlayer.MyManager = this;
-            NewPlayerChar.GetComponentInChildren<TextMesh>().text = "" + i;
+            NewPlayerChar.GetComponentInChildren<TextMesh>().text = "" + faction;
 
-            if (i==0)
+            if (faction == 0)
             {
                 NewPlayerChar.transform.position = new Vector3(0f, 0f, 0f);
                 PCOfNewPlayer.Faction = FactionRED;
                 PCOfNewPlayer.PcColor = FactionRED.FactionColor;
                 PCOfNewPlayer.CurrentTerritory = m_AxeY[0][0].gameObject;
             }
-            else if (i == 1)
+            else if (faction == 1)
             {
                 NewPlayerChar.transform.position = new Vector3(m_nbrXTerritories - 1, m_nbrYTerritories - 1, 0f);
                 PCOfNewPlayer.Faction = FactionBLUE;
                 PCOfNewPlayer.PcColor = FactionBLUE.FactionColor;
                 PCOfNewPlayer.CurrentTerritory = m_AxeY[m_nbrXTerritories - 1][m_nbrYTerritories - 1].gameObject;
             }
-            else if (i == 2)
+            else if (faction == 2)
             {
                 NewPlayerChar.transform.position = new Vector3(m_nbrXTerritories - 1, 0f, 0f);
                 PCOfNewPlayer.Faction = FactionGREEN;
                 PCOfNewPlayer.PcColor = FactionGREEN.FactionColor;
                 PCOfNewPlayer.CurrentTerritory = m_AxeY[m_nbrXTerritories - 1][0].gameObject;
             }
-            else if (i == 3)
+            else if (faction == 3)
             {
                 NewPlayerChar.transform.position = new Vector3(0f, m_nbrYTerritories - 1, 0f);
                 PCOfNewPlayer.Faction = FactionYELLOW;
                 PCOfNewPlayer.PcColor = FactionYELLOW.FactionColor;
                 PCOfNewPlayer.CurrentTerritory = m_AxeY[0][m_nbrYTerritories - 1].gameObject;
             }
-            i++;
+            faction++;
             if (ListOfPlayerNames.Count > 8 )
             {
-                if(i > 3)
+                if(faction > 3)
                 {
-                    i = 0;
+                    faction = 0;
                 }
             }
-            else if(i>1)
+            else if(faction > 1)
             {
-                i = 0;
+                faction = 0;
             }
             m_listPlayer.Add(NewPlayerChar);
         }
