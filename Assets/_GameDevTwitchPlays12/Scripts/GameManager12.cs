@@ -96,6 +96,8 @@ public class GameManager12 : MonoBehaviour
 
         if (command.feedbackUser)
         {
+            m_input.SendFeedback(command);
+
             Message msg = new Message("Game Admin", command.response, Message.GetCurrentTimeUTC(), Platform.Game);
 
             //ChatAPI.SendMessageToEveryUsers(msg);
