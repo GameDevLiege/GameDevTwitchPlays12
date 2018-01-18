@@ -6,16 +6,6 @@ using UnityEngine;
 using GameManager;
 using DidzNeil.ChatAPI;
 
-public class FakePlayer : IPlayer
-{
-    public string Username;
-    public ITeam Team;
-
-    public override string ToString()
-    {
-        return String.Format("Player<{0}>", Username);
-    }
-}
 
 public class FakeInput : IInput
 {
@@ -24,29 +14,6 @@ public class FakeInput : IInput
         Debug.LogWarning("Command Feedback: " + command.response);
     }
 }
-
-//public class FakeGameEngine : IGameEngine
-//{
-//    public void Do(ICommand command)
-//    {
-//        throw new NotImplementedException();
-//    }
-
-//    public void Do(List<ICommand> _commands)
-//    {
-//        throw new NotImplementedException();
-//    }
-
-//    public void GenerateMap() { }
-//}
-
-//public class FakeCommandManager : ICommandManager
-//{
-//    public ICommand Parse(string _username, int _platform, string _message, long _timestamp)
-//    {
-//        return null;
-//    }
-//}
 
 
 public class GameManager12 : MonoBehaviour
@@ -77,8 +44,6 @@ public class GameManager12 : MonoBehaviour
 
     protected void Start()
     {
-        // m_gameEngine.GenerateMap();
-
         ChatAPI.AddListener(HandleMessage);
     }
 
