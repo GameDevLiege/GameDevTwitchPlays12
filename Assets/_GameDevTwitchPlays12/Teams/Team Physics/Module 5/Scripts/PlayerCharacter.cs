@@ -6,7 +6,13 @@ public class PlayerCharacter : MonoBehaviour
 {
     private GameObject m_playerChar;
 
-    public int troupe;
+    private int m_playerCharLVL=1;
+    public int PlayerCharLVL
+    {
+        get { return m_playerCharLVL; }
+        set { m_playerCharLVL = value; }
+    }
+
     public bool hasGlasses = false;
     
     #region properties
@@ -73,11 +79,89 @@ public class PlayerCharacter : MonoBehaviour
     {
         if (CurrentTerritory.GetComponent<Territory>().HasSpecial)
         {
-            CurrentTerritory.GetComponent<Special>().GetItemOrEffect();
+            CurrentTerritory.GetComponent<Special>().GetItemOrEffect(this);
         }
         else
         {
         }
+    }
+    public void DoBattle(PlayerCharacter Enemy)
+    {
+        int temp= this.PlayerCharLVL;
+        this.PlayerCharLVL -= Enemy.PlayerCharLVL;
+        Enemy.PlayerCharLVL -= temp;
+        if(this.PlayerCharLVL<1)
+        {
+            this.PlayerCharLVL = 1;
+        }
+        if (Enemy.PlayerCharLVL < 1)
+        {
+            Enemy.PlayerCharLVL = 1;
+        }
+    }
+
+    public void TestForNearbyEnnemies()
+    {
+        float y;
+        float x;
+        Territory TerritoryToTest;
+        y = m_currentTerritory.transform.position.y + 1;//test la case au dessus
+        if (!(y > m_manager.m_nbrYTerritories - 1))
+        {
+            float tempx = m_currentTerritory.gameObject.transform.position.x;
+            float tempy = m_currentTerritory.gameObject.transform.position.y + 1;
+            TerritoryToTest = GameObject.Find("y=" + (int)tempy + "x=" + (int)tempx).GetComponent<Territory>();
+            if(TerritoryToTest.GetPlayerNumOnTerritory()>0)
+            {
+                foreach(PlayerCharacter Enemy in TerritoryToTest.GetListOfPlayerOnThisTerritory())
+                {
+                    DoBattle(Enemy);
+                }
+            }
+        }
+        y = m_currentTerritory.transform.position.y - 1;//test la case au dessus
+        if (!(y < 0))
+        {
+            float tempx = m_currentTerritory.gameObject.transform.position.x;
+            float tempy = m_currentTerritory.gameObject.transform.position.y - 1;
+            TerritoryToTest = GameObject.Find("y=" + (int)tempy + "x=" + (int)tempx).GetComponent<Territory>();
+            if (TerritoryToTest.GetPlayerNumOnTerritory() > 0)
+            {
+                foreach (PlayerCharacter Enemy in TerritoryToTest.GetListOfPlayerOnThisTerritory())
+                {
+                    DoBattle(Enemy);
+                }
+            }
+        }
+        x = m_currentTerritory.transform.position.x - 1;//test la case au dessus
+        if (!(x < 0))
+        {
+            float tempx = m_currentTerritory.gameObject.transform.position.x;
+            float tempy = m_currentTerritory.gameObject.transform.position.y - 1;
+            TerritoryToTest = GameObject.Find("y=" + (int)tempy + "x=" + (int)tempx).GetComponent<Territory>();
+            if (TerritoryToTest.GetPlayerNumOnTerritory() > 0)
+            {
+                foreach (PlayerCharacter Enemy in TerritoryToTest.GetListOfPlayerOnThisTerritory())
+                {
+                    DoBattle(Enemy);
+                }
+            }
+        }
+        x = m_currentTerritory.transform.position.x + 1;//test la case au dessus
+        if (!(x > m_manager.m_nbrXTerritories - 1))
+        {
+            float tempx = m_currentTerritory.gameObject.transform.position.x;
+            float tempy = m_currentTerritory.gameObject.transform.position.y + 1;
+            TerritoryToTest = GameObject.Find("y=" + (int)tempy + "x=" + (int)tempx).GetComponent<Territory>();
+            if (TerritoryToTest.GetPlayerNumOnTerritory() > 0)
+            {
+                foreach (PlayerCharacter Enemy in TerritoryToTest.GetListOfPlayerOnThisTerritory())
+                {
+                    DoBattle(Enemy);
+                }
+            }
+        }
+
     }
 
     public void Move(string TypeOfMove)
@@ -90,10 +174,11 @@ public class PlayerCharacter : MonoBehaviour
                 y = m_currentTerritory.transform.position.y + 1;//la case au dessus
                 if (!(y > m_manager.m_nbrYTerritories - 1))
                 {
+                    m_playerChar.transform.Translate(0f, 1f, 0f);
                     float tempx = m_currentTerritory.gameObject.transform.position.x;
                     float tempy = m_currentTerritory.gameObject.transform.position.y + 1;
                     m_currentTerritory = GameObject.Find("y=" + (int)tempy + "x=" + (int)tempx);
-                    m_playerChar.transform.Translate(0f, 1f, 0f);
+                    TestForNearbyEnnemies();
                 }
                 break;
             case "DOWN":
@@ -104,6 +189,7 @@ public class PlayerCharacter : MonoBehaviour
                     float tempx = m_currentTerritory.gameObject.transform.position.x;
                     float tempy = m_currentTerritory.gameObject.transform.position.y - 1;
                     m_currentTerritory = GameObject.Find("y=" + (int)tempy + "x=" + (int)tempx);
+                    TestForNearbyEnnemies();
                 }
                 break;
             case "LEFT":
@@ -114,6 +200,7 @@ public class PlayerCharacter : MonoBehaviour
                     float tempx = m_currentTerritory.gameObject.transform.position.x - 1;
                     float tempy = m_currentTerritory.gameObject.transform.position.y;
                     m_currentTerritory = GameObject.Find("y=" + (int)tempy + "x=" + (int)tempx);
+                    TestForNearbyEnnemies();
                 }
                 break;
             case "RIGHT":
@@ -124,6 +211,7 @@ public class PlayerCharacter : MonoBehaviour
                     float tempx = m_currentTerritory.gameObject.transform.position.x + 1;
                     float tempy = m_currentTerritory.gameObject.transform.position.y;
                     m_currentTerritory = GameObject.Find("y=" + (int)tempy + "x=" + (int)tempx);
+                    TestForNearbyEnnemies();
                 }
                 break;
             case "DIG":
@@ -131,5 +219,11 @@ public class PlayerCharacter : MonoBehaviour
                 break;
         }
     }
+    #endregion
+
+    #region Didi
+
+
+
     #endregion
 }

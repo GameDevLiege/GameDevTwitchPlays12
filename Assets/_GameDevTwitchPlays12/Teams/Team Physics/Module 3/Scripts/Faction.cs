@@ -70,6 +70,6 @@ public class Faction : MonoBehaviour
     private Color m_factionColor;
     private int m_goldReserves;
     private bool m_hasMiddle = false;
-
+    private Vector3 m_respawnPosition;
   
 }

@@ -12,7 +12,7 @@ public class PhysicsManager  : MonoBehaviour, IGameEngine
     public float m_timeBetweenPayDay = 1;
     public int m_nbrXTerritories =33;
     public int m_nbrYTerritories =33;
-    public GameObject m_TerritoryPrefab;
+    public GameObject m_territoryPrefab;
     public GameObject m_playerCharPrefab;
     public int m_nbrFactions;
     #endregion
@@ -55,6 +55,7 @@ public class PhysicsManager  : MonoBehaviour, IGameEngine
         
         FactionRED = gameObject.AddComponent<Faction>();
         FactionRED.FactionColor = Color.red;
+        //FactionRED.
         FactionBLUE = gameObject.AddComponent<Faction>();
         FactionBLUE.FactionColor = Color.blue;
 
@@ -180,12 +181,12 @@ public class PhysicsManager  : MonoBehaviour, IGameEngine
 	
 	void Update () 
     {
-
+        /*
         if (Input.GetButtonDown("Fire1"))
         {
             m_listPlayer[0].GetComponent<PlayerCharacter>().Move("UP");
 
-        }/*
+        }
         if (Input.GetButtonDown("Fire2"))
         {
             Move("DOWN");
@@ -193,11 +194,14 @@ public class PhysicsManager  : MonoBehaviour, IGameEngine
         if (Input.GetButtonDown("Fire1"))
         {
             Move("LEFT");
-        }*/
+        }
         if (Input.GetButtonDown("Fire2"))
         {
             m_listPlayer[0].GetComponent<PlayerCharacter>().Move("RIGHT");
-        }
+        }*/
+
+
+
         if(m_gameHasStarted)
         {
             if (m_timerFinished)
@@ -226,7 +230,7 @@ public class PhysicsManager  : MonoBehaviour, IGameEngine
             for (int x = 0; x < m_nbrXTerritories; x++)
             {
                 Vector3 positionOfCell = new Vector3(x * 1f, y * 1f, 0);
-                GameObject Ter = Instantiate(m_TerritoryPrefab, positionOfCell, Quaternion.identity, transform);
+                GameObject Ter = Instantiate(m_territoryPrefab, positionOfCell, Quaternion.identity, transform);
                 Ter.transform.position = positionOfCell;
                 Ter.name = "y=" + positionOfCell.y + "x=" + positionOfCell.x;
                 Ter.GetComponent<Territory>().Manager = this;
@@ -317,7 +321,7 @@ public class PhysicsManager  : MonoBehaviour, IGameEngine
                             B= Random.Range(1, 7);//random range takes argument 1 inclusive argument 2 exclusive
                             switch (B)
                             {
-                                case 1: m_AxeY[y][x].GetComponent<Special>().ChooseTypeOfSpecial(Special.e_specialType.COINBOX); break;
+                                case 1: m_AxeY[y][x].GetComponent<Special>().ChooseTypeOfSpecial(Special.e_specialType.COINCHEST); break;
                                 case 2: m_AxeY[y][x].GetComponent<Special>().ChooseTypeOfSpecial(Special.e_specialType.PARCHEMENT); break;
                                 case 3: m_AxeY[y][x].GetComponent<Special>().ChooseTypeOfSpecial(Special.e_specialType.GRENADES); break;
                                 case 4: m_AxeY[y][x].GetComponent<Special>().ChooseTypeOfSpecial(Special.e_specialType.PEBBLE); break;
