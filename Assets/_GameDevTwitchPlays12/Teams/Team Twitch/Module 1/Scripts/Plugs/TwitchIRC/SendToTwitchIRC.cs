@@ -4,7 +4,7 @@ using UnityEngine;
 using DidzNeil.ChatAPI;
 using System;
 
-public class SendToTwitch : MonoBehaviour {
+public class SendToTwitchIRC : MonoBehaviour {
     [SerializeField]
     private BotSendMessageControl botMessage;
 
