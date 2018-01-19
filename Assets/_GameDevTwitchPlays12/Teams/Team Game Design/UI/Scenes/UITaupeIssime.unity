@@ -470,6 +470,7 @@ GameObject:
   - component: {fileID: 62829832}
   - component: {fileID: 62829831}
   - component: {fileID: 62829830}
+  - component: {fileID: 62829833}
   m_Layer: 0
   m_Name: EventSystem
   m_TagString: Untagged
@@ -522,6 +523,37 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &62829833
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 62829829}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bfef1a1caa56b5e4fb1993a0cdace1fc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _lignePlayer1: {fileID: 457873015}
+  _lignePlayer2: {fileID: 1075469262}
+  _lignePlayer3: {fileID: 381272845}
+  _lignePlayer4: {fileID: 1536746439}
+  _lignePlayer5: {fileID: 1984281258}
+  _lignePlayer6: {fileID: 2042861096}
+  _lignePlayer7: {fileID: 894992524}
+  _lignePlayer8: {fileID: 740247755}
+  _lignePlayer9: {fileID: 744123861}
+  _lignePlayer10: {fileID: 1107209138}
+  _lignePlayer11: {fileID: 766358258}
+  _lignePlayer12: {fileID: 932796102}
+  _lignePlayer13: {fileID: 551203218}
+  _lignePlayer14: {fileID: 1549564639}
+  _lignePlayer15: {fileID: 366960247}
+  _lignePlayer16: {fileID: 2100013763}
+  _lignePlayer17: {fileID: 342962902}
+  _lignePlayer18: {fileID: 446939143}
+  _lignePlayer19: {fileID: 1683677140}
+  _lignePlayer20: {fileID: 1451741131}
 --- !u!1 &63776895
 GameObject:
   m_ObjectHideFlags: 0
@@ -597,7 +629,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 63776895}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 28.9}
+  m_LocalPosition: {x: 169, y: 0, z: 28.9}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -2271,7 +2303,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 17 - NomJoueur17 - Lvl - $000000000
+  m_Text: 
 --- !u!222 &342962903
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -2486,7 +2518,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 15 - NomJoueur15 - Lvl - $000000000
+  m_Text: 
 --- !u!222 &366960248
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -2560,7 +2592,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 03 - NomJoueur3 - Lvl - $000000000
+  m_Text: 
 --- !u!222 &381272846
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -3259,7 +3291,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 18 - NomJoueur18 - Lvl - $000000000
+  m_Text: 
 --- !u!222 &446939144
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -3469,7 +3501,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 01 - NomJoueur1 - Lvl - $000000000
+  m_Text: 
 --- !u!222 &457873016
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -4308,7 +4340,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 13 - NomJoueur13 - Lvl - $000000000
+  m_Text: 
 --- !u!222 &551203219
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -5554,7 +5586,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 08 - NomJoueur8 - Lvl - $000000000
+  m_Text: 
 --- !u!222 &740247756
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -5628,7 +5660,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 09 - NomJoueur9 - Lvl - $000000000
+  m_Text: 
 --- !u!222 &744123862
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -5838,7 +5870,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 11 - NomJoueur11 - Lvl - $000000000
+  m_Text: 
 --- !u!222 &766358259
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -7146,7 +7178,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 07 - NomJoueur7 - Lvl - $000000000
+  m_Text: 
 --- !u!222 &894992525
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -7359,7 +7391,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 12 - NomJoueur12 - Lvl - $000000000
+  m_Text: 
 --- !u!222 &932796103
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -8475,7 +8507,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 02 - NomJoueur2 - Lvl - $000000000
+  m_Text: 
 --- !u!222 &1075469263
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -8758,7 +8790,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 10 - NomJoueur10 - Lvl - $000000000
+  m_Text: 
 --- !u!222 &1107209139
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -10157,7 +10189,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 20 - NomJoueur20 - Lvl - $000000000
+  m_Text: 
 --- !u!222 &1451741132
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -10948,7 +10980,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 04 - NomJoueur4 - Lvl - $000000000
+  m_Text: 
 --- !u!222 &1536746440
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -11162,7 +11194,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 14 - NomJoueur14 - Lvl - $000000000
+  m_Text: 
 --- !u!222 &1549564640
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -12194,7 +12226,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 19 - NomJoueur19 - Lvl - $000000000
+  m_Text: 
 --- !u!222 &1683677141
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -14361,7 +14393,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 05 - NomJoueur5 - Lvl - $000000000
+  m_Text: 
 --- !u!222 &1984281259
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -14845,7 +14877,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 06 - NomJoueur6 - Lvl - $000000000
+  m_Text: 
 --- !u!222 &2042861097
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -14987,7 +15019,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 16 - NomJoueur16 - Lvl - $000000000
+  m_Text: 
 --- !u!222 &2100013764
 CanvasRenderer:
   m_ObjectHideFlags: 0
