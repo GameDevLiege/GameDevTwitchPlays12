@@ -5,7 +5,7 @@ using System;
 using UnityEditor;
 using DidzNeil.ChatAPI;
 
-    [CustomEditor(typeof(Mockup_GameToServer))]
+    [CustomEditor(typeof(Mockup_GameToServerGeneralInfoTimer))]
     [CanEditMultipleObjects]
     public class Mockup_GameToServerEditor : Editor
     {

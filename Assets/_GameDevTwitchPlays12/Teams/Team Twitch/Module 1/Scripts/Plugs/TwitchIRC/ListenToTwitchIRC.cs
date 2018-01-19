@@ -24,20 +24,29 @@ public class ListenToTwitchIRC : MonoBehaviour {
         Match matchMsg= Regex.Match(myInfo, "(?<=\\:).*");
         string pseudo = matchUser.Success ? matchUser.Groups[0].Value:"";
         string msg= matchMsg.Success ? matchMsg.Groups[0].Value:"";*/
+
+
          int indexOfMessageStart = message.IndexOf("PRIVMSG #");
          //NOT RESPECTING TWITCH STANDARD
          if (indexOfMessageStart < 0) return;
-         string userMessageRaw = message.Substring(indexOfMessageStart + 9);
+
+        string pseudo = "";
+        int pseudoStart = message.IndexOf('!')+1;
+        int pseudoEnd = message.IndexOf('@');
+        pseudo = message.Substring(pseudoStart, pseudoEnd - pseudoStart);
+
+
+        string userMessageRaw = message.Substring(indexOfMessageStart + 9);
          string[] tokens = userMessageRaw.Split(':');
         //NOT MESSSAGE DETECTED
          if (tokens.Length < 2) return;
 
          
-         string pseudo = tokens[0];
+         string channel = tokens[0];
 
         if (string.IsNullOrEmpty(pseudo))
             return;
-        string msg = userMessageRaw.Substring(pseudo.Length+1);
+        string msg = userMessageRaw.Substring(channel.Length+1);
         if (string.IsNullOrEmpty(msg))
             return;
 
