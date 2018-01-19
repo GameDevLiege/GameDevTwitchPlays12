@@ -2,7 +2,7 @@
 
 public class LookAtCamera : MonoBehaviour {
 
-    void Start () {
+    void Update () {
         //transform.forward = -Camera.main.transform.forward;
         /*Quaternion newRotation = Quaternion.LookRotation(Camera.main.transform.position - transform.position );
         newRotation.x = 0.0f;
@@ -16,6 +16,7 @@ public class LookAtCamera : MonoBehaviour {
          transform.rotation = newRotation;*/
 
         //transform.LookAt(Camera.main.transform.position, Vector3.back);
+
         transform.rotation = Quaternion.LookRotation(Camera.main.transform.position, Vector3.back);
     }
 }
