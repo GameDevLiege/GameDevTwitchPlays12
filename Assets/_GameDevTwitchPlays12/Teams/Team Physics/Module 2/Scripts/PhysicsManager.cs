@@ -6,7 +6,7 @@ public class PhysicsManager  : MonoBehaviour, IGameEngine
 {
 
     #region Public Members
-    public List<GameObject> m_listPlayer = new List<GameObject>();
+    public List<PlayerCharacter> m_listPlayer = new List<PlayerCharacter>();
     public List<PlayerInfo> m_listPlayerInfo = new List<PlayerInfo>();
     public int m_sizeOfDiceSpecial = 5;
     public int m_incomePerTerritory = 1;
@@ -105,7 +105,7 @@ public class PhysicsManager  : MonoBehaviour, IGameEngine
                 faction = 0;
             }
             NewPlayerScript.MyManager = this;
-            m_listPlayer.Add(NewPlayerGameObject);
+            m_listPlayer.Add(NewPlayerScript);
         }
 
     }
@@ -137,12 +137,12 @@ public class PhysicsManager  : MonoBehaviour, IGameEngine
         for (int i=0; i<m_listPlayer.Count;i++)
         {
             PlayerInfo _playerInfo = new PlayerInfo();
-            PlayerCharacter playerC = m_listPlayer[i].GetComponent<PlayerCharacter>();
-            _playerInfo.num = playerC.NumPlayer;
-            _playerInfo.name = playerC.PlayerName;
-            _playerInfo.level = playerC.PlayerCharLVL;
-            _playerInfo.gold = playerC.Gold;
-            _playerInfo.faction = playerC.FactionColor.ToString().ToUpper();
+            PlayerCharacter playerC = m_listPlayer[i];
+            _playerInfo.num = m_listPlayer[i].NumPlayer;
+            _playerInfo.name = m_listPlayer[i].PlayerName;
+            _playerInfo.level = m_listPlayer[i].PlayerCharLVL;
+            _playerInfo.gold = m_listPlayer[i].Gold;
+            _playerInfo.faction = m_listPlayer[i].FactionColor.ToString().ToUpper();
             switch(_playerInfo.faction)
             {
                 case "GREEN":
@@ -181,11 +181,11 @@ public class PhysicsManager  : MonoBehaviour, IGameEngine
 
     public void GetCommandFromPlayer(string PName, string Command)              //JEROME HERE ! Give me a player names and the command he sends ;-)       
     {
-        foreach(GameObject PlayerChar in m_listPlayer)
+        foreach(PlayerCharacter PlayerChar in m_listPlayer)
         {
-            if(PlayerChar.GetComponent<PlayerCharacter>().PlayerName==PName)
+            if(PlayerChar.PlayerName==PName)
             {
-                PlayerChar.GetComponent<PlayerCharacter>().Move(Command);
+                PlayerChar.Move(Command);
             }
         }
     }
@@ -235,31 +235,20 @@ public class PhysicsManager  : MonoBehaviour, IGameEngine
         PlaceFactionHQ();
         PlaceSpecials();
     }
+    private Faction CreateAFaction(Color col , Vector3 respawnPosition)
+    {
+        Faction newFaction = gameObject.AddComponent<Faction>();
+        col.a = 100f;
+        newFaction.FactionColor = col;
+        newFaction.RespawnPosition = respawnPosition;
+        return newFaction;
+    }
     private void CreateFactions()
     {
-        FactionRED = gameObject.AddComponent<Faction>();
-        Color colTemp = Color.red;
-        colTemp.a = 100f;
-        FactionRED.FactionColor = colTemp;
-        FactionRED.RespawnPosition = new Vector3(0f, 0f, 0f);
-
-        FactionBLUE = gameObject.AddComponent<Faction>();
-        Color colTemp2 = Color.blue;
-        colTemp2.a = 100f;
-        FactionBLUE.FactionColor = colTemp2;
-        FactionBLUE.RespawnPosition = new Vector3(m_nbrXTerritories - 1, m_nbrYTerritories - 1, 0f);
-
-        FactionGREEN = gameObject.AddComponent<Faction>();
-        Color colTemp3 = Color.green;
-        colTemp3.a = 100f;
-        FactionGREEN.FactionColor = colTemp3;
-        FactionGREEN.RespawnPosition = new Vector3(m_nbrXTerritories - 1, 0f, 0f);
-
-        FactionYELLOW = gameObject.AddComponent<Faction>();
-        Color colTemp4 = Color.yellow;
-        colTemp4.a = 100f;
-        FactionYELLOW.FactionColor = colTemp4;
-        FactionYELLOW.RespawnPosition = new Vector3(0f, m_nbrYTerritories - 1, 0f);
+        FactionRED = CreateAFaction(Color.red, new Vector3(0f, 0f, 0f));
+        FactionBLUE = CreateAFaction(Color.blue, new Vector3(m_nbrXTerritories - 1, m_nbrYTerritories - 1, 0f));
+        FactionGREEN = CreateAFaction(Color.green, new Vector3(m_nbrXTerritories - 1, 0f, 0f));
+        FactionYELLOW = CreateAFaction(Color.yellow, new Vector3(0f, m_nbrYTerritories - 1, 0f));
     }
     private void InstanciateTerritories()
     {
@@ -302,7 +291,6 @@ public class PhysicsManager  : MonoBehaviour, IGameEngine
         MakeHq(m_AxeY[m_nbrYTerritories - 2][0].gameObject, FactionGREEN);
         MakeHq(m_AxeY[m_nbrYTerritories - 2][1].gameObject, FactionGREEN);
         //RightTop
-        
         MakeHq(m_AxeY[0][m_nbrXTerritories - 1].gameObject, FactionYELLOW);
         MakeHq(m_AxeY[0][m_nbrXTerritories - 2].gameObject, FactionYELLOW);
         MakeHq(m_AxeY[1][m_nbrXTerritories - 1].gameObject, FactionYELLOW);
