@@ -35,6 +35,7 @@ public class ListenToTwitchIRC : MonoBehaviour {
         int pseudoEnd = message.IndexOf('@');
         pseudo = message.Substring(pseudoStart, pseudoEnd - pseudoStart);
 
+        Debug.LogWarning("0");
 
         string userMessageRaw = message.Substring(indexOfMessageStart + 9);
          string[] tokens = userMessageRaw.Split(':');
@@ -50,6 +51,8 @@ public class ListenToTwitchIRC : MonoBehaviour {
         if (string.IsNullOrEmpty(msg))
             return;
 
+
+        Debug.LogWarning("1");
 
         GenerateAndSendMessage(pseudo, msg);
     }
