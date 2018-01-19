@@ -4,113 +4,256 @@ using UnityEngine;
 
 public class PlayerCharacter : MonoBehaviour
 {
-    public PhysicsManager m_manager;
-    public int troupe;
-    public bool hasGlasses = false;
-    private void Awake()
+    private GameObject m_playerChar;
+    private bool m_hasJustLostBattle;
+
+    private int m_playerCharLVL=1;
+    public int PlayerCharLVL
     {
-        m_playerChar = this.gameObject;
+        get { return m_playerCharLVL; }
+        set { m_playerCharLVL = value; }
     }
+
+    public bool hasGlasses = false;
+    
+    #region properties
+    public PhysicsManager m_manager;
     public PhysicsManager MyManager
     {
         get { return m_manager; }
         set { m_manager = value; }
     }
+
+    private int m_numPlayer;
     public int NumPlayer
     {
         get { return m_numPlayer; }
         set { m_numPlayer = value; }
     }
     
-    public Color PcColor
+    public Color FactionColor
     {
-        get { return m_PcColor; }
-        set { m_PcColor = value; }
+        get { return m_faction.FactionColor; }
     }
 
-    public GameObject CurrentTerritory
-    {
-        get { return m_currentTerritory; }
-        set { m_currentTerritory = value; }
-    }
-    public string PlayerName
-    {
-        get { return m_playerName; }
-        set { m_playerName = value; }
-    }
+    private Faction m_faction;
     public Faction Faction
     {
         get { return m_faction; }
         set { m_faction = value; }
     }
 
-    public void Dig()
+    private GameObject m_currentTerritory;
+    public GameObject CurrentTerritory
     {
-        if (CurrentTerritory.GetComponent<Territory>().HasSpecial)
-        {
-
-        }
-        else
-        {
-            //message nothing to dig?
+        get { return m_currentTerritory; }
+        set {
+            m_currentTerritory = value;
         }
     }
+
+    private string m_playerName;
+    public string PlayerName
+    {
+        get { return m_playerName; }
+        set { m_playerName = value; }
+    }
+
+    private int m_goldmoney;
+    public int Gold
+    {
+        get { return m_goldmoney; }
+        set { m_goldmoney = value; }
+    }
+    #endregion
+
+    #region system
+    private void Awake()
+    {
+        m_goldmoney = 0;
+        m_playerChar = this.gameObject;
+    }
+    #endregion
+
+    #region  class methods
+    public void DoBattle(PlayerCharacter Enemy)
+    {
+        int temp= this.PlayerCharLVL;
+        this.PlayerCharLVL -= Enemy.PlayerCharLVL;
+        Enemy.PlayerCharLVL -= temp;
+        if(this.PlayerCharLVL<1)
+        {
+            this.PlayerCharLVL = 1;
+            this.gameObject.transform.position = this.Faction.RespawnPosition;
+            m_hasJustLostBattle = true;
+        }
+        if (Enemy.PlayerCharLVL < 1)
+        {
+            Enemy.PlayerCharLVL = 1;
+            Enemy.gameObject.transform.position = this.Faction.RespawnPosition;
+        }
+    }
+
+    public void TestForNearbyEnnemies()
+    {
+        float y;
+        float x;
+        Territory TerritoryToTest;
+        y = m_currentTerritory.transform.position.y + 1;
+        if (!(y > m_manager.m_nbrYTerritories - 1))
+        {
+            float tempx = m_currentTerritory.gameObject.transform.position.x;
+            float tempy = m_currentTerritory.gameObject.transform.position.y + 1;
+            TerritoryToTest = GameObject.Find("y=" + (int)tempy + "x=" + (int)tempx).GetComponent<Territory>();
+            if(TerritoryToTest.GetPlayerNumOnTerritory()>0)
+            {
+                foreach(PlayerCharacter OtherMole in TerritoryToTest.GetListOfPlayerOnThisTerritory())
+                {
+
+                    if(!m_hasJustLostBattle)
+                    {
+                        if(this.Faction!=OtherMole.Faction)
+                        {
+                            DoBattle(OtherMole);
+                        }
+                    }
+                }
+            }
+        }
+        y = m_currentTerritory.transform.position.y - 1;
+        if (!(y < 0))
+        {
+            float tempx = m_currentTerritory.gameObject.transform.position.x;
+            float tempy = m_currentTerritory.gameObject.transform.position.y - 1;
+            TerritoryToTest = GameObject.Find("y=" + (int)tempy + "x=" + (int)tempx).GetComponent<Territory>();
+            if (TerritoryToTest.GetPlayerNumOnTerritory() > 0)
+            {
+                foreach (PlayerCharacter OtherMole in TerritoryToTest.GetListOfPlayerOnThisTerritory())
+                {
+                    if (!m_hasJustLostBattle)
+                    {
+                        if (this.Faction != OtherMole.Faction)
+                        {
+                            DoBattle(OtherMole);
+                        }
+                    }
+                        
+                }
+            }
+        }
+        x = m_currentTerritory.transform.position.x - 1;
+        if (!(x < 0))
+        {
+            float tempx = m_currentTerritory.gameObject.transform.position.x - 1;
+            float tempy = m_currentTerritory.gameObject.transform.position.y;
+            TerritoryToTest = GameObject.Find("y=" + (int)tempy + "x=" + (int)tempx).GetComponent<Territory>();
+            if (TerritoryToTest.GetPlayerNumOnTerritory() > 0)
+            {
+                foreach (PlayerCharacter OtherMole in TerritoryToTest.GetListOfPlayerOnThisTerritory())
+                {
+                    if (!m_hasJustLostBattle)
+                    {
+                        if (this.Faction != OtherMole.Faction)
+                        {
+                            DoBattle(OtherMole);
+                        }
+                    }
+                        
+                }
+            }
+        }
+        x = m_currentTerritory.transform.position.x + 1;
+        if (!(x > m_manager.m_nbrXTerritories - 1))
+        {
+            float tempx = m_currentTerritory.gameObject.transform.position.x + 1;
+            float tempy = m_currentTerritory.gameObject.transform.position.y;
+            TerritoryToTest = GameObject.Find("y=" + (int)tempy + "x=" + (int)tempx).GetComponent<Territory>();
+            if (TerritoryToTest.GetPlayerNumOnTerritory() > 0)
+            {
+                foreach (PlayerCharacter OtherMole in TerritoryToTest.GetListOfPlayerOnThisTerritory())
+                {
+                    if (!m_hasJustLostBattle)
+                    {
+                        if (this.Faction != OtherMole.Faction)
+                        {
+                            DoBattle(OtherMole);
+                        }
+                    }
+                        
+                }
+            }
+        }
+        m_hasJustLostBattle = false;
+    }
+
     public void Move(string TypeOfMove)
     {
         float y;
         float x;
-        switch(TypeOfMove)
+        switch (TypeOfMove)
         {
             case "UP":
-                y = m_currentTerritory.transform.position.y+1;//la case au dessus
+                y = m_currentTerritory.transform.position.y + 1;
                 if (!(y > m_manager.m_nbrYTerritories - 1))
                 {
+                    m_playerChar.transform.Translate(0f, 1f, 0f);
                     float tempx = m_currentTerritory.gameObject.transform.position.x;
                     float tempy = m_currentTerritory.gameObject.transform.position.y + 1;
-                    m_playerChar.transform.Translate(0f, 1f, 0f);
-                    m_currentTerritory = GameObject.Find("y="+ (int)tempy+"x="+(int)tempx);
+                    m_currentTerritory = GameObject.Find("y=" + (int)tempy + "x=" + (int)tempx);
+                    // TestForNearbyEnnemies();
                 }
                 break;
             case "DOWN":
-                y = m_currentTerritory.transform.position.y - 1;//la case au dessus
+                y = m_currentTerritory.transform.position.y - 1;
                 if (!(y < 0))
                 {
                     m_playerChar.transform.Translate(0f, -1f, 0f);
                     float tempx = m_currentTerritory.gameObject.transform.position.x;
                     float tempy = m_currentTerritory.gameObject.transform.position.y - 1;
                     m_currentTerritory = GameObject.Find("y=" + (int)tempy + "x=" + (int)tempx);
+                    // TestForNearbyEnnemies();
                 }
                 break;
             case "LEFT":
-                x = m_currentTerritory.transform.position.x - 1;//la case au dessus
+                x = m_currentTerritory.transform.position.x - 1;
                 if (!(x < 0))
                 {
                     m_playerChar.transform.Translate(-1f, 0f, 0f);
                     float tempx = m_currentTerritory.gameObject.transform.position.x - 1;
                     float tempy = m_currentTerritory.gameObject.transform.position.y;
                     m_currentTerritory = GameObject.Find("y=" + (int)tempy + "x=" + (int)tempx);
+                    // TestForNearbyEnnemies();
                 }
                 break;
             case "RIGHT":
-                x = m_currentTerritory.transform.position.x + 1;//la case au dessus
+                x = m_currentTerritory.transform.position.x + 1;
                 if (!(x > m_manager.m_nbrXTerritories - 1))
                 {
                     m_playerChar.transform.Translate(1f, 0f, 0f);
                     float tempx = m_currentTerritory.gameObject.transform.position.x + 1;
                     float tempy = m_currentTerritory.gameObject.transform.position.y;
                     m_currentTerritory = GameObject.Find("y=" + (int)tempy + "x=" + (int)tempx);
+                    // TestForNearbyEnnemies();
                 }
                 break;
             case "DIG":
-                Dig();
+                if (CurrentTerritory.GetComponent<Territory>().HasSpecial)
+                {
+                    Special special = m_currentTerritory.GetComponent<Special>();
+                    SpecialAPI.NotifyNewSpecial(special);
+                }
+                else
+                {
+                    //message nothing to dig?
+                }
                 break;
         }
     }
-    
-    private GameObject m_playerChar;
-    private GameObject m_currentTerritory;
-    private Color m_PcColor;
-    private Faction m_faction;
-    private string m_playerName;
-    private int m_numPlayer;
+    #endregion
+
+    #region Didi
+
+
+
+    #endregion
 }
