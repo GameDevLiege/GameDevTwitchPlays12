@@ -266,6 +266,7 @@ public class PlayerCharacter : MonoBehaviour
                 if (CurrentTerritory.GetComponent<Territory>().HasSpecial)
                 {
                     Special special = m_currentTerritory.GetComponent<Special>();
+                    special.m_playerCharacter = this;
                     SpecialAPI.NotifyNewSpecial(special);
                     if(special.m_typeSpecial==Special.e_specialType.COINCHEST)
                     { m_goldmoney += m_goldPerCoinChest; }

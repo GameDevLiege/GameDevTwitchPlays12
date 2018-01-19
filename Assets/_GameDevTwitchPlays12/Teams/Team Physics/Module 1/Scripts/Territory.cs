@@ -101,7 +101,7 @@ public class Territory  : MonoBehaviour
         m_currentColor = pc.Faction.FactionColor;
         Color col = gameObject.GetComponentInChildren<MeshRenderer>().material.color;
         col = pc.Faction.FactionColor;
-        col.a = 69f;
+        col.a = 100f;
         gameObject.GetComponentInChildren<MeshRenderer>().material.color = col;
         //new territory owner gains Nbrterritory
         if (m_currentColor == Color.red)
