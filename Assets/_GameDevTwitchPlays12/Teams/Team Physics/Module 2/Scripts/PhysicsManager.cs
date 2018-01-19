@@ -200,10 +200,10 @@ public class PhysicsManager  : MonoBehaviour, IGameEngine
     {
         GameStart();
     }
-	
-	void Update () 
+
+    void Update()
     {
-        
+        //testing only !!
         if (Input.GetButtonDown("Fire1"))
         {
             m_listPlayer[0].GetComponent<PlayerCharacter>().Move("UP");
@@ -213,15 +213,21 @@ public class PhysicsManager  : MonoBehaviour, IGameEngine
         {
             m_listPlayer[0].GetComponent<PlayerCharacter>().Move("RIGHT");
         }
+        //--------------
 
-        if(m_gameHasStarted)
+
+        if (m_gameHasStarted)
         {
             if (m_timerFinished)
             {
                 StartCoroutine("TimerPayDay");
             }
         }
-        
+
+        foreach (PlayerInfo _playerInfo in m_listPlayerInfo)
+        {
+            //_placementPlayer(_playerInfo.faction, _playerInfo.posOnScreen, _playerInfo.num, _playerInfo.name, _playerInfo.level, _playerInfo.gold);
+        }
     }
 
     #endregion
