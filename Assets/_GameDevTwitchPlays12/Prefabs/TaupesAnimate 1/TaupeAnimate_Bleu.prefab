@@ -635,6 +635,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d16094638b9722744aa4d6f94d298642, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  brawlSound: {fileID: 8300000, guid: dc54f96a8bd41f74da8095ab26eb3745, type: 3}
+  popSound: {fileID: 8300000, guid: 8d2fa1720908cc14fae3d858f8cf0ca1, type: 3}
+  diggingSound: {fileID: 8300000, guid: 59883988c66872a46a7d7afc98b45ece, type: 3}
+  paperSound: {fileID: 8300000, guid: 6cbff982b1b07f646b4921aa535fc9d2, type: 3}
+  m_goldPerCoinChest: 50
+  m_priceOfLevel: 50
   hasGlasses: 0
   m_manager: {fileID: 0}
 --- !u!137 &137023184814746122

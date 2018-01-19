@@ -4,6 +4,11 @@ using UnityEngine;
 
 public class PlayerCharacter : MonoBehaviour
 {
+    public AudioClip brawlSound;
+    public AudioClip popSound;
+    public AudioClip diggingSound;
+    public AudioClip paperSound;
+
     public int m_goldPerCoinChest = 50;
     public int m_priceOfLevel = 50;
     private bool m_hasJustLostBattle;
@@ -78,6 +83,9 @@ public class PlayerCharacter : MonoBehaviour
     #region  class methods
     public void DoBattle(PlayerCharacter Enemy)
     {
+        GetComponent<AudioSource>().PlayOneShot(brawlSound);
+
+
         Vector3 PlayerRespawnPosition = new Vector3();
         Vector3 EnemyRespawnPosition = new Vector3();
         int temp= this.PlayerCharLVL;
@@ -253,6 +261,8 @@ public class PlayerCharacter : MonoBehaviour
                 }
                 break;
             case "DIG":
+                
+
                 if (CurrentTerritory.GetComponent<Territory>().HasSpecial)
                 {
                     Special special = m_currentTerritory.GetComponent<Special>();
@@ -261,6 +271,13 @@ public class PlayerCharacter : MonoBehaviour
                     { m_goldmoney += m_goldPerCoinChest; }
                     if (special.m_typeSpecial == Special.e_specialType.GLASSES)
                     { hasGlasses=true; }
+
+                    if (special.m_typeSpecial == Special.e_specialType.PARCHEMENT)
+                        GetComponent<AudioSource>().PlayOneShot(paperSound);
+                    else
+                        GetComponent<AudioSource>().PlayOneShot(diggingSound);
+
+
                     CurrentTerritory.GetComponent<Territory>().HasSpecial = false;
                     Destroy(CurrentTerritory.GetComponent("Special"));
                     m_manager.RePopSpecial();

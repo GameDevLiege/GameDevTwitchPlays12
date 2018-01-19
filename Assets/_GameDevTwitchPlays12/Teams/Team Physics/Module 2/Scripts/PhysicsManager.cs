@@ -276,7 +276,7 @@ public class PhysicsManager  : MonoBehaviour, IGameEngine
     public void MakeHq(GameObject HQTerritoryObject, Faction faction)
     {
         HQTerritoryObject.GetComponent<Territory>().IsHQ = true;
-        HQTerritoryObject.GetComponent<MeshRenderer>().material.color = faction.FactionColor;
+        HQTerritoryObject.GetComponentInChildren<MeshRenderer>().material.color = faction.FactionColor;
         HQTerritoryObject.GetComponent<Territory>().CurrentColor = faction.FactionColor;
     }
     private void PlaceFactionHQ()
