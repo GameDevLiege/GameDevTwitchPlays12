@@ -16,7 +16,13 @@ namespace Homebrew
     {
         public float timer;
         private Action actionComplete;
-        private float finishTime;
+        private float finishTime;       
+        public float MyTime
+        {
+            get { return finishTime; }
+            set { finishTime = value; }
+        }
+
         private bool isRunning;
         private IDisposable observerDisposable;
 
@@ -52,6 +58,8 @@ namespace Homebrew
             observerDisposable.Dispose();
             observerDisposable = null;
             actionComplete = null;
+            
         }
+
     }
 }
