@@ -5,7 +5,7 @@ using System;
 using UnityEditor;
 using DidzNeil.ChatAPI;
 
-    [CustomEditor(typeof(Mockup_GameToServer))]
+    [CustomEditor(typeof(Mockup_GameToServerGeneralInfoTimer))]
     [CanEditMultipleObjects]
     public class Mockup_GameToServerEditor : Editor
     {
@@ -13,12 +13,17 @@ using DidzNeil.ChatAPI;
         {
             base.OnInspectorGUI();
 
-            GUILayout.BeginHorizontal();
-            GUILayout.Label("Send Message to: ");
-            if (GUI.Button(Rect.MinMaxRect(0,0,20,20), "Neil"))
-                //GUI.Window(0, new Rect(110, 10, 200, 60),DoMyWindow, "Message to Neil");
+            EditorGUILayout.BeginVertical();
+            GUILayout.Label("");
+            GUILayout.Label("send time in format: time hh:mm:ss");
+            GUILayout.Label("the word 'time' is important before the datetime");
+            GUILayout.Label("");
 
-           GUILayout.EndHorizontal();
+
+        if (GUI.Button(Rect.MinMaxRect(20,20,20,20), "Neil"))
+        GUI.Window(0, new Rect(110, 10, 200, 60),DoMyWindow, "Message to Neil");
+
+        EditorGUILayout.EndVertical();
             
         }
 
