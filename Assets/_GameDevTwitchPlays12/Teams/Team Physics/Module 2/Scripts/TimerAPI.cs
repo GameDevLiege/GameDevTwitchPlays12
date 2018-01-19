@@ -1,12 +1,43 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using System.Linq;
-using UniRx;
+using UnityEngine.UI;
+using Homebrew;
 
 
 public class TimerAPI : MonoBehaviour
 {
-    public float m_timeSpecial_1;
-    public Timer
+    public delegate void MyTimer(bool end);
+    private static MyTimer m_onTimer;
+
+
+    public static void AddListener(MyTimer timer)
+    {
+        m_onTimer += timer;
+
+    }
+    public static void RemoveListener(MyTimer timer)
+    {
+        m_onTimer -= timer;
+
+    }
+
+
+    public static void NotifyEndTimer()
+    {
+        m_onTimer(true);
+    }
+   
+    public Timer LaunchTimer(float seconds ) {
+
+        Timer timer = new Timer(seconds, NotifyEndTimer);
+        
+        return timer;
+    }
+    
+
+    
+
+
 }
+
