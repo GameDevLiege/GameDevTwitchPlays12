@@ -1,11 +1,11 @@
 fileFormatVersion: 2
 guid: 40971c6a154fa434ebdbcd57dc6cc494
-timeCreated: 1516270465
+timeCreated: 1516352795
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
-    21300000: Sprite_HoleDigging_1
-    21300002: Sprite_HoleDigging_2
+    21300000: Sprite_HoleDigging_2
+    21300002: Sprite_HoleDigging_1
     21300004: Sprite_HoleDigging_3
   externalObjects: {}
   serializedVersion: 4
@@ -93,7 +93,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Sprite_HoleDigging_1
+      name: Sprite_HoleDigging_2
       rect:
         serializedVersion: 2
         x: 33
@@ -101,13 +101,13 @@ TextureImporter:
         width: 29
         height: 21
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: Sprite_HoleDigging_2
+      name: Sprite_HoleDigging_1
       rect:
         serializedVersion: 2
         x: 0
@@ -115,7 +115,7 @@ TextureImporter:
         width: 29
         height: 21
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -129,7 +129,7 @@ TextureImporter:
         width: 29
         height: 21
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
