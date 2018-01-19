@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Special  : MonoBehaviour
+public class Special  : MonoBehaviour, ISpecial
 {
 
     #region Public Members
@@ -20,7 +20,25 @@ public class Special  : MonoBehaviour
         STRAIN,
         GLASSES
     }
-    public e_specialType m_typeSpecial;
+
+    private PlayerCharacter _playerCharacter;
+
+    public PlayerCharacter m_playerCharacter
+    {
+        get { return _playerCharacter; }
+        set { _playerCharacter = value; }
+    }
+
+
+    private e_specialType _typeSpecial;
+
+    public e_specialType m_typeSpecial
+    {
+        get { return _typeSpecial; }
+        set { _typeSpecial = value; }
+    }
+
+
     #endregion
 
 

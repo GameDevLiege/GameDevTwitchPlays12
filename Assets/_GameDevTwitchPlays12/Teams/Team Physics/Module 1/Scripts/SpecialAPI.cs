@@ -15,9 +15,9 @@ public class SpecialAPI
         m_onSpecialPickup -= specialPickup;
 
     }
-    public static void NotifyNewSpecial(Special special) {
+    public static void NotifyNewSpecial(ISpecial special) {
         m_onSpecialPickup(special);
     }
-    public delegate void SpecialPickup(Special special);
+    public delegate void SpecialPickup(ISpecial special);
 
 }

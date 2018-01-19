@@ -45,6 +45,18 @@ public class GameManager12 : MonoBehaviour
     protected void Start()
     {
         ChatAPI.AddListener(HandleMessage);
+        SpecialAPI.AddListener(HandleEvent);
+
+
+        //Special spe = new Special();
+        //spe.m_playerCharacter = new PlayerCharacter();
+        //spe.m_typeSpecial = Special.e_specialType.PARCHEMENT;
+        //SpecialAPI.NotifyNewSpecial(spe);
+    }
+
+    private void HandleEvent(ISpecial special)
+    {
+        // m_commandManager.Parse()
     }
 
     private void HandleMessage(Message message)
