@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 
 [RequireComponent(typeof(TwitchIRC))]
-public class AutoStartTwitchIRC : MonoBehaviour {
+public class AutoConnectTwitchIRC : MonoBehaviour {
     public string _userName;
     public string _oAuth;
 
@@ -12,19 +13,17 @@ public class AutoStartTwitchIRC : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 
+        Debug.Log("Hey mon ami", this.gameObject);
         PlayerPrefs.SetString("user", _userName);
         PlayerPrefs.SetString("oauth", _oAuth);
         PlayerPrefs.Save();
 
         _irc = GetComponent<TwitchIRC>();
-        //_irc.Connected += DansTaGueuleLeChat;
         _irc.Login(_userName, _oAuth);
-
-        //_irc.SendCommand("JOIN #" + _userName);
     }
 
-    private void DansTaGueuleLeChat()
-    {
-        Debug.Log("Miaouw");
+    public static void GetOAuthFromWeb(string url) {
+        Application.OpenURL(url);
     }
+
 }

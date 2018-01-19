@@ -14,7 +14,7 @@ namespace DidzNeil.ChatAPI
         string GetMessage();
         Platform GetPlatform();
     }
-
+    [System.Serializable]
     public class Message : IMessage
     {
         [SerializeField]

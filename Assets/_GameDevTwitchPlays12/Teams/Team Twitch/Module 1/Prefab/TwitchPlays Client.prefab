@@ -21,8 +21,11 @@ GameObject:
   - component: {fileID: 4348905036768760}
   - component: {fileID: 114918415657625466}
   - component: {fileID: 212939716677306042}
-  - component: {fileID: 114944162254301976}
   - component: {fileID: 114690263132640672}
+  - component: {fileID: 114944162254301976}
+  - component: {fileID: 114483793253536444}
+  - component: {fileID: 114518249088662704}
+  - component: {fileID: 114374748261928036}
   m_Layer: 0
   m_Name: TwitchPlays Client
   m_TagString: Untagged
@@ -73,6 +76,46 @@ Transform:
   m_Father: {fileID: 4348905036768760}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &114374748261928036
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1441879328337012}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d8fdedd262060bd4abee88e873677e00, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _twitchIRC: {fileID: 114918415657625466}
+  _timeBetweenMessage: 2
+  _coolDown: 0
+--- !u!114 &114483793253536444
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1441879328337012}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5ba4ba3ecae8eb4ab7d82af3504b565, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  debug: 0
+  botMessage: {fileID: 114518249088662704}
+--- !u!114 &114518249088662704
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1441879328337012}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b7a0ba3d5f9ecf84ebf99d3f2e0b985f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _twitchIRC: {fileID: 114918415657625466}
+  _antiSpamFilter: {fileID: 114374748261928036}
 --- !u!114 &114554002995282312
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -84,6 +127,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b2fe9d0f8793efb4e99139ff1b5aa3c6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  trackReceivedMessage: 0
+  trackSendingMessageToUser: 0
+  trackSendingMessageToAll: 0
 --- !u!114 &114690263132640672
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -95,8 +141,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6bd4cdcd45db79446b031f710f99d4c8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _userName: didztm
-  _oAuth: oauth:oabqlbpvx8qddmqv9nqexylu551z9h
+  _userName: JamsCenter
+  _oAuth: oauth:cbk042ncixqogechf1xn57nnrvtwsg
 --- !u!114 &114918415657625466
 MonoBehaviour:
   m_ObjectHideFlags: 1

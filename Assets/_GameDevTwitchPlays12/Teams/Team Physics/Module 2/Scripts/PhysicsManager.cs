@@ -6,7 +6,8 @@ public class PhysicsManager  : MonoBehaviour, IGameEngine
 {
 
     #region Public Members
-    public List<GameObject> m_listPlayer = new List<GameObject>();
+    public List<PlayerCharacter> m_listPlayer = new List<PlayerCharacter>();
+    public List<PlayerInfo> m_listPlayerInfo = new List<PlayerInfo>();
     public int m_sizeOfDiceSpecial = 5;
     public int m_incomePerTerritory = 1;
     public float m_timeBetweenPayDay = 1;
@@ -52,24 +53,6 @@ public class PhysicsManager  : MonoBehaviour, IGameEngine
         }
         m_isInitialized = true;
         
-        
-        FactionRED = gameObject.AddComponent<Faction>();
-        FactionRED.FactionColor = Color.red;
-        FactionRED.RespawnPosition = new Vector3(0f, 0f, 0f);
-        FactionBLUE = gameObject.AddComponent<Faction>();
-        FactionBLUE.FactionColor = Color.blue;
-        FactionBLUE.RespawnPosition = new Vector3(m_nbrXTerritories - 1, m_nbrYTerritories - 1, 0f);
-
-        if (ListOfPlayerNames.Count > 8)
-        {
-            FactionGREEN = gameObject.AddComponent<Faction>();
-            FactionGREEN.FactionColor = Color.green;
-            FactionGREEN.RespawnPosition = new Vector3(m_nbrXTerritories - 1, 0f, 0f);
-            FactionYELLOW = gameObject.AddComponent<Faction>();
-            FactionYELLOW.FactionColor = Color.yellow;
-            FactionYELLOW.RespawnPosition = new Vector3(0f, m_nbrYTerritories - 1, 0f);
-        }
-            
         int PlayerNum = 0;
         for(int faction = 0; PlayerNum< ListOfPlayerNames.Count; PlayerNum++)
         {
@@ -80,13 +63,11 @@ public class PhysicsManager  : MonoBehaviour, IGameEngine
             NewPlayerScript.MyManager = this;
             NewPlayerScript.NumPlayer = PlayerNum;
             NewPlayerScript.PlayerName = ListOfPlayerNames[PlayerNum];
-
             if (faction == 0)
 
             {
                 NewPlayerScript.Faction = FactionRED;
                 FactionRED.AddPlayer(NewPlayerScript);
-                
                 NewPlayerGameObject.transform.position = FactionRED.RespawnPosition;
                 NewPlayerScript.CurrentTerritory = m_AxeY[0][0].gameObject;
             }
@@ -94,7 +75,6 @@ public class PhysicsManager  : MonoBehaviour, IGameEngine
             {
                 NewPlayerScript.Faction = FactionBLUE;
                 FactionBLUE.AddPlayer(NewPlayerScript);
-                
                 NewPlayerGameObject.transform.position = FactionBLUE.RespawnPosition;
                 NewPlayerScript.CurrentTerritory = m_AxeY[m_nbrXTerritories - 1][m_nbrYTerritories - 1].gameObject;
             }
@@ -102,7 +82,6 @@ public class PhysicsManager  : MonoBehaviour, IGameEngine
             {
                 NewPlayerScript.Faction = FactionGREEN;
                 FactionGREEN.AddPlayer(NewPlayerScript);
-                
                 NewPlayerGameObject.transform.position = FactionGREEN.RespawnPosition;
                 NewPlayerScript.CurrentTerritory = m_AxeY[m_nbrXTerritories - 1][0].gameObject;
             }
@@ -110,7 +89,6 @@ public class PhysicsManager  : MonoBehaviour, IGameEngine
             {
                 NewPlayerScript.Faction = FactionYELLOW;
                 FactionYELLOW.AddPlayer(NewPlayerScript);
-                
                 NewPlayerGameObject.transform.position = FactionYELLOW.RespawnPosition;
                 NewPlayerScript.CurrentTerritory = m_AxeY[0][m_nbrYTerritories - 1].gameObject;
             }
@@ -127,9 +105,11 @@ public class PhysicsManager  : MonoBehaviour, IGameEngine
                 faction = 0;
             }
             NewPlayerScript.MyManager = this;
-            m_listPlayer.Add(NewPlayerGameObject);
+            m_listPlayer.Add(NewPlayerScript);
         }
+
     }
+
 
     IEnumerator TimerPayDay()
     {
@@ -147,7 +127,45 @@ public class PhysicsManager  : MonoBehaviour, IGameEngine
 
            
     }
- 
+    public void FillPlayerInfoList()
+    {
+        m_listPlayerInfo.Clear();
+        int nbrRed = 1;
+        int nbrBlue = 1;
+        int nbrGreen = 1;
+        int nbrYellow = 1;
+        for (int i=0; i<m_listPlayer.Count;i++)
+        {
+            PlayerInfo _playerInfo = new PlayerInfo();
+            PlayerCharacter playerC = m_listPlayer[i];
+            _playerInfo.num = m_listPlayer[i].NumPlayer;
+            _playerInfo.name = m_listPlayer[i].PlayerName;
+            _playerInfo.level = m_listPlayer[i].PlayerCharLVL;
+            _playerInfo.gold = m_listPlayer[i].Gold;
+            _playerInfo.faction = m_listPlayer[i].FactionColor.ToString().ToUpper();
+            switch(_playerInfo.faction)
+            {
+                case "GREEN":
+                    _playerInfo.posOnScreen = nbrGreen;
+                    nbrGreen++;
+                    break;
+                case "RED":
+                    _playerInfo.posOnScreen = nbrRed;
+                    nbrRed++;
+                    break;
+                case "BLUE":
+                    _playerInfo.posOnScreen = nbrBlue;
+                    nbrBlue++;
+                    break;
+                case "YELLOW":
+                    _playerInfo.posOnScreen = nbrYellow;
+                    nbrYellow++;
+                    break;
+            }
+            m_listPlayerInfo.Add(_playerInfo);
+        }
+        
+    }
     public void GameStart()
     {
         InitializeBoard();
@@ -163,11 +181,11 @@ public class PhysicsManager  : MonoBehaviour, IGameEngine
 
     public void GetCommandFromPlayer(string PName, string Command)              //JEROME HERE ! Give me a player names and the command he sends ;-)       
     {
-        foreach(GameObject PlayerChar in m_listPlayer)
+        foreach(PlayerCharacter PlayerChar in m_listPlayer)
         {
-            if(PlayerChar.GetComponent<PlayerCharacter>().PlayerName==PName)
+            if(PlayerChar.PlayerName==PName)
             {
-                PlayerChar.GetComponent<PlayerCharacter>().Move(Command);
+                PlayerChar.Move(Command);
             }
         }
     }
@@ -182,10 +200,10 @@ public class PhysicsManager  : MonoBehaviour, IGameEngine
     {
         GameStart();
     }
-	
-	void Update () 
+
+    void Update()
     {
-        
+        //testing only !!
         if (Input.GetButtonDown("Fire1"))
         {
             m_listPlayer[0].GetComponent<PlayerCharacter>().Move("UP");
@@ -195,17 +213,21 @@ public class PhysicsManager  : MonoBehaviour, IGameEngine
         {
             m_listPlayer[0].GetComponent<PlayerCharacter>().Move("RIGHT");
         }
+        //--------------
 
 
-
-        if(m_gameHasStarted)
+        if (m_gameHasStarted)
         {
             if (m_timerFinished)
             {
                 StartCoroutine("TimerPayDay");
             }
         }
-        
+
+        foreach (PlayerInfo _playerInfo in m_listPlayerInfo)
+        {
+            //_placementPlayer(_playerInfo.faction, _playerInfo.posOnScreen, _playerInfo.num, _playerInfo.name, _playerInfo.level, _playerInfo.gold);
+        }
     }
 
     #endregion
@@ -215,8 +237,24 @@ public class PhysicsManager  : MonoBehaviour, IGameEngine
     {
         InstanciateTerritories();
         PlaceCenterZone();
+        CreateFactions();
         PlaceFactionHQ();
         PlaceSpecials();
+    }
+    private Faction CreateAFaction(Color col , Vector3 respawnPosition)
+    {
+        Faction newFaction = gameObject.AddComponent<Faction>();
+        col.a = 100f;
+        newFaction.FactionColor = col;
+        newFaction.RespawnPosition = respawnPosition;
+        return newFaction;
+    }
+    private void CreateFactions()
+    {
+        FactionRED = CreateAFaction(Color.red, new Vector3(0f, 0f, 0f));
+        FactionBLUE = CreateAFaction(Color.blue, new Vector3(m_nbrYTerritories - 1, m_nbrXTerritories - 1, 0f));
+        FactionGREEN = CreateAFaction(Color.green, new Vector3(m_nbrYTerritories - 1, 0f, 0f));
+        FactionYELLOW = CreateAFaction(Color.yellow, new Vector3(0f, m_nbrXTerritories - 1, 0f));
     }
     private void InstanciateTerritories()
     {
@@ -235,52 +273,34 @@ public class PhysicsManager  : MonoBehaviour, IGameEngine
             m_AxeY.Add(m_AxeX);
         }
     }
-    public void ColorHq()
-    {/*
-        Color col = gameObject.GetComponent<MeshRenderer>().material.color;
-        col = pc.Faction.FactionColor;
-        col.a = 100f;
-        gameObject.GetComponent<MeshRenderer>().material.color = col;*/
+    public void MakeHq(GameObject HQTerritoryObject, Faction faction)
+    {
+        HQTerritoryObject.GetComponent<Territory>().IsHQ = true;
+        HQTerritoryObject.GetComponentInChildren<MeshRenderer>().material.color = faction.FactionColor;
+        HQTerritoryObject.GetComponent<Territory>().CurrentColor = faction.FactionColor;
     }
-
     private void PlaceFactionHQ()
     {
         //LeftBottom
-        m_AxeY[1][1].gameObject.GetComponent<Territory>().IsHQ = true;
-        m_AxeY[1][1].gameObject.GetComponent<Territory>().CurrentColor = Color.red;
-        m_AxeY[1][2].gameObject.GetComponent<Territory>().IsHQ = true;
-        m_AxeY[1][2].gameObject.GetComponent<Territory>().CurrentColor = Color.red;
-        m_AxeY[2][1].gameObject.GetComponent<Territory>().IsHQ = true;
-        m_AxeY[2][1].gameObject.GetComponent<Territory>().CurrentColor = Color.red;
-        m_AxeY[2][2].gameObject.GetComponent<Territory>().IsHQ = true;
-        m_AxeY[2][2].gameObject.GetComponent<Territory>().CurrentColor = Color.red;
+        MakeHq(m_AxeY[0][0].gameObject, FactionRED);
+        MakeHq(m_AxeY[0][1].gameObject, FactionRED);
+        MakeHq(m_AxeY[1][0].gameObject, FactionRED);
+        MakeHq(m_AxeY[1][1].gameObject, FactionRED);
         //RightBottom
-        m_AxeY[1][m_nbrXTerritories - 1].gameObject.GetComponent<Territory>().IsHQ = true;
-        m_AxeY[1][m_nbrXTerritories - 1].gameObject.GetComponent<Territory>().CurrentColor = Color.yellow;
-        m_AxeY[1][m_nbrXTerritories - 2].gameObject.GetComponent<Territory>().IsHQ = true;
-        m_AxeY[1][m_nbrXTerritories - 2].gameObject.GetComponent<Territory>().CurrentColor = Color.yellow;
-        m_AxeY[2][m_nbrXTerritories - 1].gameObject.GetComponent<Territory>().IsHQ = true;
-        m_AxeY[1][m_nbrXTerritories - 1].gameObject.GetComponent<Territory>().CurrentColor = Color.yellow;
-        m_AxeY[2][m_nbrXTerritories - 2].gameObject.GetComponent<Territory>().IsHQ = true;
-        m_AxeY[1][m_nbrXTerritories - 2].gameObject.GetComponent<Territory>().CurrentColor = Color.yellow;
+        MakeHq(m_AxeY[m_nbrYTerritories - 1][m_nbrXTerritories - 1].gameObject, FactionBLUE);
+        MakeHq(m_AxeY[m_nbrYTerritories - 1][m_nbrXTerritories - 2].gameObject, FactionBLUE);
+        MakeHq(m_AxeY[m_nbrYTerritories - 2][m_nbrXTerritories - 1].gameObject, FactionBLUE);
+        MakeHq(m_AxeY[m_nbrYTerritories - 2][m_nbrXTerritories - 2].gameObject, FactionBLUE);
         //LeftTop
-        m_AxeY[m_nbrYTerritories - 1][1].gameObject.GetComponent<Territory>().IsHQ = true;
-        m_AxeY[1][1].gameObject.GetComponent<Territory>().CurrentColor = Color.green;
-        m_AxeY[m_nbrYTerritories - 1][2].gameObject.GetComponent<Territory>().IsHQ = true;
-        m_AxeY[1][1].gameObject.GetComponent<Territory>().CurrentColor = Color.green;
-        m_AxeY[m_nbrYTerritories - 2][1].gameObject.GetComponent<Territory>().IsHQ = true;
-        m_AxeY[1][1].gameObject.GetComponent<Territory>().CurrentColor = Color.green;
-        m_AxeY[m_nbrYTerritories - 2][2].gameObject.GetComponent<Territory>().IsHQ = true;
-        m_AxeY[1][1].gameObject.GetComponent<Territory>().CurrentColor = Color.green;
+        MakeHq(m_AxeY[m_nbrYTerritories - 1][0].gameObject, FactionGREEN);
+        MakeHq(m_AxeY[m_nbrYTerritories - 1][1].gameObject, FactionGREEN);
+        MakeHq(m_AxeY[m_nbrYTerritories - 2][0].gameObject, FactionGREEN);
+        MakeHq(m_AxeY[m_nbrYTerritories - 2][1].gameObject, FactionGREEN);
         //RightTop
-        m_AxeY[m_nbrYTerritories - 1][m_nbrXTerritories - 1].gameObject.GetComponent<Territory>().IsHQ = true;
-        m_AxeY[1][1].gameObject.GetComponent<Territory>().CurrentColor = Color.blue;
-        m_AxeY[m_nbrYTerritories - 1][m_nbrXTerritories - 2].gameObject.GetComponent<Territory>().IsHQ = true;
-        m_AxeY[1][1].gameObject.GetComponent<Territory>().CurrentColor = Color.blue;
-        m_AxeY[m_nbrYTerritories - 2][m_nbrXTerritories - 1].gameObject.GetComponent<Territory>().IsHQ = true;
-        m_AxeY[1][1].gameObject.GetComponent<Territory>().CurrentColor = Color.blue;
-        m_AxeY[m_nbrYTerritories - 2][m_nbrXTerritories - 2].gameObject.GetComponent<Territory>().IsHQ = true;
-        m_AxeY[1][1].gameObject.GetComponent<Territory>().CurrentColor = Color.blue;
+        MakeHq(m_AxeY[0][m_nbrXTerritories - 1].gameObject, FactionYELLOW);
+        MakeHq(m_AxeY[0][m_nbrXTerritories - 2].gameObject, FactionYELLOW);
+        MakeHq(m_AxeY[1][m_nbrXTerritories - 1].gameObject, FactionYELLOW);
+        MakeHq(m_AxeY[1][m_nbrXTerritories - 2].gameObject, FactionYELLOW);
 
     }
     private void PlaceCenterZone()
@@ -338,7 +358,40 @@ public class PhysicsManager  : MonoBehaviour, IGameEngine
             }
         }
     }
-
+    public void RePopSpecial()
+    {
+        bool FoundRightPlace=false;
+        
+        while(!FoundRightPlace)
+        {
+            int x = Random.Range(0, m_nbrXTerritories - 1);
+            int y = Random.Range(0, m_nbrYTerritories - 1);
+            if (!m_AxeY[y][x].GetComponent<Territory>().IsHQ)
+            {
+                if (!m_AxeY[y][x].GetComponent<Territory>().IsCenter)
+                {
+                    if (m_AxeY[y][x].GetComponent<Territory>().GetPlayerNumOnTerritory() == 0)
+                    {
+                        if (!m_AxeY[y][x].GetComponent<Territory>().HasSpecial)
+                        {
+                            FoundRightPlace = true;
+                            m_AxeY[y][x].AddComponent<Special>();
+                            int B = Random.Range(1, 7);//random range takes argument 1 inclusive argument 2 exclusive
+                            switch (B)
+                            {
+                                case 1: m_AxeY[y][x].GetComponent<Special>().ChooseTypeOfSpecial(Special.e_specialType.COINCHEST); break;
+                                case 2: m_AxeY[y][x].GetComponent<Special>().ChooseTypeOfSpecial(Special.e_specialType.PARCHEMENT); break;
+                                case 3: m_AxeY[y][x].GetComponent<Special>().ChooseTypeOfSpecial(Special.e_specialType.GRENADES); break;
+                                case 4: m_AxeY[y][x].GetComponent<Special>().ChooseTypeOfSpecial(Special.e_specialType.PEBBLE); break;
+                                case 5: m_AxeY[y][x].GetComponent<Special>().ChooseTypeOfSpecial(Special.e_specialType.SHOVEL); break;
+                                case 6: m_AxeY[y][x].GetComponent<Special>().ChooseTypeOfSpecial(Special.e_specialType.STRAIN); break;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
     #endregion
 
     #region Tools Debug And Utility
