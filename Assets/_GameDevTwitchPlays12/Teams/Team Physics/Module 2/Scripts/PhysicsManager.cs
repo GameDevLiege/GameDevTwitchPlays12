@@ -203,7 +203,7 @@ public class PhysicsManager  : MonoBehaviour, IGameEngine
 	
 	void Update () 
     {
-        /*
+        
         if (Input.GetButtonDown("Fire1"))
         {
             m_listPlayer[0].GetComponent<PlayerCharacter>().Move("UP");
@@ -212,7 +212,7 @@ public class PhysicsManager  : MonoBehaviour, IGameEngine
         if (Input.GetButtonDown("Fire2"))
         {
             m_listPlayer[0].GetComponent<PlayerCharacter>().Move("RIGHT");
-        }*/
+        }
 
         if(m_gameHasStarted)
         {
@@ -246,9 +246,9 @@ public class PhysicsManager  : MonoBehaviour, IGameEngine
     private void CreateFactions()
     {
         FactionRED = CreateAFaction(Color.red, new Vector3(0f, 0f, 0f));
-        FactionBLUE = CreateAFaction(Color.blue, new Vector3(m_nbrXTerritories - 1, m_nbrYTerritories - 1, 0f));
-        FactionGREEN = CreateAFaction(Color.green, new Vector3(m_nbrXTerritories - 1, 0f, 0f));
-        FactionYELLOW = CreateAFaction(Color.yellow, new Vector3(0f, m_nbrYTerritories - 1, 0f));
+        FactionBLUE = CreateAFaction(Color.blue, new Vector3(m_nbrYTerritories - 1, m_nbrXTerritories - 1, 0f));
+        FactionGREEN = CreateAFaction(Color.green, new Vector3(m_nbrYTerritories - 1, 0f, 0f));
+        FactionYELLOW = CreateAFaction(Color.yellow, new Vector3(0f, m_nbrXTerritories - 1, 0f));
     }
     private void InstanciateTerritories()
     {
