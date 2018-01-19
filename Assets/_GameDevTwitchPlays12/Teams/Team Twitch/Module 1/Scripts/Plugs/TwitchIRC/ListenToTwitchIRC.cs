@@ -32,8 +32,16 @@ public class ListenToTwitchIRC : MonoBehaviour {
         //NOT MESSSAGE DETECTED
          if (tokens.Length < 2) return;
 
-         string msg = tokens[1];
+         
          string pseudo = tokens[0];
+
+        if (string.IsNullOrEmpty(pseudo))
+            return;
+        string msg = userMessageRaw.Substring(pseudo.Length+1);
+        if (string.IsNullOrEmpty(msg))
+            return;
+
+
         GenerateAndSendMessage(pseudo, msg);
     }
 
