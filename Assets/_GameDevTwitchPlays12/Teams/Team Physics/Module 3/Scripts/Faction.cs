@@ -5,6 +5,11 @@ using UnityEngine;
 public class Faction : MonoBehaviour
 {
     private List<PlayerCharacter> m_listPlayerChar;
+    public List<PlayerCharacter> ListPlayerChar
+    {
+        get { return m_listPlayerChar; }
+        set { m_listPlayerChar = value; }
+    }
 
     public void AddPlayer(PlayerCharacter player)
     {

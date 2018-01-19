@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class PlayerCharacter : MonoBehaviour
 {
+    public int m_goldPerCoinChest = 50;
+    public int m_priceOfLevel = 50;
     private GameObject m_playerChar;
     private bool m_hasJustLostBattle;
 
@@ -86,11 +88,21 @@ public class PlayerCharacter : MonoBehaviour
             this.PlayerCharLVL = 1;
             this.gameObject.transform.position = this.Faction.RespawnPosition;
             m_hasJustLostBattle = true;
+            if(hasGlasses)
+            {
+                hasGlasses = false;
+                Enemy.hasGlasses = true;
+            }
         }
         if (Enemy.PlayerCharLVL < 1)
         {
             Enemy.PlayerCharLVL = 1;
             Enemy.gameObject.transform.position = this.Faction.RespawnPosition;
+            if (Enemy.hasGlasses)
+            {
+                hasGlasses = true;
+                Enemy.hasGlasses = false;
+            }
         }
     }
 
@@ -200,7 +212,7 @@ public class PlayerCharacter : MonoBehaviour
                     float tempx = m_currentTerritory.gameObject.transform.position.x;
                     float tempy = m_currentTerritory.gameObject.transform.position.y + 1;
                     m_currentTerritory = GameObject.Find("y=" + (int)tempy + "x=" + (int)tempx);
-                    // TestForNearbyEnnemies();
+                    TestForNearbyEnnemies();
                 }
                 break;
             case "DOWN":
@@ -211,7 +223,7 @@ public class PlayerCharacter : MonoBehaviour
                     float tempx = m_currentTerritory.gameObject.transform.position.x;
                     float tempy = m_currentTerritory.gameObject.transform.position.y - 1;
                     m_currentTerritory = GameObject.Find("y=" + (int)tempy + "x=" + (int)tempx);
-                    // TestForNearbyEnnemies();
+                    TestForNearbyEnnemies();
                 }
                 break;
             case "LEFT":
@@ -222,7 +234,7 @@ public class PlayerCharacter : MonoBehaviour
                     float tempx = m_currentTerritory.gameObject.transform.position.x - 1;
                     float tempy = m_currentTerritory.gameObject.transform.position.y;
                     m_currentTerritory = GameObject.Find("y=" + (int)tempy + "x=" + (int)tempx);
-                    // TestForNearbyEnnemies();
+                    TestForNearbyEnnemies();
                 }
                 break;
             case "RIGHT":
@@ -233,7 +245,7 @@ public class PlayerCharacter : MonoBehaviour
                     float tempx = m_currentTerritory.gameObject.transform.position.x + 1;
                     float tempy = m_currentTerritory.gameObject.transform.position.y;
                     m_currentTerritory = GameObject.Find("y=" + (int)tempy + "x=" + (int)tempx);
-                    // TestForNearbyEnnemies();
+                    TestForNearbyEnnemies();
                 }
                 break;
             case "DIG":
@@ -241,13 +253,28 @@ public class PlayerCharacter : MonoBehaviour
                 {
                     Special special = m_currentTerritory.GetComponent<Special>();
                     SpecialAPI.NotifyNewSpecial(special);
+                    if(special.m_typeSpecial==Special.e_specialType.COINCHEST)
+                    { m_goldmoney += m_goldPerCoinChest; }
+                    if (special.m_typeSpecial == Special.e_specialType.GLASSES)
+                    { hasGlasses=true; }
+                    CurrentTerritory.GetComponent<Territory>().HasSpecial = false;
+                    Destroy(CurrentTerritory.GetComponent("Special"));
+                    m_manager.RePopSpecial();
                 }
                 else
                 {
                     //message nothing to dig?
                 }
                 break;
+            case "!LEVEL":
+                if(m_goldmoney>m_priceOfLevel)
+                {
+                    m_goldmoney -= m_priceOfLevel;
+                    m_playerCharLVL++;
+                }
+                break;
         }
+
     }
     #endregion
 
