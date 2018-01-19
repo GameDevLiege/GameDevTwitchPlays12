@@ -41,6 +41,7 @@ GameObject:
   - component: {fileID: 23156243594258858}
   - component: {fileID: 114683495011549988}
   - component: {fileID: 54008771532708926}
+  - component: {fileID: 95943576499413564}
   m_Layer: 31
   m_Name: Player
   m_TagString: Untagged
@@ -177,6 +178,23 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.9, y: 0.9, z: 0.9}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!95 &95943576499413564
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1811233539323332}
+  m_Enabled: 1
+  m_Avatar: {fileID: 9000000, guid: e68d24569e8603d479d59225d2d819ee, type: 3}
+  m_Controller: {fileID: 9100000, guid: df5fcaa7e9268bd47beeac6f16598ecb, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
 --- !u!102 &102590727824589028
 TextMesh:
   serializedVersion: 3
@@ -209,6 +227,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d16094638b9722744aa4d6f94d298642, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_manager: {fileID: 0}
-  troupe: 0
   hasGlasses: 0
+  m_manager: {fileID: 0}

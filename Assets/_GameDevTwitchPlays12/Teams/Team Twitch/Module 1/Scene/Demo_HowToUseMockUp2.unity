@@ -195,7 +195,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4179254464922852, guid: 708d8124107b6f843b78961e201e0d03, type: 2}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: 1286
       objectReference: {fileID: 0}
     - target: {fileID: 4179254464922852, guid: 708d8124107b6f843b78961e201e0d03, type: 2}
       propertyPath: m_LocalRotation.x
@@ -216,6 +216,16 @@ Prefab:
     - target: {fileID: 4179254464922852, guid: 708d8124107b6f843b78961e201e0d03, type: 2}
       propertyPath: m_RootOrder
       value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 114173783189295956, guid: 708d8124107b6f843b78961e201e0d03,
+        type: 2}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114220191593505364, guid: 708d8124107b6f843b78961e201e0d03,
+        type: 2}
+      propertyPath: m_Enabled
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 708d8124107b6f843b78961e201e0d03, type: 2}
@@ -259,8 +269,55 @@ Prefab:
       propertyPath: m_RootOrder
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 114336635717513684, guid: 6cf10a03be600d5449615f6d12dcb00c,
+        type: 2}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 6cf10a03be600d5449615f6d12dcb00c, type: 2}
+  m_IsPrefabParent: 0
+--- !u!1001 &523434508
+Prefab:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 4705345560037016, guid: 92f09238231f5cf478f906bad139f6ac, type: 2}
+      propertyPath: m_LocalPosition.x
+      value: 520.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4705345560037016, guid: 92f09238231f5cf478f906bad139f6ac, type: 2}
+      propertyPath: m_LocalPosition.y
+      value: 221.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4705345560037016, guid: 92f09238231f5cf478f906bad139f6ac, type: 2}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4705345560037016, guid: 92f09238231f5cf478f906bad139f6ac, type: 2}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4705345560037016, guid: 92f09238231f5cf478f906bad139f6ac, type: 2}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4705345560037016, guid: 92f09238231f5cf478f906bad139f6ac, type: 2}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4705345560037016, guid: 92f09238231f5cf478f906bad139f6ac, type: 2}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4705345560037016, guid: 92f09238231f5cf478f906bad139f6ac, type: 2}
+      propertyPath: m_RootOrder
+      value: 7
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_ParentPrefab: {fileID: 100100000, guid: 92f09238231f5cf478f906bad139f6ac, type: 2}
   m_IsPrefabParent: 0
 --- !u!1 &647105243
 GameObject:
@@ -545,7 +602,7 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1956502663}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1343348f8f7d8ce4d9828cdf182f84a4, type: 3}
   m_Name: 
@@ -563,8 +620,9 @@ MonoBehaviour:
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
-        m_CallState: 2
+        m_CallState: 1
     m_TypeName: MessageEvent, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+  _ignoreMock: 0
 --- !u!114 &1956502666
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -576,6 +634,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b2fe9d0f8793efb4e99139ff1b5aa3c6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  trackReceivedMessage: 0
+  trackSendingMessageToUser: 1
+  trackSendingMessageToAll: 1
 --- !u!1 &2128102089
 GameObject:
   m_ObjectHideFlags: 0

@@ -28,8 +28,9 @@ namespace DidzNeil.ChatAPI
         #endregion
 
         public static bool IgnoreMockUp;
-        public delegate void MessageReceived(Message message);
         private static MessageReceived m_onMessageReceived;
+       // public delegate void MessageSended(Message message);
+       // private static MessageSended m_onMessageSended;
 
         public static void AddListener(MessageReceived messageReceived)
         {
@@ -62,6 +63,37 @@ namespace DidzNeil.ChatAPI
         }
 
 
+        #region SEND INFO
+        // public delegate void SendMessageToAllOnPlatform(Platform platform, Message msg);
+
+
+
+        public static SendMessageTo _sendMessageToUser;
+        public static SendMessageToAll _sendMessageEveryBody;
+
+        public static void AddGameToServerListener(SendMessageTo user) { _sendMessageToUser += user; }
+        public static void AddGameToServerListener(SendMessageToAll allUser) { _sendMessageEveryBody += allUser; }
+
+        public static void SendMessageToUser(string user, Platform platform, Message msg) {
+
+            if (_sendMessageToUser != null)
+                _sendMessageToUser(user, platform, msg);
+
+        }
+        public static void SendMessageToEveryUsers( Message msg)
+        {
+
+            if (_sendMessageEveryBody != null)
+                _sendMessageEveryBody( msg);
+
+        }
+
+        #endregion
+
     }
+
+    public delegate void MessageReceived(Message message);
+    public delegate void SendMessageTo(string user, Platform platform, Message msg);
+    public delegate void SendMessageToAll(Message msg);
 
 }

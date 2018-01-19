@@ -51,7 +51,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 36fd9ff33c87a534f91cc585fc8d84ed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isRandom: 1
   _minTimeSending: 0.1
   _maxTimeSending: 1
   m_usernames:

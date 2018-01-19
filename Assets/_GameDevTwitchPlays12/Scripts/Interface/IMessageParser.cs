@@ -7,6 +7,6 @@ namespace GameManager
     {
         ICommand Parse(string _username, int _platform, string _message, long _timestamp);
 
-        Dictionary<string, long> userDataBase { get; }
+        Dictionary<string, PlayerCTRL> userDataBase { get; }
     }
 }

@@ -4,7 +4,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Mockup_SequenceMessages : MonoBehaviour {
+public class Mockup_SequenceMessages : MonoBehaviour
+{
 
     public float _minTimeSending = 0.1f;
     public float _maxTimeSending = 1f;
