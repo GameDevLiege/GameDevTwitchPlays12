@@ -66,16 +66,9 @@ public class Territory  : MonoBehaviour
     {
         PlayerCharacter pc = col.GetComponent<PlayerCharacter>();
         m_listPlayerCharOnTerritory.Add(pc);
-        if(m_listPlayerCharOnTerritory.Count>1)
+        if ((m_currentColor != pc.Faction.FactionColor)&&(!IsHQ))
         {
-            Battle();
-        }
-        else
-        {
-            if (m_currentColor != pc.Faction.FactionColor)
-            {
-                ColorChange(pc);
-            }
+            ColorChange(pc);
         }
     }
     private void OnTriggerExit(Collider col)
@@ -85,8 +78,8 @@ public class Territory  : MonoBehaviour
 
     private void ColorChange(PlayerCharacter pc)
     {
-        
-        if (m_currentColor != Color.white)//donc si ça appartient a un autre joueur, on leur vole donc -1 en nombre territoires pour eux
+        //previous territory owner looses Nbrterritory
+        if (m_currentColor != Color.white)
         {
             if (m_currentColor == Color.red)
             {
@@ -106,7 +99,11 @@ public class Territory  : MonoBehaviour
             }
         }
         m_currentColor = pc.Faction.FactionColor;
-        gameObject.GetComponent<MeshRenderer>().material.color = pc.Faction.FactionColor;
+        Color col = gameObject.GetComponent<MeshRenderer>().material.color;
+        col = pc.Faction.FactionColor;
+        col.a = 100f;
+        gameObject.GetComponent<MeshRenderer>().material.color = col;
+        //new territory owner gains Nbrterritory
         if (m_currentColor == Color.red)
         {
             m_manager.FactionRED.NbrTerritories++;

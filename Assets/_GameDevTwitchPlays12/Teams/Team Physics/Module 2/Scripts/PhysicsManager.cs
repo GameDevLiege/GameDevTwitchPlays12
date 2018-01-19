@@ -55,16 +55,19 @@ public class PhysicsManager  : MonoBehaviour, IGameEngine
         
         FactionRED = gameObject.AddComponent<Faction>();
         FactionRED.FactionColor = Color.red;
-        //FactionRED.
+        FactionRED.RespawnPosition = new Vector3(0f, 0f, 0f);
         FactionBLUE = gameObject.AddComponent<Faction>();
         FactionBLUE.FactionColor = Color.blue;
+        FactionBLUE.RespawnPosition = new Vector3(m_nbrXTerritories - 1, m_nbrYTerritories - 1, 0f);
 
         if (ListOfPlayerNames.Count > 8)
         {
             FactionGREEN = gameObject.AddComponent<Faction>();
             FactionGREEN.FactionColor = Color.green;
+            FactionGREEN.RespawnPosition = new Vector3(m_nbrXTerritories - 1, 0f, 0f);
             FactionYELLOW = gameObject.AddComponent<Faction>();
             FactionYELLOW.FactionColor = Color.yellow;
+            FactionYELLOW.RespawnPosition = new Vector3(0f, m_nbrYTerritories - 1, 0f);
         }
             
         int PlayerNum = 0;
@@ -73,7 +76,6 @@ public class PhysicsManager  : MonoBehaviour, IGameEngine
             GameObject NewPlayerGameObject = Instantiate(m_playerCharPrefab, new Vector3(0f, 0f, 0f), Quaternion.identity, transform);
             NewPlayerGameObject.name = ListOfPlayerNames[PlayerNum];
             NewPlayerGameObject.GetComponentInChildren<TextMesh>().text = "" + PlayerNum;
-            
             PlayerCharacter NewPlayerScript = NewPlayerGameObject.GetComponent<PlayerCharacter>();
             NewPlayerScript.MyManager = this;
             NewPlayerScript.NumPlayer = PlayerNum;
@@ -85,7 +87,7 @@ public class PhysicsManager  : MonoBehaviour, IGameEngine
                 NewPlayerScript.Faction = FactionRED;
                 FactionRED.AddPlayer(NewPlayerScript);
                 
-                NewPlayerGameObject.transform.position = new Vector3(0f,0f,0f);
+                NewPlayerGameObject.transform.position = FactionRED.RespawnPosition;
                 NewPlayerScript.CurrentTerritory = m_AxeY[0][0].gameObject;
             }
             else if (faction == 1)
@@ -93,7 +95,7 @@ public class PhysicsManager  : MonoBehaviour, IGameEngine
                 NewPlayerScript.Faction = FactionBLUE;
                 FactionBLUE.AddPlayer(NewPlayerScript);
                 
-                NewPlayerGameObject.transform.position = new Vector3(m_nbrXTerritories-1, m_nbrYTerritories-1, 0f);
+                NewPlayerGameObject.transform.position = FactionBLUE.RespawnPosition;
                 NewPlayerScript.CurrentTerritory = m_AxeY[m_nbrXTerritories - 1][m_nbrYTerritories - 1].gameObject;
             }
             else if (faction == 2)
@@ -101,7 +103,7 @@ public class PhysicsManager  : MonoBehaviour, IGameEngine
                 NewPlayerScript.Faction = FactionGREEN;
                 FactionGREEN.AddPlayer(NewPlayerScript);
                 
-                NewPlayerGameObject.transform.position = new Vector3(m_nbrXTerritories-1, 0f, 0f);
+                NewPlayerGameObject.transform.position = FactionGREEN.RespawnPosition;
                 NewPlayerScript.CurrentTerritory = m_AxeY[m_nbrXTerritories - 1][0].gameObject;
             }
             else if (faction == 3)
@@ -109,7 +111,7 @@ public class PhysicsManager  : MonoBehaviour, IGameEngine
                 NewPlayerScript.Faction = FactionYELLOW;
                 FactionYELLOW.AddPlayer(NewPlayerScript);
                 
-                NewPlayerGameObject.transform.position = new Vector3(0f, m_nbrYTerritories - 1, 0f);
+                NewPlayerGameObject.transform.position = FactionYELLOW.RespawnPosition;
                 NewPlayerScript.CurrentTerritory = m_AxeY[0][m_nbrYTerritories - 1].gameObject;
             }
             faction++;
@@ -183,7 +185,7 @@ public class PhysicsManager  : MonoBehaviour, IGameEngine
 	
 	void Update () 
     {
-        /*
+        
         if (Input.GetButtonDown("Fire1"))
         {
             m_listPlayer[0].GetComponent<PlayerCharacter>().Move("UP");
@@ -191,16 +193,8 @@ public class PhysicsManager  : MonoBehaviour, IGameEngine
         }
         if (Input.GetButtonDown("Fire2"))
         {
-            Move("DOWN");
-        }
-        if (Input.GetButtonDown("Fire1"))
-        {
-            Move("LEFT");
-        }
-        if (Input.GetButtonDown("Fire2"))
-        {
             m_listPlayer[0].GetComponent<PlayerCharacter>().Move("RIGHT");
-        }*/
+        }
 
 
 
@@ -241,6 +235,14 @@ public class PhysicsManager  : MonoBehaviour, IGameEngine
             m_AxeY.Add(m_AxeX);
         }
     }
+    public void ColorHq()
+    {/*
+        Color col = gameObject.GetComponent<MeshRenderer>().material.color;
+        col = pc.Faction.FactionColor;
+        col.a = 100f;
+        gameObject.GetComponent<MeshRenderer>().material.color = col;*/
+    }
+
     private void PlaceFactionHQ()
     {
         //LeftBottom

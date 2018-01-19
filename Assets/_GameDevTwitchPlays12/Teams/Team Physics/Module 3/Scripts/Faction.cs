@@ -37,6 +37,11 @@ public class Faction : MonoBehaviour
         get { return m_goldReserves; }
         set { m_goldReserves = value; }
     }
+    public Vector3 RespawnPosition
+    {
+        get { return m_respawnPosition; }
+        set { m_respawnPosition = value; }
+    }
 
 
     void StartCountDown()
