@@ -51,7 +51,6 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4609739159526672}
-  - component: {fileID: 114722403750916680}
   m_Layer: 0
   m_Name: MockUp_SequenceMessages
   m_TagString: Untagged
@@ -111,8 +110,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e6c837f1bccf846478883b969383aca0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _minTimeSending: 0.1
-  _maxTimeSending: 1
+  _minTimeSending: 0
+  _maxTimeSending: 0.1
   _messageToSend:
   - _userName: Neil
     _message: '!up'
@@ -130,21 +129,9 @@ MonoBehaviour:
     _message: '!right'
   - _userName: NotAMember
     _message: '!right'
+  - _userName: Neil
+    _message: '!dig'
   _messageIndex: 0
---- !u!114 &114722403750916680
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1188282508493648}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b2fe9d0f8793efb4e99139ff1b5aa3c6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  trackReceivedMessage: 1
-  trackSendingMessageToUser: 1
-  trackSendingMessageToAll: 1
 --- !u!114 &114888170188534344
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -156,8 +143,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e6c837f1bccf846478883b969383aca0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _minTimeSending: 0.1
-  _maxTimeSending: 1
+  _minTimeSending: 0
+  _maxTimeSending: 0.1
   _messageToSend:
   - _userName: Neil
     _message: '!join'

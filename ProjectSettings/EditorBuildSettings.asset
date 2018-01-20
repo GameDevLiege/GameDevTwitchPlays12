@@ -4,4 +4,7 @@
 EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
-  m_Scenes: []
+  m_Scenes:
+  - enabled: 1
+    path: Assets/_GameDevTwitchPlays12/Scenes/Main-with-mockup.unity
+    guid: 2f53b6884f356f64fa7610aefd61078e
