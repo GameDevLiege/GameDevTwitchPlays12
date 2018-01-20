@@ -179,7 +179,7 @@ GameObject:
   - component: {fileID: 114478199055602206}
   - component: {fileID: 82275850572793376}
   m_Layer: 31
-  m_Name: TaupeAnimate_Bleu
+  m_Name: TaupeAnimate
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -737,7 +737,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_HelmetColor: {fileID: 1787192005281606}
-  m_ColorHelmet: 1
+  m_ColorHelmet: {r: 0, g: 0, b: 1, a: 1}
 --- !u!137 &137023184814746122
 SkinnedMeshRenderer:
   m_ObjectHideFlags: 1
