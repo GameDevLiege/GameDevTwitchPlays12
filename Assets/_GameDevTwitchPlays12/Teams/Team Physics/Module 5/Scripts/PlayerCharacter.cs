@@ -100,6 +100,7 @@ public class PlayerCharacter : MonoBehaviour
             m_hasJustLostBattle = true;
             if(hasGlasses)
             {
+                Territory.NotifyIsNotCentral(this.Faction);
                 hasGlasses = false;
                 Enemy.hasGlasses = true;
             }
@@ -112,6 +113,7 @@ public class PlayerCharacter : MonoBehaviour
             Enemy.m_currentTerritory = GameObject.Find("y=" + EnemyRespawnPosition.y + "x=" + EnemyRespawnPosition.x);
             if (Enemy.hasGlasses)
             {
+                Territory.NotifyIsNotCentral(Enemy.Faction);
                 hasGlasses = true;
                 Enemy.hasGlasses = false;
             }

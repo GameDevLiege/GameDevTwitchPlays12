@@ -295,15 +295,15 @@ public class PhysicsManager  : MonoBehaviour, IGameEngine
         MakeHq(m_AxeY[m_nbrYTerritories - 2][m_nbrXTerritories - 1].gameObject, FactionBLUE);
         MakeHq(m_AxeY[m_nbrYTerritories - 2][m_nbrXTerritories - 2].gameObject, FactionBLUE);
         //LeftTop
-        MakeHq(m_AxeY[m_nbrYTerritories - 1][0].gameObject, FactionGREEN);
-        MakeHq(m_AxeY[m_nbrYTerritories - 1][1].gameObject, FactionGREEN);
-        MakeHq(m_AxeY[m_nbrYTerritories - 2][0].gameObject, FactionGREEN);
-        MakeHq(m_AxeY[m_nbrYTerritories - 2][1].gameObject, FactionGREEN);
+        MakeHq(m_AxeY[m_nbrYTerritories - 1][0].gameObject, FactionYELLOW);
+        MakeHq(m_AxeY[m_nbrYTerritories - 1][1].gameObject, FactionYELLOW);
+        MakeHq(m_AxeY[m_nbrYTerritories - 2][0].gameObject, FactionYELLOW);
+        MakeHq(m_AxeY[m_nbrYTerritories - 2][1].gameObject, FactionYELLOW);
         //RightTop
-        MakeHq(m_AxeY[0][m_nbrXTerritories - 1].gameObject, FactionYELLOW);
-        MakeHq(m_AxeY[0][m_nbrXTerritories - 2].gameObject, FactionYELLOW);
-        MakeHq(m_AxeY[1][m_nbrXTerritories - 1].gameObject, FactionYELLOW);
-        MakeHq(m_AxeY[1][m_nbrXTerritories - 2].gameObject, FactionYELLOW);
+        MakeHq(m_AxeY[0][m_nbrXTerritories - 1].gameObject, FactionGREEN);
+        MakeHq(m_AxeY[0][m_nbrXTerritories - 2].gameObject, FactionGREEN);
+        MakeHq(m_AxeY[1][m_nbrXTerritories - 1].gameObject, FactionGREEN);
+        MakeHq(m_AxeY[1][m_nbrXTerritories - 2].gameObject, FactionGREEN);
 
     }
     private void PlaceCenterZone()
