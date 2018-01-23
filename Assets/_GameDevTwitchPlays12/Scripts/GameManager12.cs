@@ -3,6 +3,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
+
+
 using GameManager;
 using DidzNeil.ChatAPI;
 
@@ -42,16 +47,37 @@ public class GameManager12 : MonoBehaviour
         m_gameEngine = GetComponent<PhysicsManager>();
     }
 
+#if UNITY_EDITOR
+    [MenuItem("GDL-Twitch12/Stun Neil %t")]
+    public static void test()
+    {
+        Special spe = new Special();
+        spe.m_playerCharacter = new PlayerCharacter() { PlayerName = "0 Neil" };
+        spe.m_typeSpecial = Special.e_specialType.PARCHEMENT;
+        SpecialAPI.NotifyNewSpecial(spe);
+
+        string ticks = "?";
+        try
+        {
+            ticks = GameObject.Find("PManager").GetComponent<CommandManager>().stunMult.ToString();
+        }
+        catch(Exception)
+        {
+
+        }
+
+        Debug.LogWarning("Stunning Neil for " +  ticks + " ticks!");
+    }
+#endif
+
+
     protected void Start()
     {
         ChatAPI.AddListener(HandleMessage);
         SpecialAPI.AddListener(HandleEvent);
 
 
-        Special spe = new Special();
-        spe.m_playerCharacter = new PlayerCharacter() { PlayerName = "0 Test" };
-        spe.m_typeSpecial = Special.e_specialType.PARCHEMENT;
-        SpecialAPI.NotifyNewSpecial(spe);
+        
     }
 
     private void HandleEvent(ISpecial special)

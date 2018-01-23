@@ -11,7 +11,7 @@ public class ChatAPIToConsole : MonoBehaviour {
     public bool trackSendingMessageToAll;
 
     // Use this for initialization
-    void Awake ()
+    void Start ()
     {
         if(trackReceivedMessage)
             ChatAPI.AddListener(DisplayMessageWhenReceived);

@@ -59,6 +59,7 @@ public class PhysicsManager  : MonoBehaviour, IGameEngine
             GameObject NewPlayerGameObject = Instantiate(m_playerCharPrefab, new Vector3(0f, 0f, 0f), Quaternion.identity, transform);
             NewPlayerGameObject.name = ListOfPlayerNames[PlayerNum];
             NewPlayerGameObject.GetComponentInChildren<TextMesh>().text = "" + PlayerNum;
+
             PlayerCharacter NewPlayerScript = NewPlayerGameObject.GetComponent<PlayerCharacter>();
             NewPlayerScript.MyManager = this;
             NewPlayerScript.NumPlayer = PlayerNum;
@@ -104,7 +105,9 @@ public class PhysicsManager  : MonoBehaviour, IGameEngine
             {
                 faction = 0;
             }
-            NewPlayerScript.MyManager = this;
+
+            NewPlayerGameObject.GetComponent<ColorHelmet>().UpdateColor(NewPlayerScript.FactionColor);
+
             m_listPlayer.Add(NewPlayerScript);
         }
 
@@ -276,7 +279,7 @@ public class PhysicsManager  : MonoBehaviour, IGameEngine
     public void MakeHq(GameObject HQTerritoryObject, Faction faction)
     {
         HQTerritoryObject.GetComponent<Territory>().IsHQ = true;
-        HQTerritoryObject.GetComponent<MeshRenderer>().material.color = faction.FactionColor;
+        HQTerritoryObject.GetComponentInChildren<MeshRenderer>().material.color = faction.FactionColor;
         HQTerritoryObject.GetComponent<Territory>().CurrentColor = faction.FactionColor;
     }
     private void PlaceFactionHQ()
