@@ -31,8 +31,6 @@ public class GameManager12 : MonoBehaviour
 
     public ICommandManager m_commandManager;
 
-    private Queue<ICommand> m_commandQueue = new Queue<ICommand>();
-
     #endregion
 
     #region Public void
