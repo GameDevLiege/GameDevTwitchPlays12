@@ -20,4 +20,4 @@ public class SpecialAPI
     }
     public delegate void SpecialPickup(ISpecial special);
 
-}
+   }

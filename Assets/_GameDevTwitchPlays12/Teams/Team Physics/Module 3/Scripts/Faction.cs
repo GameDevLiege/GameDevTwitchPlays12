@@ -22,6 +22,7 @@ public class Faction : MonoBehaviour
         if(m_listPlayerChar.Contains()
     }*/
 
+
     public Color FactionColor
     {
         get { return m_factionColor; }

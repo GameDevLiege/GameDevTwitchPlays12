@@ -1,22 +1,27 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Homebrew;
 
 public class Territory  : MonoBehaviour
 {
 
     #region Public Members
-    
+
 
     #endregion
 
 
     #region Public Void
+    public delegate void IsCentral(bool end,Faction faction);
+    private static IsCentral m_isCentral;
+
     public bool HasSpecial
     {
         get { return m_hasSpecial; }
         set { m_hasSpecial = value; }
     }
+
     public bool IsHQ
     {
         get { return m_isHQ; }
@@ -47,8 +52,9 @@ public class Territory  : MonoBehaviour
     {
     return m_listPlayerCharOnTerritory.Count;
     }
-
-
+    public Timer m_timer;
+    public float centralTime=60;
+    public Faction m_playerFaction= new Faction();
     #endregion
 
 
@@ -70,10 +76,24 @@ public class Territory  : MonoBehaviour
         {
             ColorChange(pc);
         }
+        if(IsCenter)
+        {
+            if(pc.hasGlasses)
+            {
+                NotifyIsCentral(pc.Faction);
+            }
+        }
+        else if(pc.hasGlasses && !IsCenter)
+        {
+            NotifyIsNotCentral(pc.Faction);
+        }
     }
+
     private void OnTriggerExit(Collider col)
     {
         m_listPlayerCharOnTerritory.Remove(col.GetComponent<PlayerCharacter>());
+      
+
     }
 
     private void ColorChange(PlayerCharacter pc)
@@ -142,4 +162,35 @@ public class Territory  : MonoBehaviour
     private PhysicsManager m_manager;
     #endregion
 
+    private void TimerOnCentral(bool bol) {
+        //Partie gagnée
+        StartCoroutine("GameOver");
+    }
+    IEnumerator GameOver()
+    {
+
+        yield return new WaitForSeconds(10);
+        
+    }
+
+    public static void AddListener(IsCentral isCentral)
+    {
+        m_isCentral += isCentral;
+
+    }
+    public static void RemoveListener(IsCentral isCentral)
+    {
+        m_isCentral -= isCentral;
+
+    }
+
+
+    public static void NotifyIsCentral(Faction faction)
+    {
+        m_isCentral(true, faction );
+    }
+    public static void NotifyIsNotCentral(Faction faction)
+    {
+        m_isCentral(false,faction);
+    }
 }
