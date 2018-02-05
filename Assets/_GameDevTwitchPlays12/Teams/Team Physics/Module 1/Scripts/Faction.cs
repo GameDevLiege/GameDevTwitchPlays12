@@ -4,16 +4,27 @@ using UnityEngine;
 
 public class Faction : MonoBehaviour
 {
-    private List<PlayerCharacter> m_listPlayerChar;
-    public List<PlayerCharacter> ListPlayerChar
+    public static Faction RED { get; set; }
+    public static Faction BLUE { get; set; } 
+    public static Faction GREEN { get; set; }
+    public static Faction YELLOW { get; set; }
+
+
+
+
+    public float m_timeBetweenPayDay = 1;
+    private bool m_timerFinished = true;
+    public int m_incomePerTerritory = 1;
+    private List<Player> m_listPlayer;
+    public List<Player> ListPlayer
     {
-        get { return m_listPlayerChar; }
-        set { m_listPlayerChar = value; }
+        get { return m_listPlayer; }
+        set { m_listPlayer = value; }
     }
 
-    public void AddPlayer(PlayerCharacter player)
+    public void AddPlayer(Player player)
     {
-        m_listPlayerChar.Add(player);
+        m_listPlayer.Add(player);
     }
     /*
      * TODO
@@ -21,7 +32,6 @@ public class Faction : MonoBehaviour
     {
         if(m_listPlayerChar.Contains()
     }*/
-
 
     public Color FactionColor
     {
@@ -43,10 +53,16 @@ public class Faction : MonoBehaviour
         get { return m_goldReserves; }
         set { m_goldReserves = value; }
     }
-    public Vector3 RespawnPosition
+    public Territory RespawnPosition { get; set; }
+
+
+    IEnumerator TimerPayDay()
     {
-        get { return m_respawnPosition; }
-        set { m_respawnPosition = value; }
+        m_timerFinished = false;
+        yield return new WaitForSeconds(m_timeBetweenPayDay);
+        GoldReserves += NbrTerritories * m_incomePerTerritory;
+        m_timerFinished = true;
+        DispatchMoney();
     }
 
 
@@ -56,24 +72,25 @@ public class Faction : MonoBehaviour
     }
     private void Awake()
     {
-        m_listPlayerChar = new List<PlayerCharacter>();
+        m_listPlayer = new List<Player>();
     }
 
     void Update ()
     {
-        
+        if(m_timerFinished)
+            StartCoroutine(TimerPayDay());
     }
 
     public void DispatchMoney()
     {
-        if(m_listPlayerChar.Count != 0)
+        if(m_listPlayer.Count != 0)
         {
-            int part = m_goldReserves / m_listPlayerChar.Count;
-            foreach(PlayerCharacter player in m_listPlayerChar)
+            int part = m_goldReserves / m_listPlayer.Count;
+            foreach(Player player in m_listPlayer)
             {
                 player.Gold += part;
             }
-            m_goldReserves = m_goldReserves % m_listPlayerChar.Count;
+            m_goldReserves = m_goldReserves % m_listPlayer.Count;
         }        
     }
    

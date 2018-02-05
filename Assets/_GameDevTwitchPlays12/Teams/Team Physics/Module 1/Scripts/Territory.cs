@@ -1,49 +1,94 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Homebrew;
-
 public class Territory  : MonoBehaviour
 {
 
     #region Public Members
-
-
     #endregion
 
 
     #region Public Void
-    public delegate void IsCentral(bool end,Faction faction);
-    private static IsCentral m_isCentral;
-
-    public bool HasSpecial
+    #endregion
+    #region Propertie (GET,SET)
+    [SerializeField]
+    private string m_territoryID;
+    public string TerritoryID
     {
-        get { return m_hasSpecial; }
-        set { m_hasSpecial = value; }
+        get { return m_territoryID; }
+        set { m_territoryID = value; }
     }
+    [Header("Used GameObject")]
+    [SerializeField]
+    private GameObject m_territoryGameObject;
 
+    public GameObject TerritoryGameObject
+    {
+        get { return m_territoryGameObject; }
+        set { m_territoryGameObject = value; }
+    }
+    [SerializeField]
+    private Transform m_territoryTransform;
+
+    public Transform TerritoryTransform
+    {
+        get { return m_territoryTransform; }
+        set { m_territoryTransform = value; }
+    }
+    [SerializeField]
+    private MeshRenderer m_territoryMeshRenderer;
+
+    public MeshRenderer TerritoryMeshRenderer
+    {
+        get { return m_territoryMeshRenderer; }
+        set { m_territoryMeshRenderer = value; }
+    }
+    [Header("Item territory properties")]
+    [SerializeField]
+    private bool m_hasItem;
+    public bool HasItem
+    {
+        get { return m_hasItem; }
+        set { m_hasItem = value; }
+    }
+    
+    private Item m_territoryItem;
+    public Item TerritoryItem
+    {
+        get { return m_territoryItem; }
+        set { m_territoryItem = value; }
+    }
+    [Header("Headquarter")]
+    [SerializeField]
+    private bool m_isHQ;
     public bool IsHQ
     {
         get { return m_isHQ; }
         set { m_isHQ = value; }
     }
+    [Header("Central Zone")]
+    [SerializeField]
+    private bool m_isCenter;
     public bool IsCenter
     {
         get { return m_isCenter; }
         set { m_isCenter = value; }
     }
+    [Header("Territory Color")]
+    [SerializeField]
+    private Color m_currentColor = Color.white;
     public Color CurrentColor
     {
         get { return m_currentColor; }
         set { m_currentColor = value; }
     }
-    public PhysicsManager Manager
+    public TerritoryManager Manager
     {
         get { return m_manager; }
         set { m_manager = value; }
     }
-
-    public List<PlayerCharacter> GetListOfPlayerOnThisTerritory()
+    private List<Player> m_listPlayerCharOnTerritory = new List<Player>();
+    public List<Player> GetListOfPlayerOnThisTerritory()
     {
         return m_listPlayerCharOnTerritory;
     }
@@ -52,9 +97,8 @@ public class Territory  : MonoBehaviour
     {
     return m_listPlayerCharOnTerritory.Count;
     }
-    public Timer m_timer;
-    public float centralTime=60;
-    public Faction m_playerFaction= new Faction();
+
+
     #endregion
 
 
@@ -62,83 +106,72 @@ public class Territory  : MonoBehaviour
 
     void Awake () 
     {
-		
+        m_territoryMeshRenderer = GetComponent<MeshRenderer>();
+        m_territoryTransform = transform;
+        m_territoryGameObject = gameObject;
 	}
 
     #endregion
 
     #region Private Void
+    // à déplacer
     private void OnTriggerEnter(Collider col)
     {
-        PlayerCharacter pc = col.GetComponent<PlayerCharacter>();
-        m_listPlayerCharOnTerritory.Add(pc);
-        if ((m_currentColor != pc.Faction.FactionColor)&&(!IsHQ))
+        Player p = col.GetComponent<Player>();
+        m_listPlayerCharOnTerritory.Add(p);
+        if ((m_currentColor != p.Faction.FactionColor)&&(!IsHQ))
         {
-            ColorChange(pc);
-        }
-        if(IsCenter)
-        {
-            if(pc.hasGlasses)
-            {
-                NotifyIsCentral(pc.Faction);
-            }
-        }
-        else if(pc.hasGlasses && !IsCenter)
-        {
-            NotifyIsNotCentral(pc.Faction);
+            ColorChange(p);
         }
     }
-
-    private void OnTriggerExit(Collider col)
-    {
-        m_listPlayerCharOnTerritory.Remove(col.GetComponent<PlayerCharacter>());
-      
+    public void ColorChange(Color color) {
+        
+        m_territoryMeshRenderer.material.color = color;
 
     }
-
-    private void ColorChange(PlayerCharacter pc)
+    public void ColorChange(Player p)
     {
         //previous territory owner looses Nbrterritory
         if (m_currentColor != Color.white)
         {
             if (m_currentColor == Color.red)
             {
-                m_manager.FactionRED.NbrTerritories--;
+                Faction.RED.NbrTerritories--;
             }
             else if (m_currentColor == Color.blue)
             {
-                m_manager.FactionBLUE.NbrTerritories--;
+                Faction.BLUE.NbrTerritories--;
             }
             else if (m_currentColor == Color.green)
             {
-                m_manager.FactionGREEN.NbrTerritories--;
+                Faction.GREEN.NbrTerritories--;
             }
             else if (m_currentColor == Color.yellow)
             {
-                m_manager.FactionYELLOW.NbrTerritories--;
+                Faction.YELLOW.NbrTerritories--;
             }
         }
-        m_currentColor = pc.Faction.FactionColor;
+        m_currentColor = p.Faction.FactionColor;
         Color col = gameObject.GetComponentInChildren<MeshRenderer>().material.color;
-        col = pc.Faction.FactionColor;
+        col = p.Faction.FactionColor;
         col.a = 100f;
         gameObject.GetComponentInChildren<MeshRenderer>().material.color = col;
         //new territory owner gains Nbrterritory
         if (m_currentColor == Color.red)
         {
-            m_manager.FactionRED.NbrTerritories++;
+            Faction.RED.NbrTerritories++;
         }
         else if (m_currentColor == Color.blue)
         {
-            m_manager.FactionBLUE.NbrTerritories++;
+            Faction.BLUE.NbrTerritories++;
         }
         else if (m_currentColor == Color.green)
         {
-            m_manager.FactionGREEN.NbrTerritories++;
+            Faction.GREEN.NbrTerritories++;
         }
         else if (m_currentColor == Color.yellow)
         {
-            m_manager.FactionYELLOW.NbrTerritories++;
+            Faction.YELLOW.NbrTerritories++;
         }
     }
 
@@ -154,43 +187,12 @@ public class Territory  : MonoBehaviour
 
 
     #region Private And Protected Members
-    private bool m_hasSpecial;
-    private bool m_isCenter;
-    private bool m_isHQ;
-    private Color m_currentColor = Color.white;
-    private List<PlayerCharacter> m_listPlayerCharOnTerritory = new List<PlayerCharacter>();
-    private PhysicsManager m_manager;
+    
+    
+  
+    
+    
+    private TerritoryManager m_manager;
     #endregion
 
-    private void TimerOnCentral(bool bol) {
-        //Partie gagnée
-        StartCoroutine("GameOver");
-    }
-    IEnumerator GameOver()
-    {
-
-        yield return new WaitForSeconds(10);
-        
-    }
-
-    public static void AddListener(IsCentral isCentral)
-    {
-        m_isCentral += isCentral;
-
-    }
-    public static void RemoveListener(IsCentral isCentral)
-    {
-        m_isCentral -= isCentral;
-
-    }
-
-
-    public static void NotifyIsCentral(Faction faction)
-    {
-        m_isCentral(true, faction );
-    }
-    public static void NotifyIsNotCentral(Faction faction)
-    {
-        m_isCentral(false,faction);
-    }
 }
