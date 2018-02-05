@@ -6,7 +6,7 @@ public class PlayerManager : MonoBehaviour
 {
     private int numPlayer=0;
     public Dictionary<string, Player> players = new Dictionary<string, Player>();
-    public List<PlayerInfo> m_listPlayerInfo = new List<PlayerInfo>();
+    //public List<PlayerInfo> m_listPlayerInfo = new List<PlayerInfo>();
     public GameObject m_playerCharPrefab;
     public int m_nbrFactions;
     private bool m_gameHasStarted;
