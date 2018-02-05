@@ -23,7 +23,8 @@ public class GameManager12 : MonoBehaviour
 
     public IInput m_input = new FakeInput();
 
-    public IGameEngine m_gameEngine;
+    public PlayerManager m_playerManager;
+    public TerritoryManager m_territoryManager;
     public ICommandManager m_commandManager;
 
     #endregion
@@ -37,7 +38,9 @@ public class GameManager12 : MonoBehaviour
     protected void Awake()
     {
         m_commandManager = GetComponent<CommandManager>();
-        m_gameEngine = GetComponent<PhysicsManager>();
+
+        m_playerManager = GetComponent<PlayerManager>(); //find ?
+        m_territoryManager = GetComponent<TerritoryManager>(); //find ?
     }
 
     protected void Start()
@@ -46,7 +49,9 @@ public class GameManager12 : MonoBehaviour
         ChatAPI.AddListener(HandleMessage);
 
         // Item pickups influences the cooldown on the CommandManager
-        SpecialAPI.AddListener(HandleEvent);
+        //SpecialAPI.AddListener(HandleEvent);
+
+        //ItemEvent.AddListener(HandleEvent);
     }
 
     private void HandleMessage(Message message)
@@ -66,26 +71,25 @@ public class GameManager12 : MonoBehaviour
             m_input.SendFeedback(command);
 
             Message msg = new Message("Game Admin", command.response, Message.GetCurrentTimeUTC(), Platform.Game);
-
-            //ChatAPI.SendMessageToEveryUsers(msg);
             ChatAPI.SendMessageToUser(message.GetUserName(), message.GetPlatform(), msg);
         }
         else
         {
             if (command.response == "!START")
             {
-                List<string> playerList = new List<string>(m_commandManager.userDataBase.Keys);
-                m_gameEngine.AssignFactionToPlayers(playerList);
+                m_territoryManager.GameStart();
             }
 
             string userId = (int)message.GetPlatform() + " " + message.GetUserName();
             string formattedCommand = command.response.Substring(1).ToUpper();
 
-            m_gameEngine.GetCommandFromPlayer(userId, formattedCommand);
+            m_playerManager.GetCommandFromPlayer(userId, formattedCommand);
         }
     }
 
-    private void HandleEvent(ISpecial special)
+    //private void HandleEvent(ISpecial special)
+    /*
+    private void HandleEvent(Item item, Player player)
     {
         string[] userInfo = special.m_playerCharacter.PlayerName.Split(new char[] { ' ' }, 2);
 
@@ -96,21 +100,21 @@ public class GameManager12 : MonoBehaviour
 
         switch (special.m_typeSpecial)
         {
-            case Special.e_specialType.PEBBLE:
+            case Item.e_itemType.PEBBLE:
                 break;
-            case Special.e_specialType.COINCHEST:
+            case Item.e_itemType.COINCHEST:
                 break;
-            case Special.e_specialType.GRENADES:
+            case Item.e_itemType.GRENADES:
                 break;
-            case Special.e_specialType.SHOVEL:
+            case Item.e_itemType.SHOVEL:
                 break;
-            case Special.e_specialType.PARCHEMENT:
+            case Item.e_itemType.PARCHEMENT:
                 state = "STUN";
                 break;
-            case Special.e_specialType.STRAIN:
+            case Item.e_itemType.STRAIN:
                 state = "STRAIN";
                 break;
-            case Special.e_specialType.GLASSES:
+            case Item.e_itemType.GLASSES:
                 break;
             default:
                 break;
@@ -120,15 +124,11 @@ public class GameManager12 : MonoBehaviour
 
         m_commandManager.Parse(userInfo[1], Int32.Parse(userInfo[0]), state, timestamp);
     }
-
-    #endregion
-
-    #region Class Methods
-
+    //*/
     #endregion
 
     #region Tools Debug and Utility
-
+    /*
 #if UNITY_EDITOR
     [MenuItem("GDL-Twitch12/Stun Player %t")]
     public static void StunPlayer()
@@ -151,11 +151,7 @@ public class GameManager12 : MonoBehaviour
         Debug.LogWarning("Stunning Neil for " + ticks + " ticks!");
     }
 #endif
-
-    #endregion
-
-    #region Private and Protected Members
-
+    */
     #endregion
 }
 
