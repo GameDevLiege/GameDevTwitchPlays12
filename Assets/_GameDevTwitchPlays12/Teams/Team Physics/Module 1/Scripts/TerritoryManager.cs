@@ -17,15 +17,16 @@ public class TerritoryManager  : MonoBehaviour
     public int m_headQuarter=0;
     public Territory[,] m_battleField;
     private List<Territory> eligibleTerritoryItem=new List<Territory>();
-    
+
+    private bool isPlaying;
     #endregion
 
 
     #region Public Void
-    
 
 
-   
+
+
 
     #endregion
 
@@ -120,7 +121,11 @@ public class TerritoryManager  : MonoBehaviour
     #region Private Void
     public void GameStart()
     {
-        InitializeBoard();
+        if (!isPlaying)
+        {
+            isPlaying = true;
+            InitializeBoard();
+        }
 
         //List<string> DebugList = new List<string>();
         //for (int i = 0; i < 20; i++)
