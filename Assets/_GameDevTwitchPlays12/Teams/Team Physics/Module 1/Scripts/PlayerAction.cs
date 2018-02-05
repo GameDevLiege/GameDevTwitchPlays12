@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerAction : MonoBehaviour, IGameEngine
+public class PlayerAction : MonoBehaviour
 {
     public AudioClip brawlSound;
     public AudioClip popSound;
@@ -34,7 +34,7 @@ public class PlayerAction : MonoBehaviour, IGameEngine
         {
             player.Level = 1;
             transform.position = player.Faction.RespawnPosition.TerritoryTransform.position;
-            player.CurrentTerritory.TerritoryGameObject = GameObject.Find("y=" + player.Faction.RespawnPosition.y + "x=" + player.Faction.RespawnPosition.x);
+            player.CurrentTerritory.TerritoryGameObject = GameObject.Find("y=" + player.Faction.RespawnPosition.TerritoryTransform.position.y + "x=" + player.Faction.RespawnPosition.TerritoryTransform.position.x);
             m_hasJustLostBattle = true;
             if(player.HasGlasses)
             {
@@ -46,7 +46,7 @@ public class PlayerAction : MonoBehaviour, IGameEngine
         {
             enemy.Level = 1;
             enemy.transform.position = enemy.Faction.RespawnPosition.TerritoryTransform.position;
-            enemy.CurrentTerritory.TerritoryGameObject = GameObject.Find("y=" + enemy.Faction.RespawnPosition.y + "x=" + enemy.Faction.RespawnPosition.x);
+            enemy.CurrentTerritory.TerritoryGameObject = GameObject.Find("y=" + enemy.Faction.RespawnPosition.TerritoryTransform.position.y + "x=" + enemy.Faction.RespawnPosition.TerritoryTransform.position.x);
             if (enemy.HasGlasses)
             {
                 player.HasGlasses = true;
