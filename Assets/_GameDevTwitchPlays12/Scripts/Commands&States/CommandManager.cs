@@ -12,6 +12,7 @@ public class CommandManager : DualBehaviour, ICommandManager
     public long cd = 2;
     public long stunMult = 5;
     public long sprainMult = 5;
+    public long fightMult = 5;
     public int  maxPlayer = 20;
 
     public char firstCommmandCharacter  = '!';
@@ -20,9 +21,6 @@ public class CommandManager : DualBehaviour, ICommandManager
     public static Command INVALIDCOMMAND = new Command("Votre commande est invalide", true);
 
     #endregion
-
-
-  
 
     #region Public Func
 
@@ -42,12 +40,13 @@ public class CommandManager : DualBehaviour, ICommandManager
             return INVALIDCOMMAND;
         }
 
+        // ???
         if(userDataBase.ContainsKey(userID))
         {
             var c = userDataBase[userID].states.Count;
             Debug.LogWarning(userID + " " + String.Join(" ", (from s in userDataBase[userID].states select s.Key + " " + (_time - s.Value.time)).ToArray<string>()));
         }
-        
+        // ???
 
         if (StateIsValid(_message))
         {
@@ -62,6 +61,20 @@ public class CommandManager : DualBehaviour, ICommandManager
                 userDataBase[userID].AddSprain(_time);
                 return null;
             }
+
+            if(_message.Equals(firstStateCharacter + "FIGHT"))
+            {
+                if (!userDataBase[userID].StateIsActive("FIGHT", _time))
+                {
+                    userDataBase[userID].AddFight(_time);
+                    return null;
+                }
+                else
+                {
+                    int randomPos = UnityEngine.Random.Range(0, 3);
+                    return new Command(movementCommand[randomPos], false);
+                }
+            }
         }
 
         if (CommandIsValid(_message))
@@ -72,7 +85,7 @@ public class CommandManager : DualBehaviour, ICommandManager
                 {
                     if (userDataBase.Count < maxPlayer)
                     {
-                        userDataBase.Add(userID, new PlayerCTRL(userID));
+                        userDataBase.Add(userID, new PlayerCTRL(userID, this));
                         return new Command(_message, false);
                     }
                     else
@@ -91,6 +104,14 @@ public class CommandManager : DualBehaviour, ICommandManager
                 return new Command("Veuillez d'abord rejoindre la partie a l'aide de la commande " + firstCommmandCharacter + "JOIN", true);
             }
 
+            if (userDataBase[userID].states.ContainsKey("FIGHT"))
+            {
+                if (userDataBase[userID].StateIsActive("FIGHT", _time))
+                {
+                    return new Command("Vous etes en train de combattre", true);
+                }
+            }
+
             if (userDataBase[userID].states.ContainsKey("STUN"))
             {
                 if (userDataBase[userID].StateIsActive("STUN", _time))
@@ -107,12 +128,13 @@ public class CommandManager : DualBehaviour, ICommandManager
                 }
             }
 
-            if ((!Cooldown(_time, userID)) && (!_message.Equals(firstCommmandCharacter + "JOIN")))
+            if (!Cooldown(_time, userID)) // && (!_message.Equals(firstCommmandCharacter + "JOIN")))
             {
                 return new Command("Le cooldown entre 2 commandes n'est pas terminé", true);
             }
 
             userDataBase[userID].time = _time;
+            _message = ParseCommand(_message);
             return new Command(_message, false);
         }
         throw new System.Exception("[CommandManger] SHOULD NOT BE THERE: " + _username + ":" + _message + "("+_time+")" );
@@ -178,6 +200,30 @@ public class CommandManager : DualBehaviour, ICommandManager
         return isValid;
     }
 
+    private string ParseCommand(string _message)
+    {
+        string message;
+        switch (_message)
+        {
+            case "!U":
+                message = "!UP";
+                break;
+            case "!D":
+                message = "!DOWN";
+                break;
+            case "!L":
+                message = "!LEFT";
+                break;
+            case "!R":
+                message = "!RIGHT";
+                break;
+            default:
+                message = _message;
+                break;
+        }
+        return message;
+    }
+
     private bool Cooldown(long _time, string _name)
     {
         long oldTime;
@@ -211,6 +257,19 @@ public class CommandManager : DualBehaviour, ICommandManager
         "RIGHT" ,
         "DIG"   ,
         "JOIN"  ,
+        "U"     ,
+        "D"     ,
+        "R"     ,
+        "L"     ,
+    };
+
+    [SerializeField]
+    private List<string> movementCommand = new List<string>
+    {
+        "UP"    ,
+        "DOWN"  ,
+        "LEFT"  ,
+        "RIGHT" ,
     };
 
     [SerializeField]
@@ -218,6 +277,7 @@ public class CommandManager : DualBehaviour, ICommandManager
     {
         "STUN"      ,
         "SPRAIN"    ,
+        "FIGHT"     ,
     };
 
     private Dictionary<string, PlayerCTRL> _userDataBase = new Dictionary<string, PlayerCTRL>();
@@ -256,7 +316,7 @@ public class Command:ICommand
 [System.Serializable]
 public class PlayerCTRL
 {
-    CommandManager _commandManager = new CommandManager();
+    CommandManager _commandManager;
 
     private string _userID;
     public string userID
@@ -279,8 +339,9 @@ public class PlayerCTRL
         set { _states = value; }
     }
 
-    public PlayerCTRL(string username)
+    public PlayerCTRL(string username, CommandManager manager)
     {
+        _commandManager = manager;
         userID = username;
         time = 0;
     }
@@ -299,12 +360,20 @@ public class PlayerCTRL
 
     public void AddStun(long _time)
     {
+        //AddState("STUN", (_time + (_commandManager.cd * _commandManager.stunMult)));
         AddState("STUN", (_time + (_commandManager.cd * _commandManager.stunMult)));
     }
 
     public void AddSprain(long _time)
     {
         AddState("SPRAIN", (_time + (_commandManager.cd * _commandManager.sprainMult)));
+    }
+
+    public void AddFight(long _time)
+    {
+        AddState("FIGHT", (_time + (_commandManager.cd * _commandManager.fightMult)));
+        RemoveState("SPRAIN");
+        RemoveState("STUN");
     }
 
     public void RemoveState(string _name)
