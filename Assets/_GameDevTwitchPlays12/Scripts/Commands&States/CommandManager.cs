@@ -12,6 +12,7 @@ public class CommandManager : DualBehaviour, ICommandManager
     public long cd = 2;
     public long stunMult = 5;
     public long sprainMult = 5;
+    public long fightMult = 5;
     public int  maxPlayer = 20;
 
     public char firstCommmandCharacter  = '!';
@@ -60,6 +61,20 @@ public class CommandManager : DualBehaviour, ICommandManager
                 userDataBase[userID].AddSprain(_time);
                 return null;
             }
+
+            if(_message.Equals(firstStateCharacter + "FIGHT"))
+            {
+                if (!userDataBase[userID].StateIsActive("FIGHT", _time))
+                {
+                    userDataBase[userID].AddFight(_time);
+                    return null;
+                }
+                else
+                {
+                    int randomPos = UnityEngine.Random.Range(0, 3);
+                    return new Command(movementCommand[randomPos], false);
+                }
+            }
         }
 
         if (CommandIsValid(_message))
@@ -89,6 +104,14 @@ public class CommandManager : DualBehaviour, ICommandManager
                 return new Command("Veuillez d'abord rejoindre la partie a l'aide de la commande " + firstCommmandCharacter + "JOIN", true);
             }
 
+            if (userDataBase[userID].states.ContainsKey("FIGHT"))
+            {
+                if (userDataBase[userID].StateIsActive("FIGHT", _time))
+                {
+                    return new Command("Vous etes en train de combattre", true);
+                }
+            }
+
             if (userDataBase[userID].states.ContainsKey("STUN"))
             {
                 if (userDataBase[userID].StateIsActive("STUN", _time))
@@ -111,6 +134,7 @@ public class CommandManager : DualBehaviour, ICommandManager
             }
 
             userDataBase[userID].time = _time;
+            _message = ParseCommand(_message);
             return new Command(_message, false);
         }
         throw new System.Exception("[CommandManger] SHOULD NOT BE THERE: " + _username + ":" + _message + "("+_time+")" );
@@ -176,6 +200,30 @@ public class CommandManager : DualBehaviour, ICommandManager
         return isValid;
     }
 
+    private string ParseCommand(string _message)
+    {
+        string message;
+        switch (_message)
+        {
+            case "!U":
+                message = "!UP";
+                break;
+            case "!D":
+                message = "!DOWN";
+                break;
+            case "!L":
+                message = "!LEFT";
+                break;
+            case "!R":
+                message = "!RIGHT";
+                break;
+            default:
+                message = _message;
+                break;
+        }
+        return message;
+    }
+
     private bool Cooldown(long _time, string _name)
     {
         long oldTime;
@@ -216,10 +264,20 @@ public class CommandManager : DualBehaviour, ICommandManager
     };
 
     [SerializeField]
+    private List<string> movementCommand = new List<string>
+    {
+        "UP"    ,
+        "DOWN"  ,
+        "LEFT"  ,
+        "RIGHT" ,
+    };
+
+    [SerializeField]
     private List<string> validState = new List<string>
     {
         "STUN"      ,
         "SPRAIN"    ,
+        "FIGHT"     ,
     };
 
     private Dictionary<string, PlayerCTRL> _userDataBase = new Dictionary<string, PlayerCTRL>();
@@ -307,6 +365,13 @@ public class PlayerCTRL
     public void AddSprain(long _time)
     {
         AddState("SPRAIN", (_time + (_commandManager.cd * _commandManager.sprainMult)));
+    }
+
+    public void AddFight(long _time)
+    {
+        AddState("FIGHT", (_time + (_commandManager.cd * _commandManager.fightMult)));
+        RemoveState("SPRAIN");
+        RemoveState("STUN");
     }
 
     public void RemoveState(string _name)
