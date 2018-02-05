@@ -12,7 +12,7 @@ public class TerritoryManager  : MonoBehaviour
     public int m_nbrXTerritories =33;
     public int m_nbrYTerritories =33;
     public GameObject m_territoryPrefab;
-
+    public int numberOfitems =100;
     public int m_territoryInCentralZone=0;
     public int m_headQuarter=0;
     public Territory[,] m_battleField;
@@ -33,12 +33,13 @@ public class TerritoryManager  : MonoBehaviour
 
     void Awake()
     {
-        //GameStart();
-
         Faction.RED = new Faction();
-        Faction.BLUE= new Faction();
-        Faction.GREEN= new Faction();
-        Faction.YELLOW= new Faction();
+        Faction.BLUE = new Faction();
+        Faction.GREEN = new Faction();
+        Faction.YELLOW = new Faction();
+        GameStart();
+
+        
     }
 
 
@@ -284,7 +285,7 @@ public class TerritoryManager  : MonoBehaviour
             Debug.Log("Total eligibleTerritory:"+eligibleTerritoryItem.Count);
         }
 
-        for (int i = 1; i < Item.ItemTypeLength(); i++)
+        for (int i = 1; i < numberOfitems; i++)
         {
             if (Random.Range(1, 4) == Random.Range(1, 4))
             {

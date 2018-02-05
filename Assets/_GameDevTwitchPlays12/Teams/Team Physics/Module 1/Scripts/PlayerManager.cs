@@ -12,24 +12,24 @@ public class PlayerManager : MonoBehaviour
     private bool m_isInitialized;
     private PlayerAction playerAction = new PlayerAction();
 
+
+
+  
+
     public void DispatchTeam(Faction faction1, Faction faction2, Faction faction3, Faction faction4, int playerLimit)
     {
 
     }
-
     public void AssignFactionToPlayers(Player player)         
     {
-        if (m_isInitialized)
-        {
-            return;
-        }
-        m_isInitialized = true;
+
         int countRed;
         int countBlue;
         int countYellow;
         int countGreen;
-
-
+        
+        //NewPlayerGameObject.name = player.name;
+        //NewPlayerGameObject.GetComponentInChildren<TextMesh>().text = "" + player.NumPlayer;
         countBlue = Faction.BLUE.ListPlayer.Count;
         countRed = Faction.GREEN.ListPlayer.Count;
         countYellow = Faction.YELLOW.ListPlayer.Count;
@@ -40,24 +40,37 @@ public class PlayerManager : MonoBehaviour
             Faction.BLUE.AddPlayer(player);
             player.Faction = Faction.BLUE;
             player.CurrentTerritory = Faction.BLUE.RespawnPosition;
+            GameObject NewPlayerGameObject = Instantiate(m_playerCharPrefab, new Vector3(0f, 0f, 0f), Quaternion.identity, transform);
+            NewPlayerGameObject.transform.tag = player.Name;
+            NewPlayerGameObject.transform.position = Faction.BLUE.RespawnPosition.TerritoryTransform.position;
+            
         }
         else if (countRed >= playerLimit)
         {
             Faction.RED.AddPlayer(player);
             player.Faction = Faction.RED;
             player.CurrentTerritory = Faction.RED.RespawnPosition;
+            GameObject NewPlayerGameObject = Instantiate(m_playerCharPrefab, new Vector3(0f, 0f, 0f), Quaternion.identity, transform);
+            NewPlayerGameObject.transform.tag = player.Name;
+            NewPlayerGameObject.transform.position = Faction.RED.RespawnPosition.TerritoryTransform.position;
         }
         else if (countYellow >= playerLimit)
         {
             Faction.YELLOW.AddPlayer(player);
             player.Faction = Faction.YELLOW;
             player.CurrentTerritory = Faction.YELLOW.RespawnPosition;
+            GameObject NewPlayerGameObject = Instantiate(m_playerCharPrefab, new Vector3(0f, 0f, 0f), Quaternion.identity, transform);
+            NewPlayerGameObject.transform.tag = player.Name;
+            NewPlayerGameObject.transform.position = Faction.YELLOW.RespawnPosition.TerritoryTransform.position;
         }
         else if (countGreen >= playerLimit)
         {
             Faction.GREEN.AddPlayer(player);
             player.Faction = Faction.GREEN;
             player.CurrentTerritory = Faction.GREEN.RespawnPosition;
+            GameObject NewPlayerGameObject = Instantiate(m_playerCharPrefab, new Vector3(0f, 0f, 0f), Quaternion.identity, transform);
+            NewPlayerGameObject.transform.tag = player.Name;
+            NewPlayerGameObject.transform.position = Faction.GREEN.RespawnPosition.TerritoryTransform.position;
         }
 
         /*
@@ -145,6 +158,17 @@ public class PlayerManager : MonoBehaviour
     // Use this for initialization
     void Start()
     {
+        GetCommandFromPlayer("Oho", "");
+        GetCommandFromPlayer("Oho2", "");
+        GetCommandFromPlayer("Oho3", "");
+        GetCommandFromPlayer("Oho4", "");
+        GetCommandFromPlayer("Oho5", "");
+        GetCommandFromPlayer("Oho6", "");
+        GetCommandFromPlayer("Oho7", "");/*
+        GetCommandFromPlayer("Oho", "UP");
+        GetCommandFromPlayer("Oho", "UP");
+        GetCommandFromPlayer("Oho", "LEFT");
+        GetCommandFromPlayer("Oho", "LEFT");*/
 
     }
 

@@ -21,8 +21,12 @@ public class PlayerAction : MonoBehaviour
     private void Awake()
     {
     }
+    private void Start()
+    {
+        
+    }
     #endregion
-    
+
     #region  class methods
     public void DoBattle(Player player,Player enemy)
     {
@@ -33,7 +37,7 @@ public class PlayerAction : MonoBehaviour
         if(player.Level<1)
         {
             player.Level = 1;
-            transform.position = player.Faction.RespawnPosition.TerritoryTransform.position;
+            player.CurrentTerritory.TerritoryTransform.position = player.Faction.RespawnPosition.TerritoryTransform.position;
             player.CurrentTerritory.TerritoryGameObject = GameObject.Find("y=" + player.Faction.RespawnPosition.TerritoryTransform.position.y + "x=" + player.Faction.RespawnPosition.TerritoryTransform.position.x);
             m_hasJustLostBattle = true;
             if(player.HasGlasses)
@@ -45,7 +49,7 @@ public class PlayerAction : MonoBehaviour
         if (enemy.Level < 1)
         {
             enemy.Level = 1;
-            enemy.transform.position = enemy.Faction.RespawnPosition.TerritoryTransform.position;
+            enemy.CurrentTerritory.TerritoryTransform.position = enemy.Faction.RespawnPosition.TerritoryTransform.position;
             enemy.CurrentTerritory.TerritoryGameObject = GameObject.Find("y=" + enemy.Faction.RespawnPosition.TerritoryTransform.position.y + "x=" + enemy.Faction.RespawnPosition.TerritoryTransform.position.x);
             if (enemy.HasGlasses)
             {
