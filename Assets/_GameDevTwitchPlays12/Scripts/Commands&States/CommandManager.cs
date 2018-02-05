@@ -21,9 +21,6 @@ public class CommandManager : DualBehaviour, ICommandManager
 
     #endregion
 
-
-  
-
     #region Public Func
 
     public ICommand Parse(string _username, int _plateform, string _message, long _time)
@@ -42,12 +39,13 @@ public class CommandManager : DualBehaviour, ICommandManager
             return INVALIDCOMMAND;
         }
 
+        // ???
         if(userDataBase.ContainsKey(userID))
         {
             var c = userDataBase[userID].states.Count;
             Debug.LogWarning(userID + " " + String.Join(" ", (from s in userDataBase[userID].states select s.Key + " " + (_time - s.Value.time)).ToArray<string>()));
         }
-        
+        // ???
 
         if (StateIsValid(_message))
         {
@@ -107,7 +105,7 @@ public class CommandManager : DualBehaviour, ICommandManager
                 }
             }
 
-            if ((!Cooldown(_time, userID)) && (!_message.Equals(firstCommmandCharacter + "JOIN")))
+            if (!Cooldown(_time, userID)) // && (!_message.Equals(firstCommmandCharacter + "JOIN")))
             {
                 return new Command("Le cooldown entre 2 commandes n'est pas terminé", true);
             }
@@ -211,6 +209,10 @@ public class CommandManager : DualBehaviour, ICommandManager
         "RIGHT" ,
         "DIG"   ,
         "JOIN"  ,
+        "U"     ,
+        "D"     ,
+        "R"     ,
+        "L"     ,
     };
 
     [SerializeField]
