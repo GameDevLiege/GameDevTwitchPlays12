@@ -117,12 +117,7 @@ public class Territory  : MonoBehaviour
     // à déplacer
     private void OnTriggerEnter(Collider col)
     {
-        Player p = GameObject.FindObjectOfType<PlayerManager>().GetPlayer(col.transform.tag);
-        //if (col.transform.CompareTag("player"))
-        //{
-
-        //}
-        // = col.GetComponent<Player>();
+        Player p = col.GetComponent<Player>();
         m_listPlayerCharOnTerritory.Add(p);
         if ((p != null && p.Faction!=null && m_currentColor != p.Faction.FactionColor)&&(!IsHQ) )
         {

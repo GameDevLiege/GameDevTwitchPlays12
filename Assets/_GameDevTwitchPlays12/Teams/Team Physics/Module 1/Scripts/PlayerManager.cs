@@ -28,49 +28,45 @@ public class PlayerManager : MonoBehaviour
         int countYellow;
         int countGreen;
         
-        //NewPlayerGameObject.name = player.name;
-        //NewPlayerGameObject.GetComponentInChildren<TextMesh>().text = "" + player.NumPlayer;
+        
         countBlue = Faction.BLUE.ListPlayer.Count;
         countRed = Faction.GREEN.ListPlayer.Count;
         countYellow = Faction.YELLOW.ListPlayer.Count;
         countGreen = Faction.RED.ListPlayer.Count;
-        int playerLimit = countBlue + countGreen + countRed + countYellow / 4;
-        if (countBlue >= playerLimit || playerLimit != 0)
+        int playerLimit = (countBlue + countGreen + countRed + countYellow) / 4;
+        Debug.Log(playerLimit);
+        if (countBlue >= playerLimit && playerLimit != 0)
         {
             Faction.BLUE.AddPlayer(player);
             player.Faction = Faction.BLUE;
             player.CurrentTerritory = Faction.BLUE.RespawnPosition;
-            GameObject NewPlayerGameObject = Instantiate(m_playerCharPrefab, new Vector3(0f, 0f, 0f), Quaternion.identity, transform);
-            NewPlayerGameObject.transform.tag = player.Name;
-            NewPlayerGameObject.transform.position = Faction.BLUE.RespawnPosition.TerritoryTransform.position;
-            
+            player.CurrentTerritory.TerritoryTransform.position = Faction.BLUE.RespawnPosition.TerritoryTransform.position;
+            player.gameObject.transform.position = Faction.BLUE.RespawnPosition.TerritoryTransform.position;
+
         }
         else if (countRed >= playerLimit)
         {
             Faction.RED.AddPlayer(player);
             player.Faction = Faction.RED;
             player.CurrentTerritory = Faction.RED.RespawnPosition;
-            GameObject NewPlayerGameObject = Instantiate(m_playerCharPrefab, new Vector3(0f, 0f, 0f), Quaternion.identity, transform);
-            NewPlayerGameObject.transform.tag = player.Name;
-            NewPlayerGameObject.transform.position = Faction.RED.RespawnPosition.TerritoryTransform.position;
+            player.CurrentTerritory.TerritoryTransform.position = Faction.RED.RespawnPosition.TerritoryTransform.position;
+            player.gameObject.transform.position = Faction.RED.RespawnPosition.TerritoryTransform.position;
         }
         else if (countYellow >= playerLimit)
         {
             Faction.YELLOW.AddPlayer(player);
             player.Faction = Faction.YELLOW;
             player.CurrentTerritory = Faction.YELLOW.RespawnPosition;
-            GameObject NewPlayerGameObject = Instantiate(m_playerCharPrefab, new Vector3(0f, 0f, 0f), Quaternion.identity, transform);
-            NewPlayerGameObject.transform.tag = player.Name;
-            NewPlayerGameObject.transform.position = Faction.YELLOW.RespawnPosition.TerritoryTransform.position;
+            player.CurrentTerritory.TerritoryTransform.position = Faction.YELLOW.RespawnPosition.TerritoryTransform.position;
+            player.gameObject.transform.position = Faction.YELLOW.RespawnPosition.TerritoryTransform.position;
         }
         else if (countGreen >= playerLimit)
         {
             Faction.GREEN.AddPlayer(player);
             player.Faction = Faction.GREEN;
             player.CurrentTerritory = Faction.GREEN.RespawnPosition;
-            GameObject NewPlayerGameObject = Instantiate(m_playerCharPrefab, new Vector3(0f, 0f, 0f), Quaternion.identity, transform);
-            NewPlayerGameObject.transform.tag = player.Name;
-            NewPlayerGameObject.transform.position = Faction.GREEN.RespawnPosition.TerritoryTransform.position;
+            player.CurrentTerritory.TerritoryTransform.position = Faction.GREEN.RespawnPosition.TerritoryTransform.position;
+            player.gameObject.transform.position = Faction.GREEN.RespawnPosition.TerritoryTransform.position;
         }
 
         /*
@@ -133,9 +129,13 @@ public class PlayerManager : MonoBehaviour
 
     public void CreatePlayer(string name)             
     {
-        Player newPlayer = new Player(name,++numPlayer);
+        GameObject NewPlayerGameObject = Instantiate(m_playerCharPrefab, new Vector3(-5f, -5f, 0f), Quaternion.identity, transform);
+        Player newPlayer = NewPlayerGameObject.GetComponent<Player>();
+        newPlayer.Name = name;
+        newPlayer.NumPlayer = ++numPlayer;
+        NewPlayerGameObject.name = newPlayer.name;
+        NewPlayerGameObject.GetComponentInChildren<TextMesh>().text = "" + numPlayer;
         AssignFactionToPlayers(newPlayer);
-
     }
     public Player GetPlayer(string name)
     {
