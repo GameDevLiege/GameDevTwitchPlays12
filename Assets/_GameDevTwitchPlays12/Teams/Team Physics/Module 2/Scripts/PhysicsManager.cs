@@ -59,6 +59,7 @@ public class PhysicsManager  : MonoBehaviour, IGameEngine
             GameObject NewPlayerGameObject = Instantiate(m_playerCharPrefab, new Vector3(0f, 0f, 0f), Quaternion.identity, transform);
             NewPlayerGameObject.name = ListOfPlayerNames[PlayerNum];
             NewPlayerGameObject.GetComponentInChildren<TextMesh>().text = "" + PlayerNum;
+
             PlayerCharacter NewPlayerScript = NewPlayerGameObject.GetComponent<PlayerCharacter>();
             NewPlayerScript.MyManager = this;
             NewPlayerScript.NumPlayer = PlayerNum;
@@ -104,7 +105,9 @@ public class PhysicsManager  : MonoBehaviour, IGameEngine
             {
                 faction = 0;
             }
-            NewPlayerScript.MyManager = this;
+
+            NewPlayerGameObject.GetComponent<ColorHelmet>().UpdateColor(NewPlayerScript.FactionColor);
+
             m_listPlayer.Add(NewPlayerScript);
         }
 
@@ -292,15 +295,15 @@ public class PhysicsManager  : MonoBehaviour, IGameEngine
         MakeHq(m_AxeY[m_nbrYTerritories - 2][m_nbrXTerritories - 1].gameObject, FactionBLUE);
         MakeHq(m_AxeY[m_nbrYTerritories - 2][m_nbrXTerritories - 2].gameObject, FactionBLUE);
         //LeftTop
-        MakeHq(m_AxeY[m_nbrYTerritories - 1][0].gameObject, FactionGREEN);
-        MakeHq(m_AxeY[m_nbrYTerritories - 1][1].gameObject, FactionGREEN);
-        MakeHq(m_AxeY[m_nbrYTerritories - 2][0].gameObject, FactionGREEN);
-        MakeHq(m_AxeY[m_nbrYTerritories - 2][1].gameObject, FactionGREEN);
+        MakeHq(m_AxeY[m_nbrYTerritories - 1][0].gameObject, FactionYELLOW);
+        MakeHq(m_AxeY[m_nbrYTerritories - 1][1].gameObject, FactionYELLOW);
+        MakeHq(m_AxeY[m_nbrYTerritories - 2][0].gameObject, FactionYELLOW);
+        MakeHq(m_AxeY[m_nbrYTerritories - 2][1].gameObject, FactionYELLOW);
         //RightTop
-        MakeHq(m_AxeY[0][m_nbrXTerritories - 1].gameObject, FactionYELLOW);
-        MakeHq(m_AxeY[0][m_nbrXTerritories - 2].gameObject, FactionYELLOW);
-        MakeHq(m_AxeY[1][m_nbrXTerritories - 1].gameObject, FactionYELLOW);
-        MakeHq(m_AxeY[1][m_nbrXTerritories - 2].gameObject, FactionYELLOW);
+        MakeHq(m_AxeY[0][m_nbrXTerritories - 1].gameObject, FactionGREEN);
+        MakeHq(m_AxeY[0][m_nbrXTerritories - 2].gameObject, FactionGREEN);
+        MakeHq(m_AxeY[1][m_nbrXTerritories - 1].gameObject, FactionGREEN);
+        MakeHq(m_AxeY[1][m_nbrXTerritories - 2].gameObject, FactionGREEN);
 
     }
     private void PlaceCenterZone()

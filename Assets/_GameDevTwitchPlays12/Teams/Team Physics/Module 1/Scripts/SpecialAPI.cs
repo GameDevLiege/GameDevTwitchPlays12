@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -19,6 +19,4 @@ public class SpecialAPI
         m_onSpecialPickup(special);
     }
     public delegate void SpecialPickup(ISpecial special);
-
 }
-

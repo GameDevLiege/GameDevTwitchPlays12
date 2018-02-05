@@ -6,35 +6,18 @@ public class ColorHelmet : MonoBehaviour {
 
     public GameObject m_HelmetColor;
 
-    public enum e_ColorHelmet{
-        YELLOW,
-        BLUE,
-        GREEN,
-        RED
-    }
-    public e_ColorHelmet m_ColorHelmet = e_ColorHelmet.BLUE;
+    public Color m_ColorHelmet = Color.blue;
 
-    void Start()
+    void Awake()
     {
-        switch (m_ColorHelmet)
-        {
-            case e_ColorHelmet.BLUE:
-                m_color = Color.blue;
-                break;
-            case e_ColorHelmet.YELLOW:
-                m_color = Color.yellow;
-                break;
-            case e_ColorHelmet.GREEN:
-                m_color = Color.green;
-                break;
-            case e_ColorHelmet.RED:
-                m_color = Color.red;
-                break;
-        }
-        Renderer r = m_HelmetColor.GetComponent<Renderer>();
-        r.material.color = m_color;
-
+        UpdateColor(m_ColorHelmet);
     }
 
-    private Color m_color;
+    public void UpdateColor(Color helmetColor)
+    {
+        Renderer r = m_HelmetColor.GetComponent<Renderer>();
+        r.material.color = helmetColor;
+
+        m_ColorHelmet = helmetColor;
+    }
 }
