@@ -85,7 +85,7 @@ public class CommandManager : DualBehaviour, ICommandManager
                 {
                     if (userDataBase.Count < maxPlayer)
                     {
-                        userDataBase.Add(userID, new PlayerCTRL(userID));
+                        userDataBase.Add(userID, new PlayerCTRL(userID, this));
                         return new Command(_message, false);
                     }
                     else
@@ -316,7 +316,7 @@ public class Command:ICommand
 [System.Serializable]
 public class PlayerCTRL
 {
-    CommandManager _commandManager = new CommandManager();
+    CommandManager _commandManager;
 
     private string _userID;
     public string userID
@@ -339,8 +339,9 @@ public class PlayerCTRL
         set { _states = value; }
     }
 
-    public PlayerCTRL(string username)
+    public PlayerCTRL(string username, CommandManager manager)
     {
+        _commandManager = manager;
         userID = username;
         time = 0;
     }
@@ -359,6 +360,7 @@ public class PlayerCTRL
 
     public void AddStun(long _time)
     {
+        //AddState("STUN", (_time + (_commandManager.cd * _commandManager.stunMult)));
         AddState("STUN", (_time + (_commandManager.cd * _commandManager.stunMult)));
     }
 
