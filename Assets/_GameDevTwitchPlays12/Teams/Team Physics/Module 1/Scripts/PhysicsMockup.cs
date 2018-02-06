@@ -25,10 +25,11 @@ public class PhysicsMockup : MonoBehaviour {
 	}
     IEnumerator LaunchInput()
     {
-
+        launchInputDone = false;
         yield return new WaitForSeconds(0.5f);
         int rangeCommand=Random.Range(0, commandList.Count);
         int rangeUser = Random.Range(0, userList.Count);
         physicsManager.SetCommandFromPlayer(userList[rangeUser],commandList[rangeCommand]);
+        launchInputDone = true;
     }
 }
