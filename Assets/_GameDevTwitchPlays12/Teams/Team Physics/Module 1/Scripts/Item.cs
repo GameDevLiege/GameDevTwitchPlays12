@@ -19,7 +19,7 @@ public class Item : MonoBehaviour
         STRAIN = 6
 
     }
-    public enum e_itemEffectType
+    public enum e_effectType
     {
         INSTANT = 1,
         INVENTORY = 2
@@ -43,19 +43,23 @@ public class Item : MonoBehaviour
         set { m_itemType = value; }
     }
     [SerializeField]
-    private e_itemEffectType m_itemEffectType;
+    private e_effectType m_effectType;
 
-    public e_itemEffectType ItemEffectType
+    public e_effectType EffectType
     {
-        get { return m_itemEffectType; }
-        set { m_itemEffectType = value; }
+        get { return m_effectType; }
+        set { m_effectType = value; }
     }
     #endregion
     
     #region Public Void
-    public void ChooseTypeOfItem(e_itemType item)
+    public void ChooseTypeOfItem(e_itemType type)
     {
-        m_itemType = item;
+        m_itemType = type;
+    }
+    public void ChooseEffectOfItem(e_effectType effect)
+    {
+        m_effectType = effect;
     }
     #endregion
 
@@ -64,6 +68,36 @@ public class Item : MonoBehaviour
     {
         int typeLenght = Enum.GetNames(typeof(e_itemType)).Length;
         return typeLenght;
+    }
+
+    public void ChoseEffectItem(e_itemType type)
+    {
+        switch (type)
+        {
+            case e_itemType.GLASSES:
+                m_effectType = e_effectType.INVENTORY;
+                break;
+            case e_itemType.PEBBLE:
+                m_effectType = e_effectType.INVENTORY;
+                break;
+            case e_itemType.COINCHEST:
+                m_effectType = e_effectType.INSTANT;
+                break;
+            case e_itemType.GRENADES:
+                m_effectType = e_effectType.INVENTORY;
+                break;
+            case e_itemType.SHOVEL:
+                m_effectType = e_effectType.INSTANT;
+                break;
+            case e_itemType.PARCHEMENT:
+                m_effectType = e_effectType.INSTANT;
+                break;
+            case e_itemType.STRAIN:
+                m_effectType = e_effectType.INSTANT;
+                break;
+            default:
+                break;
+        }
     }
     #endregion
 }

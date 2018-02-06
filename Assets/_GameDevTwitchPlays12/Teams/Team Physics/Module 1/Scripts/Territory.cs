@@ -28,14 +28,6 @@ public class Territory  : MonoBehaviour
         set { m_territoryGameObject = value; }
     }
     [SerializeField]
-    private Transform m_territoryTransform;
-
-    public Transform TerritoryTransform
-    {
-        get { return m_territoryTransform; }
-        set { m_territoryTransform = value; }
-    }
-    [SerializeField]
     private MeshRenderer m_territoryMeshRenderer;
 
     public MeshRenderer TerritoryMeshRenderer
@@ -107,7 +99,6 @@ public class Territory  : MonoBehaviour
     void Awake () 
     {
         m_territoryMeshRenderer = GetComponent<MeshRenderer>();
-        m_territoryTransform = transform;
         m_territoryGameObject = gameObject;
 	}
 

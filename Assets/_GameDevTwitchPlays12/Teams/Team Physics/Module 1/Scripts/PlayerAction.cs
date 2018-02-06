@@ -20,6 +20,27 @@ public class PlayerAction : MonoBehaviour
     #region system
     private void Awake()
     {
+        Item item=new Item() ;
+        ItemEvent.AddListener(PlayerPickUp);
+    }
+    private void PlayerPickUp(Item item,Player player)
+    {
+        
+        if (item.EffectType==Item.e_effectType.INVENTORY)
+        {
+            int numberItem = player.NumberOfItem(item);
+            if (numberItem > 0)
+            {
+               
+                player.Inventory[item] = numberItem;
+            }
+            else
+            {
+                player.Inventory.Add(item, numberItem);
+            }
+
+            Debug.Log(player.Inventory.Count);
+        }
     }
     private void Start()
     {
@@ -30,15 +51,20 @@ public class PlayerAction : MonoBehaviour
     #region  class methods
     public void DoBattle(Player player,Player enemy)
     {
-        GetComponent<AudioSource>().PlayOneShot(brawlSound);
+       // GetComponent<AudioSource>().PlayOneShot(brawlSound);
         int temp= player.Level;
+        int x;
+        int y;
         player.Level -= enemy.Level;
         enemy.Level -= temp;
+        Debug.Log(player.Level);
         if(player.Level<1)
         {
             player.Level = 1;
-            player.CurrentTerritory.TerritoryTransform.position = player.Faction.RespawnPosition.TerritoryTransform.position;
-            player.CurrentTerritory.TerritoryGameObject = GameObject.Find("y=" + player.Faction.RespawnPosition.TerritoryTransform.position.y + "x=" + player.Faction.RespawnPosition.TerritoryTransform.position.x);
+            player.transform.position = player.Faction.RespawnPosition.transform.position;
+            y = (int)player.Faction.RespawnPosition.transform.position.y;
+            x = (int)player.Faction.RespawnPosition.transform.position.x;
+            player.CurrentTerritory = m_territoryManager.m_battleField[x, y];
             m_hasJustLostBattle = true;
             if(player.HasGlasses)
             {
@@ -49,8 +75,10 @@ public class PlayerAction : MonoBehaviour
         if (enemy.Level < 1)
         {
             enemy.Level = 1;
-            enemy.CurrentTerritory.TerritoryTransform.position = enemy.Faction.RespawnPosition.TerritoryTransform.position;
-            enemy.CurrentTerritory.TerritoryGameObject = GameObject.Find("y=" + enemy.Faction.RespawnPosition.TerritoryTransform.position.y + "x=" + enemy.Faction.RespawnPosition.TerritoryTransform.position.x);
+            enemy.transform.position = enemy.Faction.RespawnPosition.transform.position;
+            y = (int)enemy.Faction.RespawnPosition.transform.position.y;
+            x = (int)enemy.Faction.RespawnPosition.transform.position.x;
+            enemy.CurrentTerritory = m_territoryManager.m_battleField[x, y];
             if (enemy.HasGlasses)
             {
                 player.HasGlasses = true;
@@ -68,10 +96,10 @@ public class PlayerAction : MonoBehaviour
         y = player.CurrentTerritory.transform.position.y + 1;
         if (!(y > m_territoryManager.m_nbrYTerritories - 1))
         {
-            float tempx = player.CurrentTerritory.gameObject.transform.position.x;
-            float tempy = player.CurrentTerritory.gameObject.transform.position.y + 1;
-            TerritoryToTest = GameObject.Find("y=" + (int)tempy + "x=" + (int)tempx).GetComponent<Territory>();
-            if(TerritoryToTest.GetPlayerNumOnTerritory()>0)
+            int tempx = (int)player.CurrentTerritory.transform.position.x;
+            int tempy = (int)player.CurrentTerritory.transform.position.y + 1;
+            TerritoryToTest = m_territoryManager.m_battleField[tempx, tempy];
+            if (TerritoryToTest.GetPlayerNumOnTerritory()>0)
             {
                 foreach(Player OtherMole in TerritoryToTest.GetListOfPlayerOnThisTerritory())
                 {
@@ -80,7 +108,8 @@ public class PlayerAction : MonoBehaviour
                     {
                         if(player.Faction.FactionColor!=OtherMole.Faction.FactionColor)
                         {
-                            DoBattle(player,OtherMole);
+                            //  DoBattle(player,OtherMole);
+                            Debug.Log("ici1");
                         }
                     }
                 }
@@ -89,9 +118,9 @@ public class PlayerAction : MonoBehaviour
         y = player.CurrentTerritory.transform.position.y - 1;
         if (!(y < 0))
         {
-            float tempx = player.CurrentTerritory.gameObject.transform.position.x;
-            float tempy = player.CurrentTerritory.gameObject.transform.position.y - 1;
-            TerritoryToTest = GameObject.Find("y=" + (int)tempy + "x=" + (int)tempx).GetComponent<Territory>();
+            int tempx = (int)player.CurrentTerritory.gameObject.transform.position.x;
+            int tempy = (int)player.CurrentTerritory.gameObject.transform.position.y - 1;
+            TerritoryToTest = m_territoryManager.m_battleField[tempx, tempy];
             if (TerritoryToTest.GetPlayerNumOnTerritory() > 0)
             {
                 foreach (Player OtherMole in TerritoryToTest.GetListOfPlayerOnThisTerritory())
@@ -100,7 +129,8 @@ public class PlayerAction : MonoBehaviour
                     {
                         if (player.Faction.FactionColor != OtherMole.Faction.FactionColor)
                         {
-                            DoBattle(player, OtherMole);
+                            //   DoBattle(player, OtherMole);
+                            Debug.Log("ici2");
                         }
                     }
                         
@@ -110,9 +140,9 @@ public class PlayerAction : MonoBehaviour
         x = player.CurrentTerritory.transform.position.x - 1;
         if (!(x < 0))
         {
-            float tempx = player.CurrentTerritory.gameObject.transform.position.x - 1;
-            float tempy = player.CurrentTerritory.gameObject.transform.position.y;
-            TerritoryToTest = GameObject.Find("y=" + (int)tempy + "x=" + (int)tempx).GetComponent<Territory>();
+            int tempx = (int)player.CurrentTerritory.gameObject.transform.position.x - 1;
+            int tempy = (int)player.CurrentTerritory.gameObject.transform.position.y;
+            TerritoryToTest = m_territoryManager.m_battleField[tempx, tempy];
             if (TerritoryToTest.GetPlayerNumOnTerritory() > 0)
             {
                 foreach (Player OtherMole in TerritoryToTest.GetListOfPlayerOnThisTerritory())
@@ -121,7 +151,8 @@ public class PlayerAction : MonoBehaviour
                     {
                         if (player.Faction.FactionColor != OtherMole.Faction.FactionColor)
                         {
-                            DoBattle(player,OtherMole);
+                            Debug.Log("ici3");
+                            // DoBattle(player,OtherMole);
                         }
                     }
                         
@@ -131,9 +162,9 @@ public class PlayerAction : MonoBehaviour
         x = player.CurrentTerritory.transform.position.x + 1;
         if (!(x > m_territoryManager.m_nbrXTerritories - 1))
         {
-            float tempx = player.CurrentTerritory.gameObject.transform.position.x + 1;
-            float tempy = player.CurrentTerritory.gameObject.transform.position.y;
-            TerritoryToTest = GameObject.Find("y=" + (int)tempy + "x=" + (int)tempx).GetComponent<Territory>();
+            int tempx = (int)player.CurrentTerritory.gameObject.transform.position.x + 1;
+            int tempy = (int)player.CurrentTerritory.gameObject.transform.position.y;
+            TerritoryToTest = m_territoryManager.m_battleField[tempx, tempy];
             if (TerritoryToTest.GetPlayerNumOnTerritory() > 0)
             {
                 foreach (Player OtherMole in TerritoryToTest.GetListOfPlayerOnThisTerritory())
@@ -142,7 +173,8 @@ public class PlayerAction : MonoBehaviour
                     {
                         if (player.Faction.FactionColor != OtherMole.Faction.FactionColor)
                         {
-                            DoBattle(player,OtherMole);
+                             DoBattle(player,OtherMole);
+                            Debug.Log("ici4");
                         }
                     }
                         
@@ -164,10 +196,10 @@ public class PlayerAction : MonoBehaviour
                 y = player.CurrentTerritory.transform.position.y + 1;
                 if (!(y > m_territoryManager.m_nbrYTerritories - 1))
                 {
-                    player.playerTransform.Translate(0f, 1f, 0f);
-                    float tempx = player.CurrentTerritory.gameObject.transform.position.x;
-                    float tempy = player.CurrentTerritory.gameObject.transform.position.y + 1;
-                    player.CurrentTerritory.TerritoryGameObject = GameObject.Find("y=" + (int)tempy + "x=" + (int)tempx);
+                    player.transform.Translate(0f, 1f, 0f);
+                    int tempx = (int)player.CurrentTerritory.gameObject.transform.position.x;
+                    int tempy =(int) player.CurrentTerritory.gameObject.transform.position.y + 1;
+                    player.CurrentTerritory = m_territoryManager.m_battleField[tempx, tempy];
                     TestForNearbyEnnemies(player);
                 }
                 break;
@@ -175,10 +207,10 @@ public class PlayerAction : MonoBehaviour
                 y = player.CurrentTerritory.transform.position.y - 1;
                 if (!(y < 0))
                 {
-                    player.playerTransform.Translate(0f, -1f, 0f);
-                    float tempx = player.CurrentTerritory.gameObject.transform.position.x;
-                    float tempy = player.CurrentTerritory.gameObject.transform.position.y - 1;
-                    player.CurrentTerritory.TerritoryGameObject = GameObject.Find("y=" + (int)tempy + "x=" + (int)tempx);
+                    player.transform.Translate(0f, -1f, 0f);
+                    int tempx = (int)player.CurrentTerritory.gameObject.transform.position.x;
+                    int tempy =(int) player.CurrentTerritory.gameObject.transform.position.y - 1;
+                    player.CurrentTerritory = m_territoryManager.m_battleField[tempx, tempy];
                     TestForNearbyEnnemies(player);
                 }
                 break;
@@ -186,10 +218,10 @@ public class PlayerAction : MonoBehaviour
                 x = player.CurrentTerritory.transform.position.x - 1;
                 if (!(x < 0))
                 {
-                    player.playerTransform.Translate(-1f, 0f, 0f);
-                    float tempx = player.CurrentTerritory.gameObject.transform.position.x - 1;
-                    float tempy = player.CurrentTerritory.gameObject.transform.position.y;
-                    player.CurrentTerritory.TerritoryGameObject = GameObject.Find("y=" + (int)tempy + "x=" + (int)tempx);
+                    player.transform.Translate(-1f, 0f, 0f);
+                    int tempx = (int)player.CurrentTerritory.gameObject.transform.position.x - 1;
+                    int tempy = (int)player.CurrentTerritory.gameObject.transform.position.y;
+                    player.CurrentTerritory = m_territoryManager.m_battleField[tempx, tempy];
                     TestForNearbyEnnemies(player);
                 }
                 break;
@@ -197,21 +229,20 @@ public class PlayerAction : MonoBehaviour
                 x = player.CurrentTerritory.transform.position.x + 1;
                 if (!(x > m_territoryManager.m_nbrXTerritories - 1))
                 {
-                    player.playerTransform.Translate(1f, 0f, 0f);
-                    float tempx = player.CurrentTerritory.gameObject.transform.position.x + 1;
-                    float tempy = player.CurrentTerritory.gameObject.transform.position.y;
+                    player.transform.Translate(1f, 0f, 0f);
+                    int tempx = (int)player.CurrentTerritory.gameObject.transform.position.x + 1;
+                    int tempy = (int)player.CurrentTerritory.gameObject.transform.position.y;
                     player.CurrentTerritory.TerritoryGameObject = GameObject.Find("y=" + (int)tempy + "x=" + (int)tempx);
+                    player.CurrentTerritory = m_territoryManager.m_battleField[tempx, tempy];
                     TestForNearbyEnnemies(player);
                 }
                 break;
             case "DIG":
-                
-
                 if (player.CurrentTerritory.HasItem)
                 {
                     Item item = player.CurrentTerritory.TerritoryItem;
                     //item.m_PlayerAction = this;
-                   // SpecialAPI.NotifyNewSpecial(special);
+                    ItemEvent.NotifyNewItem(item,player);
                     if(item.ItemType==Item.e_itemType.COINCHEST)
                     { player.Gold += m_goldPerCoinChest; }
                     if (item.ItemType == Item.e_itemType.GLASSES)

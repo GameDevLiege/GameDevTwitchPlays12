@@ -25,33 +25,29 @@ public class PlayerManager : MonoBehaviour
             case 1:
                 FactionManager.BLUE.AddPlayer(player);
                 player.Faction = FactionManager.BLUE;
-                player.CurrentTerritory = FactionManager.BLUE.RespawnPosition;
-                player.CurrentTerritory.TerritoryTransform.position = FactionManager.BLUE.RespawnPosition.TerritoryTransform.position;
-                player.playerTransform.position = FactionManager.BLUE.RespawnPosition.TerritoryTransform.position;
+                player.CurrentTerritory = player.Faction.RespawnPosition;
+                player.transform.position = player.Faction.RespawnPosition.transform.position;
                 lastFaction++;
                 break;
             case 2:
                 FactionManager.RED.AddPlayer(player);
                 player.Faction = FactionManager.RED;
-                player.CurrentTerritory = FactionManager.RED.RespawnPosition;
-                player.CurrentTerritory.TerritoryTransform.position = FactionManager.RED.RespawnPosition.TerritoryTransform.position;
-                player.playerTransform.position = FactionManager.RED.RespawnPosition.TerritoryTransform.position;
+                player.CurrentTerritory = player.Faction.RespawnPosition;
+                player.transform.position = player.Faction.RespawnPosition.transform.position;
                 lastFaction++;
                 break;
             case 3:
                 FactionManager.YELLOW.AddPlayer(player);
                 player.Faction = FactionManager.YELLOW;
-                player.CurrentTerritory = FactionManager.YELLOW.RespawnPosition;
-                player.CurrentTerritory.TerritoryTransform.position = FactionManager.YELLOW.RespawnPosition.TerritoryTransform.position;
-                player.playerTransform.position = FactionManager.YELLOW.RespawnPosition.TerritoryTransform.position;
+                player.CurrentTerritory = player.Faction.RespawnPosition;
+                player.transform.position = player.Faction.RespawnPosition.transform.position;
                 lastFaction++;
                 break;
             case 4:
                 FactionManager.GREEN.AddPlayer(player);
                 player.Faction = FactionManager.GREEN;
-                player.CurrentTerritory = FactionManager.GREEN.RespawnPosition;
-                player.CurrentTerritory.TerritoryTransform.position = FactionManager.GREEN.RespawnPosition.TerritoryTransform.position;
-                player.playerTransform.position = FactionManager.GREEN.RespawnPosition.TerritoryTransform.position;
+                player.CurrentTerritory = player.Faction.RespawnPosition;
+                player.transform.position = player.Faction.RespawnPosition.transform.position;
                 lastFaction = 1;
                 break;
 
@@ -125,7 +121,7 @@ public class PlayerManager : MonoBehaviour
         NewPlayerGameObject.name = name;
         NewPlayerGameObject.GetComponentInChildren<TextMesh>().text = "" + numPlayer;
         newPlayer = NewPlayerGameObject.GetComponent<Player>();
-        newPlayer.playerTransform = NewPlayerGameObject.transform;
+        //newPlayer.playerTransform = NewPlayerGameObject.transform;
         newPlayer.Name = name;
         newPlayer.NumPlayer = numPlayer;
         players.Add(name,newPlayer);

@@ -242,7 +242,7 @@ public class TerritoryManager  : MonoBehaviour
                     t.HasItem = true;
                     Item item= t.TerritoryGameObject.AddComponent<Item>();
                     item.ItemType= Item.e_itemType.GLASSES;
-                    item.ItemEffectType = Item.e_itemEffectType.INVENTORY;
+                    item.ChoseEffectItem(Item.e_itemType.GLASSES);
                     t.TerritoryItem = item;
                     t.HasItem = true;
                     hasGlasses = true;
@@ -287,7 +287,9 @@ public class TerritoryManager  : MonoBehaviour
                     }
                     Item item = eligibleTerritoryItem[intRndTerritory].TerritoryGameObject.AddComponent<Item>();
                     item.ItemType = (Item.e_itemType)intRndItem;
+                    item.ChoseEffectItem(item.ItemType);
                     eligibleTerritoryItem[intRndTerritory].TerritoryItem = item;
+                    eligibleTerritoryItem[intRndTerritory].HasItem = true;
                     eligibleTerritoryItem.Remove(eligibleTerritoryItem[intRndTerritory]);
 
                 }
@@ -296,6 +298,7 @@ public class TerritoryManager  : MonoBehaviour
         }
        
     }
+    
     public void RePopSpecial()
     {
         bool FoundRightPlace = false;
@@ -317,12 +320,30 @@ public class TerritoryManager  : MonoBehaviour
                             int B = Random.Range(1, 7);//random range takes argument 1 inclusive argument 2 exclusive
                             switch (B)
                             {
-                                case 1: m_battleField[y,x].GetComponent<Item>().ChooseTypeOfItem(Item.e_itemType.COINCHEST); break;
-                                case 2: m_battleField[y,x].GetComponent<Item>().ChooseTypeOfItem(Item.e_itemType.PARCHEMENT); break;
-                                case 3: m_battleField[y,x].GetComponent<Item>().ChooseTypeOfItem(Item.e_itemType.GRENADES); break;
-                                case 4: m_battleField[y,x].GetComponent<Item>().ChooseTypeOfItem(Item.e_itemType.PEBBLE); break;
-                                case 5: m_battleField[y,x].GetComponent<Item>().ChooseTypeOfItem(Item.e_itemType.SHOVEL); break;
-                                case 6: m_battleField[y,x].GetComponent<Item>().ChooseTypeOfItem(Item.e_itemType.STRAIN); break;
+                                case 1:
+                                    m_battleField[y,x].GetComponent<Item>().ChooseTypeOfItem(Item.e_itemType.COINCHEST);
+                                    m_battleField[y, x].GetComponent<Item>().ChooseEffectOfItem(Item.e_effectType.INSTANT);
+                                    break;
+                                case 2:
+                                    m_battleField[y,x].GetComponent<Item>().ChooseTypeOfItem(Item.e_itemType.PARCHEMENT);
+                                    m_battleField[y, x].GetComponent<Item>().ChooseEffectOfItem(Item.e_effectType.INSTANT);
+                                    break;
+                                case 3:
+                                    m_battleField[y,x].GetComponent<Item>().ChooseTypeOfItem(Item.e_itemType.GRENADES);
+                                    m_battleField[y, x].GetComponent<Item>().ChooseEffectOfItem(Item.e_effectType.INVENTORY);
+                                    break;
+                                case 4:
+                                    m_battleField[y,x].GetComponent<Item>().ChooseTypeOfItem(Item.e_itemType.PEBBLE);
+                                    m_battleField[y, x].GetComponent<Item>().ChooseEffectOfItem(Item.e_effectType.INSTANT);
+                                    break;
+                                case 5:
+                                    m_battleField[y,x].GetComponent<Item>().ChooseTypeOfItem(Item.e_itemType.SHOVEL);
+                                    m_battleField[y, x].GetComponent<Item>().EffectType=Item.e_effectType.INVENTORY;
+                                    break;
+                                case 6:
+                                    m_battleField[y,x].GetComponent<Item>().ChooseTypeOfItem(Item.e_itemType.STRAIN);
+                                    m_battleField[y, x].GetComponent<Item>().ChooseEffectOfItem(Item.e_effectType.INSTANT);
+                                    break;
                             }
                         }
                     }
