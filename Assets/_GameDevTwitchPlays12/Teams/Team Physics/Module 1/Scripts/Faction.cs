@@ -4,8 +4,7 @@ using UnityEngine;
 
 public class Faction 
 {
-    public float m_timeBetweenPayDay = 1;
-    public int m_incomePerTerritory = 1;
+    
     private int m_nbrTerritories;
     private Color m_factionColor;
     private int m_goldReserves;

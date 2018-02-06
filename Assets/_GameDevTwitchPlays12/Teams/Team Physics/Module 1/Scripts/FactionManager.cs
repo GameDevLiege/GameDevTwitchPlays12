@@ -3,6 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class FactionManager : MonoBehaviour {
+    public float m_timeBetweenPayDay = 1;
+    public int m_incomePerTerritory = 1;
+    public float goldAmountRED;
+    public float goldAmountBLUE;
+    public float goldAmountYELLOW;
+    public float goldAmountGREEN;
     public static Faction RED { get; set; }
     public static Faction BLUE { get; set; }
     public static Faction GREEN { get; set; }
@@ -20,28 +26,39 @@ public class FactionManager : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        // if (m_timerFinished)
-        //     StartCoroutine(TimerPayDay());
-    }
-    /*
-    public void DispatchMoney()
+
+        //Ne fonctionne pas car problème avec les couleurs voir Territory pour plus d'info
+         if (m_timerFinished)
+             StartCoroutine(TimerPayDay());
+        goldAmountRED=RED.GoldReserves;
+        goldAmountBLUE=BLUE.GoldReserves;
+        goldAmountGREEN=GREEN.GoldReserves;
+        goldAmountYELLOW = YELLOW.GoldReserves;
+        
+}
+ 
+    public void DispatchMoney(Faction faction)
     {
-        if (m_listPlayer.Count != 0)
+        faction.GoldReserves += faction.NbrTerritories * m_incomePerTerritory;
+        //Debug.Log("test gold------->"+faction.GoldReserves);
+        if (faction.ListPlayer.Count != 0)
         {
-            int part = m_goldReserves / m_listPlayer.Count;
-            foreach (Player player in m_listPlayer)
+            int part = faction.GoldReserves / faction.ListPlayer.Count;
+            foreach (Player player in faction.ListPlayer)
             {
                 player.Gold += part;
             }
-            m_goldReserves = m_goldReserves % m_listPlayer.Count;
+            faction.GoldReserves = faction.GoldReserves % faction.ListPlayer.Count;
         }
     }
     IEnumerator TimerPayDay()
     {
         m_timerFinished = false;
         yield return new WaitForSeconds(m_timeBetweenPayDay);
-        GoldReserves += NbrTerritories * m_incomePerTerritory;
+        DispatchMoney(RED);
+        DispatchMoney(BLUE);
+        DispatchMoney(GREEN);
+        DispatchMoney(YELLOW);
         m_timerFinished = true;
-        DispatchMoney();
-    }*/
+    }
 }

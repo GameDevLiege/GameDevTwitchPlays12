@@ -107,12 +107,17 @@ public class Territory  : MonoBehaviour
     }
     public void ColorChange(Player p)
     {
+        //TODO Repenser le système car des couleurs ne se compare pas car donne des valeurs différentes
+        //https://answers.unity.com/questions/787056/comparing-2-color-variables.html
+
         //previous territory owner looses Nbrterritory
+
         if (m_currentColor != Color.white)
         {
             if (m_currentColor == Color.red)
             {
                 FactionManager.RED.NbrTerritories--;
+                
             }
             else if (m_currentColor == Color.blue)
             {
@@ -128,14 +133,17 @@ public class Territory  : MonoBehaviour
             }
         }
         m_currentColor = p.Faction.FactionColor;
-        Color col = gameObject.GetComponentInChildren<MeshRenderer>().material.color;
+        Color col = TerritoryMeshRenderer.material.color;
         col = p.Faction.FactionColor;
         col.a = 100f;
-        gameObject.GetComponentInChildren<MeshRenderer>().material.color = col;
+        TerritoryMeshRenderer.material.color = col;
         //new territory owner gains Nbrterritory
+        Debug.Log("Faction color ="  );
+        Debug.Log(p.Faction.FactionColor.linear + " ==" + Color.red.linear +" "+ (p.Faction.FactionColor.linear==Color.red.linear));
         if (m_currentColor == Color.red)
         {
             FactionManager.RED.NbrTerritories++;
+            Debug.Log("ici--------****" + FactionManager.RED.NbrTerritories);
         }
         else if (m_currentColor == Color.blue)
         {
