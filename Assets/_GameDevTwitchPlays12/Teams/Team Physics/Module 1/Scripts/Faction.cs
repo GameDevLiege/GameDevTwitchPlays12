@@ -2,20 +2,16 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Faction : MonoBehaviour
+public class Faction 
 {
-    public static Faction RED { get; set; }
-    public static Faction BLUE { get; set; } 
-    public static Faction GREEN { get; set; }
-    public static Faction YELLOW { get; set; }
-
-
-
-
     public float m_timeBetweenPayDay = 1;
-    private bool m_timerFinished = true;
     public int m_incomePerTerritory = 1;
-    private List<Player> m_listPlayer;
+    private int m_nbrTerritories;
+    private Color m_factionColor;
+    private int m_goldReserves;
+    private bool m_hasMiddle = false;
+
+    private List<Player> m_listPlayer = new List<Player>();
     public List<Player> ListPlayer
     {
         get { return m_listPlayer; }
@@ -55,49 +51,10 @@ public class Faction : MonoBehaviour
     }
     public Territory RespawnPosition { get; set; }
 
-
-    IEnumerator TimerPayDay()
-    {
-        m_timerFinished = false;
-        yield return new WaitForSeconds(m_timeBetweenPayDay);
-        GoldReserves += NbrTerritories * m_incomePerTerritory;
-        m_timerFinished = true;
-        DispatchMoney();
-    }
-
-
     void StartCountDown()
     {
 
     }
-    private void Awake()
-    {
-        m_listPlayer = new List<Player>();
-    }
-
-    void Update ()
-    {
-        if(m_timerFinished)
-            StartCoroutine(TimerPayDay());
-    }
-
-    public void DispatchMoney()
-    {
-        if(m_listPlayer.Count != 0)
-        {
-            int part = m_goldReserves / m_listPlayer.Count;
-            foreach(Player player in m_listPlayer)
-            {
-                player.Gold += part;
-            }
-            m_goldReserves = m_goldReserves % m_listPlayer.Count;
-        }        
-    }
    
-    private int m_nbrTerritories;
-    private Color m_factionColor;
-    private int m_goldReserves;
-    private bool m_hasMiddle = false;
-    private Vector3 m_respawnPosition;
-  
+   
 }

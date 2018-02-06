@@ -5,68 +5,57 @@ using UnityEngine;
 public class PlayerManager : MonoBehaviour
 {
     private int numPlayer=0;
-    public Dictionary<string, Player> players = new Dictionary<string, Player>();
-    public GameObject m_playerCharPrefab;
-    public int m_nbrFactions;
-    private bool m_gameHasStarted;
-    private bool m_isInitialized;
-    private PlayerAction playerAction = new PlayerAction();
+    public Dictionary<string, Player> players;
+    public GameObject m_playerPrefab;
+    //public int m_nbrFactions;
+    //private bool m_gameHasStarted;
+    //private bool m_isInitialized;
+    private int lastFaction=1;
 
 
-
-  
-
-    public void DispatchTeam(Faction faction1, Faction faction2, Faction faction3, Faction faction4, int playerLimit)
+    private void Awake()
     {
-
+        players = new Dictionary<string, Player>();
     }
     public void AssignFactionToPlayers(Player player)         
     {
 
-        int countRed;
-        int countBlue;
-        int countYellow;
-        int countGreen;
-        
-        
-        countBlue = Faction.BLUE.ListPlayer.Count;
-        countRed = Faction.GREEN.ListPlayer.Count;
-        countYellow = Faction.YELLOW.ListPlayer.Count;
-        countGreen = Faction.RED.ListPlayer.Count;
-        int playerLimit = (countBlue + countGreen + countRed + countYellow) / 4;
-        Debug.Log(playerLimit);
-        if (countBlue >= playerLimit && playerLimit != 0)
+        switch (lastFaction)
         {
-            Faction.BLUE.AddPlayer(player);
-            player.Faction = Faction.BLUE;
-            player.CurrentTerritory = Faction.BLUE.RespawnPosition;
-            player.CurrentTerritory.TerritoryTransform.position = Faction.BLUE.RespawnPosition.TerritoryTransform.position;
-            player.gameObject.transform.position = Faction.BLUE.RespawnPosition.TerritoryTransform.position;
+            case 1:
+                FactionManager.BLUE.AddPlayer(player);
+                player.Faction = FactionManager.BLUE;
+                player.CurrentTerritory = FactionManager.BLUE.RespawnPosition;
+                player.CurrentTerritory.TerritoryTransform.position = FactionManager.BLUE.RespawnPosition.TerritoryTransform.position;
+                player.playerTransform.position = FactionManager.BLUE.RespawnPosition.TerritoryTransform.position;
+                lastFaction++;
+                break;
+            case 2:
+                FactionManager.RED.AddPlayer(player);
+                player.Faction = FactionManager.RED;
+                player.CurrentTerritory = FactionManager.RED.RespawnPosition;
+                player.CurrentTerritory.TerritoryTransform.position = FactionManager.RED.RespawnPosition.TerritoryTransform.position;
+                player.playerTransform.position = FactionManager.RED.RespawnPosition.TerritoryTransform.position;
+                lastFaction++;
+                break;
+            case 3:
+                FactionManager.YELLOW.AddPlayer(player);
+                player.Faction = FactionManager.YELLOW;
+                player.CurrentTerritory = FactionManager.YELLOW.RespawnPosition;
+                player.CurrentTerritory.TerritoryTransform.position = FactionManager.YELLOW.RespawnPosition.TerritoryTransform.position;
+                player.playerTransform.position = FactionManager.YELLOW.RespawnPosition.TerritoryTransform.position;
+                lastFaction++;
+                break;
+            case 4:
+                FactionManager.GREEN.AddPlayer(player);
+                player.Faction = FactionManager.GREEN;
+                player.CurrentTerritory = FactionManager.GREEN.RespawnPosition;
+                player.CurrentTerritory.TerritoryTransform.position = FactionManager.GREEN.RespawnPosition.TerritoryTransform.position;
+                player.playerTransform.position = FactionManager.GREEN.RespawnPosition.TerritoryTransform.position;
+                lastFaction = 1;
+                break;
 
-        }
-        else if (countRed >= playerLimit)
-        {
-            Faction.RED.AddPlayer(player);
-            player.Faction = Faction.RED;
-            player.CurrentTerritory = Faction.RED.RespawnPosition;
-            player.CurrentTerritory.TerritoryTransform.position = Faction.RED.RespawnPosition.TerritoryTransform.position;
-            player.gameObject.transform.position = Faction.RED.RespawnPosition.TerritoryTransform.position;
-        }
-        else if (countYellow >= playerLimit)
-        {
-            Faction.YELLOW.AddPlayer(player);
-            player.Faction = Faction.YELLOW;
-            player.CurrentTerritory = Faction.YELLOW.RespawnPosition;
-            player.CurrentTerritory.TerritoryTransform.position = Faction.YELLOW.RespawnPosition.TerritoryTransform.position;
-            player.gameObject.transform.position = Faction.YELLOW.RespawnPosition.TerritoryTransform.position;
-        }
-        else if (countGreen >= playerLimit)
-        {
-            Faction.GREEN.AddPlayer(player);
-            player.Faction = Faction.GREEN;
-            player.CurrentTerritory = Faction.GREEN.RespawnPosition;
-            player.CurrentTerritory.TerritoryTransform.position = Faction.GREEN.RespawnPosition.TerritoryTransform.position;
-            player.gameObject.transform.position = Faction.GREEN.RespawnPosition.TerritoryTransform.position;
+            
         }
 
         /*
@@ -127,15 +116,21 @@ public class PlayerManager : MonoBehaviour
 
     }
 
-    public void CreatePlayer(string name)             
+    public Player CreatePlayer(string name)             
     {
-        GameObject NewPlayerGameObject = Instantiate(m_playerCharPrefab, new Vector3(-5f, -5f, 0f), Quaternion.identity, transform);
-        Player newPlayer = NewPlayerGameObject.GetComponent<Player>();
-        newPlayer.Name = name;
-        newPlayer.NumPlayer = ++numPlayer;
-        NewPlayerGameObject.name = newPlayer.name;
+        numPlayer++;
+        Player newPlayer;
+        GameObject NewPlayerGameObject = Instantiate(m_playerPrefab.gameObject, new Vector3(-5f, -5f, 0f), Quaternion.identity, transform);
+        //newPlayer.playerTransform = NewPlayerGameObject.transform;
+        NewPlayerGameObject.name = name;
         NewPlayerGameObject.GetComponentInChildren<TextMesh>().text = "" + numPlayer;
+        newPlayer = NewPlayerGameObject.GetComponent<Player>();
+        newPlayer.playerTransform = NewPlayerGameObject.transform;
+        newPlayer.Name = name;
+        newPlayer.NumPlayer = numPlayer;
+        players.Add(name,newPlayer);
         AssignFactionToPlayers(newPlayer);
+        return newPlayer;
     }
     public Player GetPlayer(string name)
     {
@@ -143,32 +138,11 @@ public class PlayerManager : MonoBehaviour
         players.TryGetValue(name, out player);
         return player;
     }
-    public void GetCommandFromPlayer(string name, string command)              //JEROME HERE ! Give me a player names and the command he sends ;-)       
-    {
-        var p = GetPlayer(name);
-        if (p==null) {
-            CreatePlayer(name);
-        }
-        else
-        {
-
-            playerAction.DoAction(command, p);
-        }
-    }
+    
     // Use this for initialization
     void Start()
     {
-        GetCommandFromPlayer("Oho", "");
-        GetCommandFromPlayer("Oho2", "");
-        GetCommandFromPlayer("Oho3", "");
-        GetCommandFromPlayer("Oho4", "");
-        GetCommandFromPlayer("Oho5", "");
-        GetCommandFromPlayer("Oho6", "");
-        GetCommandFromPlayer("Oho7", "");/*
-        GetCommandFromPlayer("Oho", "UP");
-        GetCommandFromPlayer("Oho", "UP");
-        GetCommandFromPlayer("Oho", "LEFT");
-        GetCommandFromPlayer("Oho", "LEFT");*/
+       
 
     }
 

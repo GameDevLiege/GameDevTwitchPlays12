@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-    
     public Faction Faction { get; set; }
     public Territory CurrentTerritory { get; set; }
     public bool HasGlasses { get; set; }
@@ -13,15 +12,14 @@ public class Player : MonoBehaviour
     public int Gold { get; set; }
     public int NumPlayer { get; set; }
     public Dictionary<Item, int> Inventory { get; set; }
+    public Transform playerTransform;
 
-    public Player (string name, int num)
+    /*public Player ()
     {
         HasGlasses = false;
-        Name = name;
         Level = 1;
         Gold = 0;
-        NumPlayer = num;
         Inventory = new Dictionary<Item, int>();
-    }
+    }*/
 
 }

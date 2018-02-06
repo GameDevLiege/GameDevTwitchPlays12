@@ -154,6 +154,7 @@ public class PlayerAction : MonoBehaviour
 
     public void DoAction(string TypeOfMove,Player player)
     {
+
         float y;
         float x;
         
@@ -163,7 +164,7 @@ public class PlayerAction : MonoBehaviour
                 y = player.CurrentTerritory.transform.position.y + 1;
                 if (!(y > m_territoryManager.m_nbrYTerritories - 1))
                 {
-                    this.gameObject.transform.Translate(0f, 1f, 0f);
+                    player.playerTransform.Translate(0f, 1f, 0f);
                     float tempx = player.CurrentTerritory.gameObject.transform.position.x;
                     float tempy = player.CurrentTerritory.gameObject.transform.position.y + 1;
                     player.CurrentTerritory.TerritoryGameObject = GameObject.Find("y=" + (int)tempy + "x=" + (int)tempx);
@@ -174,7 +175,7 @@ public class PlayerAction : MonoBehaviour
                 y = player.CurrentTerritory.transform.position.y - 1;
                 if (!(y < 0))
                 {
-                    this.gameObject.transform.Translate(0f, -1f, 0f);
+                    player.playerTransform.Translate(0f, -1f, 0f);
                     float tempx = player.CurrentTerritory.gameObject.transform.position.x;
                     float tempy = player.CurrentTerritory.gameObject.transform.position.y - 1;
                     player.CurrentTerritory.TerritoryGameObject = GameObject.Find("y=" + (int)tempy + "x=" + (int)tempx);
@@ -185,7 +186,7 @@ public class PlayerAction : MonoBehaviour
                 x = player.CurrentTerritory.transform.position.x - 1;
                 if (!(x < 0))
                 {
-                    this.gameObject.transform.Translate(-1f, 0f, 0f);
+                    player.playerTransform.Translate(-1f, 0f, 0f);
                     float tempx = player.CurrentTerritory.gameObject.transform.position.x - 1;
                     float tempy = player.CurrentTerritory.gameObject.transform.position.y;
                     player.CurrentTerritory.TerritoryGameObject = GameObject.Find("y=" + (int)tempy + "x=" + (int)tempx);
@@ -196,7 +197,7 @@ public class PlayerAction : MonoBehaviour
                 x = player.CurrentTerritory.transform.position.x + 1;
                 if (!(x > m_territoryManager.m_nbrXTerritories - 1))
                 {
-                    this.gameObject.transform.Translate(1f, 0f, 0f);
+                    player.playerTransform.Translate(1f, 0f, 0f);
                     float tempx = player.CurrentTerritory.gameObject.transform.position.x + 1;
                     float tempy = player.CurrentTerritory.gameObject.transform.position.y;
                     player.CurrentTerritory.TerritoryGameObject = GameObject.Find("y=" + (int)tempy + "x=" + (int)tempx);

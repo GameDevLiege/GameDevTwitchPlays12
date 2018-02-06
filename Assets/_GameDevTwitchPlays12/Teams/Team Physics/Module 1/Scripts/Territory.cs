@@ -136,19 +136,19 @@ public class Territory  : MonoBehaviour
         {
             if (m_currentColor == Color.red)
             {
-                Faction.RED.NbrTerritories--;
+                FactionManager.RED.NbrTerritories--;
             }
             else if (m_currentColor == Color.blue)
             {
-                Faction.BLUE.NbrTerritories--;
+                FactionManager.BLUE.NbrTerritories--;
             }
             else if (m_currentColor == Color.green)
             {
-                Faction.GREEN.NbrTerritories--;
+                FactionManager.GREEN.NbrTerritories--;
             }
             else if (m_currentColor == Color.yellow)
             {
-                Faction.YELLOW.NbrTerritories--;
+                FactionManager.YELLOW.NbrTerritories--;
             }
         }
         m_currentColor = p.Faction.FactionColor;
@@ -159,19 +159,19 @@ public class Territory  : MonoBehaviour
         //new territory owner gains Nbrterritory
         if (m_currentColor == Color.red)
         {
-            Faction.RED.NbrTerritories++;
+            FactionManager.RED.NbrTerritories++;
         }
         else if (m_currentColor == Color.blue)
         {
-            Faction.BLUE.NbrTerritories++;
+            FactionManager.BLUE.NbrTerritories++;
         }
         else if (m_currentColor == Color.green)
         {
-            Faction.GREEN.NbrTerritories++;
+            FactionManager.GREEN.NbrTerritories++;
         }
         else if (m_currentColor == Color.yellow)
         {
-            Faction.YELLOW.NbrTerritories++;
+            FactionManager.YELLOW.NbrTerritories++;
         }
     }
 
