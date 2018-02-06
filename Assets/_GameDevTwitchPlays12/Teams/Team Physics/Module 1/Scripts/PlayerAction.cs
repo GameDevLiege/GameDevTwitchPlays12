@@ -20,8 +20,7 @@ public class PlayerAction : MonoBehaviour
     #region system
     private void Awake()
     {
-        Item item=new Item() ;
-        ItemEvent.AddListener(PlayerPickUp);
+        ItemEvent.AddPickupListener(PlayerPickUp);
     }
     private void PlayerPickUp(Item item,Player player)
     {
@@ -31,7 +30,6 @@ public class PlayerAction : MonoBehaviour
             int numberItem = player.NumberOfItem(item);
             if (numberItem > 0)
             {
-               
                 player.Inventory[item] = numberItem;
             }
             else
@@ -39,8 +37,9 @@ public class PlayerAction : MonoBehaviour
                 player.Inventory.Add(item, numberItem);
             }
 
-            Debug.Log(player.Inventory.Count);
+            //Debug.Log(player.Inventory.Count);
         }
+        m_territoryManager.eligibleTerritoryItem.Add(player.CurrentTerritory);
     }
     private void Start()
     {
@@ -108,8 +107,7 @@ public class PlayerAction : MonoBehaviour
                     {
                         if(player.Faction.FactionColor!=OtherMole.Faction.FactionColor)
                         {
-                            //  DoBattle(player,OtherMole);
-                            Debug.Log("ici1");
+                              DoBattle(player,OtherMole);
                         }
                     }
                 }
@@ -129,8 +127,7 @@ public class PlayerAction : MonoBehaviour
                     {
                         if (player.Faction.FactionColor != OtherMole.Faction.FactionColor)
                         {
-                            //   DoBattle(player, OtherMole);
-                            Debug.Log("ici2");
+                               DoBattle(player, OtherMole);
                         }
                     }
                         
@@ -151,8 +148,7 @@ public class PlayerAction : MonoBehaviour
                     {
                         if (player.Faction.FactionColor != OtherMole.Faction.FactionColor)
                         {
-                            Debug.Log("ici3");
-                            // DoBattle(player,OtherMole);
+                             DoBattle(player,OtherMole);
                         }
                     }
                         
@@ -174,7 +170,6 @@ public class PlayerAction : MonoBehaviour
                         if (player.Faction.FactionColor != OtherMole.Faction.FactionColor)
                         {
                              DoBattle(player,OtherMole);
-                            Debug.Log("ici4");
                         }
                     }
                         
@@ -232,7 +227,7 @@ public class PlayerAction : MonoBehaviour
                     player.transform.Translate(1f, 0f, 0f);
                     int tempx = (int)player.CurrentTerritory.gameObject.transform.position.x + 1;
                     int tempy = (int)player.CurrentTerritory.gameObject.transform.position.y;
-                    player.CurrentTerritory.TerritoryGameObject = GameObject.Find("y=" + (int)tempy + "x=" + (int)tempx);
+                    player.CurrentTerritory = m_territoryManager.m_battleField[tempx, tempy];
                     player.CurrentTerritory = m_territoryManager.m_battleField[tempx, tempy];
                     TestForNearbyEnnemies(player);
                 }
@@ -242,7 +237,7 @@ public class PlayerAction : MonoBehaviour
                 {
                     Item item = player.CurrentTerritory.TerritoryItem;
                     //item.m_PlayerAction = this;
-                    ItemEvent.NotifyNewItem(item,player);
+                    
                     if(item.ItemType==Item.e_itemType.COINCHEST)
                     { player.Gold += m_goldPerCoinChest; }
                     if (item.ItemType == Item.e_itemType.GLASSES)
@@ -252,10 +247,9 @@ public class PlayerAction : MonoBehaviour
                         GetComponent<AudioSource>().PlayOneShot(paperSound);
                     else
                         GetComponent<AudioSource>().PlayOneShot(diggingSound);
-
-
                     player.CurrentTerritory.HasItem = false;
-                    Destroy(player.CurrentTerritory.TerritoryGameObject.GetComponent("Item"));
+                    Destroy(player.CurrentTerritory.gameObject.GetComponent("Item"));
+                    ItemEvent.NotifyNewItem(item, player);
                     m_territoryManager.RePopSpecial();
                 }
                 else
@@ -285,11 +279,5 @@ public class PlayerAction : MonoBehaviour
     {
         throw new System.NotImplementedException();
     }
-    #endregion
-
-    #region Didi
-
-
-
     #endregion
 }

@@ -15,7 +15,7 @@ public class TerritoryManager  : MonoBehaviour
     public int m_territoryInCentralZone=0;
     public int m_headQuarter=0;
     public Territory[,] m_battleField;
-    private List<Territory> eligibleTerritoryItem=new List<Territory>();
+    public List<Territory> eligibleTerritoryItem=new List<Territory>();
 
     private bool isPlaying;
     #endregion
@@ -147,7 +147,7 @@ public class TerritoryManager  : MonoBehaviour
                 positionOfCell = new Vector3(x * 1f, y * 1f, 0);
                 GameObject territoryPrefab = Instantiate(m_territoryPrefab, positionOfCell, Quaternion.identity, transform);
                 territoryPrefab.name = "y=" + positionOfCell.y + "x=" + positionOfCell.x;
-                territoryPrefab.GetComponent<Territory>().Manager = this;
+                //territoryPrefab.GetComponent<Territory>().Manager = this;
                 m_battleField[x,y] = territoryPrefab.GetComponent<Territory>();
                 m_battleField[x, y].TerritoryID = "x"+x+"y"+y;
                // Debug.Log(m_battleField[x, y].TerritoryID);
@@ -240,7 +240,7 @@ public class TerritoryManager  : MonoBehaviour
                 if (t.IsCenter && !t.HasItem && centerCount == randomCenterZone)
                 {
                     t.HasItem = true;
-                    Item item= t.TerritoryGameObject.AddComponent<Item>();
+                    Item item= t.gameObject.AddComponent<Item>();
                     item.ItemType= Item.e_itemType.GLASSES;
                     item.ChoseEffectItem(Item.e_itemType.GLASSES);
                     t.TerritoryItem = item;
@@ -285,7 +285,7 @@ public class TerritoryManager  : MonoBehaviour
                         Debug.Log("Rnd item1------>" + intRndItem);
                         eligibleTerritoryItem[intRndTerritory].ColorChange(Color.magenta);
                     }
-                    Item item = eligibleTerritoryItem[intRndTerritory].TerritoryGameObject.AddComponent<Item>();
+                    Item item = eligibleTerritoryItem[intRndTerritory].gameObject.AddComponent<Item>();
                     item.ItemType = (Item.e_itemType)intRndItem;
                     item.ChoseEffectItem(item.ItemType);
                     eligibleTerritoryItem[intRndTerritory].TerritoryItem = item;
@@ -316,33 +316,33 @@ public class TerritoryManager  : MonoBehaviour
                         if (!m_battleField[y,x].GetComponent<Territory>().HasItem)
                         {
                             FoundRightPlace = true;
-                            m_battleField[y,x].TerritoryGameObject.AddComponent<Item>();
+                            m_battleField[y,x].gameObject.AddComponent<Item>();
                             int B = Random.Range(1, 7);//random range takes argument 1 inclusive argument 2 exclusive
                             switch (B)
                             {
                                 case 1:
-                                    m_battleField[y,x].GetComponent<Item>().ChooseTypeOfItem(Item.e_itemType.COINCHEST);
-                                    m_battleField[y, x].GetComponent<Item>().ChooseEffectOfItem(Item.e_effectType.INSTANT);
+                                    m_battleField[y,x].GetComponent<Item>().ItemType=Item.e_itemType.COINCHEST;
+                                    m_battleField[y, x].GetComponent<Item>().EffectType=Item.e_effectType.INSTANT;
                                     break;
                                 case 2:
-                                    m_battleField[y,x].GetComponent<Item>().ChooseTypeOfItem(Item.e_itemType.PARCHEMENT);
-                                    m_battleField[y, x].GetComponent<Item>().ChooseEffectOfItem(Item.e_effectType.INSTANT);
+                                    m_battleField[y,x].GetComponent<Item>().ItemType=Item.e_itemType.PARCHEMENT;
+                                    m_battleField[y, x].GetComponent<Item>().EffectType=Item.e_effectType.INSTANT;
                                     break;
                                 case 3:
-                                    m_battleField[y,x].GetComponent<Item>().ChooseTypeOfItem(Item.e_itemType.GRENADES);
-                                    m_battleField[y, x].GetComponent<Item>().ChooseEffectOfItem(Item.e_effectType.INVENTORY);
+                                    m_battleField[y,x].GetComponent<Item>().ItemType=Item.e_itemType.GRENADES;
+                                    m_battleField[y, x].GetComponent<Item>().EffectType=Item.e_effectType.INVENTORY;
                                     break;
                                 case 4:
-                                    m_battleField[y,x].GetComponent<Item>().ChooseTypeOfItem(Item.e_itemType.PEBBLE);
-                                    m_battleField[y, x].GetComponent<Item>().ChooseEffectOfItem(Item.e_effectType.INSTANT);
+                                    m_battleField[y,x].GetComponent<Item>().ItemType=Item.e_itemType.PEBBLE;
+                                    m_battleField[y, x].GetComponent<Item>().EffectType=Item.e_effectType.INSTANT;
                                     break;
                                 case 5:
-                                    m_battleField[y,x].GetComponent<Item>().ChooseTypeOfItem(Item.e_itemType.SHOVEL);
+                                    m_battleField[y,x].GetComponent<Item>().ItemType=Item.e_itemType.SHOVEL;
                                     m_battleField[y, x].GetComponent<Item>().EffectType=Item.e_effectType.INVENTORY;
                                     break;
                                 case 6:
-                                    m_battleField[y,x].GetComponent<Item>().ChooseTypeOfItem(Item.e_itemType.STRAIN);
-                                    m_battleField[y, x].GetComponent<Item>().ChooseEffectOfItem(Item.e_effectType.INSTANT);
+                                    m_battleField[y,x].GetComponent<Item>().ItemType=Item.e_itemType.STRAIN;
+                                    m_battleField[y, x].GetComponent<Item>().EffectType=Item.e_effectType.INSTANT;
                                     break;
                             }
                         }

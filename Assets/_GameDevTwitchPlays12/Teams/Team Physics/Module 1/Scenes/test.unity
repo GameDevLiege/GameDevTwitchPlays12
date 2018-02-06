@@ -113,58 +113,6 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
---- !u!1 &781896691 stripped
-GameObject:
-  m_PrefabParentObject: {fileID: 1437945112939992, guid: 0527597ae3320c04d948221566b99674,
-    type: 2}
-  m_PrefabInternal: {fileID: 1162994408}
---- !u!114 &781896692
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 781896691}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d9afe8092e544fd479e08ec669e4d685, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  commandList:
-  - RIGHT
-  - UP
-  - DOWN
-  - LEFT
-  - DIG
-  userList:
-  - Mole1
-  - Mole2
-  - Mole3
-  - Mole4
-  - Mole5
-  - Mole6
-  - Mole7
-  - Mole8
-  - Mole9
-  - Mole10
-  - Mole11
-  - Mole12
-  - Mole13
-  - Mole14
-  - Mole15
-  - Mole16
-  - Mole17
-  - Mole18
-  - Mole19
-  - Mole20
-  physicsManager: {fileID: 781896697}
-  isRandom: 1
-  timeRoutine: 0.1
---- !u!114 &781896697 stripped
-MonoBehaviour:
-  m_PrefabParentObject: {fileID: 114680492895927922, guid: 0527597ae3320c04d948221566b99674,
-    type: 2}
-  m_PrefabInternal: {fileID: 1162994408}
-  m_Script: {fileID: 11500000, guid: 6a3ed7df803cc174a841257fddda435e, type: 3}
 --- !u!1001 &1162994408
 Prefab:
   m_ObjectHideFlags: 0

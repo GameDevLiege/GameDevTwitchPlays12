@@ -53,14 +53,7 @@ public class Item : MonoBehaviour
     #endregion
     
     #region Public Void
-    public void ChooseTypeOfItem(e_itemType type)
-    {
-        m_itemType = type;
-    }
-    public void ChooseEffectOfItem(e_effectType effect)
-    {
-        m_effectType = effect;
-    }
+  
     #endregion
 
     #region Tools Debug And Utility

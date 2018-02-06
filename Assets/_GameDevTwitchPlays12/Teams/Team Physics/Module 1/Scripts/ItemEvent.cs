@@ -6,14 +6,24 @@ public class ItemEvent
 {
     private static ItemPickup m_onItemPickup;
     private static ItemUse m_onItemUse;
-    public static void AddListener(ItemPickup itemPickup)
+    public static void AddPickupListener(ItemPickup itemPickup)
     {
         m_onItemPickup += itemPickup;
           
     }
-    public static void RemoveListener(ItemPickup specialPickup)
+    public static void RemovePickUpListener(ItemPickup specialPickup)
     {
         m_onItemPickup -= specialPickup;
+
+    }
+    public static void AddUseListener(ItemUse itemUse)
+    {
+        m_onItemUse += itemUse;
+
+    }
+    public static void RemoveUseListener(ItemUse itemUse)
+    {
+        m_onItemUse -= itemUse;
 
     }
     public static void NotifyNewItem(Item item,Player player) {
