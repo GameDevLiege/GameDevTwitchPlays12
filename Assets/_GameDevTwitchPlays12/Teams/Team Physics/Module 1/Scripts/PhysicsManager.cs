@@ -23,30 +23,7 @@ public class PhysicsManager : MonoBehaviour {
     // Use this for initialization
     void Start () {
         StartGame();
-        
-        GetCommandFromPlayer("Oho1", "");
-        GetCommandFromPlayer("Oho2", "");
-        GetCommandFromPlayer("Oho1", "DOWN");
-        GetCommandFromPlayer("Oho1", "DOWN");
-        //  GetCommandFromPlayer("Oho", "RIGHT");
-        GetCommandFromPlayer("Oho2", "RIGHT");
-        GetCommandFromPlayer("Oho2", "RIGHT");
-        //GetCommandFromPlayer("Oho2", "LEFT");
-        //GetCommandFromPlayer("Oho2", "LEFT");
-        //  GetCommandFromPlayer("Oho", "LEFT");
-        //  GetCommandFromPlayer("Oho", "LEFT");
-        //   GetCommandFromPlayer("Oho", "LEFT");
-        /*GetCommandFromPlayer("Oho2", "");
-        GetCommandFromPlayer("Oho3", "");
-        GetCommandFromPlayer("Oho4", "");
-        GetCommandFromPlayer("Oho5", "");
-        GetCommandFromPlayer("Oho6", "");
-        GetCommandFromPlayer("Oho7", "");*/
-
-        Debug.Log(FactionManager.RED.ListPlayer.Count);
-        Debug.Log(FactionManager.BLUE.ListPlayer.Count);
-        Debug.Log(FactionManager.GREEN.ListPlayer.Count);
-        Debug.Log(FactionManager.YELLOW.ListPlayer.Count);
+      
     }
 	
 	// Update is called once per frame
@@ -63,7 +40,7 @@ public class PhysicsManager : MonoBehaviour {
         playerManager.CreatePlayer(name);
     }
 
-    public void GetCommandFromPlayer(string name, string command)    
+    public void SetCommandFromPlayer(string name, string command)    
     {
         var p = playerManager.GetPlayer(name);
         if (p == null)
@@ -76,4 +53,5 @@ public class PhysicsManager : MonoBehaviour {
             playerAction.DoAction(command, p);
         }
     }
+    
 }
