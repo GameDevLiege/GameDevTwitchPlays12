@@ -163,7 +163,7 @@ public class PlayerAction : MonoBehaviour
                 }
                 break;
             case "DOWN":
-                player.transform.localRotation.SetLookRotation(new Vector3(0, 180, 0));
+                player.transform.localRotation.SetLookRotation(new Vector3(0, 0, 180));
                 y = player.CurrentTerritory.transform.position.y - 1;
                 if (!(y < 0))
                 {
@@ -175,7 +175,7 @@ public class PlayerAction : MonoBehaviour
                 }
                 break;
             case "LEFT":
-                player.transform.localRotation.SetLookRotation(new Vector3(0, -90, 0));
+                player.transform.localRotation.SetLookRotation(new Vector3(0, 0, -90));
                 x = player.CurrentTerritory.transform.position.x - 1;
                 if (!(x < 0))
                 {
@@ -187,7 +187,7 @@ public class PlayerAction : MonoBehaviour
                 }
                 break;
             case "RIGHT":
-                player.transform.localRotation.SetLookRotation(new Vector3(0, 90, 0));
+                player.transform.localRotation.SetLookRotation(new Vector3(0, 0, 90));
                 x = player.CurrentTerritory.transform.position.x + 1;
                 if (!(x > m_territoryManager.m_nbrXTerritories - 1))
                 {
