@@ -1,12 +1,13 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
-public class Territory  : MonoBehaviour
+public class Territory : MonoBehaviour
 {
 
     #region Public Members
     #endregion
-
-
+    public bool Locked { get; set; }
+    private bool playerDied = false;
     #region Public Void
     #endregion
     #region Propertie (GET,SET)
@@ -34,7 +35,7 @@ public class Territory  : MonoBehaviour
         get { return m_hasItem; }
         set { m_hasItem = value; }
     }
-    
+
     private Item m_territoryItem;
     public Item TerritoryItem
     {
@@ -65,6 +66,8 @@ public class Territory  : MonoBehaviour
         get { return m_currentColor; }
         set { m_currentColor = value; }
     }
+    public int FactionNum {get;set;}
+
     private List<Player> m_listPlayerCharOnTerritory = new List<Player>();
     public List<Player> GetListOfPlayerOnThisTerritory()
     {
@@ -75,7 +78,7 @@ public class Territory  : MonoBehaviour
     {
     return m_listPlayerCharOnTerritory.Count;
     }
-
+    private TerritoryManager m_territoryManager; 
 
     #endregion
 
@@ -84,20 +87,88 @@ public class Territory  : MonoBehaviour
 
     void Awake () 
     {
-        m_territoryMeshRenderer = GetComponent<MeshRenderer>();
-	}
+        m_territoryManager = FindObjectOfType<TerritoryManager>();
+        m_territoryMeshRenderer = GetComponentInChildren<MeshRenderer>();
+        FactionNum = 0;
+        Locked = false;
+    }
 
     #endregion
 
     #region Private Void
-    // à déplacer
+    IEnumerator UnlockAfterFight(Player player, Player potentialEnnemy)
+    {
+        yield return new WaitForSeconds(2*m_territoryManager.m_durationOfTick);
+        EnterBattle(player, potentialEnnemy);
+        Locked = false;
+    }
+
+    private void CheckForEnnemies(Player player)
+    {
+        if (player.CurrentTerritory.GetListOfPlayerOnThisTerritory().Count > 1)
+        {
+            Debug.Log("ho" + player.CurrentTerritory.GetListOfPlayerOnThisTerritory().Count);
+            for (int i = 0; i < player.CurrentTerritory.GetListOfPlayerOnThisTerritory().Count; i++)
+            {
+                Player potentialEnnemy = player.CurrentTerritory.GetListOfPlayerOnThisTerritory()[i];
+                if (player.Faction.NumFaction != potentialEnnemy.Faction.NumFaction)
+                {
+                    Locked = true;
+                    StartCoroutine(UnlockAfterFight(player, potentialEnnemy));
+                }
+            }
+        }
+    }
+    private void EnterBattle(Player player, Player enemy)
+    {
+        int temp = player.Level;
+        int x;
+        int y;
+        player.Level -= enemy.Level;
+        enemy.Level -= temp;
+        if (player.Level < 1)
+        {
+            player.Level = 1;
+            player.transform.position = player.Faction.RespawnPosition.transform.position;
+            y = (int)player.Faction.RespawnPosition.transform.position.y;
+            x = (int)player.Faction.RespawnPosition.transform.position.x;
+            playerDied = true;
+            player.CurrentTerritory.GetListOfPlayerOnThisTerritory().Remove(player);
+            player.CurrentTerritory = m_territoryManager.m_battleField[x, y];
+            if (player.HasGlasses)
+            {
+                player.HasGlasses = false;
+                enemy.HasGlasses = true;
+            }
+        }
+        if (enemy.Level < 1)
+        {
+            enemy.Level = 1;
+            enemy.transform.position = enemy.Faction.RespawnPosition.transform.position;
+            y = (int)enemy.Faction.RespawnPosition.transform.position.y;
+            x = (int)enemy.Faction.RespawnPosition.transform.position.x;
+            enemy.CurrentTerritory.GetListOfPlayerOnThisTerritory().Remove(enemy);
+            enemy.CurrentTerritory = m_territoryManager.m_battleField[x, y];
+            if (enemy.HasGlasses)
+            {
+                player.HasGlasses = true;
+                enemy.HasGlasses = false;
+            }
+        }
+    }
+
     private void OnTriggerEnter(Collider col)
     {
+        playerDied = false;
         Player p = col.GetComponent<Player>();
         m_listPlayerCharOnTerritory.Add(p);
-        if ((p != null && p.Faction!=null && m_currentColor != p.Faction.FactionColor)&&(!IsHQ) )
+        if(m_listPlayerCharOnTerritory.Count>1)
         {
-            ColorChange(p);
+            CheckForEnnemies(p);
+        }
+        if (!playerDied && (p != null && p.Faction!=null & FactionNum != p.Faction.NumFaction)&&(!IsHQ) )
+        {
+            FactionChange(p);
         }
     }
     public void ColorChange(Color color) {
@@ -105,55 +176,53 @@ public class Territory  : MonoBehaviour
         m_territoryMeshRenderer.material.color = color;
 
     }
-    public void ColorChange(Player p)
+    public void FactionChange(Player p)
     {
-        //TODO Repenser le système car des couleurs ne se compare pas car donne des valeurs différentes
-        //https://answers.unity.com/questions/787056/comparing-2-color-variables.html
-
         //previous territory owner looses Nbrterritory
 
-        if (m_currentColor != Color.white)
+        if (FactionNum != 0)
         {
-            if (m_currentColor == Color.red)
+            if (FactionNum == 1)
             {
                 FactionManager.RED.NbrTerritories--;
-                
+                ColorChange(Color.red);
             }
-            else if (m_currentColor == Color.blue)
+            else if (FactionNum == 2)
             {
                 FactionManager.BLUE.NbrTerritories--;
+                ColorChange(Color.blue);
             }
-            else if (m_currentColor == Color.green)
+            else if (FactionNum == 3)
             {
                 FactionManager.GREEN.NbrTerritories--;
+                ColorChange(Color.green);
             }
-            else if (m_currentColor == Color.yellow)
+            else if (FactionNum == 4)
             {
                 FactionManager.YELLOW.NbrTerritories--;
+                ColorChange(Color.yellow);
             }
         }
         m_currentColor = p.Faction.FactionColor;
+        FactionNum = p.Faction.NumFaction;
         Color col = TerritoryMeshRenderer.material.color;
         col = p.Faction.FactionColor;
         col.a = 100f;
         TerritoryMeshRenderer.material.color = col;
         //new territory owner gains Nbrterritory
-        Debug.Log("Faction color ="  );
-        Debug.Log(p.Faction.FactionColor.linear + " ==" + Color.red.linear +" "+ (p.Faction.FactionColor.linear==Color.red.linear));
-        if (m_currentColor == Color.red)
+        if (FactionNum == 1)
         {
             FactionManager.RED.NbrTerritories++;
-            Debug.Log("ici--------****" + FactionManager.RED.NbrTerritories);
         }
-        else if (m_currentColor == Color.blue)
+        else if (FactionNum == 2)
         {
             FactionManager.BLUE.NbrTerritories++;
         }
-        else if (m_currentColor == Color.green)
+        else if (FactionNum == 3)
         {
             FactionManager.GREEN.NbrTerritories++;
         }
-        else if (m_currentColor == Color.yellow)
+        else if (FactionNum == 4)
         {
             FactionManager.YELLOW.NbrTerritories++;
         }

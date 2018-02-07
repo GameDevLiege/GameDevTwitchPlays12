@@ -4,9 +4,10 @@ using UnityEngine;
 
 public class Faction 
 {
-    
+    public int NumFaction { get; set; }
     private int m_nbrTerritories;
     private Color m_factionColor;
+    
     private int m_goldReserves;
     private bool m_hasMiddle = false;
 

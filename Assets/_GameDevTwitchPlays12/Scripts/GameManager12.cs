@@ -12,6 +12,8 @@ using DidzNeil.ChatAPI;
 public class GameManager12 : MonoBehaviour
 {
     #region Public Members    
+    public bool m_debug = false;
+
     public ICommandManager m_commandManager;
     public PhysicsManager m_physicsManager;
 
@@ -27,7 +29,7 @@ public class GameManager12 : MonoBehaviour
     protected void Awake()
     {
         m_commandManager = GetComponent<CommandManager>();
-        m_physicsManager = GetComponent<PhysicsManager>(); //find ?
+       // m_physicsManager = GetComponent<PhysicsManager>(); //find ?
 
         gameIsStarted = false;
     }
@@ -59,7 +61,7 @@ public class GameManager12 : MonoBehaviour
 
         if (command.feedbackUser)
         {
-            Debug.LogWarning("Command Feedback: " + command.response);
+            if(m_debug) Debug.LogWarning("Command Feedback: " + command.response);
 
             Message msg = new Message("Game Admin", command.response, Message.GetCurrentTimeUTC(), Platform.Game);
             ChatAPI.SendMessageToUser(message.GetUserName(), message.GetPlatform(), msg);
@@ -116,8 +118,12 @@ public class GameManager12 : MonoBehaviour
         }
 
         state = ((CommandManager)m_commandManager).firstStateCharacter + state;
-
         string[] userInfo = player.Name.Split(' ');
+        if(m_debug)
+        {
+            Debug.Log(player.Name);
+            foreach (string s in userInfo) Debug.Log(s);
+        }
         m_commandManager.Parse(userInfo[1], Int32.Parse(userInfo[0]), state, timestamp);
     }
     #endregion
