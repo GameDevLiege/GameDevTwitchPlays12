@@ -105,10 +105,11 @@ public class Territory : MonoBehaviour
                 Player potentialEnnemy = player.CurrentTerritory.GetListOfPlayerOnThisTerritory()[i];
                 if (player.Faction.NumFaction != potentialEnnemy.Faction.NumFaction)
                 {
-                    player.CurrentTerritory.Locked = true;
+                    Locked = true;
                     EnterBattle(player, potentialEnnemy);
                 }
             }
+            Locked = false;
         }
     }
     public void EnterBattle(Player player, Player enemy)
@@ -124,7 +125,6 @@ public class Territory : MonoBehaviour
             player.transform.position = player.Faction.RespawnPosition.transform.position;
             y = (int)player.Faction.RespawnPosition.transform.position.y;
             x = (int)player.Faction.RespawnPosition.transform.position.x;
-            player.CurrentTerritory.Locked = false;
             playerDied = true;
             player.CurrentTerritory = m_territoryManager.m_battleField[x, y];
             player.CurrentTerritory.GetListOfPlayerOnThisTerritory().Remove(player);
@@ -140,7 +140,6 @@ public class Territory : MonoBehaviour
             enemy.transform.position = enemy.Faction.RespawnPosition.transform.position;
             y = (int)enemy.Faction.RespawnPosition.transform.position.y;
             x = (int)enemy.Faction.RespawnPosition.transform.position.x;
-            enemy.CurrentTerritory.Locked = false;
             enemy.CurrentTerritory = m_territoryManager.m_battleField[x, y];
             enemy.CurrentTerritory.GetListOfPlayerOnThisTerritory().Remove(enemy);
             if (enemy.HasGlasses)
