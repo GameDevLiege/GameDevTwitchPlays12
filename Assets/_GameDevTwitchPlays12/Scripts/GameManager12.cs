@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -7,32 +6,18 @@ using UnityEngine;
 using UnityEditor;
 #endif
 
-
 using GameManager;
 using DidzNeil.ChatAPI;
 
-
-public class FakeInput : IInput
-{
-    public void SendFeedback(ICommand command)
-    {
-        Debug.LogWarning("Command Feedback: " + command.response);
-    }
-}
-
-
 public class GameManager12 : MonoBehaviour
 {
-    #region Public Members
-
-    public IGameEngine m_gameEngine;
-
-    public IInput m_input = new FakeInput();
+    #region Public Members    
+    public bool m_debug = false;
 
     public ICommandManager m_commandManager;
+    public PhysicsManager m_physicsManager;
 
-    private Queue<ICommand> m_commandQueue = new Queue<ICommand>();
-
+    bool gameIsStarted;
     #endregion
 
     #region Public void
@@ -44,16 +29,122 @@ public class GameManager12 : MonoBehaviour
     protected void Awake()
     {
         m_commandManager = GetComponent<CommandManager>();
-        m_gameEngine = GetComponent<PhysicsManager>();
+        // m_physicsManager = GetComponent<PhysicsManager>(); //find ?
+
+        gameIsStarted = false;
     }
 
-#if UNITY_EDITOR
-    [MenuItem("GDL-Twitch12/Stun Neil %t")]
-    public static void test()
+    protected void Start()
     {
-        Special spe = new Special();
-        spe.m_playerCharacter = new PlayerCharacter() { PlayerName = "0 Neil" };
-        spe.m_typeSpecial = Special.e_specialType.PARCHEMENT;
+        // Either lead to Nothing, Feedback user or influence the game.
+        ChatAPI.AddListener(HandleMessage);
+
+        // Item pickups influences the cooldown on the CommandManager
+        //SpecialAPI.AddListener(HandleEvent);
+
+        ItemEvent.AddPickupListener(HandleEvent);
+
+        //ItemEvent.AddUseListener(); //Pour UI
+    }
+
+    public void DoCommand(string username, int platformCode, ICommand command)
+    {
+        if (command == null)
+            return;
+
+        Platform platform = (Platform)platformCode;
+
+        if (command.feedbackUser)
+        {
+            if (m_debug) Debug.LogWarning("Command Feedback: " + command.response);
+
+            Message msg = new Message("Game Admin", command.response, Message.GetCurrentTimeUTC(), Platform.Game);
+            ChatAPI.SendMessageToUser(username, platform, msg);
+        }
+        else
+        {
+            if (command.response == "!START" && !gameIsStarted)
+            {
+                gameIsStarted = true;
+                m_physicsManager.StartGame();
+            }
+            string userId = platformCode + " " + username;
+            string formattedCommand = command.response.Substring(1).ToUpper();
+
+            m_physicsManager.SetCommandFromPlayer(userId, formattedCommand);
+        }
+    }
+
+    private void HandleMessage(Message message)
+    {
+        m_commandManager.Parse(
+            message.GetUserName(),
+            (int)message.GetPlatform(),
+            message.GetMessage(),
+            message.GetTimestamp()
+        );
+    }
+
+    public void ResetGame()
+    {
+        gameIsStarted = false;
+    }
+
+    private void HandleEvent(Item item, Player player)
+    {
+        DateTime unixStart = new DateTime(1970, 1, 1, 0, 0, 0, 0, System.DateTimeKind.Utc);
+        long timestamp = (DateTime.Now.ToUniversalTime() - unixStart).Ticks;
+
+        string state = "";
+
+        //if (item.EffectType == Item.e_effectType.INSTANT) ;
+
+        switch (item.ItemType)
+        {
+        //    case Item.e_itemType.PEBBLE:
+        //        break;
+            case Item.e_itemType.COINCHEST:
+                float goldChest = item.goldValue; //TODO
+                break;
+        //    case Item.e_itemType.GRENADES:
+        //        break;
+            case Item.e_itemType.SHOVEL:
+                break;
+            case Item.e_itemType.PARCHEMENT:
+                state = "STUN";
+                break;
+            case Item.e_itemType.STRAIN:
+                state = "STRAIN";
+                break;
+            case Item.e_itemType.GLASSES:
+                break;
+            default:
+                break;
+        }
+
+        state = ((CommandManager)m_commandManager).firstStateCharacter + state;
+        string[] userInfo = player.Name.Split(' ');
+        if(userInfo.Length == 1)
+        {
+            m_commandManager.Parse(userInfo[0], 0, state, timestamp);
+        }
+        else
+        m_commandManager.Parse(userInfo[1], Int32.Parse(userInfo[0]), state, timestamp);
+    }
+    #endregion
+
+    #region Tools Debug and Utility
+    /*
+#if UNITY_EDITOR
+    [MenuItem("GDL-Twitch12/Stun Player %t")]
+    public static void StunPlayer()
+    {
+        Special spe = new Special
+        {
+            m_playerCharacter = new PlayerCharacter() { PlayerName = "0 Neil" },
+            m_typeSpecial = Special.e_specialType.PARCHEMENT
+        };
+
         SpecialAPI.NotifyNewSpecial(spe);
 
         string ticks = "?";
@@ -61,119 +152,12 @@ public class GameManager12 : MonoBehaviour
         {
             ticks = GameObject.Find("PManager").GetComponent<CommandManager>().stunMult.ToString();
         }
-        catch(Exception)
-        {
+        catch (Exception) { }
 
-        }
-
-        Debug.LogWarning("Stunning Neil for " +  ticks + " ticks!");
+        Debug.LogWarning("Stunning Neil for " + ticks + " ticks!");
     }
 #endif
-
-
-    protected void Start()
-    {
-        ChatAPI.AddListener(HandleMessage);
-        SpecialAPI.AddListener(HandleEvent);
-
-
-        
-    }
-
-    private void HandleEvent(ISpecial special)
-    {
-        string[] userInfo = special.m_playerCharacter.PlayerName.Split(new char[] { ' ' }, 2);
-
-
-        DateTime unixStart = new DateTime(1970, 1, 1, 0, 0, 0, 0, System.DateTimeKind.Utc);
-        long timestamp = (DateTime.Now.ToUniversalTime() - unixStart).Ticks;
-
-
-        string state = "";
-
-        switch (special.m_typeSpecial)
-        {
-            case Special.e_specialType.PEBBLE:
-                break;
-            case Special.e_specialType.COINCHEST:
-                break;
-            case Special.e_specialType.GRENADES:
-                break;
-            case Special.e_specialType.SHOVEL:
-                break;
-            case Special.e_specialType.PARCHEMENT:
-                state = "STUN";
-                break;
-            case Special.e_specialType.STRAIN:
-                state = "STRAIN";
-                break;
-            case Special.e_specialType.GLASSES:
-                break;
-            default:
-                break;
-        }
-
-        state = ((CommandManager)m_commandManager).firstStateCharacter + state;
-
-
-
-
-        m_commandManager.Parse(userInfo[1], Int32.Parse(userInfo[0]), state, timestamp);
-    }
-
-    private void HandleMessage(Message message)
-    {
-        ICommand command = m_commandManager.Parse(
-            message.GetUserName(),
-            (int)message.GetPlatform(),
-            message.GetMessage(),
-            message.GetTimestamp()
-        );
-
-        if (command == null)
-            return;
-
-        if (command.feedbackUser)
-        {
-            m_input.SendFeedback(command);
-
-            Message msg = new Message("Game Admin", command.response, Message.GetCurrentTimeUTC(), Platform.Game);
-
-            //ChatAPI.SendMessageToEveryUsers(msg);
-            ChatAPI.SendMessageToUser(message.GetUserName(), message.GetPlatform(), msg);
-        }
-        else
-        {
-            if (command.response == "!START")
-            {
-                List<string> playerList = new List<string>(m_commandManager.userDataBase.Keys);
-                m_gameEngine.AssignFactionToPlayers(playerList);
-            }
-
-            string userId = (int)message.GetPlatform() + " " + message.GetUserName();
-            string formattedCommand = command.response.Substring(1).ToUpper();
-
-            m_gameEngine.GetCommandFromPlayer(userId, formattedCommand);
-        }
-    }
-
-    private void Update()
-    {
-
-    }
-
-    #endregion
-
-    #region Class Methods
-
-    #endregion
-
-    #region Tools Debug and Utility
-
-    #endregion
-
-    #region Private and Protected Members
-
+    */
     #endregion
 }
 
