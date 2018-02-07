@@ -5,6 +5,7 @@ public class Territory : MonoBehaviour
 {
 
     #region Public Members
+    public GameObject m_particleFightPrefab;
     #endregion
     public bool Locked { get; set; }
     private bool playerDied = false;
@@ -98,6 +99,7 @@ public class Territory : MonoBehaviour
     #region Private Void
     IEnumerator UnlockAfterFight(Player player, Player potentialEnnemy)
     {
+        Instantiate(m_particleFightPrefab, player.transform);
         yield return new WaitForSeconds(2*m_territoryManager.m_durationOfTick);
         EnterBattle(player, potentialEnnemy);
         Locked = false;
@@ -107,7 +109,6 @@ public class Territory : MonoBehaviour
     {
         if (player.CurrentTerritory.GetListOfPlayerOnThisTerritory().Count > 1)
         {
-            Debug.Log("ho" + player.CurrentTerritory.GetListOfPlayerOnThisTerritory().Count);
             for (int i = 0; i < player.CurrentTerritory.GetListOfPlayerOnThisTerritory().Count; i++)
             {
                 Player potentialEnnemy = player.CurrentTerritory.GetListOfPlayerOnThisTerritory()[i];
@@ -139,6 +140,8 @@ public class Territory : MonoBehaviour
             {
                 player.HasGlasses = false;
                 enemy.HasGlasses = true;
+                enemy.Glasses = player.Glasses;
+                ObjectsFollow.FollowCharacter(enemy.Glasses.transform, enemy.transform.position);
             }
         }
         if (enemy.Level < 1)
@@ -153,6 +156,8 @@ public class Territory : MonoBehaviour
             {
                 player.HasGlasses = true;
                 enemy.HasGlasses = false;
+                player.Glasses = enemy.Glasses;
+                ObjectsFollow.FollowCharacter(player.Glasses.transform, player.transform.position);
             }
         }
     }

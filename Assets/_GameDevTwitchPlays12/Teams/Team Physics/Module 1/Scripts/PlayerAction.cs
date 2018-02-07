@@ -4,6 +4,11 @@ using UnityEngine;
 
 public class PlayerAction : MonoBehaviour
 {
+    public GameObject m_glassesPrefab;
+    public GameObject m_levelUpParticlePrefab;
+    public GameObject m_holeInTheGround;
+
+
     public AudioClip brawlSound;
     public AudioClip popSound;
     public AudioClip diggingSound;
@@ -151,7 +156,7 @@ public class PlayerAction : MonoBehaviour
 
     public void DoAction(string TypeOfMove,Player player)
     {
-        if(!player.CurrentTerritory.Locked)
+        if(!player.CurrentTerritory.Locked)//if in territorry locked means if in battle, so not accepting commands
         {
             float y;
             float x;
@@ -224,6 +229,7 @@ public class PlayerAction : MonoBehaviour
                     }
                     break;
                 case "DIG":
+                    Instantiate(m_holeInTheGround, player.CurrentTerritory.transform);
                     if (player.CurrentTerritory.HasItem)
                     {
                         Item item = player.CurrentTerritory.TerritoryItem;
@@ -238,7 +244,9 @@ public class PlayerAction : MonoBehaviour
                         if (item.ItemType == Item.e_itemType.GLASSES)
                         {
                             player.HasGlasses = true;
-
+                            GameObject glasses = Instantiate(m_glassesPrefab, player.transform);
+                            player.Glasses = glasses;
+                            ObjectsFollow.FollowCharacter(glasses.transform, player.transform.position);
 
                             //active objet glasses cedric
                         }
@@ -262,6 +270,7 @@ public class PlayerAction : MonoBehaviour
                     {
                         player.Gold -= m_levelPrices[player.Level];
                         player.Level++;
+                        Instantiate(m_levelUpParticlePrefab, player.transform);
                     }
                     break;
                 case "GRENADE":
