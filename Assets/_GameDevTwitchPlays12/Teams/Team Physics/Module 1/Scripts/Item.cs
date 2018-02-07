@@ -7,6 +7,7 @@ public class Item : MonoBehaviour
 {
     #region Public Members
     //public int m_amouthaddedGoldFromChest=50;// check with designers
+    public float goldValue = 0;
 
     public enum e_itemType
     {

@@ -16,6 +16,7 @@ public class TerritoryManager  : MonoBehaviour
     public int m_headQuarter=0;
     public Territory[,] m_battleField;
     public List<Territory> eligibleTerritoryItem=new List<Territory>();
+    public float goldValue;
 
     private bool isPlaying;
     #endregion
@@ -288,6 +289,10 @@ public class TerritoryManager  : MonoBehaviour
                     Item item = eligibleTerritoryItem[intRndTerritory].gameObject.AddComponent<Item>();
                     item.ItemType = (Item.e_itemType)intRndItem;
                     item.ChoseEffectItem(item.ItemType);
+                    if (item.ItemType==Item.e_itemType.COINCHEST)
+                    {
+                        item.goldValue = goldValue;
+                    }
                     eligibleTerritoryItem[intRndTerritory].TerritoryItem = item;
                     eligibleTerritoryItem[intRndTerritory].HasItem = true;
                     eligibleTerritoryItem.Remove(eligibleTerritoryItem[intRndTerritory]);
