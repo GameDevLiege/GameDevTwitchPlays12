@@ -78,6 +78,7 @@ MonoBehaviour:
   numberOfitems: 100
   m_territoryInCentralZone: 0
   m_headQuarter: 0
+  eligibleTerritoryItem: []
 --- !u!114 &114564638815517846
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -159,3 +160,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bea1b331e086f54408c2846de07e5ec7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_timeBetweenPayDay: 1
+  m_incomePerTerritory: 1
+  goldAmountRED: 0
+  goldAmountBLUE: 0
+  goldAmountYELLOW: 0
+  goldAmountGREEN: 0

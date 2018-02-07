@@ -86,9 +86,24 @@ public class PlayerAction : MonoBehaviour
         }
     }
 
+    public void CheckIfEnnemy(Territory TerritoryToTest, Player player)
+    {
+        if (TerritoryToTest.GetPlayerNumOnTerritory() > 0)
+        {
+            foreach (Player otherMole in TerritoryToTest.GetListOfPlayerOnThisTerritory())
+            {
+                if (!m_hasJustLostBattle)
+                {
+                    if (player.Faction.NumFaction != otherMole.Faction.NumFaction)
+                    {
+                        DoBattle(player, otherMole);
+                    }
+                }
+            }
+        }
+    }
     public void TestForNearbyEnnemies(Player player)
     {
-        
         float y;
         float x;
         Territory TerritoryToTest;
@@ -98,20 +113,7 @@ public class PlayerAction : MonoBehaviour
             int tempx = (int)player.CurrentTerritory.transform.position.x;
             int tempy = (int)player.CurrentTerritory.transform.position.y + 1;
             TerritoryToTest = m_territoryManager.m_battleField[tempx, tempy];
-            if (TerritoryToTest.GetPlayerNumOnTerritory()>0)
-            {
-                foreach(Player OtherMole in TerritoryToTest.GetListOfPlayerOnThisTerritory())
-                {
-
-                    if(!m_hasJustLostBattle)
-                    {
-                        if(player.Faction.FactionColor!=OtherMole.Faction.FactionColor)
-                        {
-                              DoBattle(player,OtherMole);
-                        }
-                    }
-                }
-            }
+            CheckIfEnnemy(TerritoryToTest, player);
         }
         y = player.CurrentTerritory.transform.position.y - 1;
         if (!(y < 0))
@@ -119,20 +121,7 @@ public class PlayerAction : MonoBehaviour
             int tempx = (int)player.CurrentTerritory.gameObject.transform.position.x;
             int tempy = (int)player.CurrentTerritory.gameObject.transform.position.y - 1;
             TerritoryToTest = m_territoryManager.m_battleField[tempx, tempy];
-            if (TerritoryToTest.GetPlayerNumOnTerritory() > 0)
-            {
-                foreach (Player OtherMole in TerritoryToTest.GetListOfPlayerOnThisTerritory())
-                {
-                    if (!m_hasJustLostBattle)
-                    {
-                        if (player.Faction.FactionColor != OtherMole.Faction.FactionColor)
-                        {
-                               DoBattle(player, OtherMole);
-                        }
-                    }
-                        
-                }
-            }
+            CheckIfEnnemy(TerritoryToTest, player);
         }
         x = player.CurrentTerritory.transform.position.x - 1;
         if (!(x < 0))
@@ -140,20 +129,7 @@ public class PlayerAction : MonoBehaviour
             int tempx = (int)player.CurrentTerritory.gameObject.transform.position.x - 1;
             int tempy = (int)player.CurrentTerritory.gameObject.transform.position.y;
             TerritoryToTest = m_territoryManager.m_battleField[tempx, tempy];
-            if (TerritoryToTest.GetPlayerNumOnTerritory() > 0)
-            {
-                foreach (Player OtherMole in TerritoryToTest.GetListOfPlayerOnThisTerritory())
-                {
-                    if (!m_hasJustLostBattle)
-                    {
-                        if (player.Faction.FactionColor != OtherMole.Faction.FactionColor)
-                        {
-                             DoBattle(player,OtherMole);
-                        }
-                    }
-                        
-                }
-            }
+            CheckIfEnnemy(TerritoryToTest, player);
         }
         x = player.CurrentTerritory.transform.position.x + 1;
         if (!(x > m_territoryManager.m_nbrXTerritories - 1))
@@ -161,20 +137,7 @@ public class PlayerAction : MonoBehaviour
             int tempx = (int)player.CurrentTerritory.gameObject.transform.position.x + 1;
             int tempy = (int)player.CurrentTerritory.gameObject.transform.position.y;
             TerritoryToTest = m_territoryManager.m_battleField[tempx, tempy];
-            if (TerritoryToTest.GetPlayerNumOnTerritory() > 0)
-            {
-                foreach (Player OtherMole in TerritoryToTest.GetListOfPlayerOnThisTerritory())
-                {
-                    if (!m_hasJustLostBattle)
-                    {
-                        if (player.Faction.FactionColor != OtherMole.Faction.FactionColor)
-                        {
-                             DoBattle(player,OtherMole);
-                        }
-                    }
-                        
-                }
-            }
+            CheckIfEnnemy(TerritoryToTest, player);
         }
         m_hasJustLostBattle = false;
     }
@@ -188,6 +151,7 @@ public class PlayerAction : MonoBehaviour
         switch (TypeOfMove)
         {
             case "UP":
+                player.transform.localRotation.SetLookRotation(new Vector3(0,0,0));
                 y = player.CurrentTerritory.transform.position.y + 1;
                 if (!(y > m_territoryManager.m_nbrYTerritories - 1))
                 {
@@ -199,6 +163,7 @@ public class PlayerAction : MonoBehaviour
                 }
                 break;
             case "DOWN":
+                player.transform.localRotation.SetLookRotation(new Vector3(0, 180, 0));
                 y = player.CurrentTerritory.transform.position.y - 1;
                 if (!(y < 0))
                 {
@@ -210,6 +175,7 @@ public class PlayerAction : MonoBehaviour
                 }
                 break;
             case "LEFT":
+                player.transform.localRotation.SetLookRotation(new Vector3(0, -90, 0));
                 x = player.CurrentTerritory.transform.position.x - 1;
                 if (!(x < 0))
                 {
@@ -221,6 +187,7 @@ public class PlayerAction : MonoBehaviour
                 }
                 break;
             case "RIGHT":
+                player.transform.localRotation.SetLookRotation(new Vector3(0, 90, 0));
                 x = player.CurrentTerritory.transform.position.x + 1;
                 if (!(x > m_territoryManager.m_nbrXTerritories - 1))
                 {
@@ -239,9 +206,18 @@ public class PlayerAction : MonoBehaviour
                     //item.m_PlayerAction = this;
                     
                     if(item.ItemType==Item.e_itemType.COINCHEST)
-                    { player.Gold += m_goldPerCoinChest; }
+                    {
+                        player.Gold += m_goldPerCoinChest;
+                        
+                        //lance animation cedric
+                    }
                     if (item.ItemType == Item.e_itemType.GLASSES)
-                    { player.HasGlasses=true; }
+                    {
+                        player.HasGlasses=true;
+                        
+
+                        //active objet glasses cedric
+                    }
 
                     if (item.ItemType == Item.e_itemType.PARCHEMENT)
                         GetComponent<AudioSource>().PlayOneShot(paperSound);
@@ -261,7 +237,7 @@ public class PlayerAction : MonoBehaviour
                 if(player.Gold>m_priceOfLevel)
                 {
                     player.Gold -= m_priceOfLevel;
-                    player.Gold++;
+                    player.Level++;
                 }
                 break;
            
