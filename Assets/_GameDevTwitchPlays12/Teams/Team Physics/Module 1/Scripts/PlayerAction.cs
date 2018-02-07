@@ -4,12 +4,6 @@ using UnityEngine;
 
 public class PlayerAction : MonoBehaviour
 {
-    [Header ("Prefabs visuel")]
-    public GameObject m_glasses;
-    public GameObject m_level;
-    public GameObject m_fight;
-    public GameObject m_gold;
-
     public AudioClip brawlSound;
     public AudioClip popSound;
     public AudioClip diggingSound;
