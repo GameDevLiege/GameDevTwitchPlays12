@@ -6,6 +6,7 @@ public class TerritoryManager  : MonoBehaviour
 {
 
     #region Public Members
+    public GameObject m_particleFightPrefab;
     public GameObject m_territoryPrefab;
     public bool m_debug = true;
     public int m_sizeOfDiceItem = 5;

@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class FactionManager : MonoBehaviour {
+
+    public InterfaceManager m_interfaceUI;
     public float m_timeBetweenPayDay = 1;
     public int m_incomePerTerritory = 1;
     public float goldAmountRED;
@@ -20,7 +22,7 @@ public class FactionManager : MonoBehaviour {
         BLUE = new Faction();
         GREEN = new Faction();
         YELLOW = new Faction();
-
+        m_interfaceUI = FindObjectOfType<InterfaceManager>();
     }
 	
 	// Update is called once per frame
@@ -34,8 +36,15 @@ public class FactionManager : MonoBehaviour {
         goldAmountGREEN=GREEN.GoldReserves;
         goldAmountYELLOW = YELLOW.GoldReserves;
         
-}
- 
+    }
+    private void LateUpdate()
+    {
+        RED.UpdateInterfaceUI(m_interfaceUI);
+        BLUE.UpdateInterfaceUI(m_interfaceUI);
+        GREEN.UpdateInterfaceUI(m_interfaceUI);
+        YELLOW.UpdateInterfaceUI(m_interfaceUI);
+    }
+
     public void DispatchMoney(Faction faction)
     {
         faction.GoldReserves += faction.NbrTerritories * m_incomePerTerritory;
