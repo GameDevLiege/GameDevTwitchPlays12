@@ -6,7 +6,7 @@ public class Territory : MonoBehaviour
     #region Public Members
     #endregion
     public bool Locked { get; set; }
-
+    private bool playerDied = false;
     #region Public Void
     #endregion
     #region Propertie (GET,SET)
@@ -77,7 +77,7 @@ public class Territory : MonoBehaviour
     {
     return m_listPlayerCharOnTerritory.Count;
     }
-
+    private TerritoryManager m_territoryManager; 
 
     #endregion
 
@@ -86,6 +86,7 @@ public class Territory : MonoBehaviour
 
     void Awake () 
     {
+        m_territoryManager = FindObjectOfType<TerritoryManager>();
         m_territoryMeshRenderer = GetComponentInChildren<MeshRenderer>();
         FactionNum = 0;
         Locked = false;
@@ -94,12 +95,71 @@ public class Territory : MonoBehaviour
     #endregion
 
     #region Private Void
-    // à déplacer
+    public void CheckForEnnemies(Player player)
+    {
+        if (player.CurrentTerritory.GetListOfPlayerOnThisTerritory().Count > 1)
+        {
+            Debug.Log("ho" + player.CurrentTerritory.GetListOfPlayerOnThisTerritory().Count);
+            for (int i = 0; i < player.CurrentTerritory.GetListOfPlayerOnThisTerritory().Count; i++)
+            {
+                Player potentialEnnemy = player.CurrentTerritory.GetListOfPlayerOnThisTerritory()[i];
+                if (player.Faction.NumFaction != potentialEnnemy.Faction.NumFaction)
+                {
+                    Locked = true;
+                    EnterBattle(player, potentialEnnemy);
+                }
+            }
+            Locked = false;
+        }
+    }
+    public void EnterBattle(Player player, Player enemy)
+    {
+        int temp = player.Level;
+        int x;
+        int y;
+        player.Level -= enemy.Level;
+        enemy.Level -= temp;
+        if (player.Level < 1)
+        {
+            player.Level = 1;
+            player.transform.position = player.Faction.RespawnPosition.transform.position;
+            y = (int)player.Faction.RespawnPosition.transform.position.y;
+            x = (int)player.Faction.RespawnPosition.transform.position.x;
+            playerDied = true;
+            player.CurrentTerritory = m_territoryManager.m_battleField[x, y];
+            player.CurrentTerritory.GetListOfPlayerOnThisTerritory().Remove(player);
+            if (player.HasGlasses)
+            {
+                player.HasGlasses = false;
+                enemy.HasGlasses = true;
+            }
+        }
+        if (enemy.Level < 1)
+        {
+            enemy.Level = 1;
+            enemy.transform.position = enemy.Faction.RespawnPosition.transform.position;
+            y = (int)enemy.Faction.RespawnPosition.transform.position.y;
+            x = (int)enemy.Faction.RespawnPosition.transform.position.x;
+            enemy.CurrentTerritory = m_territoryManager.m_battleField[x, y];
+            enemy.CurrentTerritory.GetListOfPlayerOnThisTerritory().Remove(enemy);
+            if (enemy.HasGlasses)
+            {
+                player.HasGlasses = true;
+                enemy.HasGlasses = false;
+            }
+        }
+    }
+
     private void OnTriggerEnter(Collider col)
     {
+        playerDied = false;
         Player p = col.GetComponent<Player>();
         m_listPlayerCharOnTerritory.Add(p);
-        if ((p != null && p.Faction!=null & FactionNum != p.Faction.NumFaction)&&(!IsHQ) )
+        if(m_listPlayerCharOnTerritory.Count>1)
+        {
+            CheckForEnnemies(p);
+        }
+        if (!playerDied && (p != null && p.Faction!=null & FactionNum != p.Faction.NumFaction)&&(!IsHQ) )
         {
             FactionChange(p);
         }
