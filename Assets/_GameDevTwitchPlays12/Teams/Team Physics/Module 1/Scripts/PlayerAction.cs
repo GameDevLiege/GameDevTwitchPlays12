@@ -11,7 +11,6 @@ public class PlayerAction : MonoBehaviour
     public int m_goldPerCoinChest = 50;
     private bool m_hasJustLostBattle;
     public TerritoryManager m_territoryManager;
-    public float m_durationOfTick = 2.0f;
     public int[] m_levelPrices = new int[] {125,275,450,650,900,1200,1550,1950,2400,3000,3750};
     #region properties
     
@@ -48,10 +47,7 @@ public class PlayerAction : MonoBehaviour
     #endregion
 
     #region  class methods
-    public IEnumerator Fighto(Player player, Player enemy)
-    {
-        yield return new WaitForSeconds(2 * m_durationOfTick);
-    }
+    
 
     
 
@@ -155,127 +151,127 @@ public class PlayerAction : MonoBehaviour
 
     public void DoAction(string TypeOfMove,Player player)
     {
-
-        float y;
-        float x;
-        
-        switch (TypeOfMove)
+        if(!player.CurrentTerritory.Locked)
         {
-            case "UP":
-                //player.gameObject.transform.rotation.SetLookRotation(new Vector3(0,0,0));
-                y = player.CurrentTerritory.transform.position.y + 1;
-                if (!(y > m_territoryManager.m_nbrYTerritories - 1))
-                {
-                    int tempx = (int)player.CurrentTerritory.gameObject.transform.position.x;
-                    int tempy = (int)player.CurrentTerritory.gameObject.transform.position.y + 1;
-                    if (!m_territoryManager.m_battleField[tempx, tempy].Locked)
-                    {
-                        player.CurrentTerritory.GetListOfPlayerOnThisTerritory().Remove(player);
-                        player.transform.Translate(0f, 1f, 0f);
-                        player.CurrentTerritory = m_territoryManager.m_battleField[tempx, tempy];
-                        //TestForNearbyEnnemies(player);
-                    }
-                }
-                break;
-            case "DOWN":
-                //player.gameObject.transform.rotation.SetLookRotation(new Vector3(0, 180, 0));
-                y = player.CurrentTerritory.transform.position.y - 1;
-                if (!(y < 0))
-                {
-                    int tempx = (int)player.CurrentTerritory.gameObject.transform.position.x;
-                    int tempy = (int)player.CurrentTerritory.gameObject.transform.position.y - 1;
-                    if (!m_territoryManager.m_battleField[tempx, tempy].Locked)
-                    {
-                        player.CurrentTerritory.GetListOfPlayerOnThisTerritory().Remove(player);
-                        player.transform.Translate(0f, -1f, 0f);
-                        player.CurrentTerritory = m_territoryManager.m_battleField[tempx, tempy];
-                        //TestForNearbyEnnemies(player);
-                    }
-                }
-                break;
-            case "LEFT":
-                //player.gameObject.transform.rotation.SetLookRotation(new Vector3(0, -90, 0));
-                x = player.CurrentTerritory.transform.position.x - 1;
-                if (!(x < 0))
-                {
-                    int tempx = (int)player.CurrentTerritory.gameObject.transform.position.x - 1;
-                    int tempy = (int)player.CurrentTerritory.gameObject.transform.position.y;
-                    if (!m_territoryManager.m_battleField[tempx, tempy].Locked)
-                    {
-                        player.CurrentTerritory.GetListOfPlayerOnThisTerritory().Remove(player);
-                        player.transform.Translate(-1f, 0f, 0f);
-                        player.CurrentTerritory = m_territoryManager.m_battleField[tempx, tempy];
-                        //TestForNearbyEnnemies(player);
-                    }
-                }
-                break;
-            case "RIGHT":
-                //player.gameObject.transform.rotation.SetLookRotation(new Vector3(0, 90, 0));
-                x = player.CurrentTerritory.transform.position.x + 1;
-                if (!(x > m_territoryManager.m_nbrXTerritories - 1))
-                {
-                    int tempx = (int)player.CurrentTerritory.gameObject.transform.position.x + 1;
-                    int tempy = (int)player.CurrentTerritory.gameObject.transform.position.y;
-                    if (!m_territoryManager.m_battleField[tempx, tempy].Locked)
-                    {
-                        player.CurrentTerritory.GetListOfPlayerOnThisTerritory().Remove(player);
-                        player.transform.Translate(1f, 0f, 0f);
-                        player.CurrentTerritory = m_territoryManager.m_battleField[tempx, tempy];
-                        //TestForNearbyEnnemies(player);
-                    }
+            float y;
+            float x;
 
-                }
-                break;
-            case "DIG":
-                if (player.CurrentTerritory.HasItem)
-                {
-                    Item item = player.CurrentTerritory.TerritoryItem;
-                    //item.m_PlayerAction = this;
-                    
-                    if(item.ItemType==Item.e_itemType.COINCHEST)
+            switch (TypeOfMove)
+            {
+                case "UP":
+                    //player.gameObject.transform.rotation.SetLookRotation(new Vector3(0,0,0));
+                    y = player.CurrentTerritory.transform.position.y + 1;
+                    if (!(y > m_territoryManager.m_nbrYTerritories - 1))
                     {
-                        player.Gold += m_goldPerCoinChest;
-                        
-                        //lance animation cedric
+                        int tempx = (int)player.CurrentTerritory.gameObject.transform.position.x;
+                        int tempy = (int)player.CurrentTerritory.gameObject.transform.position.y + 1;
+                        if (!m_territoryManager.m_battleField[tempx, tempy].Locked)
+                        {
+                            player.CurrentTerritory.GetListOfPlayerOnThisTerritory().Remove(player);
+                            player.transform.Translate(0f, 1f, 0f);
+                            player.CurrentTerritory = m_territoryManager.m_battleField[tempx, tempy];
+                            //TestForNearbyEnnemies(player);
+                        }
                     }
-                    if (item.ItemType == Item.e_itemType.GLASSES)
+                    break;
+                case "DOWN":
+                    //player.gameObject.transform.rotation.SetLookRotation(new Vector3(0, 180, 0));
+                    y = player.CurrentTerritory.transform.position.y - 1;
+                    if (!(y < 0))
                     {
-                        player.HasGlasses=true;
-                        
-
-                        //active objet glasses cedric
+                        int tempx = (int)player.CurrentTerritory.gameObject.transform.position.x;
+                        int tempy = (int)player.CurrentTerritory.gameObject.transform.position.y - 1;
+                        if (!m_territoryManager.m_battleField[tempx, tempy].Locked)
+                        {
+                            player.CurrentTerritory.GetListOfPlayerOnThisTerritory().Remove(player);
+                            player.transform.Translate(0f, -1f, 0f);
+                            player.CurrentTerritory = m_territoryManager.m_battleField[tempx, tempy];
+                            //TestForNearbyEnnemies(player);
+                        }
                     }
+                    break;
+                case "LEFT":
+                    //player.gameObject.transform.rotation.SetLookRotation(new Vector3(0, -90, 0));
+                    x = player.CurrentTerritory.transform.position.x - 1;
+                    if (!(x < 0))
+                    {
+                        int tempx = (int)player.CurrentTerritory.gameObject.transform.position.x - 1;
+                        int tempy = (int)player.CurrentTerritory.gameObject.transform.position.y;
+                        if (!m_territoryManager.m_battleField[tempx, tempy].Locked)
+                        {
+                            player.CurrentTerritory.GetListOfPlayerOnThisTerritory().Remove(player);
+                            player.transform.Translate(-1f, 0f, 0f);
+                            player.CurrentTerritory = m_territoryManager.m_battleField[tempx, tempy];
+                            //TestForNearbyEnnemies(player);
+                        }
+                    }
+                    break;
+                case "RIGHT":
+                    //player.gameObject.transform.rotation.SetLookRotation(new Vector3(0, 90, 0));
+                    x = player.CurrentTerritory.transform.position.x + 1;
+                    if (!(x > m_territoryManager.m_nbrXTerritories - 1))
+                    {
+                        int tempx = (int)player.CurrentTerritory.gameObject.transform.position.x + 1;
+                        int tempy = (int)player.CurrentTerritory.gameObject.transform.position.y;
+                        if (!m_territoryManager.m_battleField[tempx, tempy].Locked)
+                        {
+                            player.CurrentTerritory.GetListOfPlayerOnThisTerritory().Remove(player);
+                            player.transform.Translate(1f, 0f, 0f);
+                            player.CurrentTerritory = m_territoryManager.m_battleField[tempx, tempy];
+                            //TestForNearbyEnnemies(player);
+                        }
 
-                    if (item.ItemType == Item.e_itemType.PARCHEMENT)
-                        GetComponent<AudioSource>().PlayOneShot(paperSound);
+                    }
+                    break;
+                case "DIG":
+                    if (player.CurrentTerritory.HasItem)
+                    {
+                        Item item = player.CurrentTerritory.TerritoryItem;
+                        //item.m_PlayerAction = this;
+
+                        if (item.ItemType == Item.e_itemType.COINCHEST)
+                        {
+                            player.Gold += m_goldPerCoinChest;
+
+                            //lance animation cedric
+                        }
+                        if (item.ItemType == Item.e_itemType.GLASSES)
+                        {
+                            player.HasGlasses = true;
+
+
+                            //active objet glasses cedric
+                        }
+
+                        if (item.ItemType == Item.e_itemType.PARCHEMENT)
+                            GetComponent<AudioSource>().PlayOneShot(paperSound);
+                        else
+                            GetComponent<AudioSource>().PlayOneShot(diggingSound);
+                        player.CurrentTerritory.HasItem = false;
+                        Destroy(player.CurrentTerritory.gameObject.GetComponent("Item"));
+                        ItemEvent.NotifyNewItem(item, player);
+                        m_territoryManager.RePopSpecial();
+                    }
                     else
-                        GetComponent<AudioSource>().PlayOneShot(diggingSound);
-                    player.CurrentTerritory.HasItem = false;
-                    Destroy(player.CurrentTerritory.gameObject.GetComponent("Item"));
-                    ItemEvent.NotifyNewItem(item, player);
-                    m_territoryManager.RePopSpecial();
-                }
-                else
-                {
-                    //message nothing to dig?
-                }
-                break;
-            case "LEVEL":
-                if(player.Gold> m_levelPrices[player.Level])
-                {
-                    player.Gold -= m_levelPrices[player.Level];
-                    player.Level++;
-                }
-                break;
-            case "GRENADE":
+                    {
+                        //message nothing to dig?
+                    }
+                    break;
+                case "LEVEL":
+                    if (player.Gold > m_levelPrices[player.Level])
+                    {
+                        player.Gold -= m_levelPrices[player.Level];
+                        player.Level++;
+                    }
+                    break;
+                case "GRENADE":
 
-                break;
-            case "SHOVEL":
+                    break;
+                case "SHOVEL":
 
-                break;
-           
+                    break;
+            }
         }
-
     }
 
   

@@ -14,6 +14,7 @@ public class TerritoryManager  : MonoBehaviour
     public int numberOfitems =100;
     public int m_territoryInCentralZone=0;
     public int m_headQuarter=0;
+    public float m_durationOfTick = 2.0f;
     public Territory[,] m_battleField;
     public List<Territory> eligibleTerritoryItem=new List<Territory>();
     public float goldValue;
