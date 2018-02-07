@@ -25,14 +25,14 @@ public class PlayerAction : MonoBehaviour
         
         if (item.EffectType==Item.e_effectType.INVENTORY)
         {
-            int numberItem = player.NumberOfItem(item);
+            int numberItem = player.NumberOfItem(item.ItemType);
             if (numberItem > 0)
             {
-                player.Inventory[item] = numberItem;
+                player.Inventory[item.ItemType] = numberItem;
             }
             else
             {
-                player.Inventory.Add(item, numberItem);
+                player.Inventory.Add(item.ItemType, numberItem);
             }
 
             //Debug.Log(player.Inventory.Count);
@@ -268,7 +268,13 @@ public class PlayerAction : MonoBehaviour
                     }
                     break;
                 case "GRENADE":
-
+                    //some condition based on inventory
+                    if(player.NumberOfItem(Item.e_itemType.GRENADES)>0)
+                    {
+                        player.Inventory[Item.e_itemType.GRENADES] -=1 ;
+                        LaunchGrenade(player);
+                    }
+                    
                     break;
                 case "SHOVEL":
 
@@ -276,7 +282,28 @@ public class PlayerAction : MonoBehaviour
             }
         }
     }
-
+    public void LaunchGrenade(Player player)
+    {
+        Territory center = player.CurrentTerritory;
+        int centerX = (int)center.transform.position.x;
+        int centerY = (int)center.transform.position.y;
+        TryPaintTarget(centerX+1, centerY+1, player);
+        TryPaintTarget(centerX+1, centerY, player);
+        TryPaintTarget(centerX+1, centerY-1, player);
+        TryPaintTarget(centerX, centerY+1, player);
+        TryPaintTarget(centerX, centerY-1, player);
+        TryPaintTarget(centerX-1, centerY+1, player);
+        TryPaintTarget(centerX-1, centerY, player);
+        TryPaintTarget(centerX-1, centerY-1, player);
+    }
+    public void TryPaintTarget(int x, int y, Player player)
+    {
+        if(( x>0 && x< m_territoryManager.m_nbrXTerritories-1) && (y > 0 && y < m_territoryManager.m_nbrYTerritories - 1))
+        {
+            Territory targetT = m_territoryManager.m_battleField[x, y];
+            targetT.FactionChange(player);
+        }
+    }
   
     public void GetCommandFromPlayer(string PName, string Command)
     {

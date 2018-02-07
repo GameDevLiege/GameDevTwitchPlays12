@@ -18,9 +18,9 @@ public class Player : MonoBehaviour
     public int Level { get; set; }
     public int Gold { get; set; }
     public int NumPlayer { get; set; }
-    public Dictionary<Item, int> Inventory { get; set; }
+    public Dictionary<Item.e_itemType, int> Inventory { get; set; }
 
-    public int NumberOfItem(Item item)
+    public int NumberOfItem(Item.e_itemType item)
     {
         var numberItem=0;
         if (Inventory.TryGetValue(item,out numberItem))
@@ -34,7 +34,7 @@ public class Player : MonoBehaviour
         HasGlasses = false;
         Level = 1;
         Gold = 0;
-        Inventory = new Dictionary<Item, int>();
+        Inventory = new Dictionary<Item.e_itemType, int>();
     }
 
     private void Awake()
