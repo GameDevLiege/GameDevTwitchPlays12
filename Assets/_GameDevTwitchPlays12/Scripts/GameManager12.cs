@@ -9,20 +9,9 @@ using UnityEditor;
 using GameManager;
 using DidzNeil.ChatAPI;
 
-public class FakeInput : IInput
-{
-    public void SendFeedback(ICommand command)
-    {
-        Debug.LogWarning("Command Feedback: " + command.response);
-    }
-}
-
 public class GameManager12 : MonoBehaviour
 {
-    #region Public Members
-
-    public IInput m_input = new FakeInput();
-
+    #region Public Members    
     public PlayerManager m_playerManager;
     public TerritoryManager m_territoryManager;
     public ICommandManager m_commandManager;
@@ -68,7 +57,7 @@ public class GameManager12 : MonoBehaviour
 
         if (command.feedbackUser)
         {
-            m_input.SendFeedback(command);
+            Debug.LogWarning("Command Feedback: " + command.response);
 
             Message msg = new Message("Game Admin", command.response, Message.GetCurrentTimeUTC(), Platform.Game);
             ChatAPI.SendMessageToUser(message.GetUserName(), message.GetPlatform(), msg);
