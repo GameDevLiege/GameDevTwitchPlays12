@@ -70,14 +70,16 @@ public class PlayerManager : MonoBehaviour
 
         if (item.EffectType == Item.e_effectType.INVENTORY)
         {
-            int numberItem = player.NumberOfItem(item.ItemType);
+            int numberItem = player.NumberOfItem((int)item.ItemType);
             if (numberItem > 0)
             {
-                player.Inventory[item.ItemType] = numberItem;
+                player.Inventory[(int)item.ItemType] = numberItem;
+                
             }
             else
             {
-                player.Inventory.Add(item.ItemType, numberItem);
+                player.Inventory.Add((int)item.ItemType, numberItem);
+                player.Inventory[(int)item.ItemType] += 1;
             }
 
             //Debug.Log(player.Inventory.Count);
@@ -205,27 +207,26 @@ public class PlayerManager : MonoBehaviour
                     break;
                 case "GRENADE":
                     //some condition based on inventory
-                    if (player.NumberOfItem(Item.e_itemType.GRENADES) > 0)
+                    if (player.NumberOfItem((int)Item.e_itemType.GRENADES) > 0)
                     {
-                        player.Inventory[Item.e_itemType.GRENADES] -= 1;
+                        player.Inventory[(int)Item.e_itemType.GRENADES] -= 1;
                         LaunchGrenade(player);
-                    }
+                   }
 
                     break;
                 case "SHOVEL":
                     
                     break;
                 case "PEBBLE":
-                    if (player.NumberOfItem(Item.e_itemType.PEBBLE) > 0)
+                    if (player.NumberOfItem((int)Item.e_itemType.PEBBLE) > 0)
                     {
-                        player.Inventory[Item.e_itemType.PEBBLE] -= 1;
+                        player.Inventory[(int)Item.e_itemType.PEBBLE] -= 1;
                         Player ennemy;
-                        if (listPlayerById.TryGetValue(idEnnemy, out ennemy)) {
-                            Timer timerPeeble = gameObject.AddComponent<Timer>();
+                        if (listPlayerById.TryGetValue(2, out ennemy)) {
                             StartCoroutine(LaunchPebble(ennemy.CurrentTerritory.transform.position,player,ennemy));
-                        };
-                        
+                        }
                     }
+                    
                     break;
             }
         }
@@ -261,10 +262,6 @@ public class PlayerManager : MonoBehaviour
             Territory targetT = m_territoryManager.m_battleField[x, y];
             targetT.FactionChange(player);
         }
-    }
-    public void GetCommandFromPlayer(string PName, string Command)
-    {
-        throw new System.NotImplementedException();
     }
     public void AssignFactionToPlayers(Player player)
     {
