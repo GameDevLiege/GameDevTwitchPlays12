@@ -100,10 +100,10 @@ MonoBehaviour:
     type: 2}
   m_holeInTheGround: {fileID: 1165955729980236, guid: f9da54080f512fd4cb0043528d730329,
     type: 2}
-  brawlSound: {fileID: 0}
-  popSound: {fileID: 0}
-  diggingSound: {fileID: 0}
-  paperSound: {fileID: 0}
+  brawlSound: {fileID: 8300000, guid: dc54f96a8bd41f74da8095ab26eb3745, type: 3}
+  popSound: {fileID: 8300000, guid: 8d2fa1720908cc14fae3d858f8cf0ca1, type: 3}
+  diggingSound: {fileID: 8300000, guid: 59883988c66872a46a7d7afc98b45ece, type: 3}
+  paperSound: {fileID: 8300000, guid: 6cbff982b1b07f646b4921aa535fc9d2, type: 3}
   m_goldPerCoinChest: 50
   m_territoryManager: {fileID: 114549905912933306}
   m_levelPrices: 7d00000013010000c20100008a02000084030000b00400000e0600009e07000060090000b80b0000a60e0000
