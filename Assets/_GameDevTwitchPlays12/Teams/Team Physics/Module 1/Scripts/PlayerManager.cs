@@ -4,6 +4,10 @@ using UnityEngine;
 
 public class PlayerManager : MonoBehaviour
 {
+    public AudioClip brawlSound;
+    public AudioClip popSound;
+    public AudioClip diggingSound;
+    public AudioClip paperSound;
     private int numPlayer=0;
     public Dictionary<string, Player> players;
     public GameObject m_playerPrefab;
