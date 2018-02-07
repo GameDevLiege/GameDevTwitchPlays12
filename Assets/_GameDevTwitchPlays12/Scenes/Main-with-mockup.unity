@@ -83759,7 +83759,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9a12d8e3b9f36154092593a7b3d5b2fa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_debug: 0
+  m_debug: 1
   m_physicsManager: {fileID: 503667308}
 --- !u!4 &1971605306
 Transform:
