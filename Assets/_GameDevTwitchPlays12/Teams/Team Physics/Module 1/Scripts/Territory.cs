@@ -86,7 +86,7 @@ public class Territory : MonoBehaviour
 
     void Awake () 
     {
-        m_territoryMeshRenderer = GetComponent<MeshRenderer>();
+        m_territoryMeshRenderer = GetComponentInChildren<MeshRenderer>();
         FactionNum = 0;
         Locked = false;
     }
