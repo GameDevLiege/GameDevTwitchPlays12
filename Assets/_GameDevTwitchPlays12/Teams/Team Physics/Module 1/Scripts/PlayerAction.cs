@@ -11,6 +11,7 @@ public class PlayerAction : MonoBehaviour
     public int m_goldPerCoinChest = 50;
     private bool m_hasJustLostBattle;
     public TerritoryManager m_territoryManager;
+    public float m_durationOfTick = 2.0f;
     public int[] m_levelPrices = new int[] {125,275,450,650,900,1200,1550,1950,2400,3000,3750};
     #region properties
     
@@ -62,6 +63,10 @@ public class PlayerAction : MonoBehaviour
                 }
             }
         }
+    }
+    public IEnumerator Fighto(Player player, Player enemy )
+    {
+        yield return new WaitForSeconds(2 * m_durationOfTick);
     }
     public void EnterBattle(Player player, Player enemy)
     {
@@ -221,6 +226,7 @@ public class PlayerAction : MonoBehaviour
                     int tempy = (int)player.CurrentTerritory.gameObject.transform.position.y + 1;
                     if (!m_territoryManager.m_battleField[tempx, tempy].Locked)
                     {
+                        player.CurrentTerritory.GetListOfPlayerOnThisTerritory().Remove(player);
                         player.transform.Translate(0f, 1f, 0f);
                         player.CurrentTerritory = m_territoryManager.m_battleField[tempx, tempy];
                         CheckForEnnemies(player);
@@ -237,6 +243,7 @@ public class PlayerAction : MonoBehaviour
                     int tempy = (int)player.CurrentTerritory.gameObject.transform.position.y - 1;
                     if (!m_territoryManager.m_battleField[tempx, tempy].Locked)
                     {
+                        player.CurrentTerritory.GetListOfPlayerOnThisTerritory().Remove(player);
                         player.transform.Translate(0f, -1f, 0f);
                         player.CurrentTerritory = m_territoryManager.m_battleField[tempx, tempy];
                         CheckForEnnemies(player);
@@ -253,6 +260,7 @@ public class PlayerAction : MonoBehaviour
                     int tempy = (int)player.CurrentTerritory.gameObject.transform.position.y;
                     if (!m_territoryManager.m_battleField[tempx, tempy].Locked)
                     {
+                        player.CurrentTerritory.GetListOfPlayerOnThisTerritory().Remove(player);
                         player.transform.Translate(-1f, 0f, 0f);
                         player.CurrentTerritory = m_territoryManager.m_battleField[tempx, tempy];
                         CheckForEnnemies(player);
@@ -269,6 +277,7 @@ public class PlayerAction : MonoBehaviour
                     int tempy = (int)player.CurrentTerritory.gameObject.transform.position.y;
                     if (!m_territoryManager.m_battleField[tempx, tempy].Locked)
                     {
+                        player.CurrentTerritory.GetListOfPlayerOnThisTerritory().Remove(player);
                         player.transform.Translate(1f, 0f, 0f);
                         player.CurrentTerritory = m_territoryManager.m_battleField[tempx, tempy];
                         CheckForEnnemies(player);

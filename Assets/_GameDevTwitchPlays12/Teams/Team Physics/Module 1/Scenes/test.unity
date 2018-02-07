@@ -217,6 +217,26 @@ Prefab:
       propertyPath: userList.Array.data[19]
       value: Mole20
       objectReference: {fileID: 0}
+    - target: {fileID: 114768608139595552, guid: 0527597ae3320c04d948221566b99674,
+        type: 2}
+      propertyPath: commandList.Array.data[1]
+      value: RIGHT
+      objectReference: {fileID: 0}
+    - target: {fileID: 114768608139595552, guid: 0527597ae3320c04d948221566b99674,
+        type: 2}
+      propertyPath: commandList.Array.data[2]
+      value: RIGHT
+      objectReference: {fileID: 0}
+    - target: {fileID: 114768608139595552, guid: 0527597ae3320c04d948221566b99674,
+        type: 2}
+      propertyPath: commandList.Array.data[3]
+      value: RIGHT
+      objectReference: {fileID: 0}
+    - target: {fileID: 114768608139595552, guid: 0527597ae3320c04d948221566b99674,
+        type: 2}
+      propertyPath: commandList.Array.data[4]
+      value: RIGHT
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 0527597ae3320c04d948221566b99674, type: 2}
   m_IsPrefabParent: 0
