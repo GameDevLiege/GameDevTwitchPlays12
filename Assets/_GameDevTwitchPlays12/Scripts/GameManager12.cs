@@ -124,11 +124,6 @@ public class GameManager12 : MonoBehaviour
 
         state = ((CommandManager)m_commandManager).firstStateCharacter + state;
         string[] userInfo = player.Name.Split(' ');
-        if(m_debug)
-        {
-            Debug.Log(player.Name);
-            foreach (string s in userInfo) Debug.Log(s);
-        }
         if(userInfo.Length == 1)
         {
             m_commandManager.Parse(userInfo[0], 0, state, timestamp);
