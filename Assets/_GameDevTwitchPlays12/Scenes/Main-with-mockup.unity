@@ -24271,17 +24271,6 @@ Prefab:
       propertyPath: m_RootOrder
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 114549905912933306, guid: 0527597ae3320c04d948221566b99674,
-        type: 2}
-      propertyPath: m_debug
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 114549905912933306, guid: 0527597ae3320c04d948221566b99674,
-        type: 2}
-      propertyPath: m_territoryPrefab
-      value: 
-      objectReference: {fileID: 1474048045028684, guid: 3708501789e19db468ac285a2d96ceb0,
-        type: 2}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 0527597ae3320c04d948221566b99674, type: 2}
   m_IsPrefabParent: 0
@@ -83798,6 +83787,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_transform: {fileID: 1971605306}
+  gameManager: {fileID: 1971605305}
+  maxMovement: 5
   cd: 2
   stunMult: 5
   sprainMult: 15
