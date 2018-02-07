@@ -5,7 +5,7 @@ public class Territory : MonoBehaviour
 
     #region Public Members
     #endregion
-
+    public bool Locked { get; set; }
 
     #region Public Void
     #endregion
@@ -88,6 +88,7 @@ public class Territory : MonoBehaviour
     {
         m_territoryMeshRenderer = GetComponentInChildren<MeshRenderer>();
         FactionNum = 0;
+        Locked = false;
     }
 
     #endregion
@@ -98,7 +99,7 @@ public class Territory : MonoBehaviour
     {
         Player p = col.GetComponent<Player>();
         m_listPlayerCharOnTerritory.Add(p);
-        if ((p != null && p.Faction!=null && FactionNum != p.Faction.NumFaction)&&(!IsHQ) )
+        if ((p != null && p.Faction!=null & FactionNum != p.Faction.NumFaction)&&(!IsHQ) )
         {
             FactionChange(p);
         }
@@ -117,18 +118,22 @@ public class Territory : MonoBehaviour
             if (FactionNum == 1)
             {
                 FactionManager.RED.NbrTerritories--;
+                ColorChange(Color.red);
             }
             else if (FactionNum == 2)
             {
                 FactionManager.BLUE.NbrTerritories--;
+                ColorChange(Color.blue);
             }
             else if (FactionNum == 3)
             {
                 FactionManager.GREEN.NbrTerritories--;
+                ColorChange(Color.green);
             }
             else if (FactionNum == 4)
             {
                 FactionManager.YELLOW.NbrTerritories--;
+                ColorChange(Color.yellow);
             }
         }
         m_currentColor = p.Faction.FactionColor;
@@ -138,12 +143,9 @@ public class Territory : MonoBehaviour
         col.a = 100f;
         TerritoryMeshRenderer.material.color = col;
         //new territory owner gains Nbrterritory
-        //Debug.Log("Faction color ="  );
-        //Debug.Log(p.Faction.FactionColor.linear + " ==" + Color.red.linear +" "+ (p.Faction.FactionColor.linear==Color.red.linear));
         if (FactionNum == 1)
         {
             FactionManager.RED.NbrTerritories++;
-            //Debug.Log("ici--------****" + FactionManager.RED.NbrTerritories);
         }
         else if (FactionNum == 2)
         {
