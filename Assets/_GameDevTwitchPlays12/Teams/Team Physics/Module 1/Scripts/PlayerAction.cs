@@ -5,7 +5,8 @@ using UnityEngine;
 public class PlayerAction : MonoBehaviour
 {
     public GameObject m_glassesPrefab;
-    public GameObject m_levelUpParticle;
+    public GameObject m_levelUpParticlePrefab;
+    public GameObject m_holeInTheGround;
 
 
     public AudioClip brawlSound;
@@ -228,6 +229,7 @@ public class PlayerAction : MonoBehaviour
                     }
                     break;
                 case "DIG":
+                    Instantiate(m_holeInTheGround, player.CurrentTerritory.transform);
                     if (player.CurrentTerritory.HasItem)
                     {
                         Item item = player.CurrentTerritory.TerritoryItem;
@@ -268,7 +270,7 @@ public class PlayerAction : MonoBehaviour
                     {
                         player.Gold -= m_levelPrices[player.Level];
                         player.Level++;
-                        Instantiate(m_levelUpParticle, player.transform);
+                        Instantiate(m_levelUpParticlePrefab, player.transform);
                     }
                     break;
                 case "GRENADE":

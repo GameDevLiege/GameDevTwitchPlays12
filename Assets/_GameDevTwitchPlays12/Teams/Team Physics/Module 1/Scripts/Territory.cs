@@ -5,7 +5,7 @@ public class Territory : MonoBehaviour
 {
 
     #region Public Members
-    public GameObject m_particleFight;
+    public GameObject m_particleFightPrefab;
     #endregion
     public bool Locked { get; set; }
     private bool playerDied = false;
@@ -99,7 +99,7 @@ public class Territory : MonoBehaviour
     #region Private Void
     IEnumerator UnlockAfterFight(Player player, Player potentialEnnemy)
     {
-        Instantiate(m_particleFight, player.transform);
+        Instantiate(m_particleFightPrefab, player.transform);
         yield return new WaitForSeconds(2*m_territoryManager.m_durationOfTick);
         EnterBattle(player, potentialEnnemy);
         Locked = false;
