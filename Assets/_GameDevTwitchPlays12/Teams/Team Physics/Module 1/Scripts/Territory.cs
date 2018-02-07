@@ -116,7 +116,6 @@ public class Territory : MonoBehaviour
                 Player potentialEnnemy = player.CurrentTerritory.GetListOfPlayerOnThisTerritory()[i];
                 if (player.Faction.NumFaction != potentialEnnemy.Faction.NumFaction)
                 {
-                    Debug.Log("test 000");
                     Locked = true;
                     StartCoroutine(UnlockAfterFight(player, potentialEnnemy));
                 }
