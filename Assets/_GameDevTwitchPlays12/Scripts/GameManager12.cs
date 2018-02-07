@@ -27,7 +27,7 @@ public class GameManager12 : MonoBehaviour
     protected void Awake()
     {
         m_commandManager = GetComponent<CommandManager>();
-        m_physicsManager = GetComponent<PhysicsManager>(); //find ?
+       // m_physicsManager = GetComponent<PhysicsManager>(); //find ?
 
         gameIsStarted = false;
     }

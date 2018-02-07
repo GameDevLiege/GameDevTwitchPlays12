@@ -24056,6 +24056,59 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 503123919}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1001 &503667307
+Prefab:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 1971605306}
+    m_Modifications:
+    - target: {fileID: 4227930700439214, guid: 0527597ae3320c04d948221566b99674, type: 2}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4227930700439214, guid: 0527597ae3320c04d948221566b99674, type: 2}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4227930700439214, guid: 0527597ae3320c04d948221566b99674, type: 2}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4227930700439214, guid: 0527597ae3320c04d948221566b99674, type: 2}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4227930700439214, guid: 0527597ae3320c04d948221566b99674, type: 2}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4227930700439214, guid: 0527597ae3320c04d948221566b99674, type: 2}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4227930700439214, guid: 0527597ae3320c04d948221566b99674, type: 2}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4227930700439214, guid: 0527597ae3320c04d948221566b99674, type: 2}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_ParentPrefab: {fileID: 100100000, guid: 0527597ae3320c04d948221566b99674, type: 2}
+  m_IsPrefabParent: 0
+--- !u!114 &503667308 stripped
+MonoBehaviour:
+  m_PrefabParentObject: {fileID: 114680492895927922, guid: 0527597ae3320c04d948221566b99674,
+    type: 2}
+  m_PrefabInternal: {fileID: 503667307}
+  m_Script: {fileID: 11500000, guid: 6a3ed7df803cc174a841257fddda435e, type: 3}
+--- !u!4 &503667309 stripped
+Transform:
+  m_PrefabParentObject: {fileID: 4227930700439214, guid: 0527597ae3320c04d948221566b99674,
+    type: 2}
+  m_PrefabInternal: {fileID: 503667307}
 --- !u!1001 &503814853
 Prefab:
   m_ObjectHideFlags: 0
@@ -83572,7 +83625,6 @@ GameObject:
   - component: {fileID: 1971605306}
   - component: {fileID: 1971605305}
   - component: {fileID: 1971605307}
-  - component: {fileID: 1971605308}
   - component: {fileID: 1971605309}
   m_Layer: 0
   m_Name: MAIN
@@ -83592,6 +83644,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9a12d8e3b9f36154092593a7b3d5b2fa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_physicsManager: {fileID: 503667308}
 --- !u!4 &1971605306
 Transform:
   m_ObjectHideFlags: 0
@@ -83601,7 +83654,8 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
+  m_Children:
+  - {fileID: 503667309}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -83620,6 +83674,7 @@ MonoBehaviour:
   cd: 2
   stunMult: 5
   sprainMult: 15
+  fightMult: 5
   maxPlayer: 20
   firstCommmandCharacter: 33
   firstStateCharacter: 63
@@ -83632,32 +83687,15 @@ MonoBehaviour:
   - JOIN
   - START
   - LEVEL
+  movementCommand:
+  - UP
+  - DOWN
+  - LEFT
+  - RIGHT
   validState:
   - NORMAL
   - STUN
   - SPRAIN
---- !u!114 &1971605308
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1971605304}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b4e893638ed646140a25e4b36b08b0be, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_listPlayer: []
-  m_sizeOfDiceSpecial: 5
-  m_incomePerTerritory: 0
-  m_timeBetweenPayDay: 0
-  m_nbrXTerritories: 33
-  m_nbrYTerritories: 33
-  m_territoryPrefab: {fileID: 1474048045028684, guid: 3708501789e19db468ac285a2d96ceb0,
-    type: 2}
-  m_playerCharPrefab: {fileID: 1591195270726854, guid: 5c798f873a542f14f930c56d319b5c2b,
-    type: 2}
-  m_nbrFactions: 0
 --- !u!114 &1971605309
 MonoBehaviour:
   m_ObjectHideFlags: 0
