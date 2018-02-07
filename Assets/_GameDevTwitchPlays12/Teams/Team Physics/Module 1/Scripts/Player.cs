@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-    
     public Faction Faction { get; set; }
     public Territory CurrentTerritory { get; set; }
     public bool HasGlasses { get; set; }
@@ -14,13 +13,20 @@ public class Player : MonoBehaviour
     public int NumPlayer { get; set; }
     public Dictionary<Item, int> Inventory { get; set; }
 
-    public Player (string name, int num)
+    public int NumberOfItem(Item item)
+    {
+        var numberItem=0;
+        if (Inventory.TryGetValue(item,out numberItem))
+        {
+            return numberItem;
+        }
+        return 0;
+    }
+    public Player ()
     {
         HasGlasses = false;
-        Name = name;
         Level = 1;
         Gold = 0;
-        NumPlayer = num;
         Inventory = new Dictionary<Item, int>();
     }
 

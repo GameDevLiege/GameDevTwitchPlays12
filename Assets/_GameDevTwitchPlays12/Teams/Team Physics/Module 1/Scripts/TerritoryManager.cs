@@ -6,39 +6,28 @@ public class TerritoryManager  : MonoBehaviour
 {
 
     #region Public Members
+    public GameObject m_territoryPrefab;
     public bool m_debug = true;
-
     public int m_sizeOfDiceItem = 5;
     public int m_nbrXTerritories =33;
     public int m_nbrYTerritories =33;
-    public GameObject m_territoryPrefab;
-
+    public int numberOfitems =100;
     public int m_territoryInCentralZone=0;
     public int m_headQuarter=0;
     public Territory[,] m_battleField;
-    private List<Territory> eligibleTerritoryItem=new List<Territory>();
-    
+    public List<Territory> eligibleTerritoryItem=new List<Territory>();
+
+    private bool isPlaying;
     #endregion
 
 
     #region Public Void
-    
 
 
-   
+
+
 
     #endregion
-
-
-    void Awake()
-    {
-        //GameStart();
-
-        Faction.RED = new Faction();
-        Faction.BLUE= new Faction();
-        Faction.GREEN= new Faction();
-        Faction.YELLOW= new Faction();
-    }
 
 
 
@@ -120,7 +109,11 @@ public class TerritoryManager  : MonoBehaviour
     #region Private Void
     public void GameStart()
     {
-        InitializeBoard();
+        if (!isPlaying)
+        {
+            isPlaying = true;
+            InitializeBoard();
+        }
 
         //List<string> DebugList = new List<string>();
         //for (int i = 0; i < 20; i++)
@@ -154,7 +147,7 @@ public class TerritoryManager  : MonoBehaviour
                 positionOfCell = new Vector3(x * 1f, y * 1f, 0);
                 GameObject territoryPrefab = Instantiate(m_territoryPrefab, positionOfCell, Quaternion.identity, transform);
                 territoryPrefab.name = "y=" + positionOfCell.y + "x=" + positionOfCell.x;
-                territoryPrefab.GetComponent<Territory>().Manager = this;
+                //territoryPrefab.GetComponent<Territory>().Manager = this;
                 m_battleField[x,y] = territoryPrefab.GetComponent<Territory>();
                 m_battleField[x, y].TerritoryID = "x"+x+"y"+y;
                // Debug.Log(m_battleField[x, y].TerritoryID);
@@ -183,8 +176,8 @@ public class TerritoryManager  : MonoBehaviour
     private Faction AddFaction(Territory territory, Color color)
     {
         
-        territory.TerritoryGameObject.AddComponent<Faction>();
-        Faction faction=territory.TerritoryTransform.GetComponent<Faction>();
+        //territory.TerritoryGameObject.AddComponent<Faction>();
+        Faction faction=new Faction();
         color.a = 100f;
         faction.FactionColor = color;
         faction.RespawnPosition = territory;
@@ -197,31 +190,31 @@ public class TerritoryManager  : MonoBehaviour
     private void PlaceFactionHQ()
     {
         //LeftBottom
-        Faction.RED = AddFaction(m_battleField[0, 0],Color.red);
-        MakeHq(m_battleField[0, 0], Faction.RED);
-        MakeHq(m_battleField[0, 1], Faction.RED);
-        MakeHq(m_battleField[1, 0], Faction.RED);
-        MakeHq(m_battleField[1, 1], Faction.RED);
+        FactionManager.RED = AddFaction(m_battleField[0, 0],Color.red);
+        MakeHq(m_battleField[0, 0], FactionManager.RED);
+        MakeHq(m_battleField[0, 1], FactionManager.RED);
+        MakeHq(m_battleField[1, 0], FactionManager.RED);
+        MakeHq(m_battleField[1, 1], FactionManager.RED);
         //RightBottom
-        Faction.BLUE= AddFaction(m_battleField[0, m_battleField.GetLength(1)-1], Color.blue);
-        MakeHq(m_battleField[0, m_battleField.GetLength(1)-1], Faction.BLUE);
-        MakeHq(m_battleField[1, m_battleField.GetLength(1) - 1], Faction.BLUE);
-        MakeHq(m_battleField[1, m_battleField.GetLength(1) - 2], Faction.BLUE);
-        MakeHq(m_battleField[0, m_battleField.GetLength(1) - 2], Faction.BLUE);
+        FactionManager.BLUE= AddFaction(m_battleField[0, m_battleField.GetLength(1)-1], Color.blue);
+        MakeHq(m_battleField[0, m_battleField.GetLength(1)-1], FactionManager.BLUE);
+        MakeHq(m_battleField[1, m_battleField.GetLength(1) - 1], FactionManager.BLUE);
+        MakeHq(m_battleField[1, m_battleField.GetLength(1) - 2], FactionManager.BLUE);
+        MakeHq(m_battleField[0, m_battleField.GetLength(1) - 2], FactionManager.BLUE);
 
         //LeftTop
-        Faction.GREEN= AddFaction(m_battleField[m_battleField.GetLength(0) - 1, 0], Color.green);
-        MakeHq(m_battleField[m_battleField.GetLength(0)-1, 0], Faction.GREEN);
-        MakeHq(m_battleField[m_battleField.GetLength(0)-1, 1], Faction.GREEN);
-        MakeHq(m_battleField[m_battleField.GetLength(0)-2, 1], Faction.GREEN);
-        MakeHq(m_battleField[m_battleField.GetLength(0)-2, 0], Faction.GREEN);
+        FactionManager.GREEN= AddFaction(m_battleField[m_battleField.GetLength(0) - 1, 0], Color.green);
+        MakeHq(m_battleField[m_battleField.GetLength(0)-1, 0], FactionManager.GREEN);
+        MakeHq(m_battleField[m_battleField.GetLength(0)-1, 1], FactionManager.GREEN);
+        MakeHq(m_battleField[m_battleField.GetLength(0)-2, 1], FactionManager.GREEN);
+        MakeHq(m_battleField[m_battleField.GetLength(0)-2, 0], FactionManager.GREEN);
 
         //RightTop
-        Faction.YELLOW = AddFaction(m_battleField[m_battleField.GetLength(1) - 1, m_battleField.GetLength(1) - 1], Color.yellow);
-        MakeHq(m_battleField[m_battleField.GetLength(0) - 1, m_battleField.GetLength(1) - 1], Faction.YELLOW);
-        MakeHq(m_battleField[m_battleField.GetLength(0) - 1, m_battleField.GetLength(1) - 2], Faction.YELLOW);
-        MakeHq(m_battleField[m_battleField.GetLength(0) - 2, m_battleField.GetLength(1) - 1], Faction.YELLOW);
-        MakeHq(m_battleField[m_battleField.GetLength(0) - 2, m_battleField.GetLength(1) - 2], Faction.YELLOW);
+        FactionManager.YELLOW = AddFaction(m_battleField[m_battleField.GetLength(1) - 1, m_battleField.GetLength(1) - 1], Color.yellow);
+        MakeHq(m_battleField[m_battleField.GetLength(0) - 1, m_battleField.GetLength(1) - 1], FactionManager.YELLOW);
+        MakeHq(m_battleField[m_battleField.GetLength(0) - 1, m_battleField.GetLength(1) - 2], FactionManager.YELLOW);
+        MakeHq(m_battleField[m_battleField.GetLength(0) - 2, m_battleField.GetLength(1) - 1], FactionManager.YELLOW);
+        MakeHq(m_battleField[m_battleField.GetLength(0) - 2, m_battleField.GetLength(1) - 2], FactionManager.YELLOW);
 
     }
     public void MakeHq(Territory HQTerritory, Faction faction)
@@ -247,9 +240,9 @@ public class TerritoryManager  : MonoBehaviour
                 if (t.IsCenter && !t.HasItem && centerCount == randomCenterZone)
                 {
                     t.HasItem = true;
-                    Item item= t.TerritoryGameObject.AddComponent<Item>();
+                    Item item= t.gameObject.AddComponent<Item>();
                     item.ItemType= Item.e_itemType.GLASSES;
-                    item.ItemEffectType = Item.e_itemEffectType.INVENTORY;
+                    item.ChoseEffectItem(Item.e_itemType.GLASSES);
                     t.TerritoryItem = item;
                     t.HasItem = true;
                     hasGlasses = true;
@@ -279,7 +272,7 @@ public class TerritoryManager  : MonoBehaviour
             Debug.Log("Total eligibleTerritory:"+eligibleTerritoryItem.Count);
         }
 
-        for (int i = 1; i < Item.ItemTypeLength(); i++)
+        for (int i = 1; i < numberOfitems; i++)
         {
             if (Random.Range(1, 4) == Random.Range(1, 4))
             {
@@ -292,9 +285,11 @@ public class TerritoryManager  : MonoBehaviour
                         Debug.Log("Rnd item1------>" + intRndItem);
                         eligibleTerritoryItem[intRndTerritory].ColorChange(Color.magenta);
                     }
-                    Item item = eligibleTerritoryItem[intRndTerritory].TerritoryGameObject.AddComponent<Item>();
+                    Item item = eligibleTerritoryItem[intRndTerritory].gameObject.AddComponent<Item>();
                     item.ItemType = (Item.e_itemType)intRndItem;
+                    item.ChoseEffectItem(item.ItemType);
                     eligibleTerritoryItem[intRndTerritory].TerritoryItem = item;
+                    eligibleTerritoryItem[intRndTerritory].HasItem = true;
                     eligibleTerritoryItem.Remove(eligibleTerritoryItem[intRndTerritory]);
 
                 }
@@ -303,6 +298,7 @@ public class TerritoryManager  : MonoBehaviour
         }
        
     }
+    
     public void RePopSpecial()
     {
         bool FoundRightPlace = false;
@@ -320,16 +316,34 @@ public class TerritoryManager  : MonoBehaviour
                         if (!m_battleField[y,x].GetComponent<Territory>().HasItem)
                         {
                             FoundRightPlace = true;
-                            m_battleField[y,x].TerritoryGameObject.AddComponent<Item>();
+                            m_battleField[y,x].gameObject.AddComponent<Item>();
                             int B = Random.Range(1, 7);//random range takes argument 1 inclusive argument 2 exclusive
                             switch (B)
                             {
-                                case 1: m_battleField[y,x].GetComponent<Item>().ChooseTypeOfItem(Item.e_itemType.COINCHEST); break;
-                                case 2: m_battleField[y,x].GetComponent<Item>().ChooseTypeOfItem(Item.e_itemType.PARCHEMENT); break;
-                                case 3: m_battleField[y,x].GetComponent<Item>().ChooseTypeOfItem(Item.e_itemType.GRENADES); break;
-                                case 4: m_battleField[y,x].GetComponent<Item>().ChooseTypeOfItem(Item.e_itemType.PEBBLE); break;
-                                case 5: m_battleField[y,x].GetComponent<Item>().ChooseTypeOfItem(Item.e_itemType.SHOVEL); break;
-                                case 6: m_battleField[y,x].GetComponent<Item>().ChooseTypeOfItem(Item.e_itemType.STRAIN); break;
+                                case 1:
+                                    m_battleField[y,x].GetComponent<Item>().ItemType=Item.e_itemType.COINCHEST;
+                                    m_battleField[y, x].GetComponent<Item>().EffectType=Item.e_effectType.INSTANT;
+                                    break;
+                                case 2:
+                                    m_battleField[y,x].GetComponent<Item>().ItemType=Item.e_itemType.PARCHEMENT;
+                                    m_battleField[y, x].GetComponent<Item>().EffectType=Item.e_effectType.INSTANT;
+                                    break;
+                                case 3:
+                                    m_battleField[y,x].GetComponent<Item>().ItemType=Item.e_itemType.GRENADES;
+                                    m_battleField[y, x].GetComponent<Item>().EffectType=Item.e_effectType.INVENTORY;
+                                    break;
+                                case 4:
+                                    m_battleField[y,x].GetComponent<Item>().ItemType=Item.e_itemType.PEBBLE;
+                                    m_battleField[y, x].GetComponent<Item>().EffectType=Item.e_effectType.INSTANT;
+                                    break;
+                                case 5:
+                                    m_battleField[y,x].GetComponent<Item>().ItemType=Item.e_itemType.SHOVEL;
+                                    m_battleField[y, x].GetComponent<Item>().EffectType=Item.e_effectType.INVENTORY;
+                                    break;
+                                case 6:
+                                    m_battleField[y,x].GetComponent<Item>().ItemType=Item.e_itemType.STRAIN;
+                                    m_battleField[y, x].GetComponent<Item>().EffectType=Item.e_effectType.INSTANT;
+                                    break;
                             }
                         }
                     }
@@ -350,8 +364,8 @@ public class TerritoryManager  : MonoBehaviour
 
 
     #region Private And Protected Members
-    private List<GameObject> m_AxeX = new List<GameObject>();
-    private List<List<GameObject>> m_AxeY = new List<List<GameObject>>();
+    //private List<GameObject> m_AxeX = new List<GameObject>();
+    //private List<List<GameObject>> m_AxeY = new List<List<GameObject>>();
 
 
     #endregion

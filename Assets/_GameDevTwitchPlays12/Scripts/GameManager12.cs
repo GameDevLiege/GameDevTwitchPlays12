@@ -71,8 +71,10 @@ public class GameManager12 : MonoBehaviour
 
             string userId = (int)message.GetPlatform() + " " + message.GetUserName();
             string formattedCommand = command.response.Substring(1).ToUpper();
+            
+            //---->CHANGE Maintenant il n'y a que physicsmanager a instancier et toute les commandes sont comprise dedans
 
-            m_playerManager.GetCommandFromPlayer(userId, formattedCommand);
+           // m_playerManager.GetCommandFromPlayer(userId, formattedCommand);
         }
     }
 

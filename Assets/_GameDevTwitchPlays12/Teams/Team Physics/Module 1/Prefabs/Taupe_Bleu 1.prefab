@@ -87,8 +87,8 @@ GameObject:
   - component: {fileID: 4881726867075176}
   - component: {fileID: 95533169937656996}
   - component: {fileID: 65801727713181930}
-  - component: {fileID: 114746126288694222}
   - component: {fileID: 54127131445728148}
+  - component: {fileID: 114156098018218932}
   m_Layer: 31
   m_Name: Taupe_Bleu 1
   m_TagString: Untagged
@@ -347,7 +347,7 @@ TextMesh:
   m_Color:
     serializedVersion: 2
     rgba: 4294967295
---- !u!114 &114746126288694222
+--- !u!114 &114156098018218932
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -355,8 +355,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1777216819808182}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d16094638b9722744aa4d6f94d298642, type: 3}
+  m_Script: {fileID: 11500000, guid: 7550eed0c6ee2be4fbac2c9f12485c7b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hasGlasses: 0
-  m_manager: {fileID: 0}
+  playerTransform: {fileID: 4881726867075176}
