@@ -222,7 +222,6 @@ public class PlayerManager : MonoBehaviour
                         if (listPlayerById.TryGetValue(idEnnemy, out ennemy)) {
                             Timer timerPeeble = gameObject.AddComponent<Timer>();
                             StartCoroutine(LaunchPebble(ennemy.CurrentTerritory.transform.position,player,ennemy));
-                            //LaunchPebble(player,ennemy);
                         };
                         
                     }
