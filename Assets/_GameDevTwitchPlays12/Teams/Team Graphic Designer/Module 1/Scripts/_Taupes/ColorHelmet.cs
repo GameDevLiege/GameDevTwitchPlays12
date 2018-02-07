@@ -14,7 +14,8 @@ public class ColorHelmet : MonoBehaviour {
     public void UpdateColor(Color helmetColor)
     {
         Renderer r = m_HelmetColor.GetComponent<Renderer>();
-        r.material.color = helmetColor;
+        if(r != null)
+            r.material.color = helmetColor;
 
         m_ColorHelmet = helmetColor;
     }
