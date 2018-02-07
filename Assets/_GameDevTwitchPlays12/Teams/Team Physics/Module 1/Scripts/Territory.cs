@@ -86,9 +86,8 @@ public class Territory : MonoBehaviour
 
     void Awake () 
     {
-        m_territoryMeshRenderer = GetComponent<MeshRenderer>();
+        m_territoryMeshRenderer = GetComponentInChildren<MeshRenderer>();
         FactionNum = 0;
-
     }
 
     #endregion
@@ -139,12 +138,12 @@ public class Territory : MonoBehaviour
         col.a = 100f;
         TerritoryMeshRenderer.material.color = col;
         //new territory owner gains Nbrterritory
-        Debug.Log("Faction color ="  );
-        Debug.Log(p.Faction.FactionColor.linear + " ==" + Color.red.linear +" "+ (p.Faction.FactionColor.linear==Color.red.linear));
+        //Debug.Log("Faction color ="  );
+        //Debug.Log(p.Faction.FactionColor.linear + " ==" + Color.red.linear +" "+ (p.Faction.FactionColor.linear==Color.red.linear));
         if (FactionNum == 1)
         {
             FactionManager.RED.NbrTerritories++;
-            Debug.Log("ici--------****" + FactionManager.RED.NbrTerritories);
+            //Debug.Log("ici--------****" + FactionManager.RED.NbrTerritories);
         }
         else if (FactionNum == 2)
         {
