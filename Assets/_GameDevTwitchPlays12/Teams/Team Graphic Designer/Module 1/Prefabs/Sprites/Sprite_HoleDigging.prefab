@@ -21,6 +21,7 @@ GameObject:
   - component: {fileID: 4598459347388954}
   - component: {fileID: 212453061879335456}
   - component: {fileID: 95865133112863282}
+  - component: {fileID: 114144035908605678}
   m_Layer: 0
   m_Name: Sprite_HoleDigging
   m_TagString: Untagged
@@ -58,6 +59,18 @@ Animator:
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
+--- !u!114 &114144035908605678
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1165955729980236}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 42e102f40a69d7741b2fcf45c4365ecb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_TimeToDestroy: 60
 --- !u!212 &212453061879335456
 SpriteRenderer:
   m_ObjectHideFlags: 1

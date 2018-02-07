@@ -36,6 +36,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4350493360582756}
   - component: {fileID: 95650774764447780}
+  - component: {fileID: 114832400493495726}
   m_Layer: 0
   m_Name: StarsStunt
   m_TagString: Untagged
@@ -177,6 +178,18 @@ Animator:
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
+--- !u!114 &114832400493495726
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1560975861062504}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 42e102f40a69d7741b2fcf45c4365ecb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_TimeToDestroy: 5
 --- !u!212 &212466312107356758
 SpriteRenderer:
   m_ObjectHideFlags: 1
