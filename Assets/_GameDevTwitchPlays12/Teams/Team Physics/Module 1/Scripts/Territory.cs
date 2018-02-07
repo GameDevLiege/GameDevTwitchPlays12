@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 public class Territory : MonoBehaviour
 {
@@ -95,7 +96,14 @@ public class Territory : MonoBehaviour
     #endregion
 
     #region Private Void
-    public void CheckForEnnemies(Player player)
+    IEnumerator UnlockAfterFight(Player player, Player potentialEnnemy)
+    {
+        yield return new WaitForSeconds(2*m_territoryManager.m_durationOfTick);
+        EnterBattle(player, potentialEnnemy);
+        Locked = false;
+    }
+
+    private void CheckForEnnemies(Player player)
     {
         if (player.CurrentTerritory.GetListOfPlayerOnThisTerritory().Count > 1)
         {
@@ -106,13 +114,12 @@ public class Territory : MonoBehaviour
                 if (player.Faction.NumFaction != potentialEnnemy.Faction.NumFaction)
                 {
                     Locked = true;
-                    EnterBattle(player, potentialEnnemy);
+                    StartCoroutine(UnlockAfterFight(player, potentialEnnemy));
                 }
             }
-            Locked = false;
         }
     }
-    public void EnterBattle(Player player, Player enemy)
+    private void EnterBattle(Player player, Player enemy)
     {
         int temp = player.Level;
         int x;
@@ -126,8 +133,8 @@ public class Territory : MonoBehaviour
             y = (int)player.Faction.RespawnPosition.transform.position.y;
             x = (int)player.Faction.RespawnPosition.transform.position.x;
             playerDied = true;
-            player.CurrentTerritory = m_territoryManager.m_battleField[x, y];
             player.CurrentTerritory.GetListOfPlayerOnThisTerritory().Remove(player);
+            player.CurrentTerritory = m_territoryManager.m_battleField[x, y];
             if (player.HasGlasses)
             {
                 player.HasGlasses = false;
@@ -140,8 +147,8 @@ public class Territory : MonoBehaviour
             enemy.transform.position = enemy.Faction.RespawnPosition.transform.position;
             y = (int)enemy.Faction.RespawnPosition.transform.position.y;
             x = (int)enemy.Faction.RespawnPosition.transform.position.x;
-            enemy.CurrentTerritory = m_territoryManager.m_battleField[x, y];
             enemy.CurrentTerritory.GetListOfPlayerOnThisTerritory().Remove(enemy);
+            enemy.CurrentTerritory = m_territoryManager.m_battleField[x, y];
             if (enemy.HasGlasses)
             {
                 player.HasGlasses = true;
