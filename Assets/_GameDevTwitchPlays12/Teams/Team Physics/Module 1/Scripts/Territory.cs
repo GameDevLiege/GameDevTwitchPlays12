@@ -1,49 +1,74 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
-using Homebrew;
-
-public class Territory  : MonoBehaviour
+public class Territory : MonoBehaviour
 {
 
     #region Public Members
-
-
     #endregion
-
-
+    public bool Locked { get; set; }
+    private bool playerDied = false;
     #region Public Void
-    public delegate void IsCentral(bool end,Faction faction);
-    private static IsCentral m_isCentral;
-
-    public bool HasSpecial
+    #endregion
+    #region Propertie (GET,SET)
+    [SerializeField]
+    private string m_territoryID;
+    public string TerritoryID
     {
-        get { return m_hasSpecial; }
-        set { m_hasSpecial = value; }
+        get { return m_territoryID; }
+        set { m_territoryID = value; }
+    }
+    [Header("Used GameObject")]
+    [SerializeField]
+    private MeshRenderer m_territoryMeshRenderer;
+
+    public MeshRenderer TerritoryMeshRenderer
+    {
+        get { return m_territoryMeshRenderer; }
+        set { m_territoryMeshRenderer = value; }
+    }
+    [Header("Item territory properties")]
+    [SerializeField]
+    private bool m_hasItem;
+    public bool HasItem
+    {
+        get { return m_hasItem; }
+        set { m_hasItem = value; }
     }
 
+    private Item m_territoryItem;
+    public Item TerritoryItem
+    {
+        get { return m_territoryItem; }
+        set { m_territoryItem = value; }
+    }
+    [Header("Headquarter")]
+    [SerializeField]
+    private bool m_isHQ;
     public bool IsHQ
     {
         get { return m_isHQ; }
         set { m_isHQ = value; }
     }
+    [Header("Central Zone")]
+    [SerializeField]
+    private bool m_isCenter;
     public bool IsCenter
     {
         get { return m_isCenter; }
         set { m_isCenter = value; }
     }
+    [Header("Territory Color")]
+    [SerializeField]
+    private Color m_currentColor = Color.white;
     public Color CurrentColor
     {
         get { return m_currentColor; }
         set { m_currentColor = value; }
     }
-    public PhysicsManager Manager
-    {
-        get { return m_manager; }
-        set { m_manager = value; }
-    }
+    public int FactionNum {get;set;}
 
-    public List<PlayerCharacter> GetListOfPlayerOnThisTerritory()
+    private List<Player> m_listPlayerCharOnTerritory = new List<Player>();
+    public List<Player> GetListOfPlayerOnThisTerritory()
     {
         return m_listPlayerCharOnTerritory;
     }
@@ -52,9 +77,8 @@ public class Territory  : MonoBehaviour
     {
     return m_listPlayerCharOnTerritory.Count;
     }
-    public Timer m_timer;
-    public float centralTime=60;
-    public Faction m_playerFaction= new Faction();
+    private TerritoryManager m_territoryManager; 
+
     #endregion
 
 
@@ -62,83 +86,138 @@ public class Territory  : MonoBehaviour
 
     void Awake () 
     {
-		
-	}
+        m_territoryManager = FindObjectOfType<TerritoryManager>();
+        m_territoryMeshRenderer = GetComponentInChildren<MeshRenderer>();
+        FactionNum = 0;
+        Locked = false;
+    }
 
     #endregion
 
     #region Private Void
+    public void CheckForEnnemies(Player player)
+    {
+        if (player.CurrentTerritory.GetListOfPlayerOnThisTerritory().Count > 1)
+        {
+            Debug.Log("ho" + player.CurrentTerritory.GetListOfPlayerOnThisTerritory().Count);
+            for (int i = 0; i < player.CurrentTerritory.GetListOfPlayerOnThisTerritory().Count; i++)
+            {
+                Player potentialEnnemy = player.CurrentTerritory.GetListOfPlayerOnThisTerritory()[i];
+                if (player.Faction.NumFaction != potentialEnnemy.Faction.NumFaction)
+                {
+                    Locked = true;
+                    EnterBattle(player, potentialEnnemy);
+                }
+            }
+            Locked = false;
+        }
+    }
+    public void EnterBattle(Player player, Player enemy)
+    {
+        int temp = player.Level;
+        int x;
+        int y;
+        player.Level -= enemy.Level;
+        enemy.Level -= temp;
+        if (player.Level < 1)
+        {
+            player.Level = 1;
+            player.transform.position = player.Faction.RespawnPosition.transform.position;
+            y = (int)player.Faction.RespawnPosition.transform.position.y;
+            x = (int)player.Faction.RespawnPosition.transform.position.x;
+            playerDied = true;
+            player.CurrentTerritory = m_territoryManager.m_battleField[x, y];
+            player.CurrentTerritory.GetListOfPlayerOnThisTerritory().Remove(player);
+            if (player.HasGlasses)
+            {
+                player.HasGlasses = false;
+                enemy.HasGlasses = true;
+            }
+        }
+        if (enemy.Level < 1)
+        {
+            enemy.Level = 1;
+            enemy.transform.position = enemy.Faction.RespawnPosition.transform.position;
+            y = (int)enemy.Faction.RespawnPosition.transform.position.y;
+            x = (int)enemy.Faction.RespawnPosition.transform.position.x;
+            enemy.CurrentTerritory = m_territoryManager.m_battleField[x, y];
+            enemy.CurrentTerritory.GetListOfPlayerOnThisTerritory().Remove(enemy);
+            if (enemy.HasGlasses)
+            {
+                player.HasGlasses = true;
+                enemy.HasGlasses = false;
+            }
+        }
+    }
+
     private void OnTriggerEnter(Collider col)
     {
-        PlayerCharacter pc = col.GetComponent<PlayerCharacter>();
-        m_listPlayerCharOnTerritory.Add(pc);
-        if ((m_currentColor != pc.Faction.FactionColor)&&(!IsHQ))
+        playerDied = false;
+        Player p = col.GetComponent<Player>();
+        m_listPlayerCharOnTerritory.Add(p);
+        if(m_listPlayerCharOnTerritory.Count>1)
         {
-            ColorChange(pc);
+            CheckForEnnemies(p);
         }
-        if(IsCenter)
+        if (!playerDied && (p != null && p.Faction!=null & FactionNum != p.Faction.NumFaction)&&(!IsHQ) )
         {
-            if(pc.hasGlasses)
-            {
-                NotifyIsCentral(pc.Faction);
-            }
-        }
-        else if(pc.hasGlasses && !IsCenter)
-        {
-            NotifyIsNotCentral(pc.Faction);
+            FactionChange(p);
         }
     }
-
-    private void OnTriggerExit(Collider col)
-    {
-        m_listPlayerCharOnTerritory.Remove(col.GetComponent<PlayerCharacter>());
-      
+    public void ColorChange(Color color) {
+        
+        m_territoryMeshRenderer.material.color = color;
 
     }
-
-    private void ColorChange(PlayerCharacter pc)
+    public void FactionChange(Player p)
     {
         //previous territory owner looses Nbrterritory
-        if (m_currentColor != Color.white)
+
+        if (FactionNum != 0)
         {
-            if (m_currentColor == Color.red)
+            if (FactionNum == 1)
             {
-                m_manager.FactionRED.NbrTerritories--;
+                FactionManager.RED.NbrTerritories--;
+                ColorChange(Color.red);
             }
-            else if (m_currentColor == Color.blue)
+            else if (FactionNum == 2)
             {
-                m_manager.FactionBLUE.NbrTerritories--;
+                FactionManager.BLUE.NbrTerritories--;
+                ColorChange(Color.blue);
             }
-            else if (m_currentColor == Color.green)
+            else if (FactionNum == 3)
             {
-                m_manager.FactionGREEN.NbrTerritories--;
+                FactionManager.GREEN.NbrTerritories--;
+                ColorChange(Color.green);
             }
-            else if (m_currentColor == Color.yellow)
+            else if (FactionNum == 4)
             {
-                m_manager.FactionYELLOW.NbrTerritories--;
+                FactionManager.YELLOW.NbrTerritories--;
+                ColorChange(Color.yellow);
             }
         }
-        m_currentColor = pc.Faction.FactionColor;
-        Color col = gameObject.GetComponentInChildren<MeshRenderer>().material.color;
-        col = pc.Faction.FactionColor;
+        m_currentColor = p.Faction.FactionColor;
+        FactionNum = p.Faction.NumFaction;
+        Color col = TerritoryMeshRenderer.material.color;
+        col = p.Faction.FactionColor;
         col.a = 100f;
-        gameObject.GetComponentInChildren<MeshRenderer>().material.color = col;
+        TerritoryMeshRenderer.material.color = col;
         //new territory owner gains Nbrterritory
-        if (m_currentColor == Color.red)
+        if (FactionNum == 1)
         {
-            m_manager.FactionRED.NbrTerritories++;
+            FactionManager.RED.NbrTerritories++;
         }
-        else if (m_currentColor == Color.blue)
+        else if (FactionNum == 2)
         {
-            m_manager.FactionBLUE.NbrTerritories++;
+            FactionManager.BLUE.NbrTerritories++;
         }
-        else if (m_currentColor == Color.green)
+        else if (FactionNum == 3)
         {
-            m_manager.FactionGREEN.NbrTerritories++;
+            FactionManager.GREEN.NbrTerritories++;
         }
-        else if (m_currentColor == Color.yellow)
+        else if (FactionNum == 4)
         {
-            m_manager.FactionYELLOW.NbrTerritories++;
+            FactionManager.YELLOW.NbrTerritories++;
         }
     }
 
@@ -154,43 +233,6 @@ public class Territory  : MonoBehaviour
 
 
     #region Private And Protected Members
-    private bool m_hasSpecial;
-    private bool m_isCenter;
-    private bool m_isHQ;
-    private Color m_currentColor = Color.white;
-    private List<PlayerCharacter> m_listPlayerCharOnTerritory = new List<PlayerCharacter>();
-    private PhysicsManager m_manager;
     #endregion
 
-    private void TimerOnCentral(bool bol) {
-        //Partie gagnée
-        StartCoroutine("GameOver");
-    }
-    IEnumerator GameOver()
-    {
-
-        yield return new WaitForSeconds(10);
-        
-    }
-
-    public static void AddListener(IsCentral isCentral)
-    {
-        m_isCentral += isCentral;
-
-    }
-    public static void RemoveListener(IsCentral isCentral)
-    {
-        m_isCentral -= isCentral;
-
-    }
-
-
-    public static void NotifyIsCentral(Faction faction)
-    {
-        m_isCentral(true, faction );
-    }
-    public static void NotifyIsNotCentral(Faction faction)
-    {
-        m_isCentral(false,faction);
-    }
 }
