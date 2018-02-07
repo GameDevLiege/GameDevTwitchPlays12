@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
-public class Territory  : MonoBehaviour
+public class Territory : MonoBehaviour
 {
 
     #region Public Members
@@ -34,7 +34,7 @@ public class Territory  : MonoBehaviour
         get { return m_hasItem; }
         set { m_hasItem = value; }
     }
-    
+
     private Item m_territoryItem;
     public Item TerritoryItem
     {
@@ -65,6 +65,8 @@ public class Territory  : MonoBehaviour
         get { return m_currentColor; }
         set { m_currentColor = value; }
     }
+    public int FactionNum {get;set;}
+
     private List<Player> m_listPlayerCharOnTerritory = new List<Player>();
     public List<Player> GetListOfPlayerOnThisTerritory()
     {
@@ -85,7 +87,9 @@ public class Territory  : MonoBehaviour
     void Awake () 
     {
         m_territoryMeshRenderer = GetComponent<MeshRenderer>();
-	}
+        FactionNum = 0;
+
+    }
 
     #endregion
 
@@ -95,9 +99,9 @@ public class Territory  : MonoBehaviour
     {
         Player p = col.GetComponent<Player>();
         m_listPlayerCharOnTerritory.Add(p);
-        if ((p != null && p.Faction!=null && m_currentColor != p.Faction.FactionColor)&&(!IsHQ) )
+        if ((p != null && p.Faction!=null && FactionNum != p.Faction.NumFaction)&&(!IsHQ) )
         {
-            ColorChange(p);
+            FactionChange(p);
         }
     }
     public void ColorChange(Color color) {
@@ -105,34 +109,31 @@ public class Territory  : MonoBehaviour
         m_territoryMeshRenderer.material.color = color;
 
     }
-    public void ColorChange(Player p)
+    public void FactionChange(Player p)
     {
-        //TODO Repenser le système car des couleurs ne se compare pas car donne des valeurs différentes
-        //https://answers.unity.com/questions/787056/comparing-2-color-variables.html
-
         //previous territory owner looses Nbrterritory
 
-        if (m_currentColor != Color.white)
+        if (FactionNum != 0)
         {
-            if (m_currentColor == Color.red)
+            if (FactionNum == 1)
             {
                 FactionManager.RED.NbrTerritories--;
-                
             }
-            else if (m_currentColor == Color.blue)
+            else if (FactionNum == 2)
             {
                 FactionManager.BLUE.NbrTerritories--;
             }
-            else if (m_currentColor == Color.green)
+            else if (FactionNum == 3)
             {
                 FactionManager.GREEN.NbrTerritories--;
             }
-            else if (m_currentColor == Color.yellow)
+            else if (FactionNum == 4)
             {
                 FactionManager.YELLOW.NbrTerritories--;
             }
         }
         m_currentColor = p.Faction.FactionColor;
+        FactionNum = p.Faction.NumFaction;
         Color col = TerritoryMeshRenderer.material.color;
         col = p.Faction.FactionColor;
         col.a = 100f;
@@ -140,20 +141,20 @@ public class Territory  : MonoBehaviour
         //new territory owner gains Nbrterritory
         Debug.Log("Faction color ="  );
         Debug.Log(p.Faction.FactionColor.linear + " ==" + Color.red.linear +" "+ (p.Faction.FactionColor.linear==Color.red.linear));
-        if (m_currentColor == Color.red)
+        if (FactionNum == 1)
         {
             FactionManager.RED.NbrTerritories++;
             Debug.Log("ici--------****" + FactionManager.RED.NbrTerritories);
         }
-        else if (m_currentColor == Color.blue)
+        else if (FactionNum == 2)
         {
             FactionManager.BLUE.NbrTerritories++;
         }
-        else if (m_currentColor == Color.green)
+        else if (FactionNum == 3)
         {
             FactionManager.GREEN.NbrTerritories++;
         }
-        else if (m_currentColor == Color.yellow)
+        else if (FactionNum == 4)
         {
             FactionManager.YELLOW.NbrTerritories++;
         }
