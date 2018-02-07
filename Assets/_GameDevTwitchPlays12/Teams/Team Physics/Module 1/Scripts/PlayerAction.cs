@@ -265,7 +265,7 @@ public class PlayerAction : MonoBehaviour
                         //message nothing to dig?
                     }
                     break;
-                case "LEVEL":
+                case "LEVELUP":
                     if (player.Gold > m_levelPrices[player.Level])
                     {
                         player.Gold -= m_levelPrices[player.Level];
