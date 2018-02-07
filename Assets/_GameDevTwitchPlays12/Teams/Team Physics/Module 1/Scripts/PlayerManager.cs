@@ -249,6 +249,8 @@ public class PlayerManager : MonoBehaviour
         yield return new WaitForSeconds(peebleImpactTime);
         if (ennemy.CurrentTerritory.transform.position==ennemyPosition) {
             player.Gold += ennemy.Gold / 2;
+            ennemy.Gold -= ennemy.Gold / 2;
+            ennemy.Level -= 1;
             ennemy.transform.position = ennemy.Faction.RespawnPosition.transform.position;
         }
     }
