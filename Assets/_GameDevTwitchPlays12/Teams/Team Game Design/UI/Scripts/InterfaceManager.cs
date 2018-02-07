@@ -26,6 +26,7 @@ public class InterfaceManager : MonoBehaviour {
     public Text _lignePlayer19;
     public Text _lignePlayer20;
 
+
     public void _placementPlayer(string _faction,int _numPos, int _numPlayer, string _nom, int _lvl, int _argent)
     {
 
@@ -124,6 +125,10 @@ public class InterfaceManager : MonoBehaviour {
         }
 
     }
+
+    
+
+    
 
 	void Start () {
 		
