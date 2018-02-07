@@ -12,7 +12,7 @@ using DidzNeil.ChatAPI;
 public class GameManager12 : MonoBehaviour
 {
     #region Public Members    
-    public bool m_debug = true;
+    public bool m_debug = false;
 
     public ICommandManager m_commandManager;
     public PhysicsManager m_physicsManager;
@@ -124,11 +124,11 @@ public class GameManager12 : MonoBehaviour
 
         state = ((CommandManager)m_commandManager).firstStateCharacter + state;
         string[] userInfo = player.Name.Split(' ');
-        if(m_debug)
+        if(userInfo.Length == 1)
         {
-            Debug.Log(player.Name);
-            foreach (string s in userInfo) Debug.Log(s);
+            m_commandManager.Parse(userInfo[0], 0, state, timestamp);
         }
+        else
         m_commandManager.Parse(userInfo[1], Int32.Parse(userInfo[0]), state, timestamp);
     }
     #endregion

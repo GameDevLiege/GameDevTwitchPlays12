@@ -7,12 +7,6 @@ public class PlayerAction : MonoBehaviour
     public GameObject m_glassesPrefab;
     public GameObject m_levelUpParticlePrefab;
     public GameObject m_holeInTheGround;
-
-
-    public AudioClip brawlSound;
-    public AudioClip popSound;
-    public AudioClip diggingSound;
-    public AudioClip paperSound;
     public int m_goldPerCoinChest = 50;
     private bool m_hasJustLostBattle;
     public TerritoryManager m_territoryManager;
@@ -252,9 +246,9 @@ public class PlayerAction : MonoBehaviour
                         }
 
                         if (item.ItemType == Item.e_itemType.PARCHEMENT)
-                            GetComponent<AudioSource>().PlayOneShot(paperSound);
+                            player.PlayPaper();
                         else
-                            GetComponent<AudioSource>().PlayOneShot(diggingSound);
+                            player.PlayDig();
                         player.CurrentTerritory.HasItem = false;
                         Destroy(player.CurrentTerritory.gameObject.GetComponent("Item"));
                         ItemEvent.NotifyNewItem(item, player);
@@ -265,7 +259,7 @@ public class PlayerAction : MonoBehaviour
                         //message nothing to dig?
                     }
                     break;
-                case "LEVEL":
+                case "LEVELUP":
                     if (player.Gold > m_levelPrices[player.Level])
                     {
                         player.Gold -= m_levelPrices[player.Level];

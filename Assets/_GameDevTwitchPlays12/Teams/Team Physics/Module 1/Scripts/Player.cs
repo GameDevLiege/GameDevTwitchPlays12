@@ -4,6 +4,12 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
+    public PlayerManager m_playerManager;
+    public AudioSource m_audioSource;
+    public AudioClip brawlSound;
+    public AudioClip popSound;
+    public AudioClip diggingSound;
+    public AudioClip paperSound;
     public Faction Faction { get; set; }
     public Territory CurrentTerritory { get; set; }
     public bool HasGlasses { get; set; }
@@ -31,4 +37,30 @@ public class Player : MonoBehaviour
         Inventory = new Dictionary<Item, int>();
     }
 
+    private void Awake()
+    {
+
+        m_audioSource = gameObject.AddComponent<AudioSource>();
+        PlayerManager m_playerManager = FindObjectOfType<PlayerManager>();
+        brawlSound = m_playerManager.brawlSound;
+        popSound = m_playerManager.popSound;
+        diggingSound= m_playerManager.diggingSound;
+        paperSound=m_playerManager.paperSound;
+    }
+    public void PlayBrawl()
+    {
+        m_audioSource.PlayOneShot(brawlSound);
+    }
+    public void PlayPop()
+    {
+        m_audioSource.PlayOneShot(popSound);
+    }
+    public void PlayDig()
+    {
+        m_audioSource.PlayOneShot(diggingSound);
+    }
+    public void PlayPaper()
+    {
+        m_audioSource.PlayOneShot(paperSound);
+    }
 }
