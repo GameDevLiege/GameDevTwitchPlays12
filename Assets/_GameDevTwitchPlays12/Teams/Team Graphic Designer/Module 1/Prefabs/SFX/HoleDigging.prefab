@@ -23,7 +23,7 @@ GameObject:
   - component: {fileID: 95865133112863282}
   - component: {fileID: 114144035908605678}
   m_Layer: 0
-  m_Name: Sprite_HoleDigging
+  m_Name: HoleDigging
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
