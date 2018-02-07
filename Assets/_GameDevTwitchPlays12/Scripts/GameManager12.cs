@@ -12,7 +12,7 @@ using DidzNeil.ChatAPI;
 public class GameManager12 : MonoBehaviour
 {
     #region Public Members    
-    public bool m_debug = true;
+    public bool m_debug = false;
 
     public ICommandManager m_commandManager;
     public PhysicsManager m_physicsManager;
