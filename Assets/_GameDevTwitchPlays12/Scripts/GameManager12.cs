@@ -29,7 +29,7 @@ public class GameManager12 : MonoBehaviour
     protected void Awake()
     {
         m_commandManager = GetComponent<CommandManager>();
-       // m_physicsManager = GetComponent<PhysicsManager>(); //find ?
+        // m_physicsManager = GetComponent<PhysicsManager>(); //find ?
 
         gameIsStarted = false;
     }
@@ -47,24 +47,19 @@ public class GameManager12 : MonoBehaviour
         //ItemEvent.AddUseListener(); //Pour UI
     }
 
-    private void HandleMessage(Message message)
+    public void DoCommand(string username, int platformCode, ICommand command)
     {
-        ICommand command = m_commandManager.Parse(
-            message.GetUserName(),
-            (int)message.GetPlatform(),
-            message.GetMessage(),
-            message.GetTimestamp()
-        );
-
         if (command == null)
             return;
 
+        Platform platform = (Platform)platformCode;
+
         if (command.feedbackUser)
         {
-            if(m_debug) Debug.LogWarning("Command Feedback: " + command.response);
+            if (m_debug) Debug.LogWarning("Command Feedback: " + command.response);
 
             Message msg = new Message("Game Admin", command.response, Message.GetCurrentTimeUTC(), Platform.Game);
-            ChatAPI.SendMessageToUser(message.GetUserName(), message.GetPlatform(), msg);
+            ChatAPI.SendMessageToUser(username, platform, msg);
         }
         else
         {
@@ -73,11 +68,21 @@ public class GameManager12 : MonoBehaviour
                 gameIsStarted = true;
                 m_physicsManager.StartGame();
             }
-            string userId = (int)message.GetPlatform() + " " + message.GetUserName();
+            string userId = platformCode + " " + username;
             string formattedCommand = command.response.Substring(1).ToUpper();
 
             m_physicsManager.SetCommandFromPlayer(userId, formattedCommand);
         }
+    }
+
+    private void HandleMessage(Message message)
+    {
+        m_commandManager.Parse(
+            message.GetUserName(),
+            (int)message.GetPlatform(),
+            message.GetMessage(),
+            message.GetTimestamp()
+        );
     }
 
     public void ResetGame()
@@ -119,11 +124,11 @@ public class GameManager12 : MonoBehaviour
 
         state = ((CommandManager)m_commandManager).firstStateCharacter + state;
         string[] userInfo = player.Name.Split(' ');
-        if(m_debug)
+        if(userInfo.Length == 1)
         {
-            Debug.Log(player.Name);
-            foreach (string s in userInfo) Debug.Log(s);
+            m_commandManager.Parse(userInfo[0], 0, state, timestamp);
         }
+        else
         m_commandManager.Parse(userInfo[1], Int32.Parse(userInfo[0]), state, timestamp);
     }
     #endregion
