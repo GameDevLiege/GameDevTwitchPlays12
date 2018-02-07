@@ -7,6 +7,7 @@ public class Player : MonoBehaviour
     public Faction Faction { get; set; }
     public Territory CurrentTerritory { get; set; }
     public bool HasGlasses { get; set; }
+    public GameObject Glasses { get; set; }
     public string Name { get; set; }
     public int Level { get; set; }
     public int Gold { get; set; }
