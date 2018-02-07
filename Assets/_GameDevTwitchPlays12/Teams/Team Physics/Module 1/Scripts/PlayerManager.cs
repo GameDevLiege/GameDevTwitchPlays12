@@ -33,6 +33,7 @@ public class PlayerManager : MonoBehaviour
     {
         ItemEvent.AddPickupListener(PlayerPickUp);
         listPlayerByName = new Dictionary<string, Player>();
+        listPlayerById= new Dictionary<int, Player>();
     }
 
     private void Start()
