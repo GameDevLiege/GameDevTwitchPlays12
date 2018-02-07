@@ -20,8 +20,7 @@ public class FactionManager : MonoBehaviour {
         BLUE = new Faction();
         GREEN = new Faction();
         YELLOW = new Faction();
-        
-        
+
     }
 	
 	// Update is called once per frame
