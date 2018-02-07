@@ -5,60 +5,53 @@ using UnityEngine;
 public class PlayerManager : MonoBehaviour
 {
     private int numPlayer=0;
-    public Dictionary<string, Player> players = new Dictionary<string, Player>();
-    //public List<PlayerInfo> m_listPlayerInfo = new List<PlayerInfo>();
-    public GameObject m_playerCharPrefab;
-    public int m_nbrFactions;
-    private bool m_gameHasStarted;
-    private bool m_isInitialized;
-    private PlayerAction playerAction = new PlayerAction();
+    public Dictionary<string, Player> players;
+    public GameObject m_playerPrefab;
+    //public int m_nbrFactions;
+    //private bool m_gameHasStarted;
+    //private bool m_isInitialized;
+    private int lastFaction=1;
 
-    public void DispatchTeam(Faction faction1, Faction faction2, Faction faction3, Faction faction4, int playerLimit)
+
+    private void Awake()
     {
-
+        players = new Dictionary<string, Player>();
     }
-
     public void AssignFactionToPlayers(Player player)         
     {
-        if (m_isInitialized)
-        {
-            return;
-        }
-        m_isInitialized = true;
-        int countRed;
-        int countBlue;
-        int countYellow;
-        int countGreen;
 
+        switch (lastFaction)
+        {
+            case 1:
+                FactionManager.BLUE.AddPlayer(player);
+                player.Faction = FactionManager.BLUE;
+                player.CurrentTerritory = player.Faction.RespawnPosition;
+                player.transform.position = player.Faction.RespawnPosition.transform.position;
+                lastFaction++;
+                break;
+            case 2:
+                FactionManager.RED.AddPlayer(player);
+                player.Faction = FactionManager.RED;
+                player.CurrentTerritory = player.Faction.RespawnPosition;
+                player.transform.position = player.Faction.RespawnPosition.transform.position;
+                lastFaction++;
+                break;
+            case 3:
+                FactionManager.YELLOW.AddPlayer(player);
+                player.Faction = FactionManager.YELLOW;
+                player.CurrentTerritory = player.Faction.RespawnPosition;
+                player.transform.position = player.Faction.RespawnPosition.transform.position;
+                lastFaction++;
+                break;
+            case 4:
+                FactionManager.GREEN.AddPlayer(player);
+                player.Faction = FactionManager.GREEN;
+                player.CurrentTerritory = player.Faction.RespawnPosition;
+                player.transform.position = player.Faction.RespawnPosition.transform.position;
+                lastFaction = 1;
+                break;
 
-        countBlue = Faction.BLUE.ListPlayer.Count;
-        countRed = Faction.GREEN.ListPlayer.Count;
-        countYellow = Faction.YELLOW.ListPlayer.Count;
-        countGreen = Faction.RED.ListPlayer.Count;
-        int playerLimit = countBlue + countGreen + countRed + countYellow / 4;
-        if (countBlue >= playerLimit || playerLimit != 0)
-        {
-            Faction.BLUE.AddPlayer(player);
-            player.Faction = Faction.BLUE;
-            player.CurrentTerritory = Faction.BLUE.RespawnPosition;
-        }
-        else if (countRed >= playerLimit)
-        {
-            Faction.RED.AddPlayer(player);
-            player.Faction = Faction.RED;
-            player.CurrentTerritory = Faction.RED.RespawnPosition;
-        }
-        else if (countYellow >= playerLimit)
-        {
-            Faction.YELLOW.AddPlayer(player);
-            player.Faction = Faction.YELLOW;
-            player.CurrentTerritory = Faction.YELLOW.RespawnPosition;
-        }
-        else if (countGreen >= playerLimit)
-        {
-            Faction.GREEN.AddPlayer(player);
-            player.Faction = Faction.GREEN;
-            player.CurrentTerritory = Faction.GREEN.RespawnPosition;
+            
         }
 
         /*
@@ -119,11 +112,21 @@ public class PlayerManager : MonoBehaviour
 
     }
 
-    public void CreatePlayer(string name)             
+    public Player CreatePlayer(string name)             
     {
-        Player newPlayer = new Player(name,++numPlayer);
+        numPlayer++;
+        Player newPlayer;
+        GameObject NewPlayerGameObject = Instantiate(m_playerPrefab.gameObject, new Vector3(-5f, -5f, 0f), Quaternion.identity, transform);
+        //newPlayer.playerTransform = NewPlayerGameObject.transform;
+        NewPlayerGameObject.name = name;
+        NewPlayerGameObject.GetComponentInChildren<TextMesh>().text = "" + numPlayer;
+        newPlayer = NewPlayerGameObject.GetComponent<Player>();
+        //newPlayer.playerTransform = NewPlayerGameObject.transform;
+        newPlayer.Name = name;
+        newPlayer.NumPlayer = numPlayer;
+        players.Add(name,newPlayer);
         AssignFactionToPlayers(newPlayer);
-
+        return newPlayer;
     }
     public Player GetPlayer(string name)
     {
@@ -131,21 +134,11 @@ public class PlayerManager : MonoBehaviour
         players.TryGetValue(name, out player);
         return player;
     }
-    public void GetCommandFromPlayer(string name, string command)              //JEROME HERE ! Give me a player names and the command he sends ;-)       
-    {
-        var p = GetPlayer(name);
-        if (p==null) {
-            CreatePlayer(name);
-        }
-        else
-        {
-
-            playerAction.DoAction(command, p);
-        }
-    }
+    
     // Use this for initialization
     void Start()
     {
+       
 
     }
 
