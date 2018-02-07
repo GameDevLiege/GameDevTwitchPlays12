@@ -92,6 +92,7 @@ public class Territory : MonoBehaviour
         m_territoryMeshRenderer = GetComponentInChildren<MeshRenderer>();
         FactionNum = 0;
         Locked = false;
+        m_particleFightPrefab = m_territoryManager.m_particleFightPrefab;
     }
 
     #endregion
@@ -114,6 +115,7 @@ public class Territory : MonoBehaviour
                 Player potentialEnnemy = player.CurrentTerritory.GetListOfPlayerOnThisTerritory()[i];
                 if (player.Faction.NumFaction != potentialEnnemy.Faction.NumFaction)
                 {
+                    Debug.Log("test 000");
                     Locked = true;
                     StartCoroutine(UnlockAfterFight(player, potentialEnnemy));
                 }
