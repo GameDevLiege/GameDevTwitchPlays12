@@ -9,24 +9,13 @@ using UnityEditor;
 using GameManager;
 using DidzNeil.ChatAPI;
 
-public class FakeInput : IInput
-{
-    public void SendFeedback(ICommand command)
-    {
-        Debug.LogWarning("Command Feedback: " + command.response);
-    }
-}
-
 public class GameManager12 : MonoBehaviour
 {
-    #region Public Members
-
-    public IInput m_input = new FakeInput();
-
-    public PlayerManager m_playerManager;
-    public TerritoryManager m_territoryManager;
+    #region Public Members    
     public ICommandManager m_commandManager;
+    public PhysicsManager m_physicsManager;
 
+    bool gameIsStarted;
     #endregion
 
     #region Public void
@@ -38,9 +27,9 @@ public class GameManager12 : MonoBehaviour
     protected void Awake()
     {
         m_commandManager = GetComponent<CommandManager>();
+        m_physicsManager = GetComponent<PhysicsManager>(); //find ?
 
-        m_playerManager = GetComponent<PlayerManager>(); //find ?
-        m_territoryManager = GetComponent<TerritoryManager>(); //find ?
+        gameIsStarted = false;
     }
 
     protected void Start()
@@ -51,7 +40,9 @@ public class GameManager12 : MonoBehaviour
         // Item pickups influences the cooldown on the CommandManager
         //SpecialAPI.AddListener(HandleEvent);
 
-        //ItemEvent.AddListener(HandleEvent);
+        ItemEvent.AddPickupListener(HandleEvent);
+
+        //ItemEvent.AddUseListener(); //Pour UI
     }
 
     private void HandleMessage(Message message)
@@ -68,46 +59,48 @@ public class GameManager12 : MonoBehaviour
 
         if (command.feedbackUser)
         {
-            m_input.SendFeedback(command);
+            Debug.LogWarning("Command Feedback: " + command.response);
 
             Message msg = new Message("Game Admin", command.response, Message.GetCurrentTimeUTC(), Platform.Game);
             ChatAPI.SendMessageToUser(message.GetUserName(), message.GetPlatform(), msg);
         }
         else
         {
-            if (command.response == "!START")
+            if (command.response == "!START" && !gameIsStarted)
             {
-                m_territoryManager.GameStart();
+                gameIsStarted = true;
+                m_physicsManager.StartGame();
             }
-
             string userId = (int)message.GetPlatform() + " " + message.GetUserName();
             string formattedCommand = command.response.Substring(1).ToUpper();
-            
-            //---->CHANGE Maintenant il n'y a que physicsmanager a instancier et toute les commandes sont comprise dedans
 
-           // m_playerManager.GetCommandFromPlayer(userId, formattedCommand);
+            m_physicsManager.SetCommandFromPlayer(userId, formattedCommand);
         }
     }
 
-    //private void HandleEvent(ISpecial special)
-    /*
+    public void ResetGame()
+    {
+        gameIsStarted = false;
+    }
+
     private void HandleEvent(Item item, Player player)
     {
-        string[] userInfo = special.m_playerCharacter.PlayerName.Split(new char[] { ' ' }, 2);
-
         DateTime unixStart = new DateTime(1970, 1, 1, 0, 0, 0, 0, System.DateTimeKind.Utc);
         long timestamp = (DateTime.Now.ToUniversalTime() - unixStart).Ticks;
 
         string state = "";
 
-        switch (special.m_typeSpecial)
+        //if (item.EffectType == Item.e_effectType.INSTANT) ;
+
+        switch (item.ItemType)
         {
-            case Item.e_itemType.PEBBLE:
-                break;
+        //    case Item.e_itemType.PEBBLE:
+        //        break;
             case Item.e_itemType.COINCHEST:
+                float goldChest = item.goldValue; //TODO
                 break;
-            case Item.e_itemType.GRENADES:
-                break;
+        //    case Item.e_itemType.GRENADES:
+        //        break;
             case Item.e_itemType.SHOVEL:
                 break;
             case Item.e_itemType.PARCHEMENT:
@@ -124,9 +117,9 @@ public class GameManager12 : MonoBehaviour
 
         state = ((CommandManager)m_commandManager).firstStateCharacter + state;
 
+        string[] userInfo = player.Name.Split(' ');
         m_commandManager.Parse(userInfo[1], Int32.Parse(userInfo[0]), state, timestamp);
     }
-    //*/
     #endregion
 
     #region Tools Debug and Utility
