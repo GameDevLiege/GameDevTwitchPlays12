@@ -18,7 +18,6 @@ public class PhysicsManager : MonoBehaviour
     private Timer timerBlue;
     private Timer timerGreen;
     private Timer timerYellow;
-
     private void Awake()
     {
         territoryManager = gameObject.GetComponent<TerritoryManager>();
@@ -42,6 +41,10 @@ public class PhysicsManager : MonoBehaviour
 
     private void GlassWin()
     {
+        if (timerRed.timer==60F)m_onEndGameTimer(true,FactionManager.RED);
+        if (timerBlue.timer == 60F) m_onEndGameTimer(true, FactionManager.BLUE);
+        if (timerGreen.timer == 60F) m_onEndGameTimer(true, FactionManager.GREEN);
+        if (timerYellow.timer == 60F) m_onEndGameTimer(true, FactionManager.YELLOW);
 
     }
 
