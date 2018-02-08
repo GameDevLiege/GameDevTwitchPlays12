@@ -4,130 +4,189 @@ using UnityEngine;
 using GameManager;
 using System.Linq;
 using System;
+using UnityEngine.UI;
 
 public class CommandManager : DualBehaviour, ICommandManager
 {
     #region Public Var
 
+    public GameManager12 gameManager;
+
+    public int maxMovement = 5;
     public long cd = 2;
     public long stunMult = 5;
     public long sprainMult = 5;
+    public long fightMult = 5;
     public int  maxPlayer = 20;
 
     public char firstCommmandCharacter  = '!';
     public char firstStateCharacter     = '?';
 
-    public static Command INVALIDCOMMAND = new Command("Votre commande est invalide", true);
-
     #endregion
-
-
-  
 
     #region Public Func
 
-    public ICommand Parse(string _username, int _plateform, string _message, long _time)
+    public void Parse(string _username, int _plateform, string _message, long _time)
     {
         string userID = _plateform + " " + _username;
-        
-        if ((!IsACommand(_message)) && (!IsAState(_message)))
-        {
-            return null;
-        }
-
         _message = _message.ToUpper();
 
-        if ((!CommandIsValid(_message)) && (!StateIsValid(_message)))
+        if (!MessageIsNull(_message))
         {
-            return INVALIDCOMMAND;
-        }
-
-        if(userDataBase.ContainsKey(userID))
-        {
-            var c = userDataBase[userID].states.Count;
-            Debug.LogWarning(userID + " " + String.Join(" ", (from s in userDataBase[userID].states select s.Key + " " + (_time - s.Value.time)).ToArray<string>()));
-        }
-        
-
-        if (StateIsValid(_message))
-        {
-            if (_message.Equals(firstStateCharacter + "STUN"))
+            if (StartAsCommand(_message))
             {
-                userDataBase[userID].AddStun(_time);
-                return null;
-            }
-
-            if (_message.Equals(firstStateCharacter + "SPRAIN"))
-            {
-                userDataBase[userID].AddSprain(_time);
-                return null;
-            }
-        }
-
-        if (CommandIsValid(_message))
-        {
-            if (_message.Equals(firstCommmandCharacter + "JOIN"))
-            {
-                if (!userDataBase.ContainsKey(userID))
+                if (CommandIsValid(_message))
                 {
-                    if (userDataBase.Count < maxPlayer)
+                    string[] splitedMesage = SplitMessage(_message);
+
+                    if (_message.Equals(firstCommmandCharacter + "JOIN"))
                     {
-                        userDataBase.Add(userID, new PlayerCTRL(userID));
-                        return new Command(_message, false);
+                        if (!userDataBase.ContainsKey(userID))
+                        {
+                            if (userDataBase.Count < maxPlayer)
+                            {
+                                userDataBase.Add(userID, new PlayerCTRL(userID, this));
+                                gameManager.DoCommand(_username, _plateform, new Command(_message, false));
+                            }
+                            else
+                            {
+                                gameManager.DoCommand(_username, _plateform, new Command("Maximum number of players reached!", true));
+                            }
+                        }
+                        else
+                        {
+                            gameManager.DoCommand(_username, _plateform, new Command("You already joined the game", true));
+                        }
+                    }
+                    else if (!userDataBase.ContainsKey(userID))
+                    {
+                        gameManager.DoCommand(_username, _plateform, new Command("Please first join the game using \"" + firstCommmandCharacter + "JOIN\" command.", true));
+                    }
+                    else if (userDataBase[userID].states.ContainsKey("FIGHT"))
+                    {
+                        if (userDataBase[userID].StateIsActive("FIGHT", _time))
+                        {
+                            gameManager.DoCommand(_username, _plateform, new Command("You're busy fighting right now!", true));
+                        }
+                    }
+                    else if (userDataBase[userID].states.ContainsKey("STUN"))
+                    {
+                        if (userDataBase[userID].StateIsActive("STUN", _time))
+                        {
+                            gameManager.DoCommand(_username, _plateform, new Command("You can't do anything right now because you're still STUN.", true));
+                        }
+                    }
+                    else if (userDataBase[userID].states.ContainsKey("MOVE"))
+                    {
+                        if (userDataBase[userID].StateIsActive("MOVE", _time))
+                        {
+                            gameManager.DoCommand(_username, _plateform, new Command("You're busy moving right now!", true));
+                        }
+                    }
+                    else if (userDataBase[userID].states.ContainsKey("SPRAIN") && (_message.Equals(firstCommmandCharacter + "DIG")))
+                    {
+                        if (userDataBase[userID].StateIsActive("SPRAIN", _time))
+                        {
+                            gameManager.DoCommand(_username, _plateform, new Command("You can't move now because you have a sprain!", true));
+                        }
+                    }
+                    else if (!Cooldown(_time, userID))
+                    {
+                        gameManager.DoCommand(_username, _plateform, new Command("Please wait for your cooldown to be over!", true));
+                    }
+                    else if (splitedMesage.Length == 2)
+                    {
+                        if (ArgsIsValid(splitedMesage[1]))
+                        {
+                            int number;
+                            int.TryParse(splitedMesage[1], out number);
+                            userDataBase[userID].AddState("MOVE", (_time + (number * cd)));
+
+                            StartCoroutine(Iteration(_username, _plateform, new Command(splitedMesage[0], false), number, userID));
+                        }
+                        else
+                        {
+                            gameManager.DoCommand(_username, _plateform, new Command("Invalid argument", true));
+                        }
                     }
                     else
                     {
-                        return new Command("Le nombre maximum de joueur est atteint", true);
+                        userDataBase[userID].time = _time;
+                        splitedMesage[0] = ParseCommand(splitedMesage[0]);
+                        gameManager.DoCommand(_username, _plateform, new Command(splitedMesage[0], false));
                     }
                 }
                 else
                 {
-                    return new Command("Vous avez déja rejoins la partie", true);
+                    gameManager.DoCommand(_username, _plateform, new Command("Your command is invalid!", true));
                 }
             }
-
-            if (!userDataBase.ContainsKey(userID))
+            else if (StartAsState(_message))
             {
-                return new Command("Veuillez d'abord rejoindre la partie a l'aide de la commande " + firstCommmandCharacter + "JOIN", true);
-            }
-
-            if (userDataBase[userID].states.ContainsKey("STUN"))
-            {
-                if (userDataBase[userID].StateIsActive("STUN", _time))
+                if (StateIsValid(_message))
                 {
-                    return new Command("Vous ne pouvez pas effectuer d'action car vous êtes STUN", true);
+                    switch (_message)
+                    {
+                        case "?STUN":
+                            userDataBase[userID].AddStun(_time);
+                            break;
+                        case "?SPRAIN":
+                            userDataBase[userID].AddSprain(_time);
+                            break;
+                        case "?FIGHT":
+                            if (!userDataBase[userID].StateIsActive("FIGHT", _time))
+                            {
+                                userDataBase[userID].AddFight(_time);
+                            }
+                            else
+                            {
+                                int randomPos = UnityEngine.Random.Range(0, 3);
+                                gameManager.DoCommand(_username, _plateform, new Command(movementCommand[randomPos], false));
+                            }
+                            break;
+                        default:
+                            break;
+                    }
                 }
-            }
-
-            if (userDataBase[userID].states.ContainsKey("SPRAIN") && (_message.Equals(firstCommmandCharacter + "DIG")))
-            {
-                if (userDataBase[userID].StateIsActive("SPRAIN", _time))
+                else
                 {
-                    return new Command("Vous ne pouvez pas creuser car vous vous êtes fais une entorse", true);
+                    gameManager.DoCommand(_username, _plateform, new Command("Invalid state input, ignored", false));
                 }
             }
-
-            if ((!Cooldown(_time, userID)) && (!_message.Equals(firstCommmandCharacter + "JOIN")))
-            {
-                return new Command("Le cooldown entre 2 commandes n'est pas terminé", true);
-            }
-
-            userDataBase[userID].time = _time;
-            return new Command(_message, false);
-        }
-        throw new System.Exception("[CommandManger] SHOULD NOT BE THERE: " + _username + ":" + _message + "("+_time+")" );
+        } 
     }
-
     #endregion
 
     #region Private Func
 
-    private bool IsACommand(string _message)
+    private IEnumerator Iteration(string _username, int _plateform, ICommand _command, int number, string userID)
+    {
+        for (int i = 0; i < number; i++)
+        {
+            if ((userDataBase[userID].states.ContainsKey("MOVE")))
+            {
+                gameManager.DoCommand(_username, _plateform, _command);
+
+                yield return new WaitForSeconds(cd);
+            }
+        }
+    }
+
+    private bool ArgsIsValid(string arg)
     {
         bool isValid;
-        if (_message[0] == firstCommmandCharacter)
+        int number;
+
+        if (int.TryParse(arg, out number))
         {
-            isValid = true;
+            if (number > 0 && number <= maxMovement)
+            {
+                isValid = true;
+            }
+            else
+            {
+                isValid = false;
+            }
         }
         else
         {
@@ -136,36 +195,57 @@ public class CommandManager : DualBehaviour, ICommandManager
         return isValid;
     }
 
-    private bool IsAState(string _message)
+    private string[] SplitMessage(string _message)
     {
-        bool isValid;
-        if (_message[0] == firstStateCharacter)
+        string[] splitedMessage = _message.Split(' ');
+        return splitedMessage;
+    }
+
+    private bool StartAsState(string _message)
+    {
+        return _message[0] == firstStateCharacter;
+    }
+
+    private bool StartAsCommand(string _message)
+    {
+        return _message[0] == firstCommmandCharacter;
+    }
+
+    private bool MessageIsNull(string _message)
+    {
+        if (_message == null)
         {
-            isValid = true;
+            return true;
         }
-        else
-        {
-            isValid = false;
-        }
-        return isValid;
+        return false;
     }
 
     private bool CommandIsValid(string _message)
     {
         bool isValid = false;
-        for (int i = 0; i < validCommand.Count; i++)
-        {
-            if (_message.Equals(firstCommmandCharacter + validCommand[i]))
+
+        if (SplitMessage(_message).Length <= 2)
+        { 
+            for (int i = 0; i < validCommand.Count; i++)
             {
-                isValid = true;
-                break;
+                if (SplitMessage(_message)[0].Equals(firstCommmandCharacter + validCommand[i]))
+                {
+                    isValid = true;
+                }
             }
+        }
+        else
+        {
+            isValid = false;
         }
         return isValid;
     }
 
     private bool StateIsValid(string _message)
     {
+
+        //return validState.Contains(firstStateCharacter + _message);
+
         bool isValid = false;
         for (int i = 0; i < validState.Count; i++)
         {
@@ -176,6 +256,30 @@ public class CommandManager : DualBehaviour, ICommandManager
             }
         }
         return isValid;
+    }
+
+    private string ParseCommand(string _message)
+    {
+        string message;
+        switch (_message)
+        {
+            case "!U":
+                message = "!UP";
+                break;
+            case "!D":
+                message = "!DOWN";
+                break;
+            case "!L":
+                message = "!LEFT";
+                break;
+            case "!R":
+                message = "!RIGHT";
+                break;
+            default:
+                message = _message;
+                break;
+        }
+        return message;
     }
 
     private bool Cooldown(long _time, string _name)
@@ -205,12 +309,26 @@ public class CommandManager : DualBehaviour, ICommandManager
     [SerializeField]
     private List<string> validCommand = new List<string>
     {
+        "UP"        ,
+        "DOWN"      ,
+        "LEFT"      ,
+        "RIGHT"     ,
+        "DIG"       ,
+        "JOIN"      ,
+        "U"         ,
+        "D"         ,
+        "R"         ,
+        "L"         ,
+        "LEVELUP"   ,
+    };
+
+    [SerializeField]
+    private List<string> movementCommand = new List<string>
+    {
         "UP"    ,
         "DOWN"  ,
         "LEFT"  ,
         "RIGHT" ,
-        "DIG"   ,
-        "JOIN"  ,
     };
 
     [SerializeField]
@@ -218,6 +336,8 @@ public class CommandManager : DualBehaviour, ICommandManager
     {
         "STUN"      ,
         "SPRAIN"    ,
+        "FIGHT"     ,
+        "MOVE"      ,
     };
 
     private Dictionary<string, PlayerCTRL> _userDataBase = new Dictionary<string, PlayerCTRL>();
@@ -250,112 +370,5 @@ public class Command:ICommand
     {
         feedbackUser = feedback;
         response = message;
-    }
-}
-
-[System.Serializable]
-public class PlayerCTRL
-{
-    CommandManager _commandManager = new CommandManager();
-
-    private string _userID;
-    public string userID
-    {
-        get { return _userID; }
-        set { _userID = value; }
-    }
-
-    private long _time;
-    public long time
-    {
-        get { return _time; }
-        set { _time = value; }
-    }
-
-    private Dictionary<string, State> _states = new Dictionary<string, State>();
-    public Dictionary<string, State> states
-    {
-        get { return _states; }
-        set { _states = value; }
-    }
-
-    public PlayerCTRL(string username)
-    {
-        userID = username;
-        time = 0;
-    }
-
-    public void AddState(string _name, long _until)
-    {
-        if (!states.ContainsKey(_name))
-        {
-            states.Add(_name, new State(_name, _until));
-        }
-        else
-        {
-            states[_name].time = _until;
-        }
-    }
-
-    public void AddStun(long _time)
-    {
-        AddState("STUN", (_time + (_commandManager.cd * _commandManager.stunMult)));
-    }
-
-    public void AddSprain(long _time)
-    {
-        AddState("SPRAIN", (_time + (_commandManager.cd * _commandManager.sprainMult)));
-    }
-
-    public void RemoveState(string _name)
-    {
-        if (states.ContainsKey(_name))
-        {
-            states.Remove(_name);
-        }
-    }
-
-    public bool StateIsActive(string _name, long _time)
-    {
-        if (states.ContainsKey(_name))
-        {
-            if (states[_name].time > _time)
-            {
-                return true;
-            }
-            else
-            {
-                RemoveState(_name);
-                return false;
-            }
-        }
-        else
-        {
-            return false;
-        }
-    }
-
-}
-
-public class State
-{
-    private string _name;
-    public string name
-    {
-        get { return _name; }
-        set { _name = value; }
-    }
-
-    private long _time;
-    public long time
-    {
-        get { return _time; }
-        set { _time = value; }
-    }
-
-    public State (string stateName, long stateTime)
-    {
-        name = stateName;
-        time = stateTime;
     }
 }
