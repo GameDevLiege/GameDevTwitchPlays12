@@ -12,6 +12,8 @@ public class CommandManager : DualBehaviour, ICommandManager
 
     public GameManager12 gameManager;
 
+    public bool debug = false;
+
     public int maxMovement = 5;
     public long cd = 2;
     public long stunMult = 5;
@@ -29,15 +31,16 @@ public class CommandManager : DualBehaviour, ICommandManager
     public void Parse(string _username, int _plateform, string _message, long _time)
     {
         string userID = _plateform + " " + _username;
-        _message = _message.ToUpper();
+        _message = _message.ToUpper().Trim();
 
-        if (!MessageIsNull(_message))
+        if (!string.IsNullOrEmpty(_message))
         {
             if (StartAsCommand(_message))
             {
                 if (CommandIsValid(_message))
                 {
-                    string[] splitedMesage = SplitMessage(_message);
+                    string[] splitedMessage = SplitMessage(_message);
+                    splitedMessage[0] = ParseCommand(splitedMessage[0]);
 
                     if (_message.Equals(firstCommmandCharacter + "JOIN"))
                     {
@@ -50,22 +53,38 @@ public class CommandManager : DualBehaviour, ICommandManager
                             }
                             else
                             {
+                                if (debug)
+                                {
+                                    Debug.Log("Maximum number of players reached!");
+                                }                               
                                 gameManager.DoCommand(_username, _plateform, new Command("Maximum number of players reached!", true));
                             }
                         }
                         else
                         {
+                            if (debug)
+                            {
+                                Debug.Log("You already joined the game");
+                            }
                             gameManager.DoCommand(_username, _plateform, new Command("You already joined the game", true));
                         }
                     }
                     else if (!userDataBase.ContainsKey(userID))
                     {
+                        if (debug)
+                        {
+                            Debug.Log("Please first join the game using \"" + firstCommmandCharacter + "JOIN\" command.");
+                        }
                         gameManager.DoCommand(_username, _plateform, new Command("Please first join the game using \"" + firstCommmandCharacter + "JOIN\" command.", true));
                     }
                     else if (userDataBase[userID].states.ContainsKey("FIGHT"))
                     {
                         if (userDataBase[userID].StateIsActive("FIGHT", _time))
                         {
+                            if (debug)
+                            {
+                                Debug.Log("You're busy fighting right now!");
+                            }
                             gameManager.DoCommand(_username, _plateform, new Command("You're busy fighting right now!", true));
                         }
                     }
@@ -73,6 +92,10 @@ public class CommandManager : DualBehaviour, ICommandManager
                     {
                         if (userDataBase[userID].StateIsActive("STUN", _time))
                         {
+                            if (debug)
+                            {
+                                Debug.Log("You can't do anything right now because you're still STUN.");
+                            }
                             gameManager.DoCommand(_username, _plateform, new Command("You can't do anything right now because you're still STUN.", true));
                         }
                     }
@@ -80,6 +103,10 @@ public class CommandManager : DualBehaviour, ICommandManager
                     {
                         if (userDataBase[userID].StateIsActive("MOVE", _time))
                         {
+                            if (debug)
+                            {
+                                Debug.Log("You're busy moving right now!");
+                            }
                             gameManager.DoCommand(_username, _plateform, new Command("You're busy moving right now!", true));
                         }
                     }
@@ -87,37 +114,52 @@ public class CommandManager : DualBehaviour, ICommandManager
                     {
                         if (userDataBase[userID].StateIsActive("SPRAIN", _time))
                         {
+                            if (debug)
+                            {
+                                Debug.Log("You can't move now because you have a sprain!");
+                            }
                             gameManager.DoCommand(_username, _plateform, new Command("You can't move now because you have a sprain!", true));
                         }
                     }
                     else if (!Cooldown(_time, userID))
                     {
+                        if (debug)
+                        {
+                            Debug.Log("Please wait for your cooldown to be over!");
+                        }
                         gameManager.DoCommand(_username, _plateform, new Command("Please wait for your cooldown to be over!", true));
                     }
-                    else if (splitedMesage.Length == 2)
+                    else if (splitedMessage.Length == 2)
                     {
-                        if (ArgsIsValid(splitedMesage[1]))
+                        if (ArgsIsValid(splitedMessage[1]))
                         {
                             int number;
-                            int.TryParse(splitedMesage[1], out number);
+                            int.TryParse(splitedMessage[1], out number);
                             userDataBase[userID].AddState("MOVE", (_time + (number * cd)));
 
-                            StartCoroutine(Iteration(_username, _plateform, new Command(splitedMesage[0], false), number, userID));
+                            StartCoroutine(Iteration(_username, _plateform, new Command(splitedMessage[0], false), number, userID));
                         }
                         else
                         {
+                            if (debug)
+                            {
+                                Debug.Log("Invalid argument");
+                            }
                             gameManager.DoCommand(_username, _plateform, new Command("Invalid argument", true));
                         }
                     }
                     else
                     {
                         userDataBase[userID].time = _time;
-                        splitedMesage[0] = ParseCommand(splitedMesage[0]);
-                        gameManager.DoCommand(_username, _plateform, new Command(splitedMesage[0], false));
+                        gameManager.DoCommand(_username, _plateform, new Command(splitedMessage[0], false));
                     }
                 }
                 else
                 {
+                    if (debug)
+                    {
+                        Debug.Log("Your command is invalid!");
+                    }
                     gameManager.DoCommand(_username, _plateform, new Command("Your command is invalid!", true));
                 }
             }
@@ -150,6 +192,10 @@ public class CommandManager : DualBehaviour, ICommandManager
                 }
                 else
                 {
+                    if (debug)
+                    {
+                        Debug.Log("Invalid state input, ignored");
+                    }
                     gameManager.DoCommand(_username, _plateform, new Command("Invalid state input, ignored", false));
                 }
             }
@@ -170,6 +216,7 @@ public class CommandManager : DualBehaviour, ICommandManager
                 yield return new WaitForSeconds(cd);
             }
         }
+        userDataBase[userID].RemoveState("MOVE");
     }
 
     private bool ArgsIsValid(string arg)
@@ -224,13 +271,20 @@ public class CommandManager : DualBehaviour, ICommandManager
     {
         bool isValid = false;
 
-        if (SplitMessage(_message).Length <= 2)
-        { 
+        string[] splitedMessage = SplitMessage(_message);
+
+        if (splitedMessage.Length <= 2)
+        {
             for (int i = 0; i < validCommand.Count; i++)
             {
-                if (SplitMessage(_message)[0].Equals(firstCommmandCharacter + validCommand[i]))
+                if (splitedMessage[0].Equals(firstCommmandCharacter + validCommand[i]))
                 {
                     isValid = true;
+                    break;
+                }
+                else
+                {
+                    isValid = false;
                 }
             }
         }
@@ -243,9 +297,6 @@ public class CommandManager : DualBehaviour, ICommandManager
 
     private bool StateIsValid(string _message)
     {
-
-        //return validState.Contains(firstStateCharacter + _message);
-
         bool isValid = false;
         for (int i = 0; i < validState.Count; i++)
         {
@@ -265,18 +316,38 @@ public class CommandManager : DualBehaviour, ICommandManager
         {
             case "!U":
                 message = "!UP";
+                if (debug)
+                {
+                    Debug.Log("message : "+ _message);
+                }
                 break;
             case "!D":
                 message = "!DOWN";
+                if (debug)
+                {
+                    Debug.Log("message : " + _message);
+                }
                 break;
             case "!L":
                 message = "!LEFT";
+                if (debug)
+                {
+                    Debug.Log("message : " + _message);
+                }
                 break;
             case "!R":
                 message = "!RIGHT";
+                if (debug)
+                {
+                    Debug.Log("message : " + _message);
+                }
                 break;
             default:
                 message = _message;
+                if (debug)
+                {
+                    Debug.Log("message : " + _message);
+                }
                 break;
         }
         return message;
@@ -306,7 +377,6 @@ public class CommandManager : DualBehaviour, ICommandManager
 
     #region Private Var
 
-    [SerializeField]
     private List<string> validCommand = new List<string>
     {
         "UP"        ,
@@ -317,12 +387,13 @@ public class CommandManager : DualBehaviour, ICommandManager
         "JOIN"      ,
         "U"         ,
         "D"         ,
-        "R"         ,
         "L"         ,
+        "R"         ,
         "LEVELUP"   ,
+        "SHOVEL"    ,
+        "GRENADE"   ,
     };
 
-    [SerializeField]
     private List<string> movementCommand = new List<string>
     {
         "UP"    ,
@@ -331,7 +402,6 @@ public class CommandManager : DualBehaviour, ICommandManager
         "RIGHT" ,
     };
 
-    [SerializeField]
     private List<string> validState = new List<string>
     {
         "STUN"      ,

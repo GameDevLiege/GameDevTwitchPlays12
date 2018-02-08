@@ -12,7 +12,7 @@ using DidzNeil.ChatAPI;
 public class GameManager12 : MonoBehaviour
 {
     #region Public Members    
-    public bool m_debug = false;
+    public bool m_debug;
 
     public ICommandManager m_commandManager;
     public PhysicsManager m_physicsManager;
@@ -20,12 +20,7 @@ public class GameManager12 : MonoBehaviour
     bool gameIsStarted;
     #endregion
 
-    #region Public void
-
-    #endregion
-
     #region System
-
     protected void Awake()
     {
         m_commandManager = GetComponent<CommandManager>();
@@ -52,12 +47,15 @@ public class GameManager12 : MonoBehaviour
         if (command == null)
             return;
 
+        if(m_debug)
+        {
+            Debug.Log(string.Format("GameManager12:DoCommand() => username:{0} feedback:{1} response:{2}", username, command.feedbackUser, command.response));
+        }
+
         Platform platform = (Platform)platformCode;
 
         if (command.feedbackUser)
         {
-            if (m_debug) Debug.LogWarning("Command Feedback: " + command.response);
-
             Message msg = new Message("Game Admin", command.response, Message.GetCurrentTimeUTC(), Platform.Game);
             ChatAPI.SendMessageToUser(username, platform, msg);
         }
@@ -92,6 +90,13 @@ public class GameManager12 : MonoBehaviour
 
     private void HandleEvent(Item item, Player player)
     {
+        if (m_debug)
+        {
+            Debug.Log(string.Format("GameManager12:HandleEvent() \n" +
+                "=> ItemType:{0} EffectType:{1} goldValue:{2}\n" +
+                "=> Player:", player.Name, player.NumPlayer));
+        }
+
         DateTime unixStart = new DateTime(1970, 1, 1, 0, 0, 0, 0, System.DateTimeKind.Utc);
         long timestamp = (DateTime.Now.ToUniversalTime() - unixStart).Ticks;
 
@@ -131,33 +136,6 @@ public class GameManager12 : MonoBehaviour
         else
         m_commandManager.Parse(userInfo[1], Int32.Parse(userInfo[0]), state, timestamp);
     }
-    #endregion
-
-    #region Tools Debug and Utility
-    /*
-#if UNITY_EDITOR
-    [MenuItem("GDL-Twitch12/Stun Player %t")]
-    public static void StunPlayer()
-    {
-        Special spe = new Special
-        {
-            m_playerCharacter = new PlayerCharacter() { PlayerName = "0 Neil" },
-            m_typeSpecial = Special.e_specialType.PARCHEMENT
-        };
-
-        SpecialAPI.NotifyNewSpecial(spe);
-
-        string ticks = "?";
-        try
-        {
-            ticks = GameObject.Find("PManager").GetComponent<CommandManager>().stunMult.ToString();
-        }
-        catch (Exception) { }
-
-        Debug.LogWarning("Stunning Neil for " + ticks + " ticks!");
-    }
-#endif
-    */
     #endregion
 }
 

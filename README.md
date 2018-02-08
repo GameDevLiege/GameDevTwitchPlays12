@@ -11,9 +11,19 @@ Conquer territory with your team over Twitch Plays.
 * OBS or similar to stream to Twitch.
 * Friends to play with - Funnier than by yourself :)
 
+#### For the FB Live
+
+(Hacky setup)
+* Python 3
+* `pip install -r requirements.txt`
+
 ### Installing
 
 Just hit play or build and run, stream over Twitch and you're set.
+
+#### For the FB Live
+
+Run the Python server, launch the game then go to http://127.0.0.1:54321/ then leave the console open (temporary).
 
 ## Commands
 
