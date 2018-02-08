@@ -205,10 +205,9 @@ public class PlayerManager : MonoBehaviour
                     break;
                 case "DIG":
                     Instantiate(m_holeInTheGround, player.CurrentTerritory.transform);
-                    player.PlayDig();
                     if (player.CurrentTerritory.HasItem)
                     {
-                        if(m_debug)
+                        if (m_debug)
                         {
                             Debug.Log("PlayerManager: " + "player " + player.NumPlayer + " digged an item out");
                         }
@@ -239,6 +238,10 @@ public class PlayerManager : MonoBehaviour
                         {
                             player.PlayPaper();
                             Instantiate(m_starStun, player.transform);
+                        }
+                        else
+                        {
+                            player.PlayDig();
                         }
                         player.CurrentTerritory.HasItem = false;
                         Destroy(player.CurrentTerritory.gameObject.GetComponent("Item"));
