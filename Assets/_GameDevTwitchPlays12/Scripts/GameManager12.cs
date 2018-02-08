@@ -75,6 +75,10 @@ public class GameManager12 : MonoBehaviour
 
     private void HandleMessage(Message message)
     {
+        if (m_debug)
+        {
+            Debug.Log(string.Format("GameManager12:HandleMessage() => timestamp:{0} platform:{1} username:{2} message:{3}", message.GetTimestamp(), message.GetPlatform(), message.GetUserName(), message.GetMessage()));
+        }
         m_commandManager.Parse(
             message.GetUserName(),
             (int)message.GetPlatform(),
@@ -94,7 +98,7 @@ public class GameManager12 : MonoBehaviour
         {
             Debug.Log(string.Format("GameManager12:HandleEvent() \n" +
                 "=> ItemType:{0} EffectType:{1} goldValue:{2}\n" +
-                "=> Player:", player.Name, player.NumPlayer));
+                "=> Player:{3} - {4}", item.ItemType, item.EffectType, item.goldValue, player.NumPlayer, player.Name));
         }
 
         DateTime unixStart = new DateTime(1970, 1, 1, 0, 0, 0, 0, System.DateTimeKind.Utc);
