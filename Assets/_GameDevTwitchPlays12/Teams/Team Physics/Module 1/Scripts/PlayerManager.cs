@@ -18,6 +18,7 @@ public class PlayerManager : MonoBehaviour
     public AudioClip paperSound;
     public AudioClip hurtSound;
     public AudioClip coinSound;
+    public AudioClip grenadeSound;
     [Header("prefabsAnim")]
     public GameObject m_glassesPrefab;
     public GameObject m_levelUpParticlePrefab;
@@ -68,13 +69,6 @@ public class PlayerManager : MonoBehaviour
         numPlayer++;
         Player newPlayer;
         GameObject NewPlayerGameObject = Instantiate(m_playerPrefab.gameObject, new Vector3(-5f, -5f, 0f), Quaternion.Euler(-90,0,0), transform);
-        foreach (Transform objTransform in NewPlayerGameObject.GetComponentsInChildren<Transform>())
-        {
-            if (objTransform.gameObject.name == "NumPlayer")
-            {
-                objTransform.localEulerAngles = new Vector3(90, 0, 0);
-            }
-        }
         //newPlayer.playerTransform = NewPlayerGameObject.transform;
         NewPlayerGameObject.name = name;
         NewPlayerGameObject.GetComponentInChildren<TextMeshPro>().text = "" + numPlayer;
@@ -224,7 +218,7 @@ public class PlayerManager : MonoBehaviour
                     player.PlayDig();
                     if (player.CurrentTerritory.HasItem)
                     {
-                        if(m_debug)
+                        if (m_debug)
                         {
                             Debug.Log("PlayerManager: " + "player " + player.NumPlayer + " digged an item out");
                         }
@@ -256,6 +250,10 @@ public class PlayerManager : MonoBehaviour
                             player.PlayPaper();
                             Instantiate(m_starStun, player.transform);
                         }
+                        else
+                        {
+                            player.PlayDig();
+                        }
                         player.CurrentTerritory.HasItem = false;
                         Destroy(player.CurrentTerritory.gameObject.GetComponent("Item"));
                         ItemEvent.NotifyNewItem(item, player);
@@ -271,8 +269,8 @@ public class PlayerManager : MonoBehaviour
                     if (player.Gold > m_levelPrices[player.Level])
                     {
                         player.Gold -= m_levelPrices[player.Level];
-                        player.Level= player.Level+1;//level not working?
-                        Instantiate(m_levelUpParticlePrefab, player.transform.position, Quaternion.EulerAngles(90,0,0), player.transform);
+                        player.Level= player.Level+1;
+                        Instantiate(m_levelUpParticlePrefab, player.transform);
                     }
                     break;
 
@@ -282,11 +280,11 @@ public class PlayerManager : MonoBehaviour
                     {
                         player.Inventory[(int)Item.e_itemType.GRENADES] -= 1;
                         LaunchGrenade(player);
+                        player.PlayGrenade();
                    }
                    break;
 
                 case "SHOVEL":
-                    
                     break;
 
                 case "PEBBLE":
@@ -303,14 +301,20 @@ public class PlayerManager : MonoBehaviour
                     if (player.Gold > m_costOfGrenade)
                     {
                         player.Gold -= m_costOfGrenade;
-                        //add a grenade in inventory, ask diego
+                        if (player.NumberOfItem(2) > 0)
+                            player.Inventory.Add(2, 1);
+                        else
+                            player.Inventory[2] += 1;
                     }
                     break;
                 case "BUY_SHOVEL":
                     if (player.Gold > m_costOfShovel)
                     {
                         player.Gold -= m_costOfShovel;
-                        //add a shovel in inventory, ask diego
+                        if (player.NumberOfItem(3) > 0)
+                            player.Inventory.Add(3, 1);
+                        else
+                            player.Inventory[3] += 1;
                     }
                     break;
             }
