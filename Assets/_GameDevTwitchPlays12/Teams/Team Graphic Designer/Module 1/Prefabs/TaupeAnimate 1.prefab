@@ -36,14 +36,13 @@ GameObject:
   - component: {fileID: 4260251859426590}
   - component: {fileID: 23353569944893944}
   - component: {fileID: 102387025015609354}
-  - component: {fileID: 114456007534230494}
   m_Layer: 31
   m_Name: NamePlayerText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!1 &1166785658332482
 GameObject:
   m_ObjectHideFlags: 1
@@ -177,9 +176,10 @@ GameObject:
   - component: {fileID: 54532410372157482}
   - component: {fileID: 65937075096876842}
   - component: {fileID: 114922616958511540}
+  - component: {fileID: 114478199055602206}
   - component: {fileID: 82275850572793376}
   m_Layer: 31
-  m_Name: Taupe
+  m_Name: TaupeAnimate 1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -368,7 +368,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1074985459294308}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -0.83}
+  m_LocalPosition: {x: 0, y: 0, z: -1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4896948102671036}
@@ -463,7 +463,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1591195270726854}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0.68, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4260251859426590}
@@ -559,7 +559,7 @@ MeshFilter:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1787192005281606}
-  m_Mesh: {fileID: 4300000, guid: 6364d7cd029e1684a9544cef772859dc, type: 3}
+  m_Mesh: {fileID: 4300000, guid: 8261a62c1b20934459aeb963afdd9a00, type: 3}
 --- !u!54 &54532410372157482
 Rigidbody:
   m_ObjectHideFlags: 1
@@ -654,7 +654,7 @@ AudioSource:
       tangentMode: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
-    m_RotationOrder: 0
+    m_RotationOrder: 4
   reverbZoneMixCustomCurve:
     serializedVersion: 2
     m_Curve:
@@ -705,17 +705,25 @@ TextMesh:
   m_Color:
     serializedVersion: 2
     rgba: 4278190080
---- !u!114 &114456007534230494
+--- !u!114 &114478199055602206
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1074985459294308}
+  m_GameObject: {fileID: 1591195270726854}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8d930987b59c05046858b3cff8bd76a4, type: 3}
+  m_Script: {fileID: 11500000, guid: d16094638b9722744aa4d6f94d298642, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  brawlSound: {fileID: 8300000, guid: dc54f96a8bd41f74da8095ab26eb3745, type: 3}
+  popSound: {fileID: 8300000, guid: 8d2fa1720908cc14fae3d858f8cf0ca1, type: 3}
+  diggingSound: {fileID: 8300000, guid: 59883988c66872a46a7d7afc98b45ece, type: 3}
+  paperSound: {fileID: 8300000, guid: 6cbff982b1b07f646b4921aa535fc9d2, type: 3}
+  m_goldPerCoinChest: 50
+  m_priceOfLevel: 50
+  hasGlasses: 0
+  m_manager: {fileID: 0}
 --- !u!114 &114922616958511540
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -728,7 +736,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_HelmetColor: {fileID: 1787192005281606}
-  m_ColorHelmet: {r: 0, g: 0.21379304, b: 1, a: 1}
+  m_ColorHelmet: {r: 0, g: 0.5955882, b: 0.028752586, a: 1}
 --- !u!137 &137023184814746122
 SkinnedMeshRenderer:
   m_ObjectHideFlags: 1
