@@ -7,7 +7,7 @@ using System;
 
 public class ChatInput : MonoBehaviour
 {
-    public string username = "Test";
+    public Dropdown username;
     public ChatHistory chatHistory;
     InputField inputField;
 
@@ -28,9 +28,11 @@ public class ChatInput : MonoBehaviour
     public void Send()
     {
         var text = inputField.text;
+        if (text == string.Empty) return;
+
         print("sending: '" + text + "'");
 
-        Message message = new Message(username, text, DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1)).Ticks, Platform.Mockup);
+        Message message = new Message(username.options[username.value].text, text, DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1)).Ticks, Platform.Mockup);
 
         try
         {
