@@ -1,10 +1,13 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+
 public class Territory : MonoBehaviour
 {
-
     #region Public Members
+    public delegate void PlayerIsOnTerritory(Territory territory, Player player);
+    public static PlayerIsOnTerritory playerIsOnTerritory;
+
     public GameObject m_particleFightPrefab;
     #endregion
     public bool Locked { get; set; }
@@ -178,12 +181,18 @@ public class Territory : MonoBehaviour
         {
             FactionChange(p);
         }
+        if (this.IsCenter)
+        {
+            NotifyPlayerIsOnTerritory(this, p);
+        }
     }
+
     public void ColorChange(Color color) {
         
         m_territoryMeshRenderer.material.color = color;
 
     }
+
     public void FactionChange(Player p)
     {
         //previous territory owner looses Nbrterritory
@@ -240,6 +249,22 @@ public class Territory : MonoBehaviour
     {
 
     }
+
+    public static void AddPlayerListener(PlayerIsOnTerritory action)
+    {
+        playerIsOnTerritory += action;
+    }
+
+    public static void RemovePlayerListener(PlayerIsOnTerritory action)
+    {
+        playerIsOnTerritory -= action;
+    }
+
+    public static void NotifyPlayerIsOnTerritory(Territory territory, Player player)
+    {
+        playerIsOnTerritory(territory, player);
+    }
+
     #endregion
 
     #region Tools Debug And Utility
