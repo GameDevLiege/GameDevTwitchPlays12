@@ -1,8 +1,10 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+
 [RequireComponent(typeof(PlayerManager), typeof(TerritoryManager), typeof(FactionManager))]
-public class PhysicsManager : MonoBehaviour {
+public class PhysicsManager : MonoBehaviour
+{
     private TerritoryManager territoryManager;
     private PlayerManager playerManager;
 
@@ -11,6 +13,11 @@ public class PhysicsManager : MonoBehaviour {
 
     private static MyEndGameTimer m_onEndGameTimer;
     public float endTime = 1200f;
+
+    private Timer timerRed;
+    private Timer timerBlue;
+    private Timer timerGreen;
+    private Timer timerYellow;
 
     private void Awake()
     {
@@ -22,6 +29,11 @@ public class PhysicsManager : MonoBehaviour {
         Timer timerGame = gameObject.AddComponent<Timer>();
         LaunchGameTimer(endTime, timerGame);
         timerGame.StartTimer();
+        Territory.AddPlayerListener(FactionWins);
+        Timer timerRed = gameObject.AddComponent<Timer>();
+        Timer timerBlue = gameObject.AddComponent<Timer>();
+        Timer timerGreen = gameObject.AddComponent<Timer>();
+        Timer timerYellow = gameObject.AddComponent<Timer>();
     }
 
     private void EndGame(bool endGame, Faction faction)
@@ -112,5 +124,76 @@ public class PhysicsManager : MonoBehaviour {
         }
 
         return null;
+    }
+
+    private void PlayerIsOnTerritory(Territory territory, Player player)
+    {
+        switch (player.Faction.NumFaction)
+        {
+            case 1:
+                if (TeamHasGlassesInCenter(player.Faction))
+                {
+                    timerRed.StartTimer();
+                }
+                else
+                {
+                    timerRed.PauseTimer();
+                }
+                break;
+
+            case 2:
+                if (TeamHasGlassesInCenter(player.Faction))
+                {
+                    timerBlue.StartTimer();
+                }
+                else
+                {
+                    timerRed.PauseTimer();
+                }
+                break;
+
+            case 3:
+                if (TeamHasGlassesInCenter(player.Faction))
+                {
+                    timerGreen.StartTimer();
+                }
+                else
+                {
+                    timerRed.PauseTimer();
+                }
+                break;
+
+            case 4:
+                if (TeamHasGlassesInCenter(player.Faction))
+                {
+                    timerYellow.StartTimer();
+                }
+                else
+                {
+                    timerRed.PauseTimer();
+                }
+                break;
+        }
+    }
+
+    private bool TeamHasGlassesInCenter(Faction faction)
+    {
+        bool fillsConditions = false;
+
+        for (int i = 0; i < faction.ListPlayer.Count; i++)
+        {
+            if (faction.ListPlayer[i].HasGlasses && faction.ListPlayer[i].CurrentTerritory.IsCenter)
+            {
+                fillsConditions = true;
+                i = faction.ListPlayer.Count;
+            }
+        }
+
+        return fillsConditions;
+    }
+
+    private void FactionWins(Territory territory, Player player)
+    {
+        Debug.Log("This faction wins !" + territory.FactionNum);
     }
 }
