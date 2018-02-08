@@ -15,7 +15,7 @@ public class CommandManager : DualBehaviour, ICommandManager
     public bool debug = false;
 
     public int maxMovement = 5;
-    public long cd = 2;
+    public long cooldown = 2;
     public long stunMult = 5;
     public long sprainMult = 5;
     public long fightMult = 5;
@@ -30,6 +30,7 @@ public class CommandManager : DualBehaviour, ICommandManager
 
     public void Parse(string _username, int _plateform, string _message, long _time)
     {
+        cooldown = cooldown * 10000000;
         string userID = _plateform + " " + _username;
         _message = _message.ToUpper().Trim();
 
@@ -135,7 +136,7 @@ public class CommandManager : DualBehaviour, ICommandManager
                         {
                             int number;
                             int.TryParse(splitedMessage[1], out number);
-                            userDataBase[userID].AddState("MOVE", (_time + (number * cd)));
+                            userDataBase[userID].AddState("MOVE", (_time + (number * cooldown)));
 
                             StartCoroutine(Iteration(_username, _plateform, new Command(splitedMessage[0], false), number, userID));
                         }
@@ -213,7 +214,7 @@ public class CommandManager : DualBehaviour, ICommandManager
             {
                 gameManager.DoCommand(_username, _plateform, _command);
 
-                yield return new WaitForSeconds(cd);
+                yield return new WaitForSeconds(cooldown);
             }
         }
         userDataBase[userID].RemoveState("MOVE");
@@ -364,9 +365,12 @@ public class CommandManager : DualBehaviour, ICommandManager
         {
             oldTime = 0;   
         }
-        long value = _time - oldTime; 
+        long value = _time - oldTime;
 
-        if (value < cd)
+        Debug.Log("new : "+_time+" - old : "+oldTime+" = Value : "+value);
+
+
+        if (value < cooldown)
         {
             return false;
         }
