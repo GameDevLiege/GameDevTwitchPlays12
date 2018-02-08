@@ -11,13 +11,6 @@ public class UIWins : MonoBehaviour {
     private static Text TeamName;
     private static Canvas CanvasUIWins;
 
-    public void Awake()
-    {
-        Helmet = m_Helmet;
-        TeamName = m_TeamName;
-        CanvasUIWins = m_CanvasUIWins;
-    }
-
     public UIWins(string teamName, Color teamColor)
     {
         teamColor.a = 100;
@@ -29,5 +22,13 @@ public class UIWins : MonoBehaviour {
     public void ActiveUIWins(bool activation)
     {
         CanvasUIWins.gameObject.SetActive(activation);
+    }
+
+
+    private void Awake()
+    {
+        Helmet = m_Helmet;
+        TeamName = m_TeamName;
+        CanvasUIWins = m_CanvasUIWins;
     }
 }
