@@ -250,7 +250,8 @@ public class TerritoryManager  : MonoBehaviour
                     t.TerritoryItem = item;
                     t.HasItem = true;
                     hasGlasses = true;
-                    t.ColorChange(Color.grey);
+                    if(m_debug)
+                        t.ColorChange(Color.grey);
                 }
                 else if (t.IsCenter)
                 {

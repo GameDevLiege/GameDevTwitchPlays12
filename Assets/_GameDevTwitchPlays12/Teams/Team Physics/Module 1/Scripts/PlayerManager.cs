@@ -237,7 +237,7 @@ public class PlayerManager : MonoBehaviour
                         else if (item.ItemType == Item.e_itemType.PARCHEMENT)
                         {
                             player.PlayPaper();
-                            Instantiate(m_starStun, player.transform);
+                            Instantiate(m_starStun, player.transform.position, Quaternion.Euler(90, 0, 0), player.transform);
                         }
                         else
                         {
