@@ -12,7 +12,7 @@ using DidzNeil.ChatAPI;
 public class GameManager12 : MonoBehaviour
 {
     #region Public Members    
-    public bool m_debug = false;
+    public bool m_debug;
 
     public ICommandManager m_commandManager;
     public PhysicsManager m_physicsManager;
@@ -49,7 +49,7 @@ public class GameManager12 : MonoBehaviour
 
         if(m_debug)
         {
-            Debug.Log(string.Format("GameManager12:DoCommand() => feedback:{0} response:{1}", command.feedbackUser, command.response));
+            Debug.Log(string.Format("GameManager12:DoCommand() => username:{0} feedback:{1} response:{2}", username, command.feedbackUser, command.response));
         }
 
         Platform platform = (Platform)platformCode;
