@@ -63,6 +63,9 @@ MonoBehaviour:
   popSound: {fileID: 8300000, guid: 6565f2b2d9836784a8cc4a48fd6b80d3, type: 3}
   diggingSound: {fileID: 8300000, guid: d6ce10caf0f9b664cb529cccaa2bb98f, type: 3}
   paperSound: {fileID: 8300000, guid: ed8ee925b77bf134a933d6a2006b7925, type: 3}
+  hurtSound: {fileID: 8300000, guid: d710600aec027154a8cf9c00e591c030, type: 3}
+  coinSound: {fileID: 8300000, guid: 1009acd6c17bf9347bedcb324296cc18, type: 3}
+  grenadeSound: {fileID: 8300000, guid: ec37ae558529247468f068db7b0bf3c4, type: 3}
   hurtSound: {fileID: 8300000, guid: 9feccfc3dcf1f0a489069fef69a4110c, type: 3}
   coinSound: {fileID: 8300000, guid: bdb4ea1d0441a814ea5ab0f674433efe, type: 3}
   grenadeSound: {fileID: 8300000, guid: 79a3e4393bb030c4d8ab71a9d4d7ea97, type: 3}

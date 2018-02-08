@@ -231,7 +231,7 @@ public class TerritoryManager  : MonoBehaviour
 
     public void InitializeTerritorryItems()
     {
-        int randomCenterZone = Random.Range(1, m_territoryInCentralZone+1);//decides which central territory gets the glasses
+        int randomCenterZone = Random.Range(1, m_territoryInCentralZone);//decides which central territory gets the glasses
 
         int centerCount = 0;
         int itemCount = Item.ItemTypeLength();
@@ -250,7 +250,8 @@ public class TerritoryManager  : MonoBehaviour
                     t.TerritoryItem = item;
                     t.HasItem = true;
                     hasGlasses = true;
-                    t.ColorChange(Color.grey);
+                    if(m_debug)
+                        t.ColorChange(Color.grey);
                 }
                 else if (t.IsCenter)
                 {
