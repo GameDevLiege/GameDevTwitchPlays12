@@ -78,6 +78,15 @@ namespace DidzNeil.ChatAPI
 
             if (_sendMessageToUser != null)
                 _sendMessageToUser(user, platform, msg);
+            else
+                Debug.LogWarning(
+                    String.Format(
+                        "No way to contact \"{0}\" ({1}) with the following message:\n{2}",
+                        user,
+                        platform,
+                        msg.GetMessage()
+                    )
+                );
 
         }
         public static void SendMessageToEveryUsers( Message msg)
