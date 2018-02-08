@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class PlayerManager : MonoBehaviour
 {
@@ -71,7 +72,7 @@ public class PlayerManager : MonoBehaviour
         }
         //newPlayer.playerTransform = NewPlayerGameObject.transform;
         NewPlayerGameObject.name = name;
-        NewPlayerGameObject.GetComponentInChildren<TextMesh>().text = "" + numPlayer;
+        NewPlayerGameObject.GetComponentInChildren<TextMeshPro>().text = "" + numPlayer;
         newPlayer = NewPlayerGameObject.GetComponent<Player>();
         //newPlayer.playerTransform = NewPlayerGameObject.transform;
         newPlayer.Name = name;
