@@ -30,7 +30,7 @@ public class ChatHistory : MonoBehaviour
         if (index > 0)
             index--;
 
-        return history[index];
+        return index < history.Count ? history[index] : string.Empty;
     }
 
     public string GetNext()
