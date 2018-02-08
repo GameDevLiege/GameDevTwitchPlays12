@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657844, g: 0.49641222, b: 0.57481694, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
 --- !u!157 &3
 LightmapSettings:
   m_ObjectHideFlags: 0
@@ -123,7 +123,12 @@ Prefab:
     - target: {fileID: 114768608139595552, guid: 0527597ae3320c04d948221566b99674,
         type: 2}
       propertyPath: userList.Array.size
-      value: 8
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 114768608139595552, guid: 0527597ae3320c04d948221566b99674,
+        type: 2}
+      propertyPath: commandList.Array.size
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4227930700439214, guid: 0527597ae3320c04d948221566b99674, type: 2}
       propertyPath: m_LocalPosition.x
@@ -220,26 +225,84 @@ Prefab:
     - target: {fileID: 114768608139595552, guid: 0527597ae3320c04d948221566b99674,
         type: 2}
       propertyPath: commandList.Array.data[1]
-      value: RIGHT
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 114768608139595552, guid: 0527597ae3320c04d948221566b99674,
         type: 2}
       propertyPath: commandList.Array.data[2]
-      value: RIGHT
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 114768608139595552, guid: 0527597ae3320c04d948221566b99674,
         type: 2}
       propertyPath: commandList.Array.data[3]
-      value: RIGHT
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 114768608139595552, guid: 0527597ae3320c04d948221566b99674,
         type: 2}
       propertyPath: commandList.Array.data[4]
-      value: RIGHT
+      value: 
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    - target: {fileID: 114768608139595552, guid: 0527597ae3320c04d948221566b99674,
+        type: 2}
+      propertyPath: commandList.Array.data[0]
+      value: PEBBLE
+      objectReference: {fileID: 0}
+    - target: {fileID: 114768608139595552, guid: 0527597ae3320c04d948221566b99674,
+        type: 2}
+      propertyPath: userList.Array.data[2]
+      value: Mole3
+      objectReference: {fileID: 0}
+    - target: {fileID: 114768608139595552, guid: 0527597ae3320c04d948221566b99674,
+        type: 2}
+      propertyPath: userList.Array.data[3]
+      value: Mole4
+      objectReference: {fileID: 0}
+    - target: {fileID: 114768608139595552, guid: 0527597ae3320c04d948221566b99674,
+        type: 2}
+      propertyPath: userList.Array.data[4]
+      value: Mole5
+      objectReference: {fileID: 0}
+    - target: {fileID: 114768608139595552, guid: 0527597ae3320c04d948221566b99674,
+        type: 2}
+      propertyPath: userList.Array.data[5]
+      value: Mole6
+      objectReference: {fileID: 0}
+    - target: {fileID: 114768608139595552, guid: 0527597ae3320c04d948221566b99674,
+        type: 2}
+      propertyPath: userList.Array.data[6]
+      value: Mole7
+      objectReference: {fileID: 0}
+    - target: {fileID: 114768608139595552, guid: 0527597ae3320c04d948221566b99674,
+        type: 2}
+      propertyPath: userList.Array.data[7]
+      value: Mole8
+      objectReference: {fileID: 0}
+    - target: {fileID: 114497032963642288, guid: 0527597ae3320c04d948221566b99674,
+        type: 2}
+      propertyPath: m_territoryManager
+      value: 
+      objectReference: {fileID: 1162994409}
+    - target: {fileID: 114497032963642288, guid: 0527597ae3320c04d948221566b99674,
+        type: 2}
+      propertyPath: peebleImpactTime
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 114549905912933306, guid: 0527597ae3320c04d948221566b99674,
+        type: 2}
+      propertyPath: m_territoryPrefab
+      value: 
+      objectReference: {fileID: 1971600905591884, guid: 4ae6b38f2d4c0c94f9b633b72f07bbe5,
+        type: 2}
+    m_RemovedComponents:
+    - {fileID: 114564638815517846, guid: 0527597ae3320c04d948221566b99674, type: 2}
   m_ParentPrefab: {fileID: 100100000, guid: 0527597ae3320c04d948221566b99674, type: 2}
   m_IsPrefabParent: 0
+--- !u!114 &1162994409 stripped
+MonoBehaviour:
+  m_PrefabParentObject: {fileID: 114549905912933306, guid: 0527597ae3320c04d948221566b99674,
+    type: 2}
+  m_PrefabInternal: {fileID: 1162994408}
+  m_Script: {fileID: 11500000, guid: f8565d3106c139a46b0865fa5c3c7bc6, type: 3}
 --- !u!1 &1242073002
 GameObject:
   m_ObjectHideFlags: 0

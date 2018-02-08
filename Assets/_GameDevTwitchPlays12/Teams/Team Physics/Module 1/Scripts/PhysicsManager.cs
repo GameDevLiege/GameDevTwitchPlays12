@@ -2,20 +2,18 @@
 using System.Collections.Generic;
 using UnityEngine;
 [RequireComponent(typeof(PlayerManager), typeof(TerritoryManager), typeof(FactionManager))]
-[RequireComponent(typeof(PlayerAction))]
 public class PhysicsManager : MonoBehaviour {
     private TerritoryManager territoryManager;
     private PlayerManager playerManager;
-    private PlayerAction playerAction;
+
     private FactionManager factionManager;
 
     private void Awake()
     {
         territoryManager = gameObject.GetComponent<TerritoryManager>();
         playerManager = gameObject.GetComponent<PlayerManager>();
-        playerAction = gameObject.GetComponent<PlayerAction>();
         factionManager= gameObject.GetComponent<FactionManager>();
-        playerAction.m_territoryManager = territoryManager;
+        playerManager.m_territoryManager = territoryManager;
 
     }
 
@@ -46,11 +44,11 @@ public class PhysicsManager : MonoBehaviour {
         if (p == null)
         {
             p=playerManager.CreatePlayer(name);
-            playerAction.DoAction(command, p);
+            playerManager.DoAction(command, p);
         }
         else
         {
-            playerAction.DoAction(command, p);
+            playerManager.DoAction(command, p);
         }
     }
     

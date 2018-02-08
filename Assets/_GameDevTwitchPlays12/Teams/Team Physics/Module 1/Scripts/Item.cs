@@ -26,14 +26,6 @@ public class Item : MonoBehaviour
         INVENTORY = 2
 
     }
-    [SerializeField]
-    private Player m_player;
-
-    public Player Player
-    {
-        get { return m_player; }
-        set { m_player = value; }
-    }
 
     [SerializeField]
     private e_itemType m_itemType;

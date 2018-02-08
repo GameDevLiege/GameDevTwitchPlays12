@@ -56,7 +56,7 @@ public class Faction
         for(int i=0; i<m_listPlayer.Count;i++)
         {
             Player p = m_listPlayer[i];
-            IUI._placementPlayer(FactionColor.ToString().ToUpper(), i + 1, p.NumPlayer, p.Name, p.Level, p.Gold);
+            //IUI._placementPlayer(FactionColor.ToString().ToUpper(), i + 1, p.NumPlayer, p.Name, p.Level, p.Gold);
         }
     }
     
