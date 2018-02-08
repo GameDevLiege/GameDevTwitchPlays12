@@ -6,17 +6,26 @@ public class ColorHelmet : MonoBehaviour {
 
     public Color m_ColorHelmet = Color.blue;
 
-    void Awake()
+    private static GameObject HelmetColor;
+    private static Color ColorHelmets;
+
+    private void Awake()
     {
         UpdateColor(m_ColorHelmet);
     }
 
+    private void Start()
+    {
+        HelmetColor = m_HelmetColor;
+        ColorHelmets = m_ColorHelmet;
+    }
+
     public void UpdateColor(Color helmetColor)
     {
-        Renderer r = m_HelmetColor.GetComponent<Renderer>();
+        Renderer r = HelmetColor.GetComponent<Renderer>();
         if(r != null)
             r.material.color = helmetColor;
 
-        m_ColorHelmet = helmetColor;
+        ColorHelmets = helmetColor;
     }
 }
