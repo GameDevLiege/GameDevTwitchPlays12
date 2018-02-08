@@ -40,6 +40,7 @@ GameObject:
   - component: {fileID: 198004589157270506}
   - component: {fileID: 199057177220336912}
   - component: {fileID: 114388601850791592}
+  - component: {fileID: 114074295425494244}
   m_Layer: 0
   m_Name: CFX4 Drill Air Hit (NO COLLISION)
   m_TagString: FxTemporaire
@@ -153,6 +154,18 @@ Animator:
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
+--- !u!114 &114074295425494244
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1330102440555546}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 42e102f40a69d7741b2fcf45c4365ecb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_TimeToDestroy: 5
 --- !u!114 &114144035908605678
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -187,7 +200,7 @@ ParticleSystem:
   lengthInSec: 0.5
   simulationSpeed: 1
   stopAction: 0
-  looping: 0
+  looping: 1
   prewarm: 0
   playOnAwake: 1
   useUnscaledTime: 0
@@ -3431,7 +3444,7 @@ ParticleSystem:
   lengthInSec: 0.5
   simulationSpeed: 1
   stopAction: 0
-  looping: 0
+  looping: 1
   prewarm: 0
   playOnAwake: 1
   useUnscaledTime: 0
@@ -3481,7 +3494,7 @@ ParticleSystem:
   moveWithTransform: 0
   moveWithCustomTransform: {fileID: 0}
   scalingMode: 0
-  randomSeed: -389078673
+  randomSeed: -1812941843
   InitialModule:
     serializedVersion: 3
     enabled: 1
@@ -6729,7 +6742,7 @@ ParticleSystem:
   lengthInSec: 0.4
   simulationSpeed: 1
   stopAction: 0
-  looping: 0
+  looping: 1
   prewarm: 0
   playOnAwake: 1
   useUnscaledTime: 0
@@ -6779,7 +6792,7 @@ ParticleSystem:
   moveWithTransform: 0
   moveWithCustomTransform: {fileID: 0}
   scalingMode: 0
-  randomSeed: 569328624
+  randomSeed: 958017768
   InitialModule:
     serializedVersion: 3
     enabled: 1
@@ -10178,7 +10191,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300002, guid: 40971c6a154fa434ebdbcd57dc6cc494, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.43382353, g: 0.43382353, b: 0.43382353, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
