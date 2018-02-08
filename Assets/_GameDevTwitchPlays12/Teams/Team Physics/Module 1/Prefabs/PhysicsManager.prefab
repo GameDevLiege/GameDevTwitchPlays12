@@ -55,6 +55,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a42af8d687d7b4741b8485652d259f32, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_debug: 0
   m_helmetMoleBlue: {fileID: 2100000, guid: d4a2ea0955b5544429b83285fc6a28a9, type: 2}
   m_helmetMoleRed: {fileID: 2100000, guid: 8a8b3718294ea304186636e0f74d9964, type: 2}
   m_helmetMoleGreen: {fileID: 2100000, guid: 61944d398b07479408cacedf81ebcc86, type: 2}
