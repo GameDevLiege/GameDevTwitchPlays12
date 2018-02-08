@@ -148,7 +148,7 @@ public class TerritoryManager  : MonoBehaviour
             {
                 
                 positionOfCell = new Vector3(x * 1f, y * 1f, 0);
-                GameObject territoryPrefab = Instantiate(m_territoryPrefab, positionOfCell, Quaternion.Euler(-90,0,0), transform);
+                GameObject territoryPrefab = Instantiate(m_territoryPrefab, positionOfCell, Quaternion.identity, transform);
                 territoryPrefab.name = "y=" + positionOfCell.y + "x=" + positionOfCell.x;
                 //territoryPrefab.GetComponent<Territory>().Manager = this;
                 m_battleField[x,y] = territoryPrefab.GetComponent<Territory>();

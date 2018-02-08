@@ -20,7 +20,6 @@ GameObject:
   m_Component:
   - component: {fileID: 4227930700439214}
   - component: {fileID: 114680492895927922}
-  - component: {fileID: 114564638815517846}
   - component: {fileID: 114497032963642288}
   - component: {fileID: 114549905912933306}
   - component: {fileID: 114973090743218670}
@@ -60,8 +59,17 @@ MonoBehaviour:
   popSound: {fileID: 8300000, guid: 6565f2b2d9836784a8cc4a48fd6b80d3, type: 3}
   diggingSound: {fileID: 8300000, guid: d6ce10caf0f9b664cb529cccaa2bb98f, type: 3}
   paperSound: {fileID: 8300000, guid: ed8ee925b77bf134a933d6a2006b7925, type: 3}
+  m_territoryManager: {fileID: 114549905912933306}
+  m_glassesPrefab: {fileID: 100000, guid: 06695a3a43227434dbc2c6c24750dfd8, type: 3}
+  m_levelUpParticlePrefab: {fileID: 1276726333418774, guid: 6d3bae663be94d445bc54de9868d93bd,
+    type: 2}
+  m_holeInTheGround: {fileID: 1165955729980236, guid: f9da54080f512fd4cb0043528d730329,
+    type: 2}
   m_playerPrefab: {fileID: 1777216819808182, guid: 3195bba23efab7c418289113155faf91,
     type: 2}
+  m_goldPerCoinChest: 50
+  peebleImpactTime: 0
+  m_levelPrices: 7d00000013010000c20100008a02000084030000b00400000e0600009e07000060090000b80b0000a60e0000
 --- !u!114 &114549905912933306
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -87,26 +95,6 @@ MonoBehaviour:
   m_durationOfTick: 2
   eligibleTerritoryItem: []
   goldValue: 0
---- !u!114 &114564638815517846
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1437945112939992}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9c8705339d58f484f94161fe35262c2b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_glassesPrefab: {fileID: 1291077931438340, guid: 5785cc120bc4101439f8c4998d363b5d,
-    type: 2}
-  m_levelUpParticlePrefab: {fileID: 1276726333418774, guid: 6d3bae663be94d445bc54de9868d93bd,
-    type: 2}
-  m_holeInTheGround: {fileID: 1165955729980236, guid: f9da54080f512fd4cb0043528d730329,
-    type: 2}
-  m_goldPerCoinChest: 50
-  m_territoryManager: {fileID: 114549905912933306}
-  m_levelPrices: 7d00000013010000c20100008a02000084030000b00400000e0600009e07000060090000b80b0000a60e0000
 --- !u!114 &114680492895927922
 MonoBehaviour:
   m_ObjectHideFlags: 1
