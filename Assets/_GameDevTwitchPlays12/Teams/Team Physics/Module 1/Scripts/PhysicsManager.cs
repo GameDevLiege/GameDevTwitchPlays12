@@ -14,10 +14,12 @@ public class PhysicsManager : MonoBehaviour
     private static MyEndGameTimer m_onEndGameTimer;
     public float endTime = 1200f;
 
-    private Timer timerRed;
-    private Timer timerBlue;
-    private Timer timerGreen;
-    private Timer timerYellow;
+    public Timer timerRed;
+    public Timer timerBlue;
+    public Timer timerGreen;
+    public Timer timerYellow;
+    public Timer timerGame;
+
     private void Awake()
     {
         territoryManager = gameObject.GetComponent<TerritoryManager>();
@@ -25,7 +27,7 @@ public class PhysicsManager : MonoBehaviour
         factionManager= gameObject.GetComponent<FactionManager>();
         playerManager.m_territoryManager = territoryManager;
         AddEndGameTimerListener(EndGame);
-        Timer timerGame = gameObject.AddComponent<Timer>();
+        timerGame = gameObject.AddComponent<Timer>();
         LaunchGameTimer(endTime, timerGame);
         timerGame.StartTimer();
         Territory.AddPlayerListener(PlayerIsOnTerritory);
@@ -41,10 +43,10 @@ public class PhysicsManager : MonoBehaviour
 
     private void GlassWin()
     {
-        if (timerRed.timer==60F)m_onEndGameTimer(true,FactionManager.RED);
-        if (timerBlue.timer == 60F) m_onEndGameTimer(true, FactionManager.BLUE);
-        if (timerGreen.timer == 60F) m_onEndGameTimer(true, FactionManager.GREEN);
-        if (timerYellow.timer == 60F) m_onEndGameTimer(true, FactionManager.YELLOW);
+        if (timerRed.timer >= 60F) m_onEndGameTimer(true, FactionManager.RED);
+        if (timerBlue.timer >= 60F) m_onEndGameTimer(true, FactionManager.BLUE);
+        if (timerGreen.timer >= 60F) m_onEndGameTimer(true, FactionManager.GREEN);
+        if (timerYellow.timer >= 60F) m_onEndGameTimer(true, FactionManager.YELLOW);
 
     }
 
@@ -62,7 +64,7 @@ public class PhysicsManager : MonoBehaviour
 	// Update is called once per frame
 	void Update ()
     {
-		
+        
 	}
 
     public void StartGame()
