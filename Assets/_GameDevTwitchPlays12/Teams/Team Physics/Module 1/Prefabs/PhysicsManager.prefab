@@ -59,16 +59,13 @@ MonoBehaviour:
   m_helmetMoleRed: {fileID: 2100000, guid: 8a8b3718294ea304186636e0f74d9964, type: 2}
   m_helmetMoleGreen: {fileID: 2100000, guid: 61944d398b07479408cacedf81ebcc86, type: 2}
   m_helmetMoleYellow: {fileID: 2100000, guid: 55a6ee5296676814b962bdeff6361321, type: 2}
-  brawlSound: {fileID: 8300000, guid: c46b0c7270c0f5d4cb78a35ad12d9780, type: 3}
+  brawlSound: {fileID: 8300000, guid: 8a4c2aa50580938498e5abf82af8f732, type: 3}
   popSound: {fileID: 8300000, guid: 6565f2b2d9836784a8cc4a48fd6b80d3, type: 3}
   diggingSound: {fileID: 8300000, guid: d6ce10caf0f9b664cb529cccaa2bb98f, type: 3}
   paperSound: {fileID: 8300000, guid: ed8ee925b77bf134a933d6a2006b7925, type: 3}
-  hurtSound: {fileID: 8300000, guid: d710600aec027154a8cf9c00e591c030, type: 3}
-  coinSound: {fileID: 8300000, guid: 1009acd6c17bf9347bedcb324296cc18, type: 3}
-  grenadeSound: {fileID: 8300000, guid: ec37ae558529247468f068db7b0bf3c4, type: 3}
   hurtSound: {fileID: 8300000, guid: 9feccfc3dcf1f0a489069fef69a4110c, type: 3}
   coinSound: {fileID: 8300000, guid: bdb4ea1d0441a814ea5ab0f674433efe, type: 3}
-  grenadeSound: {fileID: 8300000, guid: 79a3e4393bb030c4d8ab71a9d4d7ea97, type: 3}
+  grenadeSound: {fileID: 8300000, guid: c428674279a5dd949a0625bf5bfd10c6, type: 3}
   m_glassesPrefab: {fileID: 1291077931438340, guid: c1a661685e5fbfe4e9a636c424c4f646,
     type: 2}
   m_levelUpParticlePrefab: {fileID: 1276726333418774, guid: 6d3bae663be94d445bc54de9868d93bd,
