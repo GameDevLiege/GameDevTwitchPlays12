@@ -100,6 +100,7 @@ public class Territory : MonoBehaviour
     #region Private Void
     IEnumerator UnlockAfterFight(Player player, Player potentialEnnemy)
     {
+        player.PlayBrawl();
         Instantiate(m_particleFightPrefab, player.transform);
         yield return new WaitForSeconds(2*m_territoryManager.m_durationOfTick);
         EnterBattle(player, potentialEnnemy);
@@ -115,7 +116,6 @@ public class Territory : MonoBehaviour
                 Player potentialEnnemy = player.CurrentTerritory.GetListOfPlayerOnThisTerritory()[i];
                 if (player.Faction.NumFaction != potentialEnnemy.Faction.NumFaction)
                 {
-                    Debug.Log("test 000");
                     Locked = true;
                     StartCoroutine(UnlockAfterFight(player, potentialEnnemy));
                 }
@@ -162,6 +162,7 @@ public class Territory : MonoBehaviour
                 ObjectsFollow.FollowCharacter(player.Glasses.transform, player.transform.position);
             }
         }
+        player.PlayPop();
     }
 
     private void OnTriggerEnter(Collider col)
