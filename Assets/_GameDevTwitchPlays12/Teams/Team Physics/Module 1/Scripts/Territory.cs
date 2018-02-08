@@ -178,6 +178,7 @@ public class Territory : MonoBehaviour
         {
             FactionChange(p);
         }
+
     }
     public void ColorChange(Color color) {
         
