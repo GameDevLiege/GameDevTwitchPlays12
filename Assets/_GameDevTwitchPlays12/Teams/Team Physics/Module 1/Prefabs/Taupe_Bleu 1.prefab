@@ -270,7 +270,7 @@ MeshFilter:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1777195361931500}
-  m_Mesh: {fileID: 4300000, guid: 8261a62c1b20934459aeb963afdd9a00, type: 3}
+  m_Mesh: {fileID: 4300000, guid: 6364d7cd029e1684a9544cef772859dc, type: 3}
 --- !u!33 &33878740276891460
 MeshFilter:
   m_ObjectHideFlags: 1
@@ -555,6 +555,6 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 8.67, y: 1.51}
+  m_AnchoredPosition: {x: 8.67, y: 2.3}
   m_SizeDelta: {x: 20, y: 5}
   m_Pivot: {x: 0.5, y: 0.5}
