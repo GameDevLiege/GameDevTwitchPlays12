@@ -1,19 +1,35 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class PlayerManager : MonoBehaviour
 {
+    public bool m_debug = true;
+    [Header ("materials mole helmet")]
+    public Material m_helmetMoleBlue;
+    public Material m_helmetMoleRed;
+    public Material m_helmetMoleGreen;
+    public Material m_helmetMoleYellow;
+    [Header("audio")]
     public AudioClip brawlSound;
     public AudioClip popSound;
     public AudioClip diggingSound;
     public AudioClip paperSound;
-    public TerritoryManager m_territoryManager;
+    public AudioClip hurtSound;
+    public AudioClip coinSound;
+    [Header("prefabsAnim")]
     public GameObject m_glassesPrefab;
     public GameObject m_levelUpParticlePrefab;
     public GameObject m_holeInTheGround;
     public GameObject m_playerPrefab;
+    public GameObject m_starStun;
+    public GameObject m_stoneThrow;
+    [Header("other")]
+    public TerritoryManager m_territoryManager;
     public int m_goldPerCoinChest = 50;
+    public int m_costOfGrenade = 50;
+    public int m_costOfShovel = 50;
     public float peebleImpactTime;
     public Dictionary<string, Player> listPlayerByName;
     public Dictionary<int, Player> listPlayerById;
@@ -51,10 +67,17 @@ public class PlayerManager : MonoBehaviour
     {
         numPlayer++;
         Player newPlayer;
-        GameObject NewPlayerGameObject = Instantiate(m_playerPrefab.gameObject, new Vector3(-5f, -5f, 0f), Quaternion.identity, transform);
+        GameObject NewPlayerGameObject = Instantiate(m_playerPrefab.gameObject, new Vector3(-5f, -5f, 0f), Quaternion.Euler(-90,0,0), transform);
+        foreach (Transform objTransform in NewPlayerGameObject.GetComponentsInChildren<Transform>())
+        {
+            if (objTransform.gameObject.name == "NumPlayer")
+            {
+                objTransform.localEulerAngles = new Vector3(90, 0, 0);
+            }
+        }
         //newPlayer.playerTransform = NewPlayerGameObject.transform;
         NewPlayerGameObject.name = name;
-        NewPlayerGameObject.GetComponentInChildren<TextMesh>().text = "" + numPlayer;
+        NewPlayerGameObject.GetComponentInChildren<TextMeshPro>().text = "" + numPlayer;
         newPlayer = NewPlayerGameObject.GetComponent<Player>();
         //newPlayer.playerTransform = NewPlayerGameObject.transform;
         newPlayer.Name = name;
@@ -62,6 +85,19 @@ public class PlayerManager : MonoBehaviour
         listPlayerByName.Add(name, newPlayer);
         listPlayerById.Add(numPlayer, newPlayer);
         AssignFactionToPlayers(newPlayer);
+        foreach (MeshFilter meshF in NewPlayerGameObject.GetComponentsInChildren<MeshFilter>())
+        {
+            if (meshF.gameObject.name == "Color")
+            {
+                switch (newPlayer.Faction.NumFaction)
+                {
+                    case 1:meshF.gameObject.GetComponent<MeshRenderer>().material = m_helmetMoleRed;break;
+                    case 2:meshF.gameObject.GetComponent<MeshRenderer>().material = m_helmetMoleBlue;break;
+                    case 3:meshF.gameObject.GetComponent<MeshRenderer>().material = m_helmetMoleGreen;break;
+                    case 4:meshF.gameObject.GetComponent<MeshRenderer>().material = m_helmetMoleYellow;break;
+                }
+            }
+        }
         return newPlayer;
     }
 
@@ -92,7 +128,16 @@ public class PlayerManager : MonoBehaviour
         }
         m_territoryManager.eligibleTerritoryItem.Add(player.CurrentTerritory);
     }
-
+    public void RotateMole(GameObject Mole, float angleY)
+    {
+        foreach (Transform objTransform in Mole.GetComponentsInChildren<Transform>())
+        {
+            if ((objTransform.gameObject.name == "MontyMole_MontyMole") || (objTransform.gameObject.name == "Helmet"))
+            {
+                objTransform.localEulerAngles = new Vector3(objTransform.localEulerAngles.x, angleY, objTransform.localEulerAngles.z);
+            }
+        }
+    }
     public void DoAction(string TypeOfMove, Player player,int idEnnemy=0)
     {
         if (!player.CurrentTerritory.Locked)//if in territorry locked means if in battle, so not accepting commands
@@ -103,7 +148,7 @@ public class PlayerManager : MonoBehaviour
             switch (TypeOfMove)
             {
                 case "UP":
-                    //player.gameObject.transform.rotation.SetLookRotation(new Vector3(0,0,0));
+                    RotateMole(player.gameObject, 0);
                     y = player.CurrentTerritory.transform.position.y + 1;
                     if (!(y > m_territoryManager.m_nbrYTerritories - 1))
                     {
@@ -112,15 +157,14 @@ public class PlayerManager : MonoBehaviour
                         if (!m_territoryManager.m_battleField[tempx, tempy].Locked)
                         {
                             player.CurrentTerritory.GetListOfPlayerOnThisTerritory().Remove(player);
-                            player.transform.Translate(0f, 1f, 0f);
+                            player.transform.Translate(0f, 0f, 1f);
                             player.CurrentTerritory = m_territoryManager.m_battleField[tempx, tempy];
-                            //TestForNearbyEnnemies(player);
                         }
                     }
                     break;
 
                 case "DOWN":
-                    //player.gameObject.transform.rotation.SetLookRotation(new Vector3(0, 180, 0));
+                    RotateMole(player.gameObject, 180);
                     y = player.CurrentTerritory.transform.position.y - 1;
                     if (!(y < 0))
                     {
@@ -129,15 +173,14 @@ public class PlayerManager : MonoBehaviour
                         if (!m_territoryManager.m_battleField[tempx, tempy].Locked)
                         {
                             player.CurrentTerritory.GetListOfPlayerOnThisTerritory().Remove(player);
-                            player.transform.Translate(0f, -1f, 0f);
+                            player.transform.Translate(0f, 0f, -1f);
                             player.CurrentTerritory = m_territoryManager.m_battleField[tempx, tempy];
-                            //TestForNearbyEnnemies(player);
                         }
                     }
                     break;
 
                 case "LEFT":
-                    //player.gameObject.transform.rotation.SetLookRotation(new Vector3(0, -90, 0));
+                    RotateMole(player.gameObject, -90);
                     x = player.CurrentTerritory.transform.position.x - 1;
                     if (!(x < 0))
                     {
@@ -148,13 +191,12 @@ public class PlayerManager : MonoBehaviour
                             player.CurrentTerritory.GetListOfPlayerOnThisTerritory().Remove(player);
                             player.transform.Translate(-1f, 0f, 0f);
                             player.CurrentTerritory = m_territoryManager.m_battleField[tempx, tempy];
-                            //TestForNearbyEnnemies(player);
                         }
                     }
                     break;
 
                 case "RIGHT":
-                    //player.gameObject.transform.rotation.SetLookRotation(new Vector3(0, 90, 0));
+                    RotateMole(player.gameObject, 90);
                     x = player.CurrentTerritory.transform.position.x + 1;
                     if (!(x > m_territoryManager.m_nbrXTerritories - 1))
                     {
@@ -165,7 +207,6 @@ public class PlayerManager : MonoBehaviour
                             player.CurrentTerritory.GetListOfPlayerOnThisTerritory().Remove(player);
                             player.transform.Translate(1f, 0f, 0f);
                             player.CurrentTerritory = m_territoryManager.m_battleField[tempx, tempy];
-                            //TestForNearbyEnnemies(player);
                         }
 
                     }
@@ -173,15 +214,20 @@ public class PlayerManager : MonoBehaviour
 
                 case "DIG":
                     Instantiate(m_holeInTheGround, player.CurrentTerritory.transform);
+                    player.PlayDig();
                     if (player.CurrentTerritory.HasItem)
                     {
+                        if(m_debug)
+                        {
+                            Debug.Log("PlayerManager: " + "player " + player.NumPlayer + " digged an item out");
+                        }
                         Item item = player.CurrentTerritory.TerritoryItem;
                         //item.m_PlayerAction = this;
 
                         if (item.ItemType == Item.e_itemType.COINCHEST)
                         {
                             player.Gold += m_goldPerCoinChest;
-
+                            player.PlayCoin();
                             //lance animation cedric
                         }
                         if (item.ItemType == Item.e_itemType.GLASSES)
@@ -194,10 +240,15 @@ public class PlayerManager : MonoBehaviour
                             //active objet glasses cedric
                         }
 
-                        if (item.ItemType == Item.e_itemType.PARCHEMENT)
+                        if (item.ItemType == Item.e_itemType.STRAIN)
+                        {
+                            player.PlayHurt();
+                        }
+                        else if (item.ItemType == Item.e_itemType.PARCHEMENT)
+                        {
                             player.PlayPaper();
-                        else
-                            player.PlayDig();
+                            Instantiate(m_starStun, player.transform);
+                        }
                         player.CurrentTerritory.HasItem = false;
                         Destroy(player.CurrentTerritory.gameObject.GetComponent("Item"));
                         ItemEvent.NotifyNewItem(item, player);
@@ -213,8 +264,8 @@ public class PlayerManager : MonoBehaviour
                     if (player.Gold > m_levelPrices[player.Level])
                     {
                         player.Gold -= m_levelPrices[player.Level];
-                        player.Level++;
-                        Instantiate(m_levelUpParticlePrefab, player.transform);
+                        player.Level= player.Level+1;//level not working?
+                        Instantiate(m_levelUpParticlePrefab, player.transform.position, Quaternion.EulerAngles(90,0,0), player.transform);
                     }
                     break;
 
@@ -239,6 +290,20 @@ public class PlayerManager : MonoBehaviour
                         if (listPlayerById.TryGetValue(2, out ennemy)) {
                             StartCoroutine(LaunchPebble(ennemy.CurrentTerritory.transform.position,player,ennemy));
                         }
+                    }
+                    break;
+                case "BUY_GRENADE":
+                    if (player.Gold > m_costOfGrenade)
+                    {
+                        player.Gold -= m_costOfGrenade;
+                        //add a grenade in inventory, ask diego
+                    }
+                    break;
+                case "BUY_SHOVEL":
+                    if (player.Gold > m_costOfShovel)
+                    {
+                        player.Gold -= m_costOfShovel;
+                        //add a shovel in inventory, ask diego
                     }
                     break;
             }

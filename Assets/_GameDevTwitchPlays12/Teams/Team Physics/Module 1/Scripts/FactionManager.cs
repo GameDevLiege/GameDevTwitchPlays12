@@ -40,10 +40,10 @@ public class FactionManager : MonoBehaviour {
     }
     private void LateUpdate()
     {
-        RED.UpdateInterfaceUI(m_interfaceUI);
-        BLUE.UpdateInterfaceUI(m_interfaceUI);
-        GREEN.UpdateInterfaceUI(m_interfaceUI);
-        YELLOW.UpdateInterfaceUI(m_interfaceUI);
+        RED.UpdateInterfaceUI("RED", m_interfaceUI);
+        BLUE.UpdateInterfaceUI("BLUE", m_interfaceUI);
+        GREEN.UpdateInterfaceUI("GREEN", m_interfaceUI);
+        YELLOW.UpdateInterfaceUI("YELLOW", m_interfaceUI);
     }
 
     public void DispatchMoney(Faction faction)
