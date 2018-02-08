@@ -24240,11 +24240,6 @@ Prefab:
       propertyPath: m_interfaceUI
       value: 
       objectReference: {fileID: 376051353}
-    - target: {fileID: 114549905912933306, guid: 0527597ae3320c04d948221566b99674,
-        type: 2}
-      propertyPath: m_debug
-      value: 0
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 0527597ae3320c04d948221566b99674, type: 2}
   m_IsPrefabParent: 0
@@ -72648,12 +72643,12 @@ Prefab:
     - target: {fileID: 224744146360891346, guid: afc50b9772483ab4f9876d8c106c7da2,
         type: 2}
       propertyPath: m_SizeDelta.y
-      value: 17.937937
+      value: 16.141235
       objectReference: {fileID: 0}
     - target: {fileID: 224317899750763882, guid: afc50b9772483ab4f9876d8c106c7da2,
         type: 2}
       propertyPath: m_SizeDelta.y
-      value: 17.937937
+      value: 16.141235
       objectReference: {fileID: 0}
     - target: {fileID: 224646925592084284, guid: afc50b9772483ab4f9876d8c106c7da2,
         type: 2}
@@ -72663,7 +72658,7 @@ Prefab:
     - target: {fileID: 224317899750763882, guid: afc50b9772483ab4f9876d8c106c7da2,
         type: 2}
       propertyPath: m_AnchoredPosition.y
-      value: 0.000027025626
+      value: 0.000011775218
       objectReference: {fileID: 0}
     - target: {fileID: 224539416211835602, guid: afc50b9772483ab4f9876d8c106c7da2,
         type: 2}
@@ -83841,7 +83836,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9a12d8e3b9f36154092593a7b3d5b2fa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_debug: 0
+  m_debug: 1
   m_physicsManager: {fileID: 503667308}
 --- !u!4 &1971605306
 Transform:
