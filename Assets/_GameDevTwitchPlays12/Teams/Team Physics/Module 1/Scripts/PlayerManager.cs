@@ -291,7 +291,7 @@ public class PlayerManager : MonoBehaviour
                     break;
                 case "SHOVEL"://handled by remi&françois
                     break;
-
+                    /*
                 case "PEBBLE":
                     if (player.NumberOfItem((int)Item.e_itemType.PEBBLE) > 0)
                     {
@@ -302,6 +302,7 @@ public class PlayerManager : MonoBehaviour
                         }
                     }
                     break;
+                    */
                 case "BUY_GRENADE":
                     if (player.Gold > m_costOfGrenade)
                     {

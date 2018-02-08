@@ -51,7 +51,7 @@ public class Faction
         set { m_goldReserves = value; }
     }
     public Territory RespawnPosition { get; set; }
-    /*
+    
     public void UpdateInterfaceUI(string faction, InterfaceManager IUI)
     {
         for(int i=0; i<m_listPlayer.Count;i++)
@@ -59,7 +59,7 @@ public class Faction
             Player p = m_listPlayer[i];
             IUI._placementPlayer(faction, i + 1, p.NumPlayer, p.Name, p.Level, p.Gold);
         }
-    }*/
+    }
     
     void StartCountDown()
     {

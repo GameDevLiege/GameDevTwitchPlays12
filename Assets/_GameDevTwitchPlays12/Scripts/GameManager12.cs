@@ -32,8 +32,13 @@ public class GameManager12 : MonoBehaviour
     protected void Start()
     {
         ChatAPI.AddListener(HandleMessage);
-        
+        //PhysicsManager.AddEndGameTimerListener(TimerFunction);
         ItemEvent.AddPickupListener(HandleEvent);
+    }
+
+    public void TimerFunction()
+    {
+
     }
 
     public void DoCommand(string username, int platformCode, ICommand command)
