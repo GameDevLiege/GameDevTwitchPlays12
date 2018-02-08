@@ -172,7 +172,7 @@ public class TerritoryManager  : MonoBehaviour
 
                 m_battleField[x,y].GetComponent<Territory>().IsCenter = true;
                 m_territoryInCentralZone++;
-                m_battleField[x, y].GetComponent<Territory>().ColorChange(Color.red);
+                m_battleField[x, y].GetComponent<Territory>().ColorChange(Color.magenta);
             }
         }
     }
@@ -194,31 +194,31 @@ public class TerritoryManager  : MonoBehaviour
     private void PlaceFactionHQ()
     {
         //LeftBottom
-        FactionManager.RED = AddFaction(m_battleField[0, 0],Color.red , 1);
-        MakeHq(m_battleField[0, 0], FactionManager.RED);
-        MakeHq(m_battleField[0, 1], FactionManager.RED);
-        MakeHq(m_battleField[1, 0], FactionManager.RED);
-        MakeHq(m_battleField[1, 1], FactionManager.RED);
+        FactionManager.BLUE = AddFaction(m_battleField[0, 0],Color.blue , 2);
+        MakeHq(m_battleField[0, 0], FactionManager.BLUE);
+        MakeHq(m_battleField[0, 1], FactionManager.BLUE);
+        MakeHq(m_battleField[1, 0], FactionManager.BLUE);
+        MakeHq(m_battleField[1, 1], FactionManager.BLUE);
         //RightBottom
-        FactionManager.BLUE= AddFaction(m_battleField[0, m_battleField.GetLength(1)-1], Color.blue , 2);
-        MakeHq(m_battleField[0, m_battleField.GetLength(1)-1], FactionManager.BLUE);
-        MakeHq(m_battleField[1, m_battleField.GetLength(1) - 1], FactionManager.BLUE);
-        MakeHq(m_battleField[1, m_battleField.GetLength(1) - 2], FactionManager.BLUE);
-        MakeHq(m_battleField[0, m_battleField.GetLength(1) - 2], FactionManager.BLUE);
+        FactionManager.RED= AddFaction(m_battleField[0, m_battleField.GetLength(1)-1], Color.red , 1);
+        MakeHq(m_battleField[0, m_battleField.GetLength(1)-1], FactionManager.RED);
+        MakeHq(m_battleField[1, m_battleField.GetLength(1) - 1], FactionManager.RED);
+        MakeHq(m_battleField[1, m_battleField.GetLength(1) - 2], FactionManager.RED);
+        MakeHq(m_battleField[0, m_battleField.GetLength(1) - 2], FactionManager.RED);
 
         //LeftTop
-        FactionManager.GREEN= AddFaction(m_battleField[m_battleField.GetLength(0) - 1, 0], Color.green, 3);
-        MakeHq(m_battleField[m_battleField.GetLength(0)-1, 0], FactionManager.GREEN);
-        MakeHq(m_battleField[m_battleField.GetLength(0)-1, 1], FactionManager.GREEN);
-        MakeHq(m_battleField[m_battleField.GetLength(0)-2, 1], FactionManager.GREEN);
-        MakeHq(m_battleField[m_battleField.GetLength(0)-2, 0], FactionManager.GREEN);
+        FactionManager.YELLOW= AddFaction(m_battleField[m_battleField.GetLength(0) - 1, 0], Color.yellow, 4);
+        MakeHq(m_battleField[m_battleField.GetLength(0)-1, 0], FactionManager.YELLOW);
+        MakeHq(m_battleField[m_battleField.GetLength(0)-1, 1], FactionManager.YELLOW);
+        MakeHq(m_battleField[m_battleField.GetLength(0)-2, 1], FactionManager.YELLOW);
+        MakeHq(m_battleField[m_battleField.GetLength(0)-2, 0], FactionManager.YELLOW);
 
         //RightTop
-        FactionManager.YELLOW = AddFaction(m_battleField[m_battleField.GetLength(1) - 1, m_battleField.GetLength(1) - 1], Color.yellow, 4);
-        MakeHq(m_battleField[m_battleField.GetLength(0) - 1, m_battleField.GetLength(1) - 1], FactionManager.YELLOW);
-        MakeHq(m_battleField[m_battleField.GetLength(0) - 1, m_battleField.GetLength(1) - 2], FactionManager.YELLOW);
-        MakeHq(m_battleField[m_battleField.GetLength(0) - 2, m_battleField.GetLength(1) - 1], FactionManager.YELLOW);
-        MakeHq(m_battleField[m_battleField.GetLength(0) - 2, m_battleField.GetLength(1) - 2], FactionManager.YELLOW);
+        FactionManager.GREEN = AddFaction(m_battleField[m_battleField.GetLength(1) - 1, m_battleField.GetLength(1) - 1], Color.green, 3);
+        MakeHq(m_battleField[m_battleField.GetLength(0) - 1, m_battleField.GetLength(1) - 1], FactionManager.GREEN);
+        MakeHq(m_battleField[m_battleField.GetLength(0) - 1, m_battleField.GetLength(1) - 2], FactionManager.GREEN);
+        MakeHq(m_battleField[m_battleField.GetLength(0) - 2, m_battleField.GetLength(1) - 1], FactionManager.GREEN);
+        MakeHq(m_battleField[m_battleField.GetLength(0) - 2, m_battleField.GetLength(1) - 2], FactionManager.GREEN);
 
     }
     public void MakeHq(Territory HQTerritory, Faction faction)
