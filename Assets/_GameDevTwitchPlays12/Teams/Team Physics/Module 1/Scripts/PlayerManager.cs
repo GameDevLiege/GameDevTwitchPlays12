@@ -19,6 +19,8 @@ public class PlayerManager : MonoBehaviour
     public GameObject m_levelUpParticlePrefab;
     public GameObject m_holeInTheGround;
     public GameObject m_playerPrefab;
+    public GameObject m_starStun;
+    public GameObject m_stoneThrow;
     [Header("other")]
     public TerritoryManager m_territoryManager;
     public int m_goldPerCoinChest = 50;
@@ -217,10 +219,15 @@ public class PlayerManager : MonoBehaviour
                             //active objet glasses cedric
                         }
 
-                        if (item.ItemType == Item.e_itemType.PARCHEMENT)
+                        if ((item.ItemType == Item.e_itemType.PARCHEMENT)|| (item.ItemType == Item.e_itemType.STRAIN))
+                        {
                             player.PlayPaper();
+                            Instantiate(m_starStun, player.transform);
+                        }
                         else
+                        {
                             player.PlayDig();
+                        }
                         player.CurrentTerritory.HasItem = false;
                         Destroy(player.CurrentTerritory.gameObject.GetComponent("Item"));
                         ItemEvent.NotifyNewItem(item, player);

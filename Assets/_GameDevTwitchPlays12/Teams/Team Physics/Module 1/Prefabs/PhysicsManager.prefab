@@ -70,6 +70,9 @@ MonoBehaviour:
     type: 2}
   m_playerPrefab: {fileID: 1777216819808182, guid: 3195bba23efab7c418289113155faf91,
     type: 2}
+  m_starStun: {fileID: 1560975861062504, guid: cc0ea3318a423c544a295671a4411912, type: 2}
+  m_stoneThrow: {fileID: 1429867349616640, guid: 84ec4cae591e5c74d80059eb8b159f03,
+    type: 2}
   m_territoryManager: {fileID: 114549905912933306}
   m_goldPerCoinChest: 50
   peebleImpactTime: 0
@@ -130,24 +133,6 @@ MonoBehaviour:
   userList:
   - Mole1
   - Mole2
-  - Mole3
-  - Mole4
-  - Mole5
-  - Mole6
-  - Mole7
-  - Mole8
-  - Mole9
-  - Mole10
-  - Mole11
-  - Mole12
-  - Mole13
-  - Mole14
-  - Mole15
-  - Mole16
-  - Mole17
-  - Mole18
-  - Mole19
-  - Mole20
   physicsManager: {fileID: 114680492895927922}
   isRandom: 1
   timeRoutine: 0.1
