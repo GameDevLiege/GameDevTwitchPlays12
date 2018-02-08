@@ -1,9 +1,11 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class PlayerManager : MonoBehaviour
 {
+    public bool m_debug = true;
     [Header ("materials mole helmet")]
     public Material m_helmetMoleBlue;
     public Material m_helmetMoleRed;
@@ -14,6 +16,9 @@ public class PlayerManager : MonoBehaviour
     public AudioClip popSound;
     public AudioClip diggingSound;
     public AudioClip paperSound;
+    public AudioClip hurtSound;
+    public AudioClip coinSound;
+    public AudioClip grenadeSound;
     [Header("prefabsAnim")]
     public GameObject m_glassesPrefab;
     public GameObject m_levelUpParticlePrefab;
@@ -24,6 +29,8 @@ public class PlayerManager : MonoBehaviour
     [Header("other")]
     public TerritoryManager m_territoryManager;
     public int m_goldPerCoinChest = 50;
+    public int m_costOfGrenade = 50;
+    public int m_costOfShovel = 50;
     public float peebleImpactTime;
     public Dictionary<string, Player> listPlayerByName;
     public Dictionary<int, Player> listPlayerById;
@@ -66,7 +73,7 @@ public class PlayerManager : MonoBehaviour
         }
         //newPlayer.playerTransform = NewPlayerGameObject.transform;
         NewPlayerGameObject.name = name;
-        NewPlayerGameObject.GetComponentInChildren<TextMesh>().text = "" + numPlayer;
+        NewPlayerGameObject.GetComponentInChildren<TextMeshPro>().text = "" + numPlayer;
         newPlayer = NewPlayerGameObject.GetComponent<Player>();
         //newPlayer.playerTransform = NewPlayerGameObject.transform;
         newPlayer.Name = name;
@@ -198,15 +205,20 @@ public class PlayerManager : MonoBehaviour
                     break;
                 case "DIG":
                     Instantiate(m_holeInTheGround, player.CurrentTerritory.transform);
+                    player.PlayDig();
                     if (player.CurrentTerritory.HasItem)
                     {
+                        if(m_debug)
+                        {
+                            Debug.Log("PlayerManager: " + "player " + player.NumPlayer + " digged an item out");
+                        }
                         Item item = player.CurrentTerritory.TerritoryItem;
                         //item.m_PlayerAction = this;
 
                         if (item.ItemType == Item.e_itemType.COINCHEST)
                         {
                             player.Gold += m_goldPerCoinChest;
-
+                            player.PlayCoin();
                             //lance animation cedric
                         }
                         if (item.ItemType == Item.e_itemType.GLASSES)
@@ -219,14 +231,14 @@ public class PlayerManager : MonoBehaviour
                             //active objet glasses cedric
                         }
 
-                        if ((item.ItemType == Item.e_itemType.PARCHEMENT)|| (item.ItemType == Item.e_itemType.STRAIN))
+                        if (item.ItemType == Item.e_itemType.STRAIN)
+                        {
+                            player.PlayHurt();
+                        }
+                        else if (item.ItemType == Item.e_itemType.PARCHEMENT)
                         {
                             player.PlayPaper();
                             Instantiate(m_starStun, player.transform);
-                        }
-                        else
-                        {
-                            player.PlayDig();
                         }
                         player.CurrentTerritory.HasItem = false;
                         Destroy(player.CurrentTerritory.gameObject.GetComponent("Item"));
@@ -242,8 +254,8 @@ public class PlayerManager : MonoBehaviour
                     if (player.Gold > m_levelPrices[player.Level])
                     {
                         player.Gold -= m_levelPrices[player.Level];
-                        player.Level++;
-                        Instantiate(m_levelUpParticlePrefab, player.transform);
+                        player.Level= player.Level+1;//level not working?
+                        Instantiate(m_levelUpParticlePrefab, player.transform.position, Quaternion.Euler(90,0,0), player.transform);
                     }
                     break;
                 case "GRENADE":
@@ -252,6 +264,7 @@ public class PlayerManager : MonoBehaviour
                     {
                         player.Inventory[(int)Item.e_itemType.GRENADES] -= 1;
                         LaunchGrenade(player);
+                        player.PlayGrenade();
                    }
 
                     break;
@@ -267,7 +280,20 @@ public class PlayerManager : MonoBehaviour
                             StartCoroutine(LaunchPebble(ennemy.CurrentTerritory.transform.position,player,ennemy));
                         }
                     }
-                    
+                    break;
+                case "BUY_GRENADE":
+                    if (player.Gold > m_costOfGrenade)
+                    {
+                        player.Gold -= m_costOfGrenade;
+                        //add a grenade in inventory, ask diego
+                    }
+                    break;
+                case "BUY_SHOVEL":
+                    if (player.Gold > m_costOfShovel)
+                    {
+                        player.Gold -= m_costOfShovel;
+                        //add a shovel in inventory, ask diego
+                    }
                     break;
             }
         }
