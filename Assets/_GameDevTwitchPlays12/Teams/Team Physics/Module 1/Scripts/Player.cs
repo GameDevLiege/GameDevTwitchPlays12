@@ -12,6 +12,7 @@ public class Player : MonoBehaviour
     public AudioClip paperSound;
     public AudioClip hurtSound;
     public AudioClip coinSound;
+    public AudioClip grenadeSound;
 
     public Faction Faction { get; set; }
     public Territory CurrentTerritory { get; set; }
@@ -75,5 +76,9 @@ public class Player : MonoBehaviour
     public void PlayPaper()
     {
         m_audioSource.PlayOneShot(paperSound);
+    }
+    public void PlayGrenade()
+    {
+        m_audioSource.PlayOneShot(grenadeSound);
     }
 }
