@@ -72643,12 +72643,12 @@ Prefab:
     - target: {fileID: 224744146360891346, guid: afc50b9772483ab4f9876d8c106c7da2,
         type: 2}
       propertyPath: m_SizeDelta.y
-      value: 16.141235
+      value: 17.21973
       objectReference: {fileID: 0}
     - target: {fileID: 224317899750763882, guid: afc50b9772483ab4f9876d8c106c7da2,
         type: 2}
       propertyPath: m_SizeDelta.y
-      value: 16.141235
+      value: 17.21973
       objectReference: {fileID: 0}
     - target: {fileID: 224646925592084284, guid: afc50b9772483ab4f9876d8c106c7da2,
         type: 2}
@@ -72658,7 +72658,7 @@ Prefab:
     - target: {fileID: 224317899750763882, guid: afc50b9772483ab4f9876d8c106c7da2,
         type: 2}
       propertyPath: m_AnchoredPosition.y
-      value: 0.000011775218
+      value: 0.000027033992
       objectReference: {fileID: 0}
     - target: {fileID: 224539416211835602, guid: afc50b9772483ab4f9876d8c106c7da2,
         type: 2}
@@ -83863,7 +83863,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 06f860b12491902469881a7a4082cfb5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_transform: {fileID: 1971605306}
   gameManager: {fileID: 1971605305}
   debug: 0
   maxMovement: 5

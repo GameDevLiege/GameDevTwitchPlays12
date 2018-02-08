@@ -31,15 +31,14 @@ public class GameManager12 : MonoBehaviour
 
     protected void Start()
     {
-        // Either lead to Nothing, Feedback user or influence the game.
         ChatAPI.AddListener(HandleMessage);
-
-        // Item pickups influences the cooldown on the CommandManager
-        //SpecialAPI.AddListener(HandleEvent);
-
+        //PhysicsManager.AddEndGameTimerListener(TimerFunction);
         ItemEvent.AddPickupListener(HandleEvent);
+    }
 
-        //ItemEvent.AddUseListener(); //Pour UI
+    public void TimerFunction()
+    {
+
     }
 
     public void DoCommand(string username, int platformCode, ICommand command)
@@ -108,15 +107,25 @@ public class GameManager12 : MonoBehaviour
 
         //if (item.EffectType == Item.e_effectType.INSTANT) ;
 
+        /*
+        switch (item.EffectType)
+        {
+            case Item.e_effectType.INSTANT:
+                break;
+            case Item.e_effectType.INVENTORY:
+                break;
+            default:
+                break;
+        }
+        //*/
         switch (item.ItemType)
         {
-        //    case Item.e_itemType.PEBBLE:
-        //        break;
             case Item.e_itemType.COINCHEST:
-                float goldChest = item.goldValue; //TODO
+                float goldChest = item.goldValue; 
+                //TODO : déjà ajouté à l'or du joueur + son, juste le prévenir dans le chat
                 break;
-        //    case Item.e_itemType.GRENADES:
-        //        break;
+            case Item.e_itemType.GRENADES:
+                break;
             case Item.e_itemType.SHOVEL:
                 break;
             case Item.e_itemType.PARCHEMENT:
