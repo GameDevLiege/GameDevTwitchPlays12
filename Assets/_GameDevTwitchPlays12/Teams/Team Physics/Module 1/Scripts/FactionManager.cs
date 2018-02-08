@@ -16,6 +16,7 @@ public class FactionManager : MonoBehaviour {
     public static Faction GREEN { get; set; }
     public static Faction YELLOW { get; set; }
     private bool m_timerFinished = true;
+
     // Use this for initialization
     void Start () {
         RED = new Faction();
@@ -37,8 +38,10 @@ public class FactionManager : MonoBehaviour {
         goldAmountYELLOW = YELLOW.GoldReserves;
         
     }
-    private void LateUpdate()
+
+    private void UpdateUI()
     {
+
         RED.UpdateInterfaceUI("RED", m_interfaceUI);
         BLUE.UpdateInterfaceUI("BLUE", m_interfaceUI);
         GREEN.UpdateInterfaceUI("GREEN", m_interfaceUI);
@@ -67,6 +70,7 @@ public class FactionManager : MonoBehaviour {
         DispatchMoney(BLUE);
         DispatchMoney(GREEN);
         DispatchMoney(YELLOW);
+        UpdateUI();
         m_timerFinished = true;
     }
 }

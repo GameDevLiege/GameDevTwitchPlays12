@@ -18,6 +18,7 @@ public class PlayerManager : MonoBehaviour
     public AudioClip paperSound;
     public AudioClip hurtSound;
     public AudioClip coinSound;
+    public AudioClip grenadeSound;
     [Header("prefabsAnim")]
     public GameObject m_glassesPrefab;
     public GameObject m_levelUpParticlePrefab;
@@ -254,7 +255,7 @@ public class PlayerManager : MonoBehaviour
                     {
                         player.Gold -= m_levelPrices[player.Level];
                         player.Level= player.Level+1;//level not working?
-                        Instantiate(m_levelUpParticlePrefab, player.transform.position, Quaternion.EulerAngles(90,0,0), player.transform);
+                        Instantiate(m_levelUpParticlePrefab, player.transform.position, Quaternion.Euler(90,0,0), player.transform);
                     }
                     break;
                 case "GRENADE":
@@ -263,6 +264,7 @@ public class PlayerManager : MonoBehaviour
                     {
                         player.Inventory[(int)Item.e_itemType.GRENADES] -= 1;
                         LaunchGrenade(player);
+                        player.PlayGrenade();
                    }
 
                     break;

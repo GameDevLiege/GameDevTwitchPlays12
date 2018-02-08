@@ -80,7 +80,7 @@ MeshRenderer:
   m_GameObject: {fileID: 1790345829325254}
   m_Enabled: 1
   m_CastShadows: 1
-  m_ReceiveShadows: 1
+  m_ReceiveShadows: 0
   m_DynamicOccludee: 1
   m_MotionVectors: 1
   m_LightProbeUsage: 1
@@ -136,3 +136,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: adc71ab4f8953aa4982c6ddd50052acc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_particleFightPrefab: {fileID: 0}
+  m_territoryID: 
+  m_territoryMeshRenderer: {fileID: 0}
+  m_hasItem: 0
+  m_isHQ: 0
+  m_isCenter: 0
+  m_currentColor: {r: 1, g: 1, b: 1, a: 1}
