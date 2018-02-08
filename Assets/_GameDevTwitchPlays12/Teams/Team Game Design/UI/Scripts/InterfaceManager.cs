@@ -29,8 +29,6 @@ public class InterfaceManager : MonoBehaviour {
 
     public void _placementPlayer(string _faction,int _numPos, int _numPlayer, string _nom, int _lvl, int _argent)
     {
-
-
         if (_faction == "RED")
         {
             if (_numPos == 1)
