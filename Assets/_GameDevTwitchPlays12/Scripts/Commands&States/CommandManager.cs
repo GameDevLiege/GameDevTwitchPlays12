@@ -29,7 +29,7 @@ public class CommandManager : DualBehaviour, ICommandManager
     public void Parse(string _username, int _plateform, string _message, long _time)
     {
         string userID = _plateform + " " + _username;
-        _message = _message.ToUpper();
+        _message = _message.ToUpper().Trim();
 
         if (!string.IsNullOrEmpty(_message))
         {
@@ -37,8 +37,8 @@ public class CommandManager : DualBehaviour, ICommandManager
             {
                 if (CommandIsValid(_message))
                 {
-                    string[] splitedMesage = SplitMessage(_message);
-                    splitedMesage[0] = ParseCommand(splitedMesage[0]);
+                    string[] splitedMessage = SplitMessage(_message);
+                    splitedMessage[0] = ParseCommand(splitedMessage[0]);
 
                     if (_message.Equals(firstCommmandCharacter + "JOIN"))
                     {
@@ -95,15 +95,15 @@ public class CommandManager : DualBehaviour, ICommandManager
                     {
                         gameManager.DoCommand(_username, _plateform, new Command("Please wait for your cooldown to be over!", true));
                     }
-                    else if (splitedMesage.Length == 2)
+                    else if (splitedMessage.Length == 2)
                     {
-                        if (ArgsIsValid(splitedMesage[1]))
+                        if (ArgsIsValid(splitedMessage[1]))
                         {
                             int number;
-                            int.TryParse(splitedMesage[1], out number);
+                            int.TryParse(splitedMessage[1], out number);
                             userDataBase[userID].AddState("MOVE", (_time + (number * cd)));
 
-                            StartCoroutine(Iteration(_username, _plateform, new Command(splitedMesage[0], false), number, userID));
+                            StartCoroutine(Iteration(_username, _plateform, new Command(splitedMessage[0], false), number, userID));
                         }
                         else
                         {
@@ -113,7 +113,7 @@ public class CommandManager : DualBehaviour, ICommandManager
                     else
                     {
                         userDataBase[userID].time = _time;
-                        gameManager.DoCommand(_username, _plateform, new Command(splitedMesage[0], false));
+                        gameManager.DoCommand(_username, _plateform, new Command(splitedMessage[0], false));
                     }
                 }
                 else
@@ -225,13 +225,20 @@ public class CommandManager : DualBehaviour, ICommandManager
     {
         bool isValid = false;
 
-        if (SplitMessage(_message).Length <= 2)
-        { 
+        string[] splitedMessage = SplitMessage(_message);
+
+        if (splitedMessage.Length <= 2)
+        {
             for (int i = 0; i < validCommand.Count; i++)
             {
-                if (SplitMessage(_message)[0].Equals(firstCommmandCharacter + validCommand[i]))
+                if (splitedMessage[0].Equals(firstCommmandCharacter + validCommand[i]))
                 {
                     isValid = true;
+                    break;
+                }
+                else
+                {
+                    isValid = false;
                 }
             }
         }
@@ -318,8 +325,8 @@ public class CommandManager : DualBehaviour, ICommandManager
         "JOIN"      ,
         "U"         ,
         "D"         ,
-        "R"         ,
         "L"         ,
+        "R"         ,
         "LEVELUP"   ,
     };
 
