@@ -70,6 +70,9 @@ MonoBehaviour:
     type: 2}
   m_playerPrefab: {fileID: 1777216819808182, guid: 3195bba23efab7c418289113155faf91,
     type: 2}
+  m_starStun: {fileID: 1560975861062504, guid: cc0ea3318a423c544a295671a4411912, type: 2}
+  m_stoneThrow: {fileID: 1429867349616640, guid: 84ec4cae591e5c74d80059eb8b159f03,
+    type: 2}
   m_territoryManager: {fileID: 114549905912933306}
   m_goldPerCoinChest: 50
   peebleImpactTime: 0
