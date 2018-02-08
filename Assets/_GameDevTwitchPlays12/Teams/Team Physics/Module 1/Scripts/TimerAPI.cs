@@ -5,12 +5,11 @@ public class TimerAPI
 {
     public delegate void MyTimer(bool end);
     public delegate void MyTerritoryTimer(bool endLock);
-    public delegate void MyEndGameTimer(bool endGame);
     public delegate void MyEndGameGlassTimer(bool endGame);
     private static MyTimer m_onTimer;
     private static MyTerritoryTimer m_onTerritoryTimer;
-    private static MyEndGameTimer m_onEndGameTimer;
     private static MyEndGameGlassTimer m_onEndGameGlassTimer;
+
     #region Listener
     public static void AddTimerListener(MyTimer timer)
     {
@@ -34,16 +33,6 @@ public class TimerAPI
 
     }
 
-    public static void AddEndGameTimerListener(MyEndGameTimer timer)
-    {
-        m_onEndGameTimer += timer;
-
-    }
-    public static void RemoveEndGameTimeListener(MyEndGameTimer timer)
-    {
-        m_onEndGameTimer -= timer;
-
-    }
     public static void AddEndGameGlassTimerListener(MyEndGameGlassTimer timer)
     {
         m_onEndGameGlassTimer += timer;
@@ -62,11 +51,6 @@ public class TimerAPI
         m_onTimer(true);
     }
 
-    public static void NotifyEndGame()
-    {
-        m_onEndGameTimer(true);
-    }
-
     public static void NotifyEndGameGlass()
     {
         m_onEndGameGlassTimer(true);
@@ -79,31 +63,20 @@ public class TimerAPI
 
     #endregion
 
-
     public static void LaunchTimer(float seconds, Timer timer)
     {
         timer.LoadTimer(seconds, NotifyEndTimer);
     }
 
-    public static void LaunchGameTimer(float seconds, Timer timer)
-    {
-
-        timer.LoadTimer(seconds, NotifyEndGame);
-
-    }
-
     public static void LaunchGlassTimer(float seconds, Timer timer)
     {
-
         timer.LoadTimer(seconds, NotifyEndGameGlass);
     }
+
     public static void LaunchTerritoryLockTimer(float seconds, Timer timer)
     {
         timer.LoadTimer(seconds, NotifyTerritoryUnlock);
     }
-
-
-
 }
 
 

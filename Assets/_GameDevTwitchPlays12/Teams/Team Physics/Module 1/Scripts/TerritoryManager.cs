@@ -325,7 +325,7 @@ public class TerritoryManager  : MonoBehaviour
                         {
                             FoundRightPlace = true;
                             m_battleField[y,x].gameObject.AddComponent<Item>();
-                            int B = Random.Range(1, 7);//random range takes argument 1 inclusive argument 2 exclusive
+                            int B = Random.Range(1, 6);//random range takes argument 1 inclusive argument 2 exclusive
                             switch (B)
                             {
                                 case 1:
@@ -341,14 +341,10 @@ public class TerritoryManager  : MonoBehaviour
                                     m_battleField[y, x].GetComponent<Item>().EffectType=Item.e_effectType.INVENTORY;
                                     break;
                                 case 4:
-                                    m_battleField[y,x].GetComponent<Item>().ItemType=Item.e_itemType.PEBBLE;
-                                    m_battleField[y, x].GetComponent<Item>().EffectType=Item.e_effectType.INSTANT;
-                                    break;
-                                case 5:
                                     m_battleField[y,x].GetComponent<Item>().ItemType=Item.e_itemType.SHOVEL;
                                     m_battleField[y, x].GetComponent<Item>().EffectType=Item.e_effectType.INVENTORY;
                                     break;
-                                case 6:
+                                case 5:
                                     m_battleField[y,x].GetComponent<Item>().ItemType=Item.e_itemType.STRAIN;
                                     m_battleField[y, x].GetComponent<Item>().EffectType=Item.e_effectType.INSTANT;
                                     break;

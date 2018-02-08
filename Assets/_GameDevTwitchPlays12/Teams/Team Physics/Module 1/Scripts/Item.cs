@@ -12,12 +12,11 @@ public class Item : MonoBehaviour
     public enum e_itemType
     {
         GLASSES = 0,
-        PEBBLE = 1,
-        COINCHEST = 2,
-        GRENADES = 3,
-        SHOVEL = 4,
-        PARCHEMENT = 5,
-        STRAIN = 6
+        COINCHEST = 1,
+        GRENADES = 2,
+        SHOVEL = 3,
+        PARCHEMENT = 4,
+        STRAIN = 5
 
     }
     public enum e_effectType
@@ -61,9 +60,6 @@ public class Item : MonoBehaviour
         switch (type)
         {
             case e_itemType.GLASSES:
-                m_effectType = e_effectType.INVENTORY;
-                break;
-            case e_itemType.PEBBLE:
                 m_effectType = e_effectType.INVENTORY;
                 break;
             case e_itemType.COINCHEST:
