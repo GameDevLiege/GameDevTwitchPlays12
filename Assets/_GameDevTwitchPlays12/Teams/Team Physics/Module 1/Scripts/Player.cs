@@ -10,6 +10,9 @@ public class Player : MonoBehaviour
     public AudioClip popSound;
     public AudioClip diggingSound;
     public AudioClip paperSound;
+    public AudioClip hurtSound;
+    public AudioClip coinSound;
+
     public Faction Faction { get; set; }
     public Territory CurrentTerritory { get; set; }
     public bool HasGlasses { get; set; }
@@ -46,6 +49,16 @@ public class Player : MonoBehaviour
         popSound = m_playerManager.popSound;
         diggingSound= m_playerManager.diggingSound;
         paperSound=m_playerManager.paperSound;
+        hurtSound= m_playerManager.hurtSound;
+        coinSound=m_playerManager.coinSound;
+    }
+    public void PlayCoin()
+    {
+        m_audioSource.PlayOneShot(coinSound);
+    }
+    public void PlayHurt()
+    {
+        m_audioSource.PlayOneShot(hurtSound);
     }
     public void PlayBrawl()
     {
