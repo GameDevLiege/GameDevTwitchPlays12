@@ -6,7 +6,7 @@ using System.Linq;
 using System;
 using UnityEngine.UI;
 
-public class CommandManager : DualBehaviour, ICommandManager
+public class CommandManager : MonoBehaviour, ICommandManager
 {
     #region Public Var
 
@@ -28,9 +28,13 @@ public class CommandManager : DualBehaviour, ICommandManager
 
     #region Public Func
 
-    public void Parse(string _username, int _plateform, string _message, long _time)
+    private void Awake()
     {
         cooldown = cooldown * 10000000;
+    }
+
+    public void Parse(string _username, int _plateform, string _message, long _time)
+    {
         string userID = _plateform + " " + _username;
         _message = _message.ToUpper().Trim();
 
@@ -136,7 +140,7 @@ public class CommandManager : DualBehaviour, ICommandManager
                         {
                             int number;
                             int.TryParse(splitedMessage[1], out number);
-                            userDataBase[userID].AddState("MOVE", (_time + (number * cooldown)));
+                            userDataBase[userID].AddState("MOVE", (_time + (cooldown)));
 
                             StartCoroutine(Iteration(_username, _plateform, new Command(splitedMessage[0], false), number, userID));
                         }
@@ -213,8 +217,8 @@ public class CommandManager : DualBehaviour, ICommandManager
             if ((userDataBase[userID].states.ContainsKey("MOVE")))
             {
                 gameManager.DoCommand(_username, _plateform, _command);
-
-                yield return new WaitForSeconds(cooldown);
+                yield return new WaitForSeconds((float)cooldown/10000000f);
+                userDataBase[userID].states["MOVE"].time += cooldown;
             }
         }
         userDataBase[userID].RemoveState("MOVE");
@@ -366,9 +370,6 @@ public class CommandManager : DualBehaviour, ICommandManager
             oldTime = 0;   
         }
         long value = _time - oldTime;
-
-        Debug.Log("new : "+_time+" - old : "+oldTime+" = Value : "+value);
-
 
         if (value < cooldown)
         {
