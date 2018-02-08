@@ -254,7 +254,7 @@ public class PlayerManager : MonoBehaviour
                     {
                         player.Gold -= m_levelPrices[player.Level];
                         player.Level= player.Level+1;//level not working?
-                        Instantiate(m_levelUpParticlePrefab, player.transform);
+                        Instantiate(m_levelUpParticlePrefab, player.transform.position, Quaternion.EulerAngles(90,0,0), player.transform);
                     }
                     break;
                 case "GRENADE":
