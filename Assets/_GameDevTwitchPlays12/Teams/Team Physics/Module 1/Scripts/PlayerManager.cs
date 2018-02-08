@@ -248,7 +248,8 @@ public class PlayerManager : MonoBehaviour
                         else if (item.ItemType == Item.e_itemType.PARCHEMENT)
                         {
                             player.PlayPaper();
-                            Instantiate(m_starStun, player.transform);
+                            GameObject parchement = Instantiate(m_starStun);
+                            ObjectsFollow.FollowCharacter(parchement.transform, player.transform.position);
                         }
                         else
                         {
@@ -270,7 +271,11 @@ public class PlayerManager : MonoBehaviour
                     {
                         player.Gold -= m_levelPrices[player.Level];
                         player.Level= player.Level+1;
-                        Instantiate(m_levelUpParticlePrefab, player.transform);
+
+                        
+                        GameObject level = Instantiate(m_levelUpParticlePrefab);
+                        ObjectsFollow.FollowCharacter(level.transform, player.transform.position);
+
                     }
                     break;
 
@@ -281,10 +286,10 @@ public class PlayerManager : MonoBehaviour
                         player.Inventory[(int)Item.e_itemType.GRENADES] -= 1;
                         LaunchGrenade(player);
                         player.PlayGrenade();
-                   }
-                   break;
+                    }
 
-                case "SHOVEL":
+                    break;
+                case "SHOVEL"://handled by remi&françois
                     break;
 
                 case "PEBBLE":
