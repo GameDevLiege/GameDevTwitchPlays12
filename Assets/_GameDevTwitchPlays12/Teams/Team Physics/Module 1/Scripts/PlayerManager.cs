@@ -270,6 +270,10 @@ public class PlayerManager : MonoBehaviour
                     if (player.Gold > m_costOfGrenade)
                     {
                         player.Gold -= m_costOfGrenade;
+                        if (player.NumberOfItem(2) > 0)
+                            player.Inventory.Add(2, 1);
+                        else
+                            player.Inventory[2] += 1;
                         //add a grenade in inventory, ask diego
                     }
                     break;
@@ -277,6 +281,10 @@ public class PlayerManager : MonoBehaviour
                     if (player.Gold > m_costOfShovel)
                     {
                         player.Gold -= m_costOfShovel;
+                        if (player.NumberOfItem(3) > 0)
+                            player.Inventory.Add(3, 1);
+                        else
+                            player.Inventory[3] += 1;
                         //add a shovel in inventory, ask diego
                     }
                     break;
