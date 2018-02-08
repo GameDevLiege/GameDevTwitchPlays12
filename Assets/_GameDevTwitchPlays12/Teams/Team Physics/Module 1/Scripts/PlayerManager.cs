@@ -274,7 +274,6 @@ public class PlayerManager : MonoBehaviour
                             player.Inventory.Add(2, 1);
                         else
                             player.Inventory[2] += 1;
-                        //add a grenade in inventory, ask diego
                     }
                     break;
                 case "BUY_SHOVEL":
@@ -285,7 +284,6 @@ public class PlayerManager : MonoBehaviour
                             player.Inventory.Add(3, 1);
                         else
                             player.Inventory[3] += 1;
-                        //add a shovel in inventory, ask diego
                     }
                     break;
             }
