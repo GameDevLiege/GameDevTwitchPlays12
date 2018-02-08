@@ -1,0 +1,167 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &100100000
+Prefab:
+  m_ObjectHideFlags: 1
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications: []
+    m_RemovedComponents: []
+  m_ParentPrefab: {fileID: 0}
+  m_RootGameObject: {fileID: 1437945112939992}
+  m_IsPrefabParent: 1
+--- !u!1 &1437945112939992
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 4227930700439214}
+  - component: {fileID: 114680492895927922}
+  - component: {fileID: 114497032963642288}
+  - component: {fileID: 114549905912933306}
+  - component: {fileID: 114973090743218670}
+  - component: {fileID: 114768608139595552}
+  m_Layer: 0
+  m_Name: PhysicsManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4227930700439214
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1437945112939992}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &114497032963642288
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1437945112939992}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a42af8d687d7b4741b8485652d259f32, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  brawlSound: {fileID: 8300000, guid: 8a4c2aa50580938498e5abf82af8f732, type: 3}
+  popSound: {fileID: 8300000, guid: 6565f2b2d9836784a8cc4a48fd6b80d3, type: 3}
+  diggingSound: {fileID: 8300000, guid: d6ce10caf0f9b664cb529cccaa2bb98f, type: 3}
+  paperSound: {fileID: 8300000, guid: ed8ee925b77bf134a933d6a2006b7925, type: 3}
+  m_territoryManager: {fileID: 114549905912933306}
+  m_glassesPrefab: {fileID: 100000, guid: 06695a3a43227434dbc2c6c24750dfd8, type: 3}
+  m_levelUpParticlePrefab: {fileID: 1276726333418774, guid: 6d3bae663be94d445bc54de9868d93bd,
+    type: 2}
+  m_holeInTheGround: {fileID: 1165955729980236, guid: f9da54080f512fd4cb0043528d730329,
+    type: 2}
+  m_playerPrefab: {fileID: 1777216819808182, guid: 3195bba23efab7c418289113155faf91,
+    type: 2}
+  m_goldPerCoinChest: 50
+  peebleImpactTime: 0
+  m_levelPrices: 7d00000013010000c20100008a02000084030000b00400000e0600009e07000060090000b80b0000a60e0000
+--- !u!114 &114549905912933306
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1437945112939992}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f8565d3106c139a46b0865fa5c3c7bc6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_particleFightPrefab: {fileID: 1548860025632018, guid: ef2886098b00d234c87d1852de21a06f,
+    type: 2}
+  m_territoryPrefab: {fileID: 1474048045028684, guid: 3708501789e19db468ac285a2d96ceb0,
+    type: 2}
+  m_debug: 0
+  m_sizeOfDiceItem: 5
+  m_nbrXTerritories: 33
+  m_nbrYTerritories: 33
+  numberOfitems: 100
+  m_territoryInCentralZone: 0
+  m_headQuarter: 0
+  m_durationOfTick: 2
+  eligibleTerritoryItem: []
+  goldValue: 0
+--- !u!114 &114680492895927922
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1437945112939992}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6a3ed7df803cc174a841257fddda435e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &114768608139595552
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1437945112939992}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d9afe8092e544fd479e08ec669e4d685, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  commandList:
+  - RIGHT
+  - UP
+  - DOWN
+  - LEFT
+  - DIG
+  userList:
+  - Mole1
+  - Mole2
+  - Mole3
+  - Mole4
+  - Mole5
+  - Mole6
+  - Mole7
+  - Mole8
+  - Mole9
+  - Mole10
+  - Mole11
+  - Mole12
+  - Mole13
+  - Mole14
+  - Mole15
+  - Mole16
+  - Mole17
+  - Mole18
+  - Mole19
+  - Mole20
+  physicsManager: {fileID: 114680492895927922}
+  isRandom: 1
+  timeRoutine: 0.1
+--- !u!114 &114973090743218670
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1437945112939992}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bea1b331e086f54408c2846de07e5ec7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_interfaceUI: {fileID: 0}
+  m_timeBetweenPayDay: 1
+  m_incomePerTerritory: 1
+  goldAmountRED: 0
+  goldAmountBLUE: 0
+  goldAmountYELLOW: 0
+  goldAmountGREEN: 0
