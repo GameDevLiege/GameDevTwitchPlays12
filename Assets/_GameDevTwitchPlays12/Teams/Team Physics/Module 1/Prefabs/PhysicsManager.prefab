@@ -63,6 +63,8 @@ MonoBehaviour:
   popSound: {fileID: 8300000, guid: 6565f2b2d9836784a8cc4a48fd6b80d3, type: 3}
   diggingSound: {fileID: 8300000, guid: d6ce10caf0f9b664cb529cccaa2bb98f, type: 3}
   paperSound: {fileID: 8300000, guid: ed8ee925b77bf134a933d6a2006b7925, type: 3}
+  hurtSound: {fileID: 8300000, guid: d710600aec027154a8cf9c00e591c030, type: 3}
+  coinSound: {fileID: 8300000, guid: 1009acd6c17bf9347bedcb324296cc18, type: 3}
   m_glassesPrefab: {fileID: 100000, guid: 06695a3a43227434dbc2c6c24750dfd8, type: 3}
   m_levelUpParticlePrefab: {fileID: 1276726333418774, guid: 6d3bae663be94d445bc54de9868d93bd,
     type: 2}
@@ -75,6 +77,8 @@ MonoBehaviour:
     type: 2}
   m_territoryManager: {fileID: 114549905912933306}
   m_goldPerCoinChest: 50
+  m_costOfGrenade: 50
+  m_costOfShovel: 50
   peebleImpactTime: 0
   m_levelPrices: 7d00000013010000c20100008a02000084030000b00400000e0600009e07000060090000b80b0000a60e0000
 --- !u!114 &114549905912933306
