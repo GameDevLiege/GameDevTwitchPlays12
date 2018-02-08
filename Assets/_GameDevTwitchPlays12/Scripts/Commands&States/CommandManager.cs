@@ -31,13 +31,14 @@ public class CommandManager : DualBehaviour, ICommandManager
         string userID = _plateform + " " + _username;
         _message = _message.ToUpper();
 
-        if (!MessageIsNull(_message))
+        if (!string.IsNullOrEmpty(_message))
         {
             if (StartAsCommand(_message))
             {
                 if (CommandIsValid(_message))
                 {
                     string[] splitedMesage = SplitMessage(_message);
+                    splitedMesage[0] = ParseCommand(splitedMesage[0]);
 
                     if (_message.Equals(firstCommmandCharacter + "JOIN"))
                     {
@@ -112,7 +113,6 @@ public class CommandManager : DualBehaviour, ICommandManager
                     else
                     {
                         userDataBase[userID].time = _time;
-                        splitedMesage[0] = ParseCommand(splitedMesage[0]);
                         gameManager.DoCommand(_username, _plateform, new Command(splitedMesage[0], false));
                     }
                 }
@@ -170,6 +170,7 @@ public class CommandManager : DualBehaviour, ICommandManager
                 yield return new WaitForSeconds(cd);
             }
         }
+        userDataBase[userID].RemoveState("MOVE");
     }
 
     private bool ArgsIsValid(string arg)
