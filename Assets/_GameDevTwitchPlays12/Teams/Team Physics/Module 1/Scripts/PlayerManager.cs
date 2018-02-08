@@ -4,15 +4,23 @@ using UnityEngine;
 
 public class PlayerManager : MonoBehaviour
 {
+    [Header ("materials mole helmet")]
+    public Material m_helmetMoleBlue;
+    public Material m_helmetMoleRed;
+    public Material m_helmetMoleGreen;
+    public Material m_helmetMoleYellow;
+    [Header("audio")]
     public AudioClip brawlSound;
     public AudioClip popSound;
     public AudioClip diggingSound;
     public AudioClip paperSound;
-    public TerritoryManager m_territoryManager;
+    [Header("prefabsAnim")]
     public GameObject m_glassesPrefab;
     public GameObject m_levelUpParticlePrefab;
     public GameObject m_holeInTheGround;
     public GameObject m_playerPrefab;
+    [Header("other")]
+    public TerritoryManager m_territoryManager;
     public int m_goldPerCoinChest = 50;
     public float peebleImpactTime;
     public Dictionary<string, Player> listPlayerByName;
@@ -46,7 +54,8 @@ public class PlayerManager : MonoBehaviour
     {
         numPlayer++;
         Player newPlayer;
-        GameObject NewPlayerGameObject = Instantiate(m_playerPrefab.gameObject, new Vector3(-5f, -5f, 0f), Quaternion.identity, transform);
+        GameObject NewPlayerGameObject = Instantiate(m_playerPrefab.gameObject, new Vector3(-5f, -5f, 0f), Quaternion.Euler(-90,0,0), transform);
+        
         //newPlayer.playerTransform = NewPlayerGameObject.transform;
         NewPlayerGameObject.name = name;
         NewPlayerGameObject.GetComponentInChildren<TextMesh>().text = "" + numPlayer;
@@ -57,6 +66,19 @@ public class PlayerManager : MonoBehaviour
         listPlayerByName.Add(name, newPlayer);
         listPlayerById.Add(numPlayer, newPlayer);
         AssignFactionToPlayers(newPlayer);
+        foreach (MeshFilter meshF in NewPlayerGameObject.GetComponentsInChildren<MeshFilter>())
+        {
+            if (meshF.gameObject.name == "Color")
+            {
+                switch (newPlayer.Faction.NumFaction)
+                {
+                    case 1:meshF.gameObject.GetComponent<MeshRenderer>().material = m_helmetMoleRed;break;
+                    case 2:meshF.gameObject.GetComponent<MeshRenderer>().material = m_helmetMoleBlue;break;
+                    case 3:meshF.gameObject.GetComponent<MeshRenderer>().material = m_helmetMoleGreen;break;
+                    case 4:meshF.gameObject.GetComponent<MeshRenderer>().material = m_helmetMoleYellow;break;
+                }
+            }
+        }
         return newPlayer;
     }
     public Player GetPlayer(string name)
@@ -86,6 +108,16 @@ public class PlayerManager : MonoBehaviour
         }
         m_territoryManager.eligibleTerritoryItem.Add(player.CurrentTerritory);
     }
+    public void RotateMole(GameObject Mole, float angleY)
+    {
+        foreach (Transform objTransform in Mole.GetComponentsInChildren<Transform>())
+        {
+            if ((objTransform.gameObject.name == "MontyMole_MontyMole") || (objTransform.gameObject.name == "Helmet"))
+            {
+                objTransform.localEulerAngles = new Vector3(objTransform.localEulerAngles.x, angleY, objTransform.localEulerAngles.z);
+            }
+        }
+    }
     public void DoAction(string TypeOfMove, Player player,int idEnnemy=0)
     {
         if (!player.CurrentTerritory.Locked)//if in territorry locked means if in battle, so not accepting commands
@@ -96,7 +128,7 @@ public class PlayerManager : MonoBehaviour
             switch (TypeOfMove)
             {
                 case "UP":
-                    //player.gameObject.transform.rotation.SetLookRotation(new Vector3(0,0,0));
+                    RotateMole(player.gameObject, 0);
                     y = player.CurrentTerritory.transform.position.y + 1;
                     if (!(y > m_territoryManager.m_nbrYTerritories - 1))
                     {
@@ -105,14 +137,13 @@ public class PlayerManager : MonoBehaviour
                         if (!m_territoryManager.m_battleField[tempx, tempy].Locked)
                         {
                             player.CurrentTerritory.GetListOfPlayerOnThisTerritory().Remove(player);
-                            player.transform.Translate(0f, 1f, 0f);
+                            player.transform.Translate(0f, 0f, 1f);
                             player.CurrentTerritory = m_territoryManager.m_battleField[tempx, tempy];
-                            //TestForNearbyEnnemies(player);
                         }
                     }
                     break;
                 case "DOWN":
-                    //player.gameObject.transform.rotation.SetLookRotation(new Vector3(0, 180, 0));
+                    RotateMole(player.gameObject, 180);
                     y = player.CurrentTerritory.transform.position.y - 1;
                     if (!(y < 0))
                     {
@@ -121,14 +152,13 @@ public class PlayerManager : MonoBehaviour
                         if (!m_territoryManager.m_battleField[tempx, tempy].Locked)
                         {
                             player.CurrentTerritory.GetListOfPlayerOnThisTerritory().Remove(player);
-                            player.transform.Translate(0f, -1f, 0f);
+                            player.transform.Translate(0f, 0f, -1f);
                             player.CurrentTerritory = m_territoryManager.m_battleField[tempx, tempy];
-                            //TestForNearbyEnnemies(player);
                         }
                     }
                     break;
                 case "LEFT":
-                    //player.gameObject.transform.rotation.SetLookRotation(new Vector3(0, -90, 0));
+                    RotateMole(player.gameObject, -90);
                     x = player.CurrentTerritory.transform.position.x - 1;
                     if (!(x < 0))
                     {
@@ -139,12 +169,11 @@ public class PlayerManager : MonoBehaviour
                             player.CurrentTerritory.GetListOfPlayerOnThisTerritory().Remove(player);
                             player.transform.Translate(-1f, 0f, 0f);
                             player.CurrentTerritory = m_territoryManager.m_battleField[tempx, tempy];
-                            //TestForNearbyEnnemies(player);
                         }
                     }
                     break;
                 case "RIGHT":
-                    //player.gameObject.transform.rotation.SetLookRotation(new Vector3(0, 90, 0));
+                    RotateMole(player.gameObject, 90);
                     x = player.CurrentTerritory.transform.position.x + 1;
                     if (!(x > m_territoryManager.m_nbrXTerritories - 1))
                     {
@@ -155,7 +184,6 @@ public class PlayerManager : MonoBehaviour
                             player.CurrentTerritory.GetListOfPlayerOnThisTerritory().Remove(player);
                             player.transform.Translate(1f, 0f, 0f);
                             player.CurrentTerritory = m_territoryManager.m_battleField[tempx, tempy];
-                            //TestForNearbyEnnemies(player);
                         }
 
                     }
