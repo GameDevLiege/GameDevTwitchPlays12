@@ -70,6 +70,8 @@ public class AffichageInventaire : MonoBehaviour {
 
 
 
+
+
     public void AjoutInventaire(string _Faction, int _numPos, GameObject _Bonus)
     {
         if (_Faction == "RED")
@@ -818,6 +820,9 @@ public class AffichageInventaire : MonoBehaviour {
         _inventaire58.SetActive(false);
         _inventaire59.SetActive(false);
         _inventaire60.SetActive(false);
+
+
+        
     }
-    
+
 }
