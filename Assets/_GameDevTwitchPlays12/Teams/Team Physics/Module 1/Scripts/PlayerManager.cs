@@ -1,9 +1,11 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class PlayerManager : MonoBehaviour
 {
+    public bool m_debug = true;
     [Header ("materials mole helmet")]
     public Material m_helmetMoleBlue;
     public Material m_helmetMoleRed;
@@ -70,7 +72,7 @@ public class PlayerManager : MonoBehaviour
         }
         //newPlayer.playerTransform = NewPlayerGameObject.transform;
         NewPlayerGameObject.name = name;
-        NewPlayerGameObject.GetComponentInChildren<TextMesh>().text = "" + numPlayer;
+        NewPlayerGameObject.GetComponentInChildren<TextMeshPro>().text = "" + numPlayer;
         newPlayer = NewPlayerGameObject.GetComponent<Player>();
         //newPlayer.playerTransform = NewPlayerGameObject.transform;
         newPlayer.Name = name;
@@ -205,6 +207,10 @@ public class PlayerManager : MonoBehaviour
                     player.PlayDig();
                     if (player.CurrentTerritory.HasItem)
                     {
+                        if(m_debug)
+                        {
+                            Debug.Log("PlayerManager: " + "player " + player.NumPlayer + " digged an item out");
+                        }
                         Item item = player.CurrentTerritory.TerritoryItem;
                         //item.m_PlayerAction = this;
 
@@ -248,7 +254,7 @@ public class PlayerManager : MonoBehaviour
                     {
                         player.Gold -= m_levelPrices[player.Level];
                         player.Level= player.Level+1;//level not working?
-                        Instantiate(m_levelUpParticlePrefab, player.transform);
+                        Instantiate(m_levelUpParticlePrefab, player.transform.position, Quaternion.EulerAngles(90,0,0), player.transform);
                     }
                     break;
                 case "GRENADE":
