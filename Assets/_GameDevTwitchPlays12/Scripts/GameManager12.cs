@@ -17,6 +17,8 @@ public class GameManager12 : MonoBehaviour
     public ICommandManager m_commandManager;
     public PhysicsManager m_physicsManager;
 
+    public TimerGame m_timerGame;
+
     bool gameIsStarted;
     #endregion
 
@@ -24,7 +26,6 @@ public class GameManager12 : MonoBehaviour
     protected void Awake()
     {
         m_commandManager = GetComponent<CommandManager>();
-        // m_physicsManager = GetComponent<PhysicsManager>(); //find ?
 
         gameIsStarted = false;
     }
@@ -32,13 +33,30 @@ public class GameManager12 : MonoBehaviour
     protected void Start()
     {
         ChatAPI.AddListener(HandleMessage);
-        //PhysicsManager.AddEndGameTimerListener(TimerFunction);
+        PhysicsManager.AddEndGameTimerListener(TimerFunction);
         ItemEvent.AddPickupListener(HandleEvent);
     }
 
-    public void TimerFunction()
+    private void Update()
     {
+        m_timerGame.TimerGameStart(m_physicsManager.timerGame.timer, 60 * 20f);
 
+        m_timerGame.TimerEquipeBLUE(m_physicsManager.timerBlue.timer, 60f);
+        m_timerGame.TimerEquipeGREEN(m_physicsManager.timerGreen.timer, 60f);
+        m_timerGame.TimerEquipeRED(m_physicsManager.timerRed.timer, 60f);
+        m_timerGame.TimerEquipeYELLOW(m_physicsManager.timerYellow.timer, 60f);
+
+        if(m_debug)
+        {
+            Debug.Log(string.Format("GameManager:Update() => Timers blue:{0} red:{1} yellow:{2} green:{3}", m_physicsManager.timerBlue.timer, m_physicsManager.timerRed.timer, m_physicsManager.timerYellow.timer, m_physicsManager.timerGreen.timer));
+        }
+    }
+
+    public void TimerFunction(bool victory, Faction faction)
+    {
+        gameIsStarted = false;
+        //TODO prévenir les joeurs par chat que la partie est terminée
+        //TODO afficher l'écran de fin de jeu pendant x sec
     }
 
     public void DoCommand(string username, int platformCode, ICommand command)

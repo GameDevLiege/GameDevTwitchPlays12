@@ -49,7 +49,6 @@ public class Timer : MonoBehaviour
         }
         if (timer >= finishTime && timer != 0.0f)
         {
-            timer = 0.0f;
             isRunning = false;
             if (actionComplete != null)
                 actionComplete();
