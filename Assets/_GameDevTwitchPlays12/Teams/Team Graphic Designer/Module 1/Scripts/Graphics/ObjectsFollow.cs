@@ -10,5 +10,6 @@ public class ObjectsFollow : MonoBehaviour {
     public static void FollowCharacter(Transform PrefabsObject, Vector3 position)
     {
         PrefabsObject.position = new Vector3(position.x, position.y, PrefabsObject.position.z);
+        PrefabsObject.rotation = Quaternion.identity;
     }
 }
