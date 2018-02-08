@@ -49,17 +49,17 @@ public class PlayerCTRL
     public void AddStun(long _time)
     {
         //AddState("STUN", (_time + (_commandManager.cd * _commandManager.stunMult)));
-        AddState("STUN", (_time + (_commandManager.cd * _commandManager.stunMult)));
+        AddState("STUN", (_time + (_commandManager.cooldown * _commandManager.stunMult)));
     }
 
     public void AddSprain(long _time)
     {
-        AddState("SPRAIN", (_time + (_commandManager.cd * _commandManager.sprainMult)));
+        AddState("SPRAIN", (_time + (_commandManager.cooldown * _commandManager.sprainMult)));
     }
 
     public void AddFight(long _time)
     {
-        AddState("FIGHT", (_time + (_commandManager.cd * _commandManager.fightMult)));
+        AddState("FIGHT", (_time + (_commandManager.cooldown * _commandManager.fightMult)));
         RemoveState("SPRAIN");
         RemoveState("STUN");
         RemoveState("MOVE");
