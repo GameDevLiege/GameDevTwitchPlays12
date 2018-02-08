@@ -29,11 +29,20 @@ public class PhysicsManager : MonoBehaviour
         Timer timerGame = gameObject.AddComponent<Timer>();
         LaunchGameTimer(endTime, timerGame);
         timerGame.StartTimer();
-        Territory.AddPlayerListener(FactionWins);
-        Timer timerRed = gameObject.AddComponent<Timer>();
-        Timer timerBlue = gameObject.AddComponent<Timer>();
-        Timer timerGreen = gameObject.AddComponent<Timer>();
-        Timer timerYellow = gameObject.AddComponent<Timer>();
+        Territory.AddPlayerListener(PlayerIsOnTerritory);
+        timerRed = gameObject.AddComponent<Timer>();
+        timerBlue = gameObject.AddComponent<Timer>();
+        timerGreen = gameObject.AddComponent<Timer>();
+        timerYellow = gameObject.AddComponent<Timer>();
+        timerRed.LoadTimer(60f, GlassWin);
+        timerBlue.LoadTimer(60f, GlassWin);
+        timerGreen.LoadTimer(60f, GlassWin);
+        timerYellow.LoadTimer(60f, GlassWin);
+    }
+
+    private void GlassWin()
+    {
+
     }
 
     private void EndGame(bool endGame, Faction faction)
@@ -148,7 +157,7 @@ public class PhysicsManager : MonoBehaviour
                 }
                 else
                 {
-                    timerRed.PauseTimer();
+                    timerBlue.PauseTimer();
                 }
                 break;
 
@@ -159,7 +168,7 @@ public class PhysicsManager : MonoBehaviour
                 }
                 else
                 {
-                    timerRed.PauseTimer();
+                    timerGreen.PauseTimer();
                 }
                 break;
 
@@ -170,7 +179,7 @@ public class PhysicsManager : MonoBehaviour
                 }
                 else
                 {
-                    timerRed.PauseTimer();
+                    timerYellow.PauseTimer();
                 }
                 break;
         }
@@ -178,18 +187,17 @@ public class PhysicsManager : MonoBehaviour
 
     private bool TeamHasGlassesInCenter(Faction faction)
     {
-        bool fillsConditions = false;
-
         for (int i = 0; i < faction.ListPlayer.Count; i++)
         {
             if (faction.ListPlayer[i].HasGlasses && faction.ListPlayer[i].CurrentTerritory.IsCenter)
             {
-                fillsConditions = true;
-                i = faction.ListPlayer.Count;
+                return true;
+//                fillsConditions = true;
+//                i = faction.ListPlayer.Count;
             }
         }
 
-        return fillsConditions;
+        return false;
     }
 
     private void FactionWins(Territory territory, Player player)

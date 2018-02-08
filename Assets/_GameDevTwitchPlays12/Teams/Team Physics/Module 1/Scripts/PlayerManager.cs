@@ -214,6 +214,13 @@ public class PlayerManager : MonoBehaviour
 
                 case "DIG":
                     Instantiate(m_holeInTheGround, player.CurrentTerritory.transform);
+                    //                    player.CurrentTerritory.GetComponent<Collider>().enabled = false;
+                    //                    player.CurrentTerritory.GetComponent<Collider>().enabled = true;
+                    //----------------- Dirty hack to wake that f***ing collider up !!!!
+                    Collider collider = player.CurrentTerritory.GetComponent<Collider>();
+                    collider.enabled = false;
+                    collider.enabled = true;
+//------------------------------------------------------------------
                     player.PlayDig();
                     if (player.CurrentTerritory.HasItem)
                     {
