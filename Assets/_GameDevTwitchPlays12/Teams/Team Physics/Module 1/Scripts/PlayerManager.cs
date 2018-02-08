@@ -237,7 +237,7 @@ public class PlayerManager : MonoBehaviour
                         else if (item.ItemType == Item.e_itemType.PARCHEMENT)
                         {
                             player.PlayPaper();
-                            Instantiate(m_starStun, player.transform.position, Quaternion.Euler(90, 0, 0), player.transform);
+                            Instantiate(m_starStun, player.transform);
                         }
                         else
                         {
@@ -258,7 +258,7 @@ public class PlayerManager : MonoBehaviour
                     {
                         player.Gold -= m_levelPrices[player.Level];
                         player.Level= player.Level+1;//level not working?
-                        Instantiate(m_levelUpParticlePrefab, player.transform.position, Quaternion.Euler(90,0,0), player.transform);
+                        Instantiate(m_levelUpParticlePrefab, player.transform);
                     }
                     break;
                 case "GRENADE":
