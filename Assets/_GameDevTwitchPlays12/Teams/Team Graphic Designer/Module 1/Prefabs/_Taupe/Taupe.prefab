@@ -178,7 +178,6 @@ GameObject:
   - component: {fileID: 65937075096876842}
   - component: {fileID: 114922616958511540}
   - component: {fileID: 82275850572793376}
-  - component: {fileID: 114084944994669358}
   m_Layer: 31
   m_Name: Taupe
   m_TagString: Untagged
@@ -464,7 +463,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1591195270726854}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 4, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4260251859426590}
@@ -560,7 +559,7 @@ MeshFilter:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1787192005281606}
-  m_Mesh: {fileID: 4300000, guid: 8261a62c1b20934459aeb963afdd9a00, type: 3}
+  m_Mesh: {fileID: 4300000, guid: 6364d7cd029e1684a9544cef772859dc, type: 3}
 --- !u!54 &54532410372157482
 Rigidbody:
   m_ObjectHideFlags: 1
@@ -706,18 +705,6 @@ TextMesh:
   m_Color:
     serializedVersion: 2
     rgba: 4278190080
---- !u!114 &114084944994669358
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1591195270726854}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e6ff04b4740785f4b984a93c5953619f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_TextNameTaupe: {fileID: 1074985459294308}
 --- !u!114 &114456007534230494
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -741,7 +728,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_HelmetColor: {fileID: 1787192005281606}
-  m_ColorHelmet: {r: 0, g: 0.5955882, b: 0.028752586, a: 1}
+  m_ColorHelmet: {r: 0, g: 0.21379304, b: 1, a: 1}
 --- !u!137 &137023184814746122
 SkinnedMeshRenderer:
   m_ObjectHideFlags: 1

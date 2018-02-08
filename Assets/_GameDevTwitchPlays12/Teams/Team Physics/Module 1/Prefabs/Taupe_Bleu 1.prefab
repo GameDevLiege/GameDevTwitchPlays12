@@ -421,6 +421,7 @@ MonoBehaviour:
   paperSound: {fileID: 0}
   hurtSound: {fileID: 0}
   coinSound: {fileID: 0}
+  grenadeSound: {fileID: 0}
 --- !u!114 &114512882429388076
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -467,8 +468,8 @@ MonoBehaviour:
   m_outlineColor:
     serializedVersion: 2
     rgba: 4278190080
-  m_fontSize: 15
-  m_fontSizeBase: 15
+  m_fontSize: 20
+  m_fontSizeBase: 20
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -482,7 +483,7 @@ MonoBehaviour:
   m_lineSpacingMax: 0
   m_paragraphSpacing: 0
   m_charWidthMaxAdj: 0
-  m_enableWordWrapping: 1
+  m_enableWordWrapping: 0
   m_wordWrappingRatios: 0.4
   m_overflowMode: 0
   m_firstOverflowCharacterIndex: -1
