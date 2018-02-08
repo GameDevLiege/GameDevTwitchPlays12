@@ -310,7 +310,6 @@ public class TerritoryManager  : MonoBehaviour
     public void RePopSpecial()
     {
         bool FoundRightPlace = false;
-
         while (!FoundRightPlace)
         {
             int x = Random.Range(0, m_nbrXTerritories - 1);
@@ -352,6 +351,10 @@ public class TerritoryManager  : MonoBehaviour
                                     m_battleField[y,x].GetComponent<Item>().ItemType=Item.e_itemType.STRAIN;
                                     m_battleField[y, x].GetComponent<Item>().EffectType=Item.e_effectType.INSTANT;
                                     break;
+                            }
+                            if(m_debug)
+                            {
+                                Debug.Log("debug from territory manager " + "repoped item in " + m_battleField[y, x].ToString());
                             }
                         }
                     }
