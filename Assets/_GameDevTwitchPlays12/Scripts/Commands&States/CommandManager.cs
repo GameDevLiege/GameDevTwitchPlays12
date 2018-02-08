@@ -212,6 +212,15 @@ public class CommandManager : DualBehaviour, ICommandManager
         return _message[0] == firstCommmandCharacter;
     }
 
+    private bool MessageIsNull(string _message)
+    {
+        if (_message == null)
+        {
+            return true;
+        }
+        return false;
+    }
+
     private bool CommandIsValid(string _message)
     {
         bool isValid = false;
