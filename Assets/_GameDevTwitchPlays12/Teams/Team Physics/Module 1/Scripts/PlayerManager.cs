@@ -250,7 +250,7 @@ public class PlayerManager : MonoBehaviour
                     if (player.Gold > m_levelPrices[player.Level])
                     {
                         player.Gold -= m_levelPrices[player.Level];
-                        player.Level= player.Level+1;//level not working?
+                        player.Level= player.Level+1;
                         Instantiate(m_levelUpParticlePrefab, player.transform);
                     }
                     break;
@@ -265,30 +265,25 @@ public class PlayerManager : MonoBehaviour
 
                     break;
                 case "SHOVEL":
-                    
-                    break;
-                case "PEBBLE":
-                    if (player.NumberOfItem((int)Item.e_itemType.PEBBLE) > 0)
-                    {
-                        player.Inventory[(int)Item.e_itemType.PEBBLE] -= 1;
-                        Player ennemy;
-                        if (listPlayerById.TryGetValue(2, out ennemy)) {
-                            StartCoroutine(LaunchPebble(ennemy.CurrentTerritory.transform.position,player,ennemy));
-                        }
-                    }
                     break;
                 case "BUY_GRENADE":
                     if (player.Gold > m_costOfGrenade)
                     {
                         player.Gold -= m_costOfGrenade;
-                        //add a grenade in inventory, ask diego
+                        if (player.NumberOfItem(2) > 0)
+                            player.Inventory.Add(2, 1);
+                        else
+                            player.Inventory[2] += 1;
                     }
                     break;
                 case "BUY_SHOVEL":
                     if (player.Gold > m_costOfShovel)
                     {
                         player.Gold -= m_costOfShovel;
-                        //add a shovel in inventory, ask diego
+                        if (player.NumberOfItem(3) > 0)
+                            player.Inventory.Add(3, 1);
+                        else
+                            player.Inventory[3] += 1;
                     }
                     break;
             }
