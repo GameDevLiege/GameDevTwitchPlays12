@@ -64,13 +64,6 @@ public class PlayerManager : MonoBehaviour
         numPlayer++;
         Player newPlayer;
         GameObject NewPlayerGameObject = Instantiate(m_playerPrefab.gameObject, new Vector3(-5f, -5f, 0f), Quaternion.Euler(-90,0,0), transform);
-        foreach (Transform objTransform in NewPlayerGameObject.GetComponentsInChildren<Transform>())
-        {
-            if (objTransform.gameObject.name == "NumPlayer")
-            {
-                objTransform.localEulerAngles = new Vector3(90, 0, 0);
-            }
-        }
         //newPlayer.playerTransform = NewPlayerGameObject.transform;
         NewPlayerGameObject.name = name;
         NewPlayerGameObject.GetComponentInChildren<TextMeshPro>().text = "" + numPlayer;
