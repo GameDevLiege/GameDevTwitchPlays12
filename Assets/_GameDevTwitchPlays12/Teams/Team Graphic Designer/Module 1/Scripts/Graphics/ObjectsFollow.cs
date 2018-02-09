@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 
 public class ObjectsFollow : MonoBehaviour {
-
+    
     public static void FollowCharacter(GameObject PrefabsObject, Vector3 position)
     {
         FollowCharacter(PrefabsObject.transform, position);
