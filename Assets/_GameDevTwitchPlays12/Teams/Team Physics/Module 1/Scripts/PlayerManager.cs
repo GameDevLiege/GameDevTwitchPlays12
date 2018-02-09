@@ -333,7 +333,6 @@ public class PlayerManager : MonoBehaviour
                         else
                         {
                             player.Inventory.Add((int)Item.e_itemType.GRENADES, 1);
-                            player.Inventory[(int)Item.e_itemType.GRENADES] += 1;
                             player.Gold -= m_costOfGrenade;
                         }
                     }
@@ -352,7 +351,6 @@ public class PlayerManager : MonoBehaviour
                         }
                         else {
                             player.Inventory.Add((int)Item.e_itemType.SHOVEL, 1);
-                            player.Inventory[(int)Item.e_itemType.SHOVEL] += 1;
                             player.Gold -= m_costOfShovel;
                         }                    
                     }
