@@ -80,7 +80,7 @@ namespace DidzNeil.ChatAPI
         {
 
             DateTime unixStart = new DateTime(1970, 1, 1, 0, 0, 0, 0, System.DateTimeKind.Utc);
-          return (long) (DateTime.Now.ToUniversalTime() - unixStart).TotalSeconds;
+          return (long) (DateTime.Now.ToUniversalTime() - unixStart).Ticks;
         }
         
 

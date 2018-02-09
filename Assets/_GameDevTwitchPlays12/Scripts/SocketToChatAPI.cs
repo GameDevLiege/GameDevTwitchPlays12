@@ -89,7 +89,7 @@ public class SocketToChatAPI : DualBehaviour
         FBMessage fb_msg = JsonUtility.FromJson<FBMessage>(line);
 
         DateTime unixStart = new DateTime(1970, 1, 1, 0, 0, 0, 0, System.DateTimeKind.Utc);
-        long timestamp = (long)(DateTime.Now.ToUniversalTime() - unixStart).TotalSeconds;
+        long timestamp = (long)(DateTime.Now.ToUniversalTime() - unixStart).Ticks;
 
         // Linking the two classes together, oops!
 
