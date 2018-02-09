@@ -271,7 +271,6 @@ public class PlayerManager : MonoBehaviour
                     {
                         player.Gold -= m_levelPrices[player.Level];
                         player.Level= player.Level+1;
-
                         
                         GameObject level = Instantiate(m_levelUpParticlePrefab);
                         ObjectsFollow.FollowCharacter(level.transform, player.transform.position);
@@ -289,38 +288,38 @@ public class PlayerManager : MonoBehaviour
                     }
 
                     break;
-                case "SHOVEL"://handled by remi&françois
-                    break;
-                    /*
-                case "PEBBLE":
-                    if (player.NumberOfItem((int)Item.e_itemType.PEBBLE) > 0)
+                case "SHOVEL":
+                    if (player.NumberOfItem((int)Item.e_itemType.SHOVEL) > 0)
                     {
-                        player.Inventory[(int)Item.e_itemType.PEBBLE] -= 1;
-                        Player ennemy;
-                        if (listPlayerById.TryGetValue(2, out ennemy)) {
-                            StartCoroutine(LaunchPebble(ennemy.CurrentTerritory.transform.position,player,ennemy));
-                        }
+                        player.Inventory[(int)Item.e_itemType.SHOVEL] -= 1; ;
                     }
+                    else
+                    {
+                        //some message "no shovel"
+                    }
+                       
+                    //handled by remi&françois
                     break;
-                    */
-                case "BUY_GRENADE":
+
+                case "BUYGRENADE":
+
                     if (player.Gold > m_costOfGrenade)
                     {
                         player.Gold -= m_costOfGrenade;
-                        if (player.NumberOfItem(2) > 0)
-                            player.Inventory.Add(2, 1);
+                        if (player.NumberOfItem((int)Item.e_itemType.GRENADES) > 0)
+                            player.Inventory.Add((int)Item.e_itemType.GRENADES, 1);
                         else
-                            player.Inventory[2] += 1;
+                            player.Inventory[(int)Item.e_itemType.GRENADES] += 1;
                     }
                     break;
-                case "BUY_SHOVEL":
+                case "BUYSHOVEL":
                     if (player.Gold > m_costOfShovel)
                     {
                         player.Gold -= m_costOfShovel;
-                        if (player.NumberOfItem(3) > 0)
-                            player.Inventory.Add(3, 1);
+                        if (player.NumberOfItem((int)Item.e_itemType.SHOVEL) > 0)
+                            player.Inventory.Add((int)Item.e_itemType.SHOVEL, 1);
                         else
-                            player.Inventory[3] += 1;
+                            player.Inventory[(int)Item.e_itemType.SHOVEL] += 1;
                     }
                     break;
             }
@@ -398,162 +397,8 @@ public class PlayerManager : MonoBehaviour
 
 
         }
-
-        /*
-        int PlayerNum = 0;
-        for(int faction = 0; PlayerNum< ListOfPlayerNames.Count; PlayerNum++)
-        {
-            GameObject NewPlayerGameObject = Instantiate(m_playerCharPrefab, new Vector3(0f, 0f, 0f), Quaternion.identity, transform);
-            NewPlayerGameObject.name = ListOfPlayerNames[PlayerNum];
-            NewPlayerGameObject.GetComponentInChildren<TextMesh>().text = "" + PlayerNum;
-            Player NewPlayerScript = NewPlayerGameObject.GetComponent<Player>();
-           // NewPlayerScript.MyManager = this;
-            NewPlayerScript.NumPlayer = PlayerNum;
-            NewPlayerScript.name = ListOfPlayerNames[PlayerNum];
-            if (faction == 0)
-
-            {
-                NewPlayerScript.PlayerFaction = FactionRED;
-                FactionRED.AddPlayer(NewPlayerScript);
-                NewPlayerGameObject.transform.position = FactionRED.RespawnPosition;
-                NewPlayerScript.CurrentTerritory = m_AxeY[0][0].gameObject;
-            }
-            else if (faction == 1)
-            {
-                NewPlayerScript.PlayerFaction = FactionBLUE;
-                FactionBLUE.AddPlayer(NewPlayerScript);
-                NewPlayerGameObject.transform.position = FactionBLUE.RespawnPosition;
-                NewPlayerScript.CurrentTerritory = m_AxeY[m_nbrXTerritories - 1][m_nbrYTerritories - 1].gameObject;
-            }
-            else if (faction == 2)
-            {
-                NewPlayerScript.PlayerFaction = FactionGREEN;
-                FactionGREEN.AddPlayer(NewPlayerScript);
-                NewPlayerGameObject.transform.position = FactionGREEN.RespawnPosition;
-                NewPlayerScript.CurrentTerritory = m_AxeY[m_nbrXTerritories - 1][0].gameObject;
-            }
-            else if (faction == 3)
-            {
-                NewPlayerScript.PlayerFaction = FactionYELLOW;
-                FactionYELLOW.AddPlayer(NewPlayerScript);
-                NewPlayerGameObject.transform.position = FactionYELLOW.RespawnPosition;
-                NewPlayerScript.CurrentTerritory = m_AxeY[0][m_nbrYTerritories - 1].gameObject;
-            }
-            faction++;
-            if (ListOfPlayerNames.Count > 8 )
-            {
-                if(faction > 3)
-                {
-                    faction = 0;
-                }
-            }
-            else if(faction > 1)
-            {
-                faction = 0;
-            }
-           // NewPlayerScript.MyManager = this;
-            m_listPlayer.Add(NewPlayerScript);
-        }*/
-
     }
-
-    /*
-public void DoBattle(Player player,Player enemy)
-{
-   // GetComponent<AudioSource>().PlayOneShot(brawlSound);
-    int temp= player.Level;
-    int x;
-    int y;
-    player.Level -= enemy.Level;
-    enemy.Level -= temp;
-    Debug.Log(player.Level);
-    if(player.Level<1)
-    {
-        player.Level = 1;
-        player.transform.position = player.Faction.RespawnPosition.transform.position;
-        y = (int)player.Faction.RespawnPosition.transform.position.y;
-        x = (int)player.Faction.RespawnPosition.transform.position.x;
-        player.CurrentTerritory = m_territoryManager.m_battleField[x, y];
-        m_hasJustLostBattle = true;
-        if(player.HasGlasses)
-        {
-            player.HasGlasses = false;
-            enemy.HasGlasses = true;
-        }
-    }
-    if (enemy.Level < 1)
-    {
-        enemy.Level = 1;
-        enemy.transform.position = enemy.Faction.RespawnPosition.transform.position;
-        y = (int)enemy.Faction.RespawnPosition.transform.position.y;
-        x = (int)enemy.Faction.RespawnPosition.transform.position.x;
-        enemy.CurrentTerritory = m_territoryManager.m_battleField[x, y];
-        if (enemy.HasGlasses)
-        {
-            player.HasGlasses = true;
-            enemy.HasGlasses = false;
-        }
-    }
-}
-*/
-    /*
-    public void CheckIfEnnemy(Territory TerritoryToTest, Player player)
-    {
-        if (TerritoryToTest.GetPlayerNumOnTerritory() > 0)
-        {
-            foreach (Player otherMole in TerritoryToTest.GetListOfPlayerOnThisTerritory())
-            {
-                if (!m_hasJustLostBattle)
-                {
-                    if (player.Faction.NumFaction != otherMole.Faction.NumFaction)
-                    {
-                        DoBattle(player, otherMole);
-                    }
-                }
-            }
-        }
-    }*/
-    /*
-    public void TestForNearbyEnnemies(Player player)
-    {
-        float y;
-        float x;
-        Territory TerritoryToTest;
-        y = player.CurrentTerritory.transform.position.y + 1;
-        if (!(y > m_territoryManager.m_nbrYTerritories - 1))
-        {
-            int tempx = (int)player.CurrentTerritory.transform.position.x;
-            int tempy = (int)player.CurrentTerritory.transform.position.y + 1;
-            TerritoryToTest = m_territoryManager.m_battleField[tempx, tempy];
-            CheckIfEnnemy(TerritoryToTest, player);
-        }
-        y = player.CurrentTerritory.transform.position.y - 1;
-        if (!(y < 0))
-        {
-            int tempx = (int)player.CurrentTerritory.gameObject.transform.position.x;
-            int tempy = (int)player.CurrentTerritory.gameObject.transform.position.y - 1;
-            TerritoryToTest = m_territoryManager.m_battleField[tempx, tempy];
-            CheckIfEnnemy(TerritoryToTest, player);
-        }
-        x = player.CurrentTerritory.transform.position.x - 1;
-        if (!(x < 0))
-        {
-            int tempx = (int)player.CurrentTerritory.gameObject.transform.position.x - 1;
-            int tempy = (int)player.CurrentTerritory.gameObject.transform.position.y;
-            TerritoryToTest = m_territoryManager.m_battleField[tempx, tempy];
-            CheckIfEnnemy(TerritoryToTest, player);
-        }
-        x = player.CurrentTerritory.transform.position.x + 1;
-        if (!(x > m_territoryManager.m_nbrXTerritories - 1))
-        {
-            int tempx = (int)player.CurrentTerritory.gameObject.transform.position.x + 1;
-            int tempy = (int)player.CurrentTerritory.gameObject.transform.position.y;
-            TerritoryToTest = m_territoryManager.m_battleField[tempx, tempy];
-            CheckIfEnnemy(TerritoryToTest, player);
-        }
-        m_hasJustLostBattle = false;
-    }
-    */
+    
     #endregion
 
 
