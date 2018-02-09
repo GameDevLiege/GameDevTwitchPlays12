@@ -265,12 +265,14 @@ public class PlayerManager : MonoBehaviour
                 case "LEVELUP":
                     if (player.Gold > m_levelPrices[player.Level])
                     {
-                        player.Gold -= m_levelPrices[player.Level];
-                        player.Level= player.Level+1;
-                        
-                        GameObject level = Instantiate(m_levelUpParticlePrefab);
-                        ObjectsFollow.FollowCharacter(level.transform, player.transform.position);
+                        if(player.Level<m_levelPrices.Length)
+                        {
+                            player.Gold -= m_levelPrices[player.Level];
+                            player.Level = player.Level + 1;
 
+                            GameObject level = Instantiate(m_levelUpParticlePrefab);
+                            ObjectsFollow.FollowCharacter(level.transform, player.transform.position);
+                        }
                     }
                     break;
 
