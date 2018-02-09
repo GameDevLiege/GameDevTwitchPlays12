@@ -107,19 +107,23 @@ public class PlayerManager : MonoBehaviour
         if (item.EffectType == Item.e_effectType.INVENTORY)
         {
             
-              int numberItem = player.NumberOfItem((int)item.ItemType);
-
-                if (numberItem > 0 && numberItem <= 1)
-                {
-                    player.Inventory[(int)item.ItemType] = numberItem;
-                }
-                else if (numberItem == 0)
+            int numberItem = player.NumberOfItem((int)item.ItemType);
+            if (!player.Inventory.ContainsKey((int)item.ItemType))
+            { 
+                if (numberItem == 0)
                 {
                     player.Inventory.Add((int)item.ItemType, numberItem);
-                    player.Inventory[(int)item.ItemType] += 1;
+                    player.Inventory[(int)item.ItemType] = 1;
                 }
-           
-            
+                
+            }
+            else
+            {
+                if (numberItem == 0)
+                {
+                    player.Inventory[(int)item.ItemType] = 1;
+                }
+            }
             //Debug.Log(player.Inventory.Count);
         }
 
@@ -296,7 +300,6 @@ public class PlayerManager : MonoBehaviour
 
                 case "DIG":
                     DIG(player);
-                    
                     break;
 
                 case "LEVELUP":
@@ -328,7 +331,7 @@ public class PlayerManager : MonoBehaviour
                 case "SHOVEL":
                     if ((player.NumberOfItem((int)Item.e_itemType.SHOVEL))>0)
                     {
-                        player.Inventory[(int)Item.e_itemType.SHOVEL] -= 1; ;
+                        player.Inventory[(int)Item.e_itemType.SHOVEL] -= 1;
                         ItemEvent.NotifyItemUse(Item.e_itemType.GRENADES, player);
                         player.ActivateShovel();
                         DIG(player);
@@ -351,7 +354,10 @@ public class PlayerManager : MonoBehaviour
                             {
                                 player.Inventory[(int)Item.e_itemType.GRENADES] += 1;
                                 player.Gold -= m_costOfGrenade;
-
+                                Item item = new Item();
+                                item.ItemType = Item.e_itemType.GRENADES;
+                                item.EffectType = Item.e_effectType.INVENTORY;
+                                ItemEvent.NotifyNewItem(item, player);
                             }
                         }
                         else
@@ -370,12 +376,20 @@ public class PlayerManager : MonoBehaviour
                             {
                                 player.Inventory[(int)Item.e_itemType.SHOVEL] += 1;
                                 player.Gold -= m_costOfShovel;
+                                Item item = new Item();
+                                item.ItemType = Item.e_itemType.GRENADES;
+                                item.EffectType = Item.e_effectType.INVENTORY;
+                                ItemEvent.NotifyNewItem(item, player);
                             }
 
                         }
                         else {
                             player.Inventory.Add((int)Item.e_itemType.SHOVEL, 1);
                             player.Gold -= m_costOfShovel;
+                            Item item = new Item();
+                            item.ItemType = Item.e_itemType.GRENADES;
+                            item.EffectType = Item.e_effectType.INVENTORY;
+                            ItemEvent.NotifyNewItem(item, player);
                         }                    
                     }
                     break;
