@@ -19,7 +19,7 @@ public class CommandManager : MonoBehaviour, ICommandManager
 
     public float cooldownInSecond = 2;
 
-    //[HideInInspector]
+    [HideInInspector]
     public long cooldown;
 
     public long stunMult = 5;

@@ -26178,6 +26178,11 @@ Prefab:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 223318326643617566, guid: 70e40948f09a8ec4cb864a332ebb5425,
+        type: 2}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 70e40948f09a8ec4cb864a332ebb5425, type: 2}
   m_IsPrefabParent: 0
@@ -48873,6 +48878,12 @@ Transform:
   m_PrefabParentObject: {fileID: 4529670331112600, guid: 02b8bd00adc08944eb2b6f8d0e9b3c15,
     type: 2}
   m_PrefabInternal: {fileID: 1085123646}
+--- !u!114 &1085746741 stripped
+MonoBehaviour:
+  m_PrefabParentObject: {fileID: 114859433225865846, guid: 70e40948f09a8ec4cb864a332ebb5425,
+    type: 2}
+  m_PrefabInternal: {fileID: 546246085}
+  m_Script: {fileID: 11500000, guid: a0a63fe58f19e4d4d9d737a15ff7ba33, type: 3}
 --- !u!1001 &1086848010
 Prefab:
   m_ObjectHideFlags: 0
@@ -83961,6 +83972,7 @@ MonoBehaviour:
   m_physicsManager: {fileID: 503667308}
   m_InventoryDisplay: {fileID: 977511190}
   m_timerGame: {fileID: 977511189}
+  UIWinInterfaceScript: {fileID: 1085746741}
 --- !u!4 &1971605306
 Transform:
   m_ObjectHideFlags: 0
