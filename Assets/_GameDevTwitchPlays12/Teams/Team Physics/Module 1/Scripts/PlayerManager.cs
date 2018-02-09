@@ -269,27 +269,35 @@ public class PlayerManager : MonoBehaviour
 
                     break;
                 case "SHOVEL":
-                    
+                    if (player.NumberOfItem((int)Item.e_itemType.SHOVEL) > 0)
+                    {
+                        player.Inventory[(int)Item.e_itemType.SHOVEL] -= 1; ;
+                    }
+                    else
+                    {
+                        //some message "no shovel"
+                    }
+                       
                     //handled by remi&françois
                     break;
                 case "BUYGRENADE":
                     if (player.Gold > m_costOfGrenade)
                     {
                         player.Gold -= m_costOfGrenade;
-                        if (player.NumberOfItem(2) > 0)
-                            player.Inventory.Add(2, 1);
+                        if (player.NumberOfItem((int)Item.e_itemType.GRENADES) > 0)
+                            player.Inventory.Add((int)Item.e_itemType.GRENADES, 1);
                         else
-                            player.Inventory[2] += 1;
+                            player.Inventory[(int)Item.e_itemType.GRENADES] += 1;
                     }
                     break;
                 case "BUYSHOVEL":
                     if (player.Gold > m_costOfShovel)
                     {
                         player.Gold -= m_costOfShovel;
-                        if (player.NumberOfItem(3) > 0)
-                            player.Inventory.Add(3, 1);
+                        if (player.NumberOfItem((int)Item.e_itemType.SHOVEL) > 0)
+                            player.Inventory.Add((int)Item.e_itemType.SHOVEL, 1);
                         else
-                            player.Inventory[3] += 1;
+                            player.Inventory[(int)Item.e_itemType.SHOVEL] += 1;
                     }
                     break;
             }
