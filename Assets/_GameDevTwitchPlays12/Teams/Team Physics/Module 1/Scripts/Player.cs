@@ -14,6 +14,9 @@ public class Player : MonoBehaviour
     public AudioClip coinSound;
     public AudioClip grenadeSound;
 
+    public float TickDuration=2f;
+    public bool supperShovelActive = false;
+
     public Faction Faction { get; set; }
     public Territory CurrentTerritory { get; set; }
     public bool HasGlasses { get; set; }
@@ -53,6 +56,19 @@ public class Player : MonoBehaviour
         hurtSound= m_playerManager.hurtSound;
         coinSound=m_playerManager.coinSound;
     }
+
+    public void ActivateShovel()
+    {
+        supperShovelActive = true;
+        StartCoroutine(timerShovel());
+    }
+
+    IEnumerator timerShovel()
+    {
+        yield return new WaitForSeconds(TickDuration*15);
+        supperShovelActive = false;
+    }
+
     public void PlayCoin()
     {
         m_audioSource.PlayOneShot(coinSound);
