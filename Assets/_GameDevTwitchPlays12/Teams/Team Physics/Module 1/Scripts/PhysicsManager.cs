@@ -20,6 +20,8 @@ public class PhysicsManager : MonoBehaviour
     public Timer timerYellow;
     public Timer timerGame;
 
+    public int CurrentTeamTimer;
+
     private void Awake()
     {
         territoryManager = gameObject.GetComponent<TerritoryManager>();
@@ -148,6 +150,7 @@ public class PhysicsManager : MonoBehaviour
                 if (TeamHasGlassesInCenter(player.Faction))
                 {
                     timerRed.StartTimer();
+                    CurrentTeamTimer = 1;
                 }
                 else
                 {
@@ -159,6 +162,7 @@ public class PhysicsManager : MonoBehaviour
                 if (TeamHasGlassesInCenter(player.Faction))
                 {
                     timerBlue.StartTimer();
+                    CurrentTeamTimer = 2;
                 }
                 else
                 {
@@ -170,6 +174,7 @@ public class PhysicsManager : MonoBehaviour
                 if (TeamHasGlassesInCenter(player.Faction))
                 {
                     timerGreen.StartTimer();
+                    CurrentTeamTimer = 3;
                 }
                 else
                 {
@@ -181,6 +186,7 @@ public class PhysicsManager : MonoBehaviour
                 if (TeamHasGlassesInCenter(player.Faction))
                 {
                     timerYellow.StartTimer();
+                    CurrentTeamTimer = 4;
                 }
                 else
                 {
