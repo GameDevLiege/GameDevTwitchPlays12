@@ -34,23 +34,25 @@ def gateway():
 
 
 if __name__ == "__main__":
-
     ADDR = ('127.0.0.1', 54321)
     SOCKET_ADDR = ('127.0.0.1', 12345)
 
     access_token = input("Access token? ")
     live_id = input("Live ID? ")
 
-    s = socket.socket()
-    s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
-    s.bind(SOCKET_ADDR)
-    s.listen(-1)
+    while 42:
+        s = socket.socket()
+        s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+        s.bind(SOCKET_ADDR)
+        s.listen(-1)
 
-    print("Waiting for the C# client to log in...")
-    c = s.accept()[0]
-    print("Success!")
+        print("Waiting for the C# client to log in...")
+        c = s.accept()[0]
+        print("Success!")
 
-    try:
-        app.run(ADDR[0], ADDR[1])
-    finally:
-        s.close()
+        try:
+            app.run(ADDR[0], ADDR[1])
+        finally:
+            s.close()
+		
+        input("Ctrl+C to really quit. Enter to restart")
