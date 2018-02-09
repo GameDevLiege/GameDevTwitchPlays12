@@ -69,7 +69,7 @@ public class Item : MonoBehaviour
                 m_effectType = e_effectType.INVENTORY;
                 break;
             case e_itemType.SHOVEL:
-                m_effectType = e_effectType.INSTANT;
+                m_effectType = e_effectType.INVENTORY;
                 break;
             case e_itemType.PARCHEMENT:
                 m_effectType = e_effectType.INSTANT;

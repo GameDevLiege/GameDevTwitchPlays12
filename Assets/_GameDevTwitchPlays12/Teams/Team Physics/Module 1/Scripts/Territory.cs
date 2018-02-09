@@ -151,8 +151,10 @@ public class Territory : MonoBehaviour
                 ObjectsFollow.FollowCharacter(enemy.Glasses.transform, enemy.transform.position);
             }
         }
+        bool enemyDied = false;
         if (enemy.Level < 1)
         {
+            enemyDied = true;
             enemy.Level = 1;
             enemy.transform.position = enemy.Faction.RespawnPosition.transform.position;
             y = (int)enemy.Faction.RespawnPosition.transform.position.y;
@@ -165,6 +167,22 @@ public class Territory : MonoBehaviour
                 enemy.HasGlasses = false;
                 player.Glasses = enemy.Glasses;
                 ObjectsFollow.FollowCharacter(player.Glasses.transform, player.transform.position);
+            }
+        }
+        if(playerDied)
+        {
+            if(!enemyDied)
+            {
+                enemy.Gold += (int)(player.Gold *0.5f);
+                player.Gold = (int)(player.Gold * 0.5f);
+            }
+        }
+        if (enemyDied)
+        {
+            if (!playerDied)
+            {
+                player.Gold += (int)(enemy.Gold * 0.5f);
+                enemy.Gold = (int)(enemy.Gold * 0.5f);
             }
         }
         player.PlayPop();

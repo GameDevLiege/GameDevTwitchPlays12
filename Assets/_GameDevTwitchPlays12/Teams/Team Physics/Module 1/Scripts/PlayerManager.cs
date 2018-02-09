@@ -106,18 +106,20 @@ public class PlayerManager : MonoBehaviour
     {
         if (item.EffectType == Item.e_effectType.INVENTORY)
         {
-            int numberItem = player.NumberOfItem((int)item.ItemType);
+            
+              int numberItem = player.NumberOfItem((int)item.ItemType);
 
-            if (numberItem > 0 && numberItem <=1)
-            {
-                player.Inventory[(int)item.ItemType] = numberItem;
-            }
-            else if(numberItem==0)
-            {
-                player.Inventory.Add((int)item.ItemType, numberItem);
-                player.Inventory[(int)item.ItemType] += 1;
-            }
-
+                if (numberItem > 0 && numberItem <= 1)
+                {
+                    player.Inventory[(int)item.ItemType] = numberItem;
+                }
+                else if (numberItem == 0)
+                {
+                    player.Inventory.Add((int)item.ItemType, numberItem);
+                    player.Inventory[(int)item.ItemType] += 1;
+                }
+           
+            
             //Debug.Log(player.Inventory.Count);
         }
 
@@ -295,7 +297,7 @@ public class PlayerManager : MonoBehaviour
                 case "GRENADE":
                     //some condition based on inventory
 
-                    if (player.NumberOfItem((int)Item.e_itemType.GRENADES) > 0)
+                    if (player.NumberOfItem((int)Item.e_itemType.GRENADES) > 0 && player.NumberOfItem((int)Item.e_itemType.GRENADES) <= 1)
                     {
                         player.Inventory[(int)Item.e_itemType.GRENADES] -= 1;
                         LaunchGrenade(player);
