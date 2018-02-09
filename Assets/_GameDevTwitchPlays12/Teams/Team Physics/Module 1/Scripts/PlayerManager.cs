@@ -208,13 +208,9 @@ public class PlayerManager : MonoBehaviour
 
                 case "DIG":
                     Instantiate(m_holeInTheGround, player.CurrentTerritory.transform);
-                    //                    player.CurrentTerritory.GetComponent<Collider>().enabled = false;
-                    //                    player.CurrentTerritory.GetComponent<Collider>().enabled = true;
-                    //----------------- Dirty hack to wake that f***ing collider up !!!!
                     Collider collider = player.CurrentTerritory.GetComponent<Collider>();
                     collider.enabled = false;
                     collider.enabled = true;
-//------------------------------------------------------------------
                     player.PlayDig();
                     if (player.CurrentTerritory.HasItem)
                     {
@@ -237,7 +233,6 @@ public class PlayerManager : MonoBehaviour
                             GameObject glasses = Instantiate(m_glassesPrefab, player.transform);
                             player.Glasses = glasses;
                             ObjectsFollow.FollowCharacter(glasses.transform, player.transform.position);
-
                             //active objet glasses cedric
                         }
 
@@ -280,11 +275,13 @@ public class PlayerManager : MonoBehaviour
 
                 case "GRENADE":
                     //some condition based on inventory
+
                     if (player.NumberOfItem((int)Item.e_itemType.GRENADES) > 0)
                     {
                         player.Inventory[(int)Item.e_itemType.GRENADES] -= 1;
                         LaunchGrenade(player);
                         player.PlayGrenade();
+                        ItemEvent.NotifyItemUse(Item.e_itemType.GRENADES, player);
                     }
 
                     break;
@@ -292,6 +289,7 @@ public class PlayerManager : MonoBehaviour
                     if (player.NumberOfItem((int)Item.e_itemType.SHOVEL) > 0)
                     {
                         player.Inventory[(int)Item.e_itemType.SHOVEL] -= 1; ;
+                        ItemEvent.NotifyItemUse(Item.e_itemType.GRENADES, player);
                     }
                     else
                     {

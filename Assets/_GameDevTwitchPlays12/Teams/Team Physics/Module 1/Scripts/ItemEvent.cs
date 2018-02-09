@@ -27,14 +27,14 @@ public class ItemEvent
 
     }
     public static void NotifyNewItem(Item item,Player player) {
-        m_onItemPickup(item,player);
+        m_onItemPickup(item, player);
     }
-    public static void NotifyItemUse() {
+    public static void NotifyItemUse(Item.e_itemType item, Player player) {
 
-        m_onItemUse();
+        m_onItemUse(item, player);
     }
 
     public delegate void ItemPickup(Item item,Player player);
-    public delegate Dictionary<Item,Player> ItemUse();
+    public delegate void ItemUse(Item.e_itemType itemNum, Player player);
 }
 
