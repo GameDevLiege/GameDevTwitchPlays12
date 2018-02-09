@@ -11,13 +11,9 @@ public class ColorHelmet : MonoBehaviour {
 
     private void Awake()
     {
-        UpdateColor(m_ColorHelmet);
-    }
-
-    private void Start()
-    {
         HelmetColor = m_HelmetColor;
         ColorHelmets = m_ColorHelmet;
+        UpdateColor(m_ColorHelmet);
     }
 
     public void UpdateColor(Color helmetColor)
