@@ -66,7 +66,7 @@ public class TimerGame : MonoBehaviour {
         TimerSlideEquipeYELLOW.enabled = false;
     }
 
-
+    /*
     private void Awake()
     {
         TimerSlideEquipeRED.enabled = false;
@@ -74,5 +74,5 @@ public class TimerGame : MonoBehaviour {
         TimerSlideEquipeYELLOW.enabled = false;
         TimerSlideEquipeBLUE.enabled = false;
     }
-
+    */
 }
