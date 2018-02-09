@@ -46,7 +46,7 @@ public class PlayerCTRL
         }
     }
 
-    public void AddAutoDig(long _until)
+    public void AddAutoDig(long _time)
     {
         if (_commandManager.debug)
         {
@@ -113,6 +113,7 @@ public class PlayerCTRL
                 if (_commandManager.debug)
                 {
                     Debug.Log("remove : " + (_name));
+                    Debug.Log("buffTime : " + states[_name].time + (" currentTime : " + _time));
                 }
                 RemoveState(_name);
                 return false;
