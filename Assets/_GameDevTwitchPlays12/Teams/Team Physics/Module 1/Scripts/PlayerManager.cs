@@ -135,6 +135,59 @@ public class PlayerManager : MonoBehaviour
             }
         }
     }
+    public void DIG(Player player)
+    {
+        Instantiate(m_holeInTheGround, player.CurrentTerritory.transform);
+        player.PlayDig();
+        if (player.CurrentTerritory.HasItem)
+        {
+            if (m_debug)
+            {
+                Debug.Log("PlayerManager: " + "player " + player.NumPlayer + " digged an item out");
+            }
+            Item item = player.CurrentTerritory.TerritoryItem;
+            //item.m_PlayerAction = this;
+
+            if (item.ItemType == Item.e_itemType.COINCHEST)
+            {
+                player.Gold += m_goldPerCoinChest;
+                player.PlayCoin();
+                //lance animation cedric
+            }
+            if (item.ItemType == Item.e_itemType.GLASSES)
+            {
+                player.HasGlasses = true;
+                m_glasses = Instantiate(m_glassesPrefab);
+                player.Glasses = m_glasses;
+                ObjectsFollow.FollowCharacter(m_glasses.transform, player.transform.position);
+                //active objet glasses cedric
+            }
+
+            if (item.ItemType == Item.e_itemType.STRAIN)
+            {
+                player.PlayHurt();
+            }
+            else if (item.ItemType == Item.e_itemType.PARCHEMENT)
+            {
+                player.PlayPaper();
+                GameObject parchement = Instantiate(m_starStun);
+                ObjectsFollow.FollowCharacter(parchement.transform, player.transform.position);
+            }
+            else
+            {
+                player.PlayDig();
+            }
+            player.CurrentTerritory.HasItem = false;
+            Destroy(player.CurrentTerritory.gameObject.GetComponent("Item"));
+            ItemEvent.NotifyNewItem(item, player);
+            m_territoryManager.RePopSpecial();
+        }
+        else
+        {
+            //message nothing to dig?
+        }
+    }
+
     public void DoAction(string TypeOfMove, Player player,int idEnnemy=0)
     {
         if (!player.CurrentTerritory.Locked)//if in territorry locked means if in battle, so not accepting commands
@@ -160,6 +213,10 @@ public class PlayerManager : MonoBehaviour
                             {
                                 ObjectsFollow.FollowCharacter(m_glasses.transform, player.transform.position);
                             }
+                            if (player.supperShovelActive)
+                            {
+                                DIG(player);
+                            }
                         }
                     }
                     break;
@@ -179,6 +236,10 @@ public class PlayerManager : MonoBehaviour
                             if (player.HasGlasses)
                             {
                                 ObjectsFollow.FollowCharacter(m_glasses.transform, player.transform.position);
+                            }
+                            if (player.supperShovelActive)
+                            {
+                                DIG(player);
                             }
                         }
                     }
@@ -200,6 +261,10 @@ public class PlayerManager : MonoBehaviour
                             {
                                 ObjectsFollow.FollowCharacter(m_glasses.transform, player.transform.position);
                             }
+                            if (player.supperShovelActive)
+                            {
+                                DIG(player);
+                            }
                         }
                     }
                     break;
@@ -220,61 +285,18 @@ public class PlayerManager : MonoBehaviour
                             {
                                 ObjectsFollow.FollowCharacter(m_glasses.transform, player.transform.position);
                             }
+                            if (player.supperShovelActive)
+                            {
+                                DIG(player);
+                            }
                         }
 
                     }
                     break;
 
                 case "DIG":
-                    Instantiate(m_holeInTheGround, player.CurrentTerritory.transform);
-                    player.PlayDig();
-                    if (player.CurrentTerritory.HasItem)
-                    {
-                        if (m_debug)
-                        {
-                            Debug.Log("PlayerManager: " + "player " + player.NumPlayer + " digged an item out");
-                        }
-                        Item item = player.CurrentTerritory.TerritoryItem;
-                        //item.m_PlayerAction = this;
-
-                        if (item.ItemType == Item.e_itemType.COINCHEST)
-                        {
-                            player.Gold += m_goldPerCoinChest;
-                            player.PlayCoin();
-                            //lance animation cedric
-                        }
-                        if (item.ItemType == Item.e_itemType.GLASSES)
-                        {
-                            player.HasGlasses = true;
-                            m_glasses = Instantiate(m_glassesPrefab);
-                            player.Glasses = m_glasses;
-                            ObjectsFollow.FollowCharacter(m_glasses.transform, player.transform.position);
-                            //active objet glasses cedric
-                        }
-
-                        if (item.ItemType == Item.e_itemType.STRAIN)
-                        {
-                            player.PlayHurt();
-                        }
-                        else if (item.ItemType == Item.e_itemType.PARCHEMENT)
-                        {
-                            player.PlayPaper();
-                            GameObject parchement = Instantiate(m_starStun);
-                            ObjectsFollow.FollowCharacter(parchement.transform, player.transform.position);
-                        }
-                        else
-                        {
-                            player.PlayDig();
-                        }
-                        player.CurrentTerritory.HasItem = false;
-                        Destroy(player.CurrentTerritory.gameObject.GetComponent("Item"));
-                        ItemEvent.NotifyNewItem(item, player);
-                        m_territoryManager.RePopSpecial();
-                    }
-                    else
-                    {
-                        //message nothing to dig?
-                    }
+                    DIG(player);
+                    
                     break;
 
                 case "LEVELUP":
@@ -308,6 +330,8 @@ public class PlayerManager : MonoBehaviour
                     {
                         player.Inventory[(int)Item.e_itemType.SHOVEL] -= 1; ;
                         ItemEvent.NotifyItemUse(Item.e_itemType.GRENADES, player);
+                        player.ActivateShovel();
+                        DIG(player);
                     }
                     else
                     {
