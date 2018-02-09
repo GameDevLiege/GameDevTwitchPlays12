@@ -24131,11 +24131,6 @@ Prefab:
       propertyPath: m_interfaceUI
       value: 
       objectReference: {fileID: 977511191}
-    - target: {fileID: 114549905912933306, guid: 0527597ae3320c04d948221566b99674,
-        type: 2}
-      propertyPath: m_debug
-      value: 1
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 0527597ae3320c04d948221566b99674, type: 2}
   m_IsPrefabParent: 0
@@ -72772,12 +72767,12 @@ Prefab:
     - target: {fileID: 224744146360891346, guid: afc50b9772483ab4f9876d8c106c7da2,
         type: 2}
       propertyPath: m_SizeDelta.y
-      value: 17.4462
+      value: 16.429405
       objectReference: {fileID: 0}
     - target: {fileID: 224317899750763882, guid: afc50b9772483ab4f9876d8c106c7da2,
         type: 2}
       propertyPath: m_SizeDelta.y
-      value: 17.4462
+      value: 16.429405
       objectReference: {fileID: 0}
     - target: {fileID: 224646925592084284, guid: afc50b9772483ab4f9876d8c106c7da2,
         type: 2}
@@ -84003,8 +83998,8 @@ MonoBehaviour:
   gameManager: {fileID: 1971605305}
   debug: 0
   maxPlayer: 20
-  maxMovement: 5
-  cooldownInSecond: 2
+  maxMovement: 15
+  cooldownInSecond: 0.5
   cooldown: 2
   stunMult: 5
   sprainMult: 15
