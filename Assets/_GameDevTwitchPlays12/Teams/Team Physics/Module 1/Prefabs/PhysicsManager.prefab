@@ -66,9 +66,9 @@ MonoBehaviour:
   hurtSound: {fileID: 8300000, guid: 9feccfc3dcf1f0a489069fef69a4110c, type: 3}
   coinSound: {fileID: 8300000, guid: bdb4ea1d0441a814ea5ab0f674433efe, type: 3}
   grenadeSound: {fileID: 8300000, guid: c428674279a5dd949a0625bf5bfd10c6, type: 3}
-  m_glassesPrefab: {fileID: 1649089016919410, guid: 94c32bc7097357a47a6d4631854581b9,
+  m_glassesPrefab: {fileID: 1649089016919410, guid: 916acff13e866ba43b05ddd308ab4e97,
     type: 2}
-  m_levelUpParticlePrefab: {fileID: 1757042075878474, guid: 2fb12641afdd3864fbfa9dca50e1152e,
+  m_levelUpParticlePrefab: {fileID: 1757042075878474, guid: 2c29bf948a09d3e49bbecdcfbaed9170,
     type: 2}
   m_holeInTheGround: {fileID: 1165955729980236, guid: f9da54080f512fd4cb0043528d730329,
     type: 2}
@@ -98,7 +98,7 @@ MonoBehaviour:
     type: 2}
   m_territoryPrefab: {fileID: 1474048045028684, guid: 3708501789e19db468ac285a2d96ceb0,
     type: 2}
-  m_debug: 1
+  m_debug: 0
   m_sizeOfDiceItem: 5
   m_nbrXTerritories: 33
   m_nbrYTerritories: 33
@@ -125,6 +125,7 @@ MonoBehaviour:
   timerGreen: {fileID: 0}
   timerYellow: {fileID: 0}
   timerGame: {fileID: 0}
+  CurrentTeamTimer: 0
 --- !u!114 &114973090743218670
 MonoBehaviour:
   m_ObjectHideFlags: 1

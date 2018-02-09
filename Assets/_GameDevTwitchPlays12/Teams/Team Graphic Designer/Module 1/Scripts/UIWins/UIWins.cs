@@ -11,7 +11,7 @@ public class UIWins : MonoBehaviour {
     private static Text TeamName;
     private static Canvas CanvasUIWins;
 
-    public UIWins(string teamName, Color teamColor)
+    public void SetInfo(string teamName, Color teamColor)
     {
         teamColor.a = 100;
         Helmet.GetComponent<Renderer>().material.color = teamColor;
