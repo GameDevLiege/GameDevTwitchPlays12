@@ -24131,11 +24131,6 @@ Prefab:
       propertyPath: m_interfaceUI
       value: 
       objectReference: {fileID: 977511191}
-    - target: {fileID: 114549905912933306, guid: 0527597ae3320c04d948221566b99674,
-        type: 2}
-      propertyPath: m_debug
-      value: 1
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 0527597ae3320c04d948221566b99674, type: 2}
   m_IsPrefabParent: 0
@@ -84003,8 +83998,8 @@ MonoBehaviour:
   gameManager: {fileID: 1971605305}
   debug: 0
   maxPlayer: 20
-  maxMovement: 5
-  cooldownInSecond: 2
+  maxMovement: 15
+  cooldownInSecond: 0.5
   cooldown: 2
   stunMult: 5
   sprainMult: 15

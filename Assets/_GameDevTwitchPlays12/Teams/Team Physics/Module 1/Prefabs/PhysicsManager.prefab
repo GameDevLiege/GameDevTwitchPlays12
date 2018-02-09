@@ -82,7 +82,7 @@ MonoBehaviour:
   m_costOfGrenade: 50
   m_costOfShovel: 50
   peebleImpactTime: 0
-  m_levelPrices: 7d00000013010000c20100008a02000084030000b00400000e0600009e07000060090000b80b0000a60e0000
+  m_levelPrices: 7d00000013010000c20100008a02000084030000b00400000e0600009e07000060090000b80b0000
 --- !u!114 &114549905912933306
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -98,7 +98,7 @@ MonoBehaviour:
     type: 2}
   m_territoryPrefab: {fileID: 1474048045028684, guid: 3708501789e19db468ac285a2d96ceb0,
     type: 2}
-  m_debug: 0
+  m_debug: 1
   m_sizeOfDiceItem: 5
   m_nbrXTerritories: 33
   m_nbrYTerritories: 33
