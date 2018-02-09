@@ -121,17 +121,21 @@ public class GameManager12 : MonoBehaviour
             Debug.Log(string.Format("GameManager12:HandleUse() => ItemType:{0} Player:{3} - {4}", item, player.NumPlayer, player.Name));
         }
 
+        int platformCode;
+        string playerName;
+        SplitPlayerID(player.Name, out platformCode, out playerName);
+
         string faction = GetFactionStringFromFaction(player.Faction);
 
         switch (item)
         {
             case Item.e_itemType.GRENADES:
                 m_InventoryDisplay.RetireInventaire(faction, player.Faction.ListPlayer.IndexOf(player) + 1, "GRENADE");
-                //TODO feedback joueur
+                SendMessageToPlayer((Platform)platformCode, playerName, "Vous avez utilisé une grenade!");
                 break;
             case Item.e_itemType.SHOVEL:
                 m_InventoryDisplay.RetireInventaire(faction, player.Faction.ListPlayer.IndexOf(player) + 1, "PELLE");
-                //TODO feedback joueur
+                SendMessageToPlayer((Platform)platformCode, playerName, "Vous utilisez maintenant une pelle pour creuser plus vite.");
                 SendCommand("AUTODIG", player.Name);
                 break;
             default:
