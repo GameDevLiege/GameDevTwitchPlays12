@@ -21,6 +21,7 @@ public class GameManager12 : MonoBehaviour
     public TimerGame m_timerGame;
 
     bool gameIsStarted;
+    public float TimeBeforeRestart = 10f;
     #endregion
 
     #region System
@@ -50,11 +51,6 @@ public class GameManager12 : MonoBehaviour
             case 3: m_timerGame.TimerEquipeGREEN(m_physicsManager.timerGreen.timer, 60f); break;
             case 4: m_timerGame.TimerEquipeYELLOW(m_physicsManager.timerYellow.timer, 60f); break;
         }    
-
-        if(m_debug)
-        {
-            Debug.Log(string.Format("GameManager:Update() => Timers blue:{0} red:{1} yellow:{2} green:{3}", m_physicsManager.timerBlue.timer, m_physicsManager.timerRed.timer, m_physicsManager.timerYellow.timer, m_physicsManager.timerGreen.timer));
-        }
     }
 
     public UIWins UIWinInterfaceScript;
@@ -63,10 +59,14 @@ public class GameManager12 : MonoBehaviour
         gameIsStarted = false;
         UIWinInterfaceScript.ActiveUIWins(true);
         UIWinInterfaceScript.SetInfo(GetFactionStringFromFaction(faction), faction.FactionColor);
-
-
         //TODO prévenir les joeurs par chat que la partie est terminée
         //TODO afficher l'écran de fin de jeu pendant x sec
+
+        Invoke("RestartGame", TimeBeforeRestart);
+    }
+    private void RestartGame()
+    {
+        UnityEngine.SceneManagement.SceneManager.LoadScene(UnityEngine.SceneManagement.SceneManager.GetActiveScene().buildIndex);
     }
 
     public void DoCommand(string username, int platformCode, ICommand command)
