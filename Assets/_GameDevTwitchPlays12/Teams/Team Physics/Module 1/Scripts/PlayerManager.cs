@@ -227,9 +227,6 @@ public class PlayerManager : MonoBehaviour
 
                 case "DIG":
                     Instantiate(m_holeInTheGround, player.CurrentTerritory.transform);
-                    Collider collider = player.CurrentTerritory.GetComponent<Collider>();
-                    collider.enabled = false;
-                    collider.enabled = true;
                     player.PlayDig();
                     if (player.CurrentTerritory.HasItem)
                     {
@@ -297,7 +294,7 @@ public class PlayerManager : MonoBehaviour
                 case "GRENADE":
                     //some condition based on inventory
 
-                    if (player.NumberOfItem((int)Item.e_itemType.GRENADES) > 0 && player.NumberOfItem((int)Item.e_itemType.GRENADES) <= 1)
+                    if (( player.NumberOfItem((int)Item.e_itemType.GRENADES) )> 0)
                     {
                         player.Inventory[(int)Item.e_itemType.GRENADES] -= 1;
                         LaunchGrenade(player);
@@ -307,7 +304,7 @@ public class PlayerManager : MonoBehaviour
 
                     break;
                 case "SHOVEL":
-                    if (player.NumberOfItem((int)Item.e_itemType.SHOVEL) > 0 && player.NumberOfItem((int)Item.e_itemType.SHOVEL)<=1)
+                    if ((player.NumberOfItem((int)Item.e_itemType.SHOVEL))>0)
                     {
                         player.Inventory[(int)Item.e_itemType.SHOVEL] -= 1; ;
                         ItemEvent.NotifyItemUse(Item.e_itemType.GRENADES, player);
@@ -324,21 +321,40 @@ public class PlayerManager : MonoBehaviour
 
                     if (player.Gold > m_costOfGrenade)
                     {
-                        player.Gold -= m_costOfGrenade;
-                        if (player.NumberOfItem((int)Item.e_itemType.GRENADES) > 0 && player.NumberOfItem((int)Item.e_itemType.GRENADES)<=1)
-                            player.Inventory.Add((int)Item.e_itemType.GRENADES, 1);
+                        if (player.Inventory.ContainsKey((int)Item.e_itemType.GRENADES))
+                        {
+                            if (player.NumberOfItem((int)Item.e_itemType.GRENADES) == 0)
+                            {
+                                player.Inventory[(int)Item.e_itemType.GRENADES] += 1;
+                                player.Gold -= m_costOfGrenade;
+
+                            }
+                        }
                         else
+                        {
+                            player.Inventory.Add((int)Item.e_itemType.GRENADES, 1);
                             player.Inventory[(int)Item.e_itemType.GRENADES] += 1;
+                            player.Gold -= m_costOfGrenade;
+                        }
                     }
                     break;
                 case "BUYSHOVEL":
                     if (player.Gold > m_costOfShovel)
                     {
-                        player.Gold -= m_costOfShovel;
-                        if (player.NumberOfItem((int)Item.e_itemType.SHOVEL) > 0 && player.NumberOfItem((int)Item.e_itemType.SHOVEL)<=1)
+                        if (player.Inventory.ContainsKey((int)Item.e_itemType.SHOVEL))
+                        {
+                            if (player.NumberOfItem((int)Item.e_itemType.SHOVEL) == 0)
+                            {
+                                player.Inventory[(int)Item.e_itemType.SHOVEL] += 1;
+                                player.Gold -= m_costOfShovel;
+                            }
+
+                        }
+                        else {
                             player.Inventory.Add((int)Item.e_itemType.SHOVEL, 1);
-                        else
                             player.Inventory[(int)Item.e_itemType.SHOVEL] += 1;
+                            player.Gold -= m_costOfShovel;
+                        }                    
                     }
                     break;
             }
