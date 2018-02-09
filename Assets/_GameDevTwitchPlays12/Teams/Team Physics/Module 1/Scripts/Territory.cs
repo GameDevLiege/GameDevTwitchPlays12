@@ -5,7 +5,9 @@ using UnityEngine;
 public class Territory : MonoBehaviour
 {
     #region Public Members
+    public delegate void PlayerIsOnCenterTerritory(Territory territory, Player player);
     public delegate void PlayerIsOnTerritory(Territory territory, Player player);
+    public static PlayerIsOnCenterTerritory playerIsOnCenterTerritory;
     public static PlayerIsOnTerritory playerIsOnTerritory;
 
     public GameObject m_particleFightPrefab;
@@ -149,8 +151,10 @@ public class Territory : MonoBehaviour
                 ObjectsFollow.FollowCharacter(enemy.Glasses.transform, enemy.transform.position);
             }
         }
+        bool enemyDied = false;
         if (enemy.Level < 1)
         {
+            enemyDied = true;
             enemy.Level = 1;
             enemy.transform.position = enemy.Faction.RespawnPosition.transform.position;
             y = (int)enemy.Faction.RespawnPosition.transform.position.y;
@@ -163,6 +167,22 @@ public class Territory : MonoBehaviour
                 enemy.HasGlasses = false;
                 player.Glasses = enemy.Glasses;
                 ObjectsFollow.FollowCharacter(player.Glasses.transform, player.transform.position);
+            }
+        }
+        if(playerDied)
+        {
+            if(!enemyDied)
+            {
+                enemy.Gold += (int)(player.Gold *0.5f);
+                player.Gold = (int)(player.Gold * 0.5f);
+            }
+        }
+        if (enemyDied)
+        {
+            if (!playerDied)
+            {
+                player.Gold += (int)(enemy.Gold * 0.5f);
+                enemy.Gold = (int)(enemy.Gold * 0.5f);
             }
         }
         player.PlayPop();
@@ -183,8 +203,13 @@ public class Territory : MonoBehaviour
         }
         if (this.IsCenter)
         {
-            NotifyPlayerIsOnTerritory(this, p);
+            NotifyPlayerIsOnCenterTerritory(this, p);
         }
+        else
+        {
+            NotifyPlayerIsOutTerritory(this,p);
+        }
+
     }
 
     public void ColorChange(Color color) {
@@ -250,21 +275,32 @@ public class Territory : MonoBehaviour
 
     }
 
-    public static void AddPlayerListener(PlayerIsOnTerritory action)
+    public static void AddPlayerCenterListener(PlayerIsOnCenterTerritory action)
+    {
+        playerIsOnCenterTerritory += action;
+    }
+
+    public static void RemovePlayerCenterListener(PlayerIsOnCenterTerritory action)
+    {
+        playerIsOnCenterTerritory -= action;
+    }
+    public static void AddPlayerOutListener(PlayerIsOnTerritory action)
     {
         playerIsOnTerritory += action;
     }
 
-    public static void RemovePlayerListener(PlayerIsOnTerritory action)
+    public static void RemovePlayerOutListener(PlayerIsOnTerritory action)
     {
         playerIsOnTerritory -= action;
     }
-
-    public static void NotifyPlayerIsOnTerritory(Territory territory, Player player)
+    public static void NotifyPlayerIsOnCenterTerritory(Territory territory, Player player)
     {
         playerIsOnTerritory(territory, player);
     }
-
+    public static void NotifyPlayerIsOutTerritory(Territory territory, Player player)
+    {
+        playerIsOnTerritory(territory, player);
+    }
     #endregion
 
     #region Tools Debug And Utility

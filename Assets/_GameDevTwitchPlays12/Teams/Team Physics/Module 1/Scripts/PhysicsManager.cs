@@ -32,7 +32,8 @@ public class PhysicsManager : MonoBehaviour
         timerGame = gameObject.AddComponent<Timer>();
         LaunchGameTimer(endTime, timerGame);
         timerGame.StartTimer();
-        Territory.AddPlayerListener(PlayerIsOnTerritory);
+        Territory.AddPlayerCenterListener(PlayerIsOnTerritory);
+        Territory.AddPlayerOutListener(PlayerIsOnTerritory);
         timerRed = gameObject.AddComponent<Timer>();
         timerBlue = gameObject.AddComponent<Timer>();
         timerGreen = gameObject.AddComponent<Timer>();
