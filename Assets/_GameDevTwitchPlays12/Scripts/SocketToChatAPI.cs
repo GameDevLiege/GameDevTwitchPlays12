@@ -101,6 +101,27 @@ public class SocketToChatAPI : DualBehaviour
 
     #region Tools Debug and Utility
 
+
+    public void OnDisable()
+    {
+        CloseAll();
+    }
+    public void OnDestroy()
+    {
+        CloseAll();
+    }
+    public void OnApplicationQuit()
+    {
+        CloseAll();
+    }
+
+    public void CloseAll() {
+        Debug.LogWarning("Close Socket & Thread connection");
+
+        s.Close();
+        inProc.Abort();
+    }
+
     #endregion
 
     #region Private and Protected Members

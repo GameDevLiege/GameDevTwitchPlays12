@@ -78,7 +78,7 @@ namespace DidzNeil.ChatAPI
 
             if (_sendMessageToUser != null)
                 _sendMessageToUser(user, platform, msg);
-            else
+            else if (platform != Platform.Mockup)
                 Debug.LogWarning(
                     String.Format(
                         "No way to contact \"{0}\" ({1}) with the following message:\n{2}",
