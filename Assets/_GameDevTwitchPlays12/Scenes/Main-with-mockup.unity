@@ -72772,30 +72772,22 @@ Prefab:
     - target: {fileID: 224744146360891346, guid: afc50b9772483ab4f9876d8c106c7da2,
         type: 2}
       propertyPath: m_SizeDelta.y
-      value: 17.4462
+      value: 16.429405
       objectReference: {fileID: 0}
     - target: {fileID: 224317899750763882, guid: afc50b9772483ab4f9876d8c106c7da2,
         type: 2}
       propertyPath: m_SizeDelta.y
-      value: 17.4462
+      value: 16.429405
       objectReference: {fileID: 0}
     - target: {fileID: 224646925592084284, guid: afc50b9772483ab4f9876d8c106c7da2,
         type: 2}
       propertyPath: m_AnchorMin.y
-<<<<<<< HEAD
-      value: 0.00000011920929
-=======
       value: 0
->>>>>>> 81ebc90d275690195d41a081a4eb84c10683c1a3
       objectReference: {fileID: 0}
     - target: {fileID: 224317899750763882, guid: afc50b9772483ab4f9876d8c106c7da2,
         type: 2}
       propertyPath: m_AnchoredPosition.y
-<<<<<<< HEAD
-      value: 0.0000014265277
-=======
       value: 0.000012291648
->>>>>>> 81ebc90d275690195d41a081a4eb84c10683c1a3
       objectReference: {fileID: 0}
     - target: {fileID: 224539416211835602, guid: afc50b9772483ab4f9876d8c106c7da2,
         type: 2}
