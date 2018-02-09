@@ -108,11 +108,11 @@ public class PlayerManager : MonoBehaviour
         {
             int numberItem = player.NumberOfItem((int)item.ItemType);
 
-            if (numberItem > 0)
+            if (numberItem > 0 && numberItem <=1)
             {
                 player.Inventory[(int)item.ItemType] = numberItem;
             }
-            else
+            else if(numberItem==0)
             {
                 player.Inventory.Add((int)item.ItemType, numberItem);
                 player.Inventory[(int)item.ItemType] += 1;
@@ -120,6 +120,7 @@ public class PlayerManager : MonoBehaviour
 
             //Debug.Log(player.Inventory.Count);
         }
+
         m_territoryManager.eligibleTerritoryItem.Add(player.CurrentTerritory);
     }
     public void RotateMole(GameObject Mole, float angleY)
@@ -230,7 +231,7 @@ public class PlayerManager : MonoBehaviour
                         if (item.ItemType == Item.e_itemType.GLASSES)
                         {
                             player.HasGlasses = true;
-                            GameObject glasses = Instantiate(m_glassesPrefab, player.transform);
+                            GameObject glasses = Instantiate(m_glassesPrefab);
                             player.Glasses = glasses;
                             ObjectsFollow.FollowCharacter(glasses.transform, player.transform.position);
                             //active objet glasses cedric
@@ -286,7 +287,7 @@ public class PlayerManager : MonoBehaviour
 
                     break;
                 case "SHOVEL":
-                    if (player.NumberOfItem((int)Item.e_itemType.SHOVEL) > 0)
+                    if (player.NumberOfItem((int)Item.e_itemType.SHOVEL) > 0 && player.NumberOfItem((int)Item.e_itemType.SHOVEL)<=1)
                     {
                         player.Inventory[(int)Item.e_itemType.SHOVEL] -= 1; ;
                         ItemEvent.NotifyItemUse(Item.e_itemType.GRENADES, player);
@@ -304,7 +305,7 @@ public class PlayerManager : MonoBehaviour
                     if (player.Gold > m_costOfGrenade)
                     {
                         player.Gold -= m_costOfGrenade;
-                        if (player.NumberOfItem((int)Item.e_itemType.GRENADES) > 0)
+                        if (player.NumberOfItem((int)Item.e_itemType.GRENADES) > 0 && player.NumberOfItem((int)Item.e_itemType.GRENADES)<=1)
                             player.Inventory.Add((int)Item.e_itemType.GRENADES, 1);
                         else
                             player.Inventory[(int)Item.e_itemType.GRENADES] += 1;
@@ -314,7 +315,7 @@ public class PlayerManager : MonoBehaviour
                     if (player.Gold > m_costOfShovel)
                     {
                         player.Gold -= m_costOfShovel;
-                        if (player.NumberOfItem((int)Item.e_itemType.SHOVEL) > 0)
+                        if (player.NumberOfItem((int)Item.e_itemType.SHOVEL) > 0 && player.NumberOfItem((int)Item.e_itemType.SHOVEL)<=1)
                             player.Inventory.Add((int)Item.e_itemType.SHOVEL, 1);
                         else
                             player.Inventory[(int)Item.e_itemType.SHOVEL] += 1;
