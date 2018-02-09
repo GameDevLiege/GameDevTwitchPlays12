@@ -17,7 +17,8 @@ public class CommandManager : MonoBehaviour, ICommandManager
     public int maxPlayer = 20;
     public int maxMovement = 5;
 
-    public long cooldown = 2;
+    public float cooldownInSecond = 2;
+    public long cooldown;
     public long stunMult = 5;
     public long sprainMult = 5;
     public long autoDigMult = 5;
@@ -33,7 +34,7 @@ public class CommandManager : MonoBehaviour, ICommandManager
 
     private void Awake()
     {
-        cooldown = cooldown * 10000000;
+        cooldown = (long)cooldownInSecond * 10000000;
     }
 
     public void Parse(string _username, int _plateform, string _message, long _time)
