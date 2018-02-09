@@ -17,6 +17,7 @@ public class GameManager12 : MonoBehaviour
     public ICommandManager m_commandManager;
     public PhysicsManager m_physicsManager;
 
+    public AffichageInventaire m_InventoryDisplay;
     public TimerGame m_timerGame;
 
     bool gameIsStarted;
@@ -35,16 +36,20 @@ public class GameManager12 : MonoBehaviour
         ChatAPI.AddListener(HandleMessage);
         PhysicsManager.AddEndGameTimerListener(TimerFunction);
         ItemEvent.AddPickupListener(HandleEvent);
+        ItemEvent.AddUseListener(HandleUse);
     }
 
     private void Update()
     {
         m_timerGame.TimerGameStart(m_physicsManager.timerGame.timer, 60 * 20f);
 
-        m_timerGame.TimerEquipeBLUE(m_physicsManager.timerBlue.timer, 60f);
-        m_timerGame.TimerEquipeGREEN(m_physicsManager.timerGreen.timer, 60f);
-        m_timerGame.TimerEquipeRED(m_physicsManager.timerRed.timer, 60f);
-        m_timerGame.TimerEquipeYELLOW(m_physicsManager.timerYellow.timer, 60f);
+        switch(m_physicsManager.CurrentTeamTimer)
+        {
+            case 1: m_timerGame.TimerEquipeRED(m_physicsManager.timerRed.timer, 60f); break;
+            case 2: m_timerGame.TimerEquipeBLUE(m_physicsManager.timerBlue.timer, 60f); break;
+            case 3: m_timerGame.TimerEquipeGREEN(m_physicsManager.timerGreen.timer, 60f); break;
+            case 4: m_timerGame.TimerEquipeYELLOW(m_physicsManager.timerYellow.timer, 60f); break;
+        }    
 
         if(m_debug)
         {
@@ -109,6 +114,32 @@ public class GameManager12 : MonoBehaviour
         gameIsStarted = false;
     }
 
+    public void HandleUse(Item.e_itemType item, Player player)
+    {
+        if (m_debug)
+        {
+            Debug.Log(string.Format("GameManager12:HandleUse() => ItemType:{0} Player:{3} - {4}", item, player.NumPlayer, player.Name));
+        }
+
+        string faction = GetFactionStringFromPlayer(player);
+
+        switch (item)
+        {
+            case Item.e_itemType.GRENADES:
+                m_InventoryDisplay.RetireInventaire(faction, player.Faction.ListPlayer.IndexOf(player) + 1, "GRENADE");
+                //TODO feedback joueur
+                break;
+            case Item.e_itemType.SHOVEL:
+                m_InventoryDisplay.RetireInventaire(faction, player.Faction.ListPlayer.IndexOf(player) + 1, "PELLE");
+                //TODO feedback joueur
+                SendCommand("AUTODIG", player.Name);
+                break;
+            default:
+                Debug.LogWarning(string.Format("GameManager12: HandleUse() => default switch ({0} received)", item.ToString()));
+                break;
+        }
+    }
+
     private void HandleEvent(Item item, Player player)
     {
         if (m_debug)
@@ -118,55 +149,112 @@ public class GameManager12 : MonoBehaviour
                 "=> Player:{3} - {4}", item.ItemType, item.EffectType, item.goldValue, player.NumPlayer, player.Name));
         }
 
-        DateTime unixStart = new DateTime(1970, 1, 1, 0, 0, 0, 0, System.DateTimeKind.Utc);
-        long timestamp = (DateTime.Now.ToUniversalTime() - unixStart).Ticks;
+        string faction = GetFactionStringFromPlayer(player);
 
-        string state = "";
+        int platformCode;
+        string playerName;
+        SplitPlayerID(player.Name, out platformCode, out playerName);
 
-        //if (item.EffectType == Item.e_effectType.INSTANT) ;
-
-        /*
-        switch (item.EffectType)
-        {
-            case Item.e_effectType.INSTANT:
-                break;
-            case Item.e_effectType.INVENTORY:
-                break;
-            default:
-                break;
-        }
-        //*/
+        string state = "";  
         switch (item.ItemType)
         {
             case Item.e_itemType.COINCHEST:
-                float goldChest = item.goldValue; 
-                //TODO : déjà ajouté à l'or du joueur + son, juste le prévenir dans le chat
+                float goldChest = item.goldValue;
+                SendMessageToPlayer((Platform)platformCode, playerName, "Vous avez découvert un coffre de pièces!");
                 break;
             case Item.e_itemType.GRENADES:
+                m_InventoryDisplay.AjoutInventaire(faction, player.Faction.ListPlayer.IndexOf(player) + 1, "GRENADE");
+                SendMessageToPlayer((Platform)platformCode, playerName, "Vous avez rammassé une grenade!");
                 break;
             case Item.e_itemType.SHOVEL:
+                m_InventoryDisplay.AjoutInventaire(faction, player.Faction.ListPlayer.IndexOf(player) + 1, "PELLE");
+                SendMessageToPlayer((Platform)platformCode, playerName, "Vous avez trouvé une pelle!");
                 break;
             case Item.e_itemType.PARCHEMENT:
                 state = "STUN";
+                SendMessageToPlayer((Platform)platformCode, playerName, "Vous vous êtes fait une entorse.");
                 break;
             case Item.e_itemType.STRAIN:
                 state = "STRAIN";
+                SendMessageToPlayer((Platform)platformCode, playerName, "Vous vous êtes fait une entorse.");
                 break;
             case Item.e_itemType.GLASSES:
+                SendMessageToPlayer((Platform)platformCode, playerName, "Vous avez les lunettes!");
                 break;
             default:
                 break;
         }
 
+        SendCommand(state, player.Name);
+    }
+
+    private long GetTimestamp()
+    {
+        DateTime unixStart = new DateTime(1970, 1, 1, 0, 0, 0, 0, System.DateTimeKind.Utc);
+        return (DateTime.Now.ToUniversalTime() - unixStart).Ticks;
+    }
+
+    private void SendCommand(string state, string playerId)
+    {
         state = ((CommandManager)m_commandManager).firstStateCharacter + state;
-        string[] userInfo = player.Name.Split(' ');
-        if(userInfo.Length == 1)
+
+        int platformCode;
+        string playerName;
+        SplitPlayerID(playerId, out platformCode, out playerName);
+
+        m_commandManager.Parse(playerName, platformCode, state, GetTimestamp());
+        /*
+        string[] userInfo = playerId.Split(' ');
+        if (userInfo.Length == 1)
         {
             m_commandManager.Parse(userInfo[0], 0, state, timestamp);
         }
         else
-        m_commandManager.Parse(userInfo[1], Int32.Parse(userInfo[0]), state, timestamp);
+            m_commandManager.Parse(userInfo[1], Int32.Parse(userInfo[0]), state, timestamp);
+            */
     }
+
+    private string GetFactionStringFromPlayer(Player player)
+    {
+        string faction = "";
+        switch (player.Faction.NumFaction)
+        {
+            case 1: faction = "RED"; break;
+            case 2: faction = "BLUE"; break;
+            case 3: faction = "GREEN"; break;
+            case 4: faction = "YELLOW"; break;
+        }
+        return faction;
+    }
+    
+    private void SendMessageToPlayer(Platform platform, string playerName, string message)
+    {
+        Message msg = new Message(playerName, message, GetTimestamp(), platform);
+        ChatAPI.SendMessageToUser(playerName, platform, msg);
+    }
+    
+
+    private void SplitPlayerID(string playerId, out int platformCode, out string playerName)
+    {
+        string[] userInfo = playerId.Split(' ');
+
+        platformCode = Int32.Parse(userInfo[0]);
+        playerName = userInfo[1];
+    }
+    /*
+    private void SendMessageToPlayer(Player player, string message)
+    {
+
+        int platformCode;
+        string playerName;
+        
+        SplitPlayerID(player.Name, out platformCode, playerName);
+
+
+        Message msg = new Message(playerName, message, GetTimestamp(), platform);
+        ChatAPI.SendMessageToUser(playerName, platform, msg);
+    }
+*/
     #endregion
 }
 

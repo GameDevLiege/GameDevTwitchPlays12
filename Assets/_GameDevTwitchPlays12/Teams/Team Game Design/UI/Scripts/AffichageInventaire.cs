@@ -67,12 +67,8 @@ public class AffichageInventaire : MonoBehaviour {
     public GameObject _inventaire58;
     public GameObject _inventaire59;
     public GameObject _inventaire60;
-
-
-
-
-
-    public void AjoutInventaire(string _Faction, int _numPos, GameObject _Bonus)
+    
+    public void AjoutInventaire(string _Faction, int _numPos, string _Bonus)
     {
         if (_Faction == "RED")
         {
@@ -92,7 +88,7 @@ public class AffichageInventaire : MonoBehaviour {
         }
     }
 
-    public void RetireInventaire(string _Faction, int _numPos, GameObject _Bonus)
+    public void RetireInventaire(string _Faction, int _numPos, string _Bonus)
     {
         if (_Faction == "RED")
         {
@@ -113,320 +109,320 @@ public class AffichageInventaire : MonoBehaviour {
     }
 
 
-    private void PositionRED(int _numPos, GameObject _Bonus)
+    private void PositionRED(int _numPos, string _Bonus)
     {
 
         if (_numPos ==1)
         {
-            if (_Bonus.name == "PELLE")
+            if (_Bonus == "PELLE")
             {
                 _inventaire1.SetActive(true);
             }
-            if (_Bonus.name == "GRENADE")
+            if (_Bonus == "GRENADE")
             {
                 _inventaire2.SetActive(true);
             }
-            if (_Bonus.name == "CAILLOUX")
+            if (_Bonus == "CAILLOUX")
             {
                 _inventaire3.SetActive(true);
             }
         }
         if (_numPos == 2)
         {
-            if (_Bonus.name == "PELLE")
+            if (_Bonus == "PELLE")
             {
                 _inventaire4.SetActive(true);
             }
-            if (_Bonus.name == "GRENADE")
+            if (_Bonus == "GRENADE")
             {
                 _inventaire5.SetActive(true);
             }
-            if (_Bonus.name == "CAILLOUX")
+            if (_Bonus == "CAILLOUX")
             {
                 _inventaire6.SetActive(true);
             }
         }
         if (_numPos == 3)
         {
-            if (_Bonus.name == "PELLE")
+            if (_Bonus == "PELLE")
             {
                 _inventaire7.SetActive(true);
             }
-            if (_Bonus.name == "GRENADE")
+            if (_Bonus == "GRENADE")
             {
                 _inventaire8.SetActive(true);
             }
-            if (_Bonus.name == "CAILLOUX")
+            if (_Bonus == "CAILLOUX")
             {
                 _inventaire9.SetActive(true);
             }
         }
         if (_numPos == 4)
         {
-            if (_Bonus.name == "PELLE")
+            if (_Bonus == "PELLE")
             {
                 _inventaire10.SetActive(true);
             }
-            if (_Bonus.name == "GRENADE")
+            if (_Bonus == "GRENADE")
             {
                 _inventaire11.SetActive(true);
             }
-            if (_Bonus.name == "CAILLOUX")
+            if (_Bonus == "CAILLOUX")
             {
                 _inventaire12.SetActive(true);
             }
         }
         if (_numPos == 5)
         {
-            if (_Bonus.name == "PELLE")
+            if (_Bonus == "PELLE")
             {
                 _inventaire13.SetActive(true);
             }
-            if (_Bonus.name == "GRENADE")
+            if (_Bonus == "GRENADE")
             {
                 _inventaire14.SetActive(true);
             }
-            if (_Bonus.name == "CAILLOUX")
+            if (_Bonus == "CAILLOUX")
             {
                 _inventaire15.SetActive(true);
             }
         }
     }
 
-    private void PositionGREEN(int _numPos, GameObject _Bonus)
+    private void PositionGREEN(int _numPos, string _Bonus)
     {
 
         if (_numPos == 1)
         {
-            if (_Bonus.name == "PELLE")
+            if (_Bonus == "PELLE")
             {
                 _inventaire16.SetActive(true);
             }
-            if (_Bonus.name == "GRENADE")
+            if (_Bonus == "GRENADE")
             {
                 _inventaire17.SetActive(true);
             }
-            if (_Bonus.name == "CAILLOUX")
+            if (_Bonus == "CAILLOUX")
             {
                 _inventaire18.SetActive(true);
             }
         }
         if (_numPos == 2)
         {
-            if (_Bonus.name == "PELLE")
+            if (_Bonus == "PELLE")
             {
                 _inventaire19.SetActive(true);
             }
-            if (_Bonus.name == "GRENADE")
+            if (_Bonus == "GRENADE")
             {
                 _inventaire20.SetActive(true);
             }
-            if (_Bonus.name == "CAILLOUX")
+            if (_Bonus == "CAILLOUX")
             {
                 _inventaire21.SetActive(true);
             }
         }
         if (_numPos == 3)
         {
-            if (_Bonus.name == "PELLE")
+            if (_Bonus == "PELLE")
             {
                 _inventaire22.SetActive(true);
             }
-            if (_Bonus.name == "GRENADE")
+            if (_Bonus == "GRENADE")
             {
                 _inventaire23.SetActive(true);
             }
-            if (_Bonus.name == "CAILLOUX")
+            if (_Bonus == "CAILLOUX")
             {
                 _inventaire24.SetActive(true);
             }
         }
         if (_numPos == 4)
         {
-            if (_Bonus.name == "PELLE")
+            if (_Bonus == "PELLE")
             {
                 _inventaire25.SetActive(true);
             }
-            if (_Bonus.name == "GRENADE")
+            if (_Bonus == "GRENADE")
             {
                 _inventaire26.SetActive(true);
             }
-            if (_Bonus.name == "CAILLOUX")
+            if (_Bonus == "CAILLOUX")
             {
                 _inventaire27.SetActive(true);
             }
         }
         if (_numPos == 5)
         {
-            if (_Bonus.name == "PELLE")
+            if (_Bonus == "PELLE")
             {
                 _inventaire28.SetActive(true);
             }
-            if (_Bonus.name == "GRENADE")
+            if (_Bonus == "GRENADE")
             {
                 _inventaire29.SetActive(true);
             }
-            if (_Bonus.name == "CAILLOUX")
+            if (_Bonus == "CAILLOUX")
             {
                 _inventaire30.SetActive(true);
             }
         }
     }
 
-    private void PositionYELLOW(int _numPos, GameObject _Bonus)
+    private void PositionYELLOW(int _numPos, string _Bonus)
     {
 
         if (_numPos == 1)
         {
-            if (_Bonus.name == "PELLE")
+            if (_Bonus == "PELLE")
             {
                 _inventaire31.SetActive(true);
             }
-            if (_Bonus.name == "GRENADE")
+            if (_Bonus == "GRENADE")
             {
                 _inventaire32.SetActive(true);
             }
-            if (_Bonus.name == "CAILLOUX")
+            if (_Bonus == "CAILLOUX")
             {
                 _inventaire33.SetActive(true);
             }
         }
         if (_numPos == 2)
         {
-            if (_Bonus.name == "PELLE")
+            if (_Bonus == "PELLE")
             {
                 _inventaire34.SetActive(true);
             }
-            if (_Bonus.name == "GRENADE")
+            if (_Bonus == "GRENADE")
             {
                 _inventaire35.SetActive(true);
             }
-            if (_Bonus.name == "CAILLOUX")
+            if (_Bonus == "CAILLOUX")
             {
                 _inventaire36.SetActive(true);
             }
         }
         if (_numPos == 3)
         {
-            if (_Bonus.name == "PELLE")
+            if (_Bonus == "PELLE")
             {
                 _inventaire37.SetActive(true);
             }
-            if (_Bonus.name == "GRENADE")
+            if (_Bonus == "GRENADE")
             {
                 _inventaire38.SetActive(true);
             }
-            if (_Bonus.name == "CAILLOUX")
+            if (_Bonus == "CAILLOUX")
             {
                 _inventaire39.SetActive(true);
             }
         }
         if (_numPos == 4)
         {
-            if (_Bonus.name == "PELLE")
+            if (_Bonus == "PELLE")
             {
                 _inventaire40.SetActive(true);
             }
-            if (_Bonus.name == "GRENADE")
+            if (_Bonus == "GRENADE")
             {
                 _inventaire41.SetActive(true);
             }
-            if (_Bonus.name == "CAILLOUX")
+            if (_Bonus == "CAILLOUX")
             {
                 _inventaire42.SetActive(true);
             }
         }
         if (_numPos == 5)
         {
-            if (_Bonus.name == "PELLE")
+            if (_Bonus == "PELLE")
             {
                 _inventaire43.SetActive(true);
             }
-            if (_Bonus.name == "GRENADE")
+            if (_Bonus == "GRENADE")
             {
                 _inventaire44.SetActive(true);
             }
-            if (_Bonus.name == "CAILLOUX")
+            if (_Bonus == "CAILLOUX")
             {
                 _inventaire45.SetActive(true);
             }
         }
     }
 
-    private void PositionBLUE(int _numPos, GameObject _Bonus)
+    private void PositionBLUE(int _numPos, string _Bonus)
     {
 
         if (_numPos == 1)
         {
-            if (_Bonus.name == "PELLE")
+            if (_Bonus == "PELLE")
             {
                 _inventaire46.SetActive(true);
             }
-            if (_Bonus.name == "GRENADE")
+            if (_Bonus == "GRENADE")
             {
                 _inventaire47.SetActive(true);
             }
-            if (_Bonus.name == "CAILLOUX")
+            if (_Bonus == "CAILLOUX")
             {
                 _inventaire48.SetActive(true);
             }
         }
         if (_numPos == 2)
         {
-            if (_Bonus.name == "PELLE")
+            if (_Bonus == "PELLE")
             {
                 _inventaire49.SetActive(true);
             }
-            if (_Bonus.name == "GRENADE")
+            if (_Bonus == "GRENADE")
             {
                 _inventaire50.SetActive(true);
             }
-            if (_Bonus.name == "CAILLOUX")
+            if (_Bonus == "CAILLOUX")
             {
                 _inventaire51.SetActive(true);
             }
         }
         if (_numPos == 3)
         {
-            if (_Bonus.name == "PELLE")
+            if (_Bonus == "PELLE")
             {
                 _inventaire52.SetActive(true);
             }
-            if (_Bonus.name == "GRENADE")
+            if (_Bonus == "GRENADE")
             {
                 _inventaire53.SetActive(true);
             }
-            if (_Bonus.name == "CAILLOUX")
+            if (_Bonus == "CAILLOUX")
             {
                 _inventaire54.SetActive(true);
             }
         }
         if (_numPos == 4)
         {
-            if (_Bonus.name == "PELLE")
+            if (_Bonus == "PELLE")
             {
                 _inventaire55.SetActive(true);
             }
-            if (_Bonus.name == "GRENADE")
+            if (_Bonus == "GRENADE")
             {
                 _inventaire56.SetActive(true);
             }
-            if (_Bonus.name == "CAILLOUX")
+            if (_Bonus == "CAILLOUX")
             {
                 _inventaire57.SetActive(true);
             }
         }
         if (_numPos == 5)
         {
-            if (_Bonus.name == "PELLE")
+            if (_Bonus == "PELLE")
             {
                 _inventaire58.SetActive(true);
             }
-            if (_Bonus.name == "GRENADE")
+            if (_Bonus == "GRENADE")
             {
                 _inventaire59.SetActive(true);
             }
-            if (_Bonus.name == "CAILLOUX")
+            if (_Bonus == "CAILLOUX")
             {
                 _inventaire60.SetActive(true);
             }
@@ -434,320 +430,320 @@ public class AffichageInventaire : MonoBehaviour {
     }
 
 
-    private void RetirePositionRED(int _numPos, GameObject _Bonus)
+    private void RetirePositionRED(int _numPos, string _Bonus)
     {
 
         if (_numPos == 1)
         {
-            if (_Bonus.name == "PELLE")
+            if (_Bonus == "PELLE")
             {
                 _inventaire1.SetActive(false);
             }
-            if (_Bonus.name == "GRENADE")
+            if (_Bonus == "GRENADE")
             {
                 _inventaire2.SetActive(false);
             }
-            if (_Bonus.name == "CAILLOUX")
+            if (_Bonus == "CAILLOUX")
             {
                 _inventaire3.SetActive(false);
             }
         }
         if (_numPos == 2)
         {
-            if (_Bonus.name == "PELLE")
+            if (_Bonus == "PELLE")
             {
                 _inventaire4.SetActive(false);
             }
-            if (_Bonus.name == "GRENADE")
+            if (_Bonus == "GRENADE")
             {
                 _inventaire5.SetActive(false);
             }
-            if (_Bonus.name == "CAILLOUX")
+            if (_Bonus == "CAILLOUX")
             {
                 _inventaire6.SetActive(false);
             }
         }
         if (_numPos == 3)
         {
-            if (_Bonus.name == "PELLE")
+            if (_Bonus == "PELLE")
             {
                 _inventaire7.SetActive(false);
             }
-            if (_Bonus.name == "GRENADE")
+            if (_Bonus == "GRENADE")
             {
                 _inventaire8.SetActive(false);
             }
-            if (_Bonus.name == "CAILLOUX")
+            if (_Bonus == "CAILLOUX")
             {
                 _inventaire9.SetActive(false);
             }
         }
         if (_numPos == 4)
         {
-            if (_Bonus.name == "PELLE")
+            if (_Bonus == "PELLE")
             {
                 _inventaire10.SetActive(false);
             }
-            if (_Bonus.name == "GRENADE")
+            if (_Bonus == "GRENADE")
             {
                 _inventaire11.SetActive(false);
             }
-            if (_Bonus.name == "CAILLOUX")
+            if (_Bonus == "CAILLOUX")
             {
                 _inventaire12.SetActive(false);
             }
         }
         if (_numPos == 5)
         {
-            if (_Bonus.name == "PELLE")
+            if (_Bonus == "PELLE")
             {
                 _inventaire13.SetActive(false);
             }
-            if (_Bonus.name == "GRENADE")
+            if (_Bonus == "GRENADE")
             {
                 _inventaire14.SetActive(false);
             }
-            if (_Bonus.name == "CAILLOUX")
+            if (_Bonus == "CAILLOUX")
             {
                 _inventaire15.SetActive(false);
             }
         }
     }
 
-    private void RetirePositionGREEN(int _numPos, GameObject _Bonus)
+    private void RetirePositionGREEN(int _numPos, string _Bonus)
     {
 
         if (_numPos == 1)
         {
-            if (_Bonus.name == "PELLE")
+            if (_Bonus == "PELLE")
             {
                 _inventaire16.SetActive(false);
             }
-            if (_Bonus.name == "GRENADE")
+            if (_Bonus == "GRENADE")
             {
                 _inventaire17.SetActive(false);
             }
-            if (_Bonus.name == "CAILLOUX")
+            if (_Bonus == "CAILLOUX")
             {
                 _inventaire18.SetActive(false);
             }
         }
         if (_numPos == 2)
         {
-            if (_Bonus.name == "PELLE")
+            if (_Bonus == "PELLE")
             {
                 _inventaire19.SetActive(false);
             }
-            if (_Bonus.name == "GRENADE")
+            if (_Bonus == "GRENADE")
             {
                 _inventaire20.SetActive(false);
             }
-            if (_Bonus.name == "CAILLOUX")
+            if (_Bonus == "CAILLOUX")
             {
                 _inventaire21.SetActive(false);
             }
         }
         if (_numPos == 3)
         {
-            if (_Bonus.name == "PELLE")
+            if (_Bonus == "PELLE")
             {
                 _inventaire22.SetActive(false);
             }
-            if (_Bonus.name == "GRENADE")
+            if (_Bonus == "GRENADE")
             {
                 _inventaire23.SetActive(false);
             }
-            if (_Bonus.name == "CAILLOUX")
+            if (_Bonus == "CAILLOUX")
             {
                 _inventaire24.SetActive(false);
             }
         }
         if (_numPos == 4)
         {
-            if (_Bonus.name == "PELLE")
+            if (_Bonus == "PELLE")
             {
                 _inventaire25.SetActive(false);
             }
-            if (_Bonus.name == "GRENADE")
+            if (_Bonus == "GRENADE")
             {
                 _inventaire26.SetActive(false);
             }
-            if (_Bonus.name == "CAILLOUX")
+            if (_Bonus == "CAILLOUX")
             {
                 _inventaire27.SetActive(false);
             }
         }
         if (_numPos == 5)
         {
-            if (_Bonus.name == "PELLE")
+            if (_Bonus == "PELLE")
             {
                 _inventaire28.SetActive(false);
             }
-            if (_Bonus.name == "GRENADE")
+            if (_Bonus == "GRENADE")
             {
                 _inventaire29.SetActive(false);
             }
-            if (_Bonus.name == "CAILLOUX")
+            if (_Bonus == "CAILLOUX")
             {
                 _inventaire30.SetActive(false);
             }
         }
     }
 
-    private void RetirePositionYELLOW(int _numPos, GameObject _Bonus)
+    private void RetirePositionYELLOW(int _numPos, string _Bonus)
     {
 
         if (_numPos == 1)
         {
-            if (_Bonus.name == "PELLE")
+            if (_Bonus == "PELLE")
             {
                 _inventaire31.SetActive(false);
             }
-            if (_Bonus.name == "GRENADE")
+            if (_Bonus == "GRENADE")
             {
                 _inventaire32.SetActive(false);
             }
-            if (_Bonus.name == "CAILLOUX")
+            if (_Bonus == "CAILLOUX")
             {
                 _inventaire33.SetActive(false);
             }
         }
         if (_numPos == 2)
         {
-            if (_Bonus.name == "PELLE")
+            if (_Bonus == "PELLE")
             {
                 _inventaire34.SetActive(false);
             }
-            if (_Bonus.name == "GRENADE")
+            if (_Bonus == "GRENADE")
             {
                 _inventaire35.SetActive(false);
             }
-            if (_Bonus.name == "CAILLOUX")
+            if (_Bonus == "CAILLOUX")
             {
                 _inventaire36.SetActive(false);
             }
         }
         if (_numPos == 3)
         {
-            if (_Bonus.name == "PELLE")
+            if (_Bonus == "PELLE")
             {
                 _inventaire37.SetActive(false);
             }
-            if (_Bonus.name == "GRENADE")
+            if (_Bonus == "GRENADE")
             {
                 _inventaire38.SetActive(false);
             }
-            if (_Bonus.name == "CAILLOUX")
+            if (_Bonus == "CAILLOUX")
             {
                 _inventaire39.SetActive(false);
             }
         }
         if (_numPos == 4)
         {
-            if (_Bonus.name == "PELLE")
+            if (_Bonus == "PELLE")
             {
                 _inventaire40.SetActive(false);
             }
-            if (_Bonus.name == "GRENADE")
+            if (_Bonus == "GRENADE")
             {
                 _inventaire41.SetActive(false);
             }
-            if (_Bonus.name == "CAILLOUX")
+            if (_Bonus == "CAILLOUX")
             {
                 _inventaire42.SetActive(false);
             }
         }
         if (_numPos == 5)
         {
-            if (_Bonus.name == "PELLE")
+            if (_Bonus == "PELLE")
             {
                 _inventaire43.SetActive(false);
             }
-            if (_Bonus.name == "GRENADE")
+            if (_Bonus == "GRENADE")
             {
                 _inventaire44.SetActive(false);
             }
-            if (_Bonus.name == "CAILLOUX")
+            if (_Bonus == "CAILLOUX")
             {
                 _inventaire45.SetActive(false);
             }
         }
     }
 
-    private void RetirePositionBLUE(int _numPos, GameObject _Bonus)
+    private void RetirePositionBLUE(int _numPos, string _Bonus)
     {
 
         if (_numPos == 1)
         {
-            if (_Bonus.name == "PELLE")
+            if (_Bonus == "PELLE")
             {
                 _inventaire46.SetActive(false);
             }
-            if (_Bonus.name == "GRENADE")
+            if (_Bonus == "GRENADE")
             {
                 _inventaire47.SetActive(false);
             }
-            if (_Bonus.name == "CAILLOUX")
+            if (_Bonus == "CAILLOUX")
             {
                 _inventaire48.SetActive(false);
             }
         }
         if (_numPos == 2)
         {
-            if (_Bonus.name == "PELLE")
+            if (_Bonus == "PELLE")
             {
                 _inventaire49.SetActive(false);
             }
-            if (_Bonus.name == "GRENADE")
+            if (_Bonus == "GRENADE")
             {
                 _inventaire50.SetActive(false);
             }
-            if (_Bonus.name == "CAILLOUX")
+            if (_Bonus == "CAILLOUX")
             {
                 _inventaire51.SetActive(false);
             }
         }
         if (_numPos == 3)
         {
-            if (_Bonus.name == "PELLE")
+            if (_Bonus == "PELLE")
             {
                 _inventaire52.SetActive(false);
             }
-            if (_Bonus.name == "GRENADE")
+            if (_Bonus == "GRENADE")
             {
                 _inventaire53.SetActive(false);
             }
-            if (_Bonus.name == "CAILLOUX")
+            if (_Bonus == "CAILLOUX")
             {
                 _inventaire54.SetActive(false);
             }
         }
         if (_numPos == 4)
         {
-            if (_Bonus.name == "PELLE")
+            if (_Bonus == "PELLE")
             {
                 _inventaire55.SetActive(false);
             }
-            if (_Bonus.name == "GRENADE")
+            if (_Bonus == "GRENADE")
             {
                 _inventaire56.SetActive(false);
             }
-            if (_Bonus.name == "CAILLOUX")
+            if (_Bonus == "CAILLOUX")
             {
                 _inventaire57.SetActive(false);
             }
         }
         if (_numPos == 5)
         {
-            if (_Bonus.name == "PELLE")
+            if (_Bonus == "PELLE")
             {
                 _inventaire58.SetActive(false);
             }
-            if (_Bonus.name == "GRENADE")
+            if (_Bonus == "GRENADE")
             {
                 _inventaire59.SetActive(false);
             }
-            if (_Bonus.name == "CAILLOUX")
+            if (_Bonus == "CAILLOUX")
             {
                 _inventaire60.SetActive(false);
             }
