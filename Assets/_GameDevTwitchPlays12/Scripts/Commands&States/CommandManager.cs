@@ -18,7 +18,10 @@ public class CommandManager : MonoBehaviour, ICommandManager
     public int maxMovement = 5;
 
     public float cooldownInSecond = 2;
+
+    [HideInInspector]
     public long cooldown;
+
     public long stunMult = 5;
     public long sprainMult = 5;
     public long autoDigMult = 5;
@@ -34,7 +37,11 @@ public class CommandManager : MonoBehaviour, ICommandManager
 
     private void Awake()
     {
-        cooldown = (long)cooldownInSecond * 10000000;
+        Debug.Log("Cooldown in second : " + cooldownInSecond);
+        intermediateNumber = cooldownInSecond * 10000000;
+        Debug.Log("Intermediate : " + intermediateNumber);
+        cooldown = (long)intermediateNumber;
+        Debug.Log("Cooldown : " + cooldown);
     }
 
     public void Parse(string _username, int _plateform, string _message, long _time)
@@ -367,6 +374,8 @@ public class CommandManager : MonoBehaviour, ICommandManager
     #endregion
 
     #region Private Var
+
+    private float intermediateNumber;
 
     private List<string> validCommand = new List<string>
     {

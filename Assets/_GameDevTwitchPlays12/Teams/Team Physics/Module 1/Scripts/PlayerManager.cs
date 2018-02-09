@@ -37,7 +37,7 @@ public class PlayerManager : MonoBehaviour
     public int[] m_levelPrices = new int[] { 125, 275, 450, 650, 900, 1200, 1550, 1950, 2400, 3000, 3750 };
     private int numPlayer=0;
     private int lastFaction = 1;
-    private bool m_hasJustLostBattle;
+    private GameObject m_glasses;
 
     //public int m_nbrFactions;
     //private bool m_gameHasStarted;
@@ -106,18 +106,20 @@ public class PlayerManager : MonoBehaviour
     {
         if (item.EffectType == Item.e_effectType.INVENTORY)
         {
-            int numberItem = player.NumberOfItem((int)item.ItemType);
+            
+              int numberItem = player.NumberOfItem((int)item.ItemType);
 
-            if (numberItem > 0 && numberItem <=1)
-            {
-                player.Inventory[(int)item.ItemType] = numberItem;
-            }
-            else if(numberItem==0)
-            {
-                player.Inventory.Add((int)item.ItemType, numberItem);
-                player.Inventory[(int)item.ItemType] += 1;
-            }
-
+                if (numberItem > 0 && numberItem <= 1)
+                {
+                    player.Inventory[(int)item.ItemType] = numberItem;
+                }
+                else if (numberItem == 0)
+                {
+                    player.Inventory.Add((int)item.ItemType, numberItem);
+                    player.Inventory[(int)item.ItemType] += 1;
+                }
+           
+            
             //Debug.Log(player.Inventory.Count);
         }
 
@@ -154,6 +156,10 @@ public class PlayerManager : MonoBehaviour
                             player.CurrentTerritory.GetListOfPlayerOnThisTerritory().Remove(player);
                             player.transform.Translate(0f, 0f, 1f);
                             player.CurrentTerritory = m_territoryManager.m_battleField[tempx, tempy];
+                            if(player.HasGlasses)
+                            {
+                                ObjectsFollow.FollowCharacter(m_glasses.transform, player.transform.position);
+                            }
                         }
                     }
                     break;
@@ -170,6 +176,10 @@ public class PlayerManager : MonoBehaviour
                             player.CurrentTerritory.GetListOfPlayerOnThisTerritory().Remove(player);
                             player.transform.Translate(0f, 0f, -1f);
                             player.CurrentTerritory = m_territoryManager.m_battleField[tempx, tempy];
+                            if (player.HasGlasses)
+                            {
+                                ObjectsFollow.FollowCharacter(m_glasses.transform, player.transform.position);
+                            }
                         }
                     }
                     break;
@@ -186,6 +196,10 @@ public class PlayerManager : MonoBehaviour
                             player.CurrentTerritory.GetListOfPlayerOnThisTerritory().Remove(player);
                             player.transform.Translate(-1f, 0f, 0f);
                             player.CurrentTerritory = m_territoryManager.m_battleField[tempx, tempy];
+                            if (player.HasGlasses)
+                            {
+                                ObjectsFollow.FollowCharacter(m_glasses.transform, player.transform.position);
+                            }
                         }
                     }
                     break;
@@ -202,6 +216,10 @@ public class PlayerManager : MonoBehaviour
                             player.CurrentTerritory.GetListOfPlayerOnThisTerritory().Remove(player);
                             player.transform.Translate(1f, 0f, 0f);
                             player.CurrentTerritory = m_territoryManager.m_battleField[tempx, tempy];
+                            if (player.HasGlasses)
+                            {
+                                ObjectsFollow.FollowCharacter(m_glasses.transform, player.transform.position);
+                            }
                         }
 
                     }
@@ -209,9 +227,6 @@ public class PlayerManager : MonoBehaviour
 
                 case "DIG":
                     Instantiate(m_holeInTheGround, player.CurrentTerritory.transform);
-                    Collider collider = player.CurrentTerritory.GetComponent<Collider>();
-                    collider.enabled = false;
-                    collider.enabled = true;
                     player.PlayDig();
                     if (player.CurrentTerritory.HasItem)
                     {
@@ -231,9 +246,9 @@ public class PlayerManager : MonoBehaviour
                         if (item.ItemType == Item.e_itemType.GLASSES)
                         {
                             player.HasGlasses = true;
-                            GameObject glasses = Instantiate(m_glassesPrefab);
-                            player.Glasses = glasses;
-                            ObjectsFollow.FollowCharacter(glasses.transform, player.transform.position);
+                            m_glasses = Instantiate(m_glassesPrefab);
+                            player.Glasses = m_glasses;
+                            ObjectsFollow.FollowCharacter(m_glasses.transform, player.transform.position);
                             //active objet glasses cedric
                         }
 
@@ -265,19 +280,21 @@ public class PlayerManager : MonoBehaviour
                 case "LEVELUP":
                     if (player.Gold > m_levelPrices[player.Level])
                     {
-                        player.Gold -= m_levelPrices[player.Level];
-                        player.Level= player.Level+1;
-                        
-                        GameObject level = Instantiate(m_levelUpParticlePrefab);
-                        ObjectsFollow.FollowCharacter(level.transform, player.transform.position);
+                        if(player.Level<m_levelPrices.Length)
+                        {
+                            player.Gold -= m_levelPrices[player.Level];
+                            player.Level = player.Level + 1;
 
+                            GameObject level = Instantiate(m_levelUpParticlePrefab);
+                            ObjectsFollow.FollowCharacter(level.transform, player.transform.position);
+                        }
                     }
                     break;
 
                 case "GRENADE":
                     //some condition based on inventory
 
-                    if (player.NumberOfItem((int)Item.e_itemType.GRENADES) > 0)
+                    if (( player.NumberOfItem((int)Item.e_itemType.GRENADES) )> 0)
                     {
                         player.Inventory[(int)Item.e_itemType.GRENADES] -= 1;
                         LaunchGrenade(player);
@@ -287,7 +304,7 @@ public class PlayerManager : MonoBehaviour
 
                     break;
                 case "SHOVEL":
-                    if (player.NumberOfItem((int)Item.e_itemType.SHOVEL) > 0 && player.NumberOfItem((int)Item.e_itemType.SHOVEL)<=1)
+                    if ((player.NumberOfItem((int)Item.e_itemType.SHOVEL))>0)
                     {
                         player.Inventory[(int)Item.e_itemType.SHOVEL] -= 1; ;
                         ItemEvent.NotifyItemUse(Item.e_itemType.GRENADES, player);
@@ -304,21 +321,38 @@ public class PlayerManager : MonoBehaviour
 
                     if (player.Gold > m_costOfGrenade)
                     {
-                        player.Gold -= m_costOfGrenade;
-                        if (player.NumberOfItem((int)Item.e_itemType.GRENADES) > 0 && player.NumberOfItem((int)Item.e_itemType.GRENADES)<=1)
-                            player.Inventory.Add((int)Item.e_itemType.GRENADES, 1);
+                        if (player.Inventory.ContainsKey((int)Item.e_itemType.GRENADES))
+                        {
+                            if (player.NumberOfItem((int)Item.e_itemType.GRENADES) == 0)
+                            {
+                                player.Inventory[(int)Item.e_itemType.GRENADES] += 1;
+                                player.Gold -= m_costOfGrenade;
+
+                            }
+                        }
                         else
-                            player.Inventory[(int)Item.e_itemType.GRENADES] += 1;
+                        {
+                            player.Inventory.Add((int)Item.e_itemType.GRENADES, 1);
+                            player.Gold -= m_costOfGrenade;
+                        }
                     }
                     break;
                 case "BUYSHOVEL":
                     if (player.Gold > m_costOfShovel)
                     {
-                        player.Gold -= m_costOfShovel;
-                        if (player.NumberOfItem((int)Item.e_itemType.SHOVEL) > 0 && player.NumberOfItem((int)Item.e_itemType.SHOVEL)<=1)
+                        if (player.Inventory.ContainsKey((int)Item.e_itemType.SHOVEL))
+                        {
+                            if (player.NumberOfItem((int)Item.e_itemType.SHOVEL) == 0)
+                            {
+                                player.Inventory[(int)Item.e_itemType.SHOVEL] += 1;
+                                player.Gold -= m_costOfShovel;
+                            }
+
+                        }
+                        else {
                             player.Inventory.Add((int)Item.e_itemType.SHOVEL, 1);
-                        else
-                            player.Inventory[(int)Item.e_itemType.SHOVEL] += 1;
+                            player.Gold -= m_costOfShovel;
+                        }                    
                     }
                     break;
             }
@@ -353,7 +387,7 @@ public class PlayerManager : MonoBehaviour
 
     public void TryPaintTarget(int x, int y, Player player)
     {
-        if ((x > 0 && x < m_territoryManager.m_nbrXTerritories - 1) && (y > 0 && y < m_territoryManager.m_nbrYTerritories - 1))
+        if ((x >= 0 && x < m_territoryManager.m_nbrXTerritories) && (y >= 0 && y < m_territoryManager.m_nbrYTerritories ))
         {
             Territory targetT = m_territoryManager.m_battleField[x, y];
             targetT.FactionChange(player);

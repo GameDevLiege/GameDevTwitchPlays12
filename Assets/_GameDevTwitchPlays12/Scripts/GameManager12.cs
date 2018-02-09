@@ -21,6 +21,7 @@ public class GameManager12 : MonoBehaviour
     public TimerGame m_timerGame;
 
     bool gameIsStarted;
+    public float TimeBeforeRestart = 10f;
     #endregion
 
     #region System
@@ -34,7 +35,7 @@ public class GameManager12 : MonoBehaviour
     protected void Start()
     {
         ChatAPI.AddListener(HandleMessage);
-        PhysicsManager.AddEndGameTimerListener(TimerFunction);
+        PhysicsManager.AddEndGameTimerListener(DoEndGame);
         ItemEvent.AddPickupListener(HandleEvent);
         ItemEvent.AddUseListener(HandleUse);
     }
@@ -50,18 +51,22 @@ public class GameManager12 : MonoBehaviour
             case 3: m_timerGame.TimerEquipeGREEN(m_physicsManager.timerGreen.timer, 60f); break;
             case 4: m_timerGame.TimerEquipeYELLOW(m_physicsManager.timerYellow.timer, 60f); break;
         }    
-
-        if(m_debug)
-        {
-            Debug.Log(string.Format("GameManager:Update() => Timers blue:{0} red:{1} yellow:{2} green:{3}", m_physicsManager.timerBlue.timer, m_physicsManager.timerRed.timer, m_physicsManager.timerYellow.timer, m_physicsManager.timerGreen.timer));
-        }
     }
 
-    public void TimerFunction(bool victory, Faction faction)
+    public UIWins UIWinInterfaceScript;
+    public void DoEndGame(bool victory, Faction faction)
     {
         gameIsStarted = false;
+        UIWinInterfaceScript.ActiveUIWins(true);
+        UIWinInterfaceScript.SetInfo(GetFactionStringFromFaction(faction), faction.FactionColor);
         //TODO prévenir les joeurs par chat que la partie est terminée
         //TODO afficher l'écran de fin de jeu pendant x sec
+
+        Invoke("RestartGame", TimeBeforeRestart);
+    }
+    private void RestartGame()
+    {
+        UnityEngine.SceneManagement.SceneManager.LoadScene(UnityEngine.SceneManagement.SceneManager.GetActiveScene().buildIndex);
     }
 
     public void DoCommand(string username, int platformCode, ICommand command)
@@ -109,11 +114,6 @@ public class GameManager12 : MonoBehaviour
         );
     }
 
-    public void ResetGame()
-    {
-        gameIsStarted = false;
-    }
-
     public void HandleUse(Item.e_itemType item, Player player)
     {
         if (m_debug)
@@ -121,17 +121,21 @@ public class GameManager12 : MonoBehaviour
             Debug.Log(string.Format("GameManager12:HandleUse() => ItemType:{0} Player:{3} - {4}", item, player.NumPlayer, player.Name));
         }
 
-        string faction = GetFactionStringFromPlayer(player);
+        int platformCode;
+        string playerName;
+        SplitPlayerID(player.Name, out platformCode, out playerName);
+
+        string faction = GetFactionStringFromFaction(player.Faction);
 
         switch (item)
         {
             case Item.e_itemType.GRENADES:
                 m_InventoryDisplay.RetireInventaire(faction, player.Faction.ListPlayer.IndexOf(player) + 1, "GRENADE");
-                //TODO feedback joueur
+                SendMessageToPlayer((Platform)platformCode, playerName, "Vous avez utilisé une grenade!");
                 break;
             case Item.e_itemType.SHOVEL:
                 m_InventoryDisplay.RetireInventaire(faction, player.Faction.ListPlayer.IndexOf(player) + 1, "PELLE");
-                //TODO feedback joueur
+                SendMessageToPlayer((Platform)platformCode, playerName, "Vous utilisez maintenant une pelle pour creuser plus vite.");
                 SendCommand("AUTODIG", player.Name);
                 break;
             default:
@@ -149,7 +153,7 @@ public class GameManager12 : MonoBehaviour
                 "=> Player:{3} - {4}", item.ItemType, item.EffectType, item.goldValue, player.NumPlayer, player.Name));
         }
 
-        string faction = GetFactionStringFromPlayer(player);
+        string faction = GetFactionStringFromFaction(player.Faction);
 
         int platformCode;
         string playerName;
@@ -214,17 +218,17 @@ public class GameManager12 : MonoBehaviour
             */
     }
 
-    private string GetFactionStringFromPlayer(Player player)
+    private string GetFactionStringFromFaction(Faction faction)
     {
-        string faction = "";
-        switch (player.Faction.NumFaction)
+        string factionString = "";
+        switch (faction.NumFaction)
         {
-            case 1: faction = "RED"; break;
-            case 2: faction = "BLUE"; break;
-            case 3: faction = "GREEN"; break;
-            case 4: faction = "YELLOW"; break;
+            case 1: factionString = "RED"; break;
+            case 2: factionString = "BLUE"; break;
+            case 3: factionString = "GREEN"; break;
+            case 4: factionString = "YELLOW"; break;
         }
-        return faction;
+        return factionString;
     }
     
     private void SendMessageToPlayer(Platform platform, string playerName, string message)

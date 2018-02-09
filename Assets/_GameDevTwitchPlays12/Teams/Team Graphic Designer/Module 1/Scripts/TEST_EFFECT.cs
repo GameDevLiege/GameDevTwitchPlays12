@@ -14,6 +14,7 @@ public class TEST_EFFECT : MonoBehaviour {
 
     private void OnGUI()
     {
+        /*
         Transform effect;
 
         if (GUI.Button(new Rect(new Vector2(0, 0), new Vector2(100f, 50f)), "Glasses For Player 1"))
@@ -40,5 +41,6 @@ public class TEST_EFFECT : MonoBehaviour {
             UIWins ui = new UIWins(m_teamName, m_color);
             ui.ActiveUIWins(false);
         }
+        */
     }
 }
