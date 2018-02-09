@@ -15,6 +15,7 @@ public class FactionManager : MonoBehaviour {
     public static Faction BLUE { get; set; }
     public static Faction GREEN { get; set; }
     public static Faction YELLOW { get; set; }
+    
     private bool m_timerFinished = true;
 
     // Use this for initialization
@@ -41,7 +42,6 @@ public class FactionManager : MonoBehaviour {
 
     private void UpdateUI()
     {
-
         RED.UpdateInterfaceUI("RED", m_interfaceUI);
         BLUE.UpdateInterfaceUI("BLUE", m_interfaceUI);
         GREEN.UpdateInterfaceUI("GREEN", m_interfaceUI);

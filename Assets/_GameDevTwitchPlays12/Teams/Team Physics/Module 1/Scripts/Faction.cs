@@ -10,6 +10,7 @@ public class Faction
     
     private int m_goldReserves;
     private bool m_hasMiddle = false;
+    private static bool canLaunchTeamTimer = false;
 
     private List<Player> m_listPlayer = new List<Player>();
     public List<Player> ListPlayer
@@ -50,7 +51,7 @@ public class Faction
         set { m_goldReserves = value; }
     }
     public Territory RespawnPosition { get; set; }
-
+    
     public void UpdateInterfaceUI(string faction, InterfaceManager IUI)
     {
         for(int i=0; i<m_listPlayer.Count;i++)

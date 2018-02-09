@@ -21,7 +21,7 @@ public class Timer : MonoBehaviour
         this.actionComplete = action;
         timer = 0.0f;
         this.finishTime = finishTime;
-        isRunning = true;
+        isRunning = false;
     }
     public void StartTimer()
     {
@@ -49,7 +49,6 @@ public class Timer : MonoBehaviour
         }
         if (timer >= finishTime && timer != 0.0f)
         {
-            timer = 0.0f;
             isRunning = false;
             if (actionComplete != null)
                 actionComplete();

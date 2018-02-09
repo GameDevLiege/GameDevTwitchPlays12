@@ -21,14 +21,14 @@ public class TimerGame : MonoBehaviour {
     public void TimerGameStart(float TimerActuel, float maxTimer)
     {
        
-        TimerSlide.fillAmount = TimerActuel/maxTimer;
+        TimerSlide.fillAmount = TimerActuel/1200;
     }
 
     public void TimerEquipeRED(float TimerActuel, float maxTimer)
     {
 
         TimerSlideEquipeRED.enabled = true;
-        TimerSlideEquipeRED.fillAmount = TimerActuel / maxTimer;
+        TimerSlideEquipeRED.fillAmount = TimerActuel / 60;
 
         TimerSlideEquipeGREEN.enabled = false;
         TimerSlideEquipeYELLOW.enabled = false;
@@ -39,7 +39,7 @@ public class TimerGame : MonoBehaviour {
     public void TimerEquipeGREEN(float TimerActuel, float maxTimer)
     {
         TimerSlideEquipeGREEN.enabled = true;
-        TimerSlideEquipeGREEN.fillAmount = TimerActuel / maxTimer;
+        TimerSlideEquipeGREEN.fillAmount = TimerActuel / 60;
 
         TimerSlideEquipeRED.enabled = false;
         TimerSlideEquipeYELLOW.enabled = false;
@@ -49,7 +49,7 @@ public class TimerGame : MonoBehaviour {
     public void TimerEquipeYELLOW(float TimerActuel, float maxTimer)
     {
         TimerSlideEquipeYELLOW.enabled = true;
-        TimerSlideEquipeYELLOW.fillAmount = TimerActuel / maxTimer;
+        TimerSlideEquipeYELLOW.fillAmount = TimerActuel / 60;
 
         TimerSlideEquipeRED.enabled = false;
         TimerSlideEquipeGREEN.enabled = false;
@@ -59,7 +59,7 @@ public class TimerGame : MonoBehaviour {
     public void TimerEquipeBLUE(float TimerActuel, float maxTimer)
     {
         TimerSlideEquipeBLUE.enabled = true;
-        TimerSlideEquipeBLUE.fillAmount = TimerActuel / maxTimer;
+        TimerSlideEquipeBLUE.fillAmount = TimerActuel / 60;
 
         TimerSlideEquipeRED.enabled = false;
         TimerSlideEquipeGREEN.enabled = false;
