@@ -46,23 +46,46 @@ public class PlayerCTRL
         }
     }
 
+    public void AddAutoDig(long _until)
+    {
+        if (_commandManager.debug)
+        {
+            Debug.Log("durée : " + (_commandManager.cooldown * _commandManager.autoDigMult));
+        }
+        AddState("AUTODIG", (_time + (_commandManager.cooldown * _commandManager.autoDigMult)));
+    }
+
     public void AddStun(long _time)
     {
-        //AddState("STUN", (_time + (_commandManager.cd * _commandManager.stunMult)));
+        if (_commandManager.debug)
+        {
+            Debug.Log("durée : " + (_commandManager.cooldown * _commandManager.stunMult));
+        }
         AddState("STUN", (_time + (_commandManager.cooldown * _commandManager.stunMult)));
+        RemoveState("AUTODIG");
     }
 
     public void AddSprain(long _time)
     {
+        if (_commandManager.debug)
+        {
+            Debug.Log("durée : " + (_commandManager.cooldown * _commandManager.sprainMult));
+        }
         AddState("SPRAIN", (_time + (_commandManager.cooldown * _commandManager.sprainMult)));
+        RemoveState("AUTODIG");
     }
 
     public void AddFight(long _time)
     {
+        if (_commandManager.debug)
+        {
+            Debug.Log("durée : " + (_commandManager.cooldown * _commandManager.fightMult));
+        }
         AddState("FIGHT", (_time + (_commandManager.cooldown * _commandManager.fightMult)));
         RemoveState("SPRAIN");
         RemoveState("STUN");
         RemoveState("MOVE");
+        RemoveState("AUTODIG");
     }
 
     public void RemoveState(string _name)
@@ -79,10 +102,18 @@ public class PlayerCTRL
         {
             if (states[_name].time > _time)
             {
+                if (_commandManager.debug)
+                {
+                    Debug.Log((_name)+" is active");
+                }
                 return true;
             }
             else
             {
+                if (_commandManager.debug)
+                {
+                    Debug.Log("remove : " + (_name));
+                }
                 RemoveState(_name);
                 return false;
             }
@@ -94,4 +125,3 @@ public class PlayerCTRL
     }
 
 }
-

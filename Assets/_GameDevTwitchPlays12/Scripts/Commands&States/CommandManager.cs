@@ -14,12 +14,15 @@ public class CommandManager : MonoBehaviour, ICommandManager
 
     public bool debug = false;
 
+    public int maxPlayer = 20;
     public int maxMovement = 5;
+
     public long cooldown = 2;
     public long stunMult = 5;
     public long sprainMult = 5;
+    public long autoDigMult = 5;
     public long fightMult = 5;
-    public int  maxPlayer = 20;
+
 
     public char firstCommmandCharacter  = '!';
     public char firstStateCharacter     = '?';
@@ -67,71 +70,31 @@ public class CommandManager : MonoBehaviour, ICommandManager
                         }
                         else
                         {
-                            if (debug)
-                            {
-                                Debug.Log("You already joined the game");
-                            }
                             gameManager.DoCommand(_username, _plateform, new Command("You already joined the game", true));
                         }
                     }
                     else if (!userDataBase.ContainsKey(userID))
                     {
-                        if (debug)
-                        {
-                            Debug.Log("Please first join the game using \"" + firstCommmandCharacter + "JOIN\" command.");
-                        }
                         gameManager.DoCommand(_username, _plateform, new Command("Please first join the game using \"" + firstCommmandCharacter + "JOIN\" command.", true));
                     }
-                    else if (userDataBase[userID].states.ContainsKey("FIGHT"))
+                    else if (userDataBase[userID].states.ContainsKey("FIGHT") && (userDataBase[userID].StateIsActive("FIGHT", _time)))
                     {
-                        if (userDataBase[userID].StateIsActive("FIGHT", _time))
-                        {
-                            if (debug)
-                            {
-                                Debug.Log("You're busy fighting right now!");
-                            }
-                            gameManager.DoCommand(_username, _plateform, new Command("You're busy fighting right now!", true));
-                        }
+                        gameManager.DoCommand(_username, _plateform, new Command("You're busy fighting right now!", true));
                     }
-                    else if (userDataBase[userID].states.ContainsKey("STUN"))
+                    else if (userDataBase[userID].states.ContainsKey("STUN") && (userDataBase[userID].StateIsActive("STUN", _time)))
                     {
-                        if (userDataBase[userID].StateIsActive("STUN", _time))
-                        {
-                            if (debug)
-                            {
-                                Debug.Log("You can't do anything right now because you're still STUN.");
-                            }
-                            gameManager.DoCommand(_username, _plateform, new Command("You can't do anything right now because you're still STUN.", true));
-                        }
+                        gameManager.DoCommand(_username, _plateform, new Command("You can't do anything right now because you're still STUN.", true));
                     }
-                    else if (userDataBase[userID].states.ContainsKey("MOVE"))
+                    else if (userDataBase[userID].states.ContainsKey("MOVE") && (userDataBase[userID].StateIsActive("MOVE", _time)))
                     {
-                        if (userDataBase[userID].StateIsActive("MOVE", _time))
-                        {
-                            if (debug)
-                            {
-                                Debug.Log("You're busy moving right now!");
-                            }
-                            gameManager.DoCommand(_username, _plateform, new Command("You're busy moving right now!", true));
-                        }
+                        gameManager.DoCommand(_username, _plateform, new Command("You're busy moving right now!", true));
                     }
-                    else if (userDataBase[userID].states.ContainsKey("SPRAIN") && (_message.Equals(firstCommmandCharacter + "DIG")))
+                    else if (userDataBase[userID].states.ContainsKey("SPRAIN") && (_message.Equals(firstCommmandCharacter + "DIG")) && (userDataBase[userID].StateIsActive("SPRAIN", _time)))
                     {
-                        if (userDataBase[userID].StateIsActive("SPRAIN", _time))
-                        {
-                            if (debug)
-                            {
-                                Debug.Log("You can't move now because you have a sprain!");
-                            }
-                            gameManager.DoCommand(_username, _plateform, new Command("You can't move now because you have a sprain!", true));
-                        }
+                        gameManager.DoCommand(_username, _plateform, new Command("You can't move now because you have a sprain!", true));
                     }
                     else if (!Cooldown(_time, userID))
                     {
-                        if (debug)
-                        {
-                            Debug.Log("Please wait for your cooldown to be over!");
-                        }
                         gameManager.DoCommand(_username, _plateform, new Command("Please wait for your cooldown to be over!", true));
                     }
                     else if (splitedMessage.Length == 2)
@@ -140,31 +103,27 @@ public class CommandManager : MonoBehaviour, ICommandManager
                         {
                             int number;
                             int.TryParse(splitedMessage[1], out number);
-                            userDataBase[userID].AddState("MOVE", (_time + (cooldown)));
-
-                            StartCoroutine(Iteration(_username, _plateform, new Command(splitedMessage[0], false), number, userID));
+                            userDataBase[userID].AddState("MOVE", (_time + cooldown));
+                            StartCoroutine(Iteration(_username, _plateform, new Command(splitedMessage[0], false), number, userID, _time));
                         }
                         else
                         {
-                            if (debug)
-                            {
-                                Debug.Log("Invalid argument");
-                            }
                             gameManager.DoCommand(_username, _plateform, new Command("Invalid argument", true));
                         }
                     }
                     else
                     {
-                        userDataBase[userID].time = _time;
                         gameManager.DoCommand(_username, _plateform, new Command(splitedMessage[0], false));
+
+                        if (userDataBase[userID].states.ContainsKey("AUTODIG") && (userDataBase[userID].StateIsActive("AUTODIG", _time)))
+                        {
+                            gameManager.DoCommand(_username, _plateform, new Command("!DIG", false));                         
+                        }
+                        userDataBase[userID].time = _time;
                     }
                 }
                 else
                 {
-                    if (debug)
-                    {
-                        Debug.Log("Your command is invalid!");
-                    }
                     gameManager.DoCommand(_username, _plateform, new Command("Your command is invalid!", true));
                 }
             }
@@ -176,20 +135,39 @@ public class CommandManager : MonoBehaviour, ICommandManager
                     {
                         case "?STUN":
                             userDataBase[userID].AddStun(_time);
+                            if (debug)
+                            {
+                                Debug.Log("STUN ACTIVATED");
+                            }
                             break;
                         case "?SPRAIN":
                             userDataBase[userID].AddSprain(_time);
+                            if (debug)
+                            {
+                                Debug.Log("SPRAIN ACTIVATED");
+                            }
                             break;
                         case "?FIGHT":
                             if (!userDataBase[userID].StateIsActive("FIGHT", _time))
                             {
                                 userDataBase[userID].AddFight(_time);
+                                if (debug)
+                                {
+                                    Debug.Log("FIGHT ACTIVATED");
+                                }
                             }
                             else
                             {
                                 int randomPos = UnityEngine.Random.Range(0, 3);
                                 gameManager.DoCommand(_username, _plateform, new Command(movementCommand[randomPos], false));
                             }
+                            break;
+                        case "?AUTODIG":
+                            if (debug)
+                            {
+                                Debug.Log("AUTODIG ACTIVATED");
+                            }
+                            userDataBase[userID].AddAutoDig(_time);
                             break;
                         default:
                             break;
@@ -210,13 +188,20 @@ public class CommandManager : MonoBehaviour, ICommandManager
 
     #region Private Func
 
-    private IEnumerator Iteration(string _username, int _plateform, ICommand _command, int number, string userID)
+    private IEnumerator Iteration(string _username, int _plateform, ICommand _command, int number, string userID, long _time)
     {
         for (int i = 0; i < number; i++)
         {
             if ((userDataBase[userID].states.ContainsKey("MOVE")))
             {
                 gameManager.DoCommand(_username, _plateform, _command);
+                if (userDataBase[userID].states.ContainsKey("AUTODIG"))
+                {
+                    if (userDataBase[userID].StateIsActive("AUTODIG", _time))
+                    {
+                        gameManager.DoCommand(_username, _plateform, new Command("!DIG", false));
+                    }
+                }
                 yield return new WaitForSeconds((float)cooldown/10000000f);
                 userDataBase[userID].states["MOVE"].time += cooldown;
             }
@@ -384,19 +369,22 @@ public class CommandManager : MonoBehaviour, ICommandManager
 
     private List<string> validCommand = new List<string>
     {
-        "UP"        ,
-        "DOWN"      ,
-        "LEFT"      ,
-        "RIGHT"     ,
-        "DIG"       ,
-        "JOIN"      ,
-        "U"         ,
-        "D"         ,
-        "L"         ,
-        "R"         ,
-        "LEVELUP"   ,
-        "SHOVEL"    ,
-        "GRENADE"   ,
+        "UP"            ,
+        "DOWN"          ,
+        "LEFT"          ,
+        "RIGHT"         ,
+        "DIG"           ,
+        "JOIN"          ,
+        "U"             ,
+        "D"             ,
+        "L"             ,
+        "R"             ,
+        "LEVELUP"       ,
+        "SHOVEL"        ,
+        "GRENADE"       ,
+        "BUYSHOVEL"     ,
+        "BUYGRENADE"    ,
+        "STONE"         
     };
 
     private List<string> movementCommand = new List<string>
@@ -413,6 +401,7 @@ public class CommandManager : MonoBehaviour, ICommandManager
         "SPRAIN"    ,
         "FIGHT"     ,
         "MOVE"      ,
+        "AUTODIG"   ,
     };
 
     private Dictionary<string, PlayerCTRL> _userDataBase = new Dictionary<string, PlayerCTRL>();
