@@ -191,25 +191,27 @@ public class Territory : MonoBehaviour
     private void OnTriggerEnter(Collider col)
     {
         playerDied = false;
-        Player p = col.GetComponent<Player>();
-        m_listPlayerCharOnTerritory.Add(p);
-        if(m_listPlayerCharOnTerritory.Count>1)
+        if(!col.name.Contains("HoleDigging"))
         {
-            CheckForEnnemies(p);
+            Player p = col.GetComponent<Player>();
+            m_listPlayerCharOnTerritory.Add(p);
+            if (m_listPlayerCharOnTerritory.Count > 1)
+            {
+                CheckForEnnemies(p);
+            }
+            if (!playerDied && (p != null && p.Faction != null & FactionNum != p.Faction.NumFaction) && (!IsHQ))
+            {
+                FactionChange(p);
+            }
+            if (this.IsCenter)
+            {
+                NotifyPlayerIsOnCenterTerritory(this, p);
+            }
+            else
+            {
+                NotifyPlayerIsOutTerritory(this, p);
+            }
         }
-        if (!playerDied && (p != null && p.Faction!=null & FactionNum != p.Faction.NumFaction)&&(!IsHQ) )
-        {
-            FactionChange(p);
-        }
-        if (this.IsCenter)
-        {
-            NotifyPlayerIsOnCenterTerritory(this, p);
-        }
-        else
-        {
-            NotifyPlayerIsOutTerritory(this,p);
-        }
-
     }
 
     public void ColorChange(Color color) {
