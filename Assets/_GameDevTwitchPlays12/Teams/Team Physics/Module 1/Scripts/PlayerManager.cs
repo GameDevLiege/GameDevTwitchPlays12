@@ -377,7 +377,7 @@ public class PlayerManager : MonoBehaviour
                                 player.Inventory[(int)Item.e_itemType.SHOVEL] += 1;
                                 player.Gold -= m_costOfShovel;
                                 Item item = new Item();
-                                item.ItemType = Item.e_itemType.GRENADES;
+                                item.ItemType = Item.e_itemType.SHOVEL;
                                 item.EffectType = Item.e_effectType.INVENTORY;
                                 ItemEvent.NotifyNewItem(item, player);
                             }
@@ -387,7 +387,7 @@ public class PlayerManager : MonoBehaviour
                             player.Inventory.Add((int)Item.e_itemType.SHOVEL, 1);
                             player.Gold -= m_costOfShovel;
                             Item item = new Item();
-                            item.ItemType = Item.e_itemType.GRENADES;
+                            item.ItemType = Item.e_itemType.SHOVEL;
                             item.EffectType = Item.e_effectType.INVENTORY;
                             ItemEvent.NotifyNewItem(item, player);
                         }                    
